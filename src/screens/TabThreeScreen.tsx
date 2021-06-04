@@ -15,7 +15,7 @@ export default function TabThreeScreen() {
 
 
   let [fontsLoaded] = useFonts({
-    'Korea_hero': require('../assets/fonts/Korea_hero.ttf'),
+    'Korea_hero': require('../../assets/fonts/Korea_hero.ttf'),
   });
   const iOSCustomFontFace = `@font-face {
     font-family: 'Kyuri_diary';
