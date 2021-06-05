@@ -3,19 +3,25 @@ module.exports = function (api) {
   return {
       presets: ["babel-preset-expo"],
       plugins: [
-          [
-              "module-resolver",
-              {
-                  alias: {
-                      "@screens": "./src/screens",
-                      "@components": "./src/components",
-                      "@utils": "./src/utils",
-                      "@contexts": "./src/contexts",
-                      "@config": "./src/config",
-                      "@assets": "./assets"
-                  }
-              }
-          ]
+        [
+            "babel-plugin-styled-components",
+            {
+                "ssr": false
+            }
+        ],
+        [
+            "module-resolver",
+            {
+                alias: {
+                    "@screens": "./src/screens",
+                    "@components": "./src/components",
+                    "@utils": "./src/utils",
+                    "@contexts": "./src/contexts",
+                    "@config": "./src/config",
+                    "@assets": "./assets"
+                }
+            }
+        ]
       ]
   };
 };

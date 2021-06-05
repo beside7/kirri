@@ -4,10 +4,11 @@ import {
     createStackNavigator,
     StackNavigationOptions
 } from "@react-navigation/stack";
-import { Home } from "@screens";
+import { Home, NickName } from "@screens";
 
 export type StackNavigatorParams = {
     Home: undefined;
+    NickName: undefined;
 };
 
 const Stack = createStackNavigator<StackNavigatorParams>();
@@ -17,25 +18,26 @@ const Stack = createStackNavigator<StackNavigatorParams>();
  */
  const navigatorOptions: StackNavigationOptions = {
     headerStyle: {
-        backgroundColor: "#fff",
+        backgroundColor: "#FFFCF0",
         shadowRadius: 0,
         shadowOffset: {
             height: 0,
             width: 0
         }
     },
-    headerTintColor: "#fff",
+    headerTintColor: "#707070",
     headerTitleStyle: {
-        fontFamily: "DeliusUnicase_700Bold",
-        fontSize: 20
+        fontFamily: "space-mono",
+        fontSize: 20,
     },
     headerBackTitleStyle: {
-        fontFamily: "DeliusUnicase_400Regular",
-        fontSize: 14
-    }
+        fontFamily: "space-mono",
+        fontSize: 14,
+    },
+    headerTitleAlign: "center"
 };
 
-export default function navigator() {
+export default function navigator(): ReactElement {
     return (
         <NavigationContainer>
             <Stack.Navigator screenOptions={navigatorOptions}>
@@ -43,6 +45,11 @@ export default function navigator() {
                     name="Home"
                     component={Home}
                     options={{ headerShown: false }}
+                />
+                <Stack.Screen
+                    name="NickName"
+                    component={NickName}
+                    options={{ headerTitle: "닉네임 만들기" }}
                 />
             </Stack.Navigator>
         </NavigationContainer>
