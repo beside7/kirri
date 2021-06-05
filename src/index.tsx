@@ -1,6 +1,6 @@
 import React, { ReactElement, ReactNode } from "react";
-import { AppBootstrap } from "./components";
 import Navigator from "@config/navigator";
+import { AppBootstrap } from "@components";
 
 /**
  * 기본
