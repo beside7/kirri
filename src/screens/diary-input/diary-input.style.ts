@@ -7,11 +7,9 @@ const styles = StyleSheet.create({
         ...globalStyles.container
     },
     editorWrap : {
-        borderWidth: 1,
-        borderColor: "red",
     },
     editor : {
-        
+        backgroundColor: "#FFFCF0",
     },
     bottomTab : {
         bottom: 0,
@@ -22,6 +20,22 @@ const styles = StyleSheet.create({
         paddingHorizontal: 20,
         paddingVertical: 10
 
+    },
+    imageList : {
+        display: "flex",
+        flexDirection: "row",
+        marginTop: 15,
+        width: "100%",
+    },
+    imageWrap: {
+        width: 68, 
+        height: 68,
+        marginRight: 5,
+    },
+    closeIcon: {
+        position: "absolute",
+        bottom: 0,
+        right: 0
     }
 })
 
