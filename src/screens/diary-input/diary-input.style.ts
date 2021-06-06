@@ -8,10 +8,20 @@ const styles = StyleSheet.create({
     },
     editorWrap : {
         borderWidth: 1,
-        borderColor: "red"
+        borderColor: "red",
     },
     editor : {
         
+    },
+    bottomTab : {
+        bottom: 0,
+        position: "absolute",
+        backgroundColor: "#F2F2F2",
+        width: "100%",
+        height: 50,
+        paddingHorizontal: 20,
+        paddingVertical: 10
+
     }
 })
 

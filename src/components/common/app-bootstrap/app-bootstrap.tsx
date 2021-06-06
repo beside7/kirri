@@ -15,8 +15,8 @@ type AppBootstrapProps = {
 export default function AppBootstrap({ children } : AppBootstrapProps): ReactElement {
 
     let [fontLoaded] = useFonts({
-        'space-mono': require('../../../assets/fonts/SpaceMono-Regular.ttf'),
-        'Korea_hero': require('../../../assets/fonts/Korea_hero.ttf'),
+        'space-mono': require('../../../../assets/fonts/SpaceMono-Regular.ttf'),
+        'Korea_hero': require('../../../../assets/fonts/Korea_hero.ttf'),
     });
     
 
