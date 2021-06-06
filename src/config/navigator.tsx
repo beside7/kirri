@@ -4,11 +4,12 @@ import {
     createStackNavigator,
     StackNavigationOptions
 } from "@react-navigation/stack";
-import { Home, NickName } from "@screens";
+import { Home, NickName, DiaryInput } from "@screens";
 
 export type StackNavigatorParams = {
     Home: undefined;
     NickName: undefined;
+    DiaryInput: undefined;
 };
 
 const Stack = createStackNavigator<StackNavigatorParams>();
@@ -46,10 +47,21 @@ export default function navigator(): ReactElement {
                     component={Home}
                     options={{ headerShown: false }}
                 />
+                
                 <Stack.Screen
                     name="NickName"
                     component={NickName}
                     options={{ headerTitle: "닉네임 만들기" }}
+                />
+                <Stack.Screen
+                    name="DiaryInput"
+                    component={DiaryInput}
+                    options={{
+                        headerTitle: "기록작성",
+                        headerStyle : {
+                            backgroundColor: "#FFF",
+                        }
+                    }}
                 />
             </Stack.Navigator>
         </NavigationContainer>
