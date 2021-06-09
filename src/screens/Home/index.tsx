@@ -3,9 +3,11 @@ import { View } from 'react-native'
 
 import { StackNavigatorParams } from "@config/navigator";
 import { StackNavigationProp } from "@react-navigation/stack";
-import styles from './home.style'
+import styles from './home.style';
 
 import { Button_1 as KakaoLoginButton, Text, Background } from "@components";
+import Kakao from '@actbase/react-kakaosdk';
+
 
 type HomeProps = {
     navigation: StackNavigationProp<StackNavigatorParams, "Home">;
@@ -22,7 +24,7 @@ export default function Home({ navigation }: HomeProps): ReactElement {
                         <Text style={styles.subTitleText}>일상의 기록</Text>
                     </View>
                     <KakaoLoginButton style={styles.button} onPress={useCallback(e => {
-                        navigation.navigate("NickName")
+                        Kakao.login();
                     } , [])}>
                         카카오톡 로그인
                     </KakaoLoginButton>
