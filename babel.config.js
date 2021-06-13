@@ -18,10 +18,13 @@ module.exports = function (api) {
                     "@utils": "./src/utils",
                     "@contexts": "./src/contexts",
                     "@config": "./src/config",
-                    "@assets": "./assets"
+                    "@assets": "./assets",
+                    "@type-definition": "./src/types"
                 }
             }
-        ]
+        ],
+        ["@babel/plugin-proposal-decorators", { "legacy": true}],
+        ["@babel/plugin-proposal-class-properties", { "loose": true}]
       ]
   };
 };

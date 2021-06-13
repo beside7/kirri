@@ -17,7 +17,8 @@
           "@utils": ["src/utils"],
           "@contexts/*": ["src/contexts/*"],
           "@config/*": ["src/config/*"],
-          "@assets/*": ["assets/*"]
+          "@assets/*": ["assets/*"],
+          "@type-definition/*": ["src/types/*"]
       }
   }
 }
