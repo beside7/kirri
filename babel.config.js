@@ -21,7 +21,7 @@ module.exports = function (api) {
                     "@assets": "./assets",
                     "@type-definition": "./src/types",
                     "@apis": "./src/apis",
-                    "@mobx-store": "./src/store"
+                    "@store": "./src/store"
                 }
             }
         ],

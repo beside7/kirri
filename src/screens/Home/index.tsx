@@ -8,7 +8,7 @@ import styles from './home.style';
 import { Button_1 as KakaoLoginButton, Text, Background } from "@components";
 
 import {observer} from 'mobx-react';
-import UserStore from '@mobx-store/user';
+import { UserStore } from '@store';
 
 
 type HomeProps = {
