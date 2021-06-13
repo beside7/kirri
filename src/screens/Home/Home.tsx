@@ -15,19 +15,7 @@ export default function Home({ navigation }: HomeProps): ReactElement {
     return (
         <Background>
             <View style={styles.container}>
-                <View style={styles.content}>
-                    <Text style={styles.title}>KKiRi</Text>
-                    <View style={styles.subTitle}>
-                        <Text style={styles.subTitleText}>우리끼리 만들어가는</Text>
-                        <Text style={styles.subTitleText}>일상의 기록</Text>
-                    </View>
-                    <KakaoLoginButton style={styles.button} onPress={useCallback(e => {
-                        navigation.navigate("NickName")
-                    } , [])}>
-                        카카오톡 로그인
-                    </KakaoLoginButton>
-                    <Text style={styles.message}>아직 끼리에 가입하지 않으셨나요?</Text>
-                </View>
+                
             </View>
         </Background>
     )

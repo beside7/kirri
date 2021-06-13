@@ -99,7 +99,7 @@ export default function DiaryInput() {
                             style={[styles.editor , {
                             }]}
                             initialHeight={(ScreenHeight - headerHeight) - 300}
-                            initialContentHTML={'너의 아주 작은 이야기까지 다 들어줄게!'}
+                            placeholder={`너의 아주 작은 이야기까지 다 들어줄게!`}
                         />
                     </View>
                 </View>
