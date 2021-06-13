@@ -18,7 +18,9 @@
           "@contexts/*": ["src/contexts/*"],
           "@config/*": ["src/config/*"],
           "@assets/*": ["assets/*"],
-          "@type-definition/*": ["src/types/*"]
+          "@type-definition/*": ["src/types/*"],
+          "@api/*": ["src/apis/*"],
+          "@mobx-store/*": ["src/store/*"]
       }
   }
 }

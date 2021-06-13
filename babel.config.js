@@ -19,12 +19,14 @@ module.exports = function (api) {
                     "@contexts": "./src/contexts",
                     "@config": "./src/config",
                     "@assets": "./assets",
-                    "@type-definition": "./src/types"
+                    "@type-definition": "./src/types",
+                    "@apis": "./src/apis",
+                    "@mobx-store": "./src/store"
                 }
             }
         ],
         ["@babel/plugin-proposal-decorators", { "legacy": true}],
         ["@babel/plugin-proposal-class-properties", { "loose": true}]
       ]
-  };
+  }; 
 };
