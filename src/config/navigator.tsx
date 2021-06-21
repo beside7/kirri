@@ -4,11 +4,11 @@ import {
     createStackNavigator,
     StackNavigationOptions
 } from "@react-navigation/stack";
-import { Login, NickName, DiaryInput, Home } from "@screens";
+import { Login, Nickname, DiaryInput, Home } from "@screens";
 
 export type StackNavigatorParams = {
     Login: undefined;
-    NickName: undefined;
+    Nickname: undefined;
     DiaryInput: undefined;
     Home: undefined;
 };
@@ -43,20 +43,21 @@ export default function navigator(): ReactElement {
     return (
         <NavigationContainer>
             <Stack.Navigator screenOptions={navigatorOptions}>
-            <Stack.Screen
-                    name="Home"
-                    component={Home}
-                    options={{ headerShown: false }}
-                />
                 <Stack.Screen
                     name="Login"
                     component={Login}
                     options={{ headerShown: false }}
                 />
+                <Stack.Screen
+                    name="Home"
+                    component={Home}
+                    options={{ headerShown: false }}
+                />
+                
                 
                 <Stack.Screen
-                    name="NickName"
-                    component={NickName}
+                    name="Nickname"
+                    component={Nickname}
                     options={{ headerTitle: "닉네임 만들기" }}
                 />
                 <Stack.Screen

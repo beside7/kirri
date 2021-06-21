@@ -19,7 +19,7 @@
           "@config/*": ["src/config/*"],
           "@assets/*": ["assets/*"],
           "@type-definition/*": ["src/types/*"],
-          "@api/*": ["src/apis/*"],
+          "@apis": ["src/apis"],
           "@store": ["src/store"]
       }
   }

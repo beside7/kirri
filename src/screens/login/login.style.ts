@@ -32,7 +32,17 @@ const styles = StyleSheet.create({
         marginBottom: 3
     },
     button: {
-        marginBottom: 20
+        marginBottom: 20,
+        width: 300,
+    },
+    kakaoButton: {
+        marginBottom: 20,
+        width: 300,
+    },
+    appleButton: {
+        marginBottom: 20,
+        width: 300,
+        backgroundColor: '#000'
     },
     message: {
         fontSize: 12,

@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const SERVER_URL = 'http://localhost:8080/';
+const SERVER_URL = 'http://118.36.207.82:8080';
 
 const apiClient = axios.create({
   baseURL: SERVER_URL,
@@ -9,4 +9,4 @@ const apiClient = axios.create({
   }
 });
 
-export { apiClient };
+export { apiClient, SERVER_URL };

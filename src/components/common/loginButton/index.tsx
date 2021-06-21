@@ -8,7 +8,7 @@ type ButtonProps = {
     loading?: boolean;
 } & TouchableOpacityProps;
 
-export default function KakaoLoginButton({ children, style , loading, ...props }: ButtonProps) {
+export function LoginButton({ children, style , loading, ...props }: ButtonProps) {
     return (
         <TouchableOpacity disabled={loading} {...props} style={[styles.button, style]}>
             {loading ? (
