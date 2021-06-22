@@ -9,11 +9,11 @@ const styles = StyleSheet.create({
     input: {
         height: 50,
         width: "100%",
-        borderWidth: 1,
-        borderColor: "#FBF7EA",
-        backgroundColor: "#FBF7EA",
+        borderWidth: 0,
+        backgroundColor: "#ffffff",
         padding: 10,
         color: "#a0a0a0",
+        fontSize: 20
     }
 });
 
@@ -23,7 +23,7 @@ const TextInput = forwardRef<NativeTextInput, NativeTextInputProps>(
             <NativeTextInput
                 ref={ref}
                 {...props}
-                placeholderTextColor="#5d5379"
+                placeholderTextColor="#cccccc"
                 style={[styles.input, style]}
             />
         );
