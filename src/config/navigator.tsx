@@ -4,13 +4,17 @@ import {
     createStackNavigator,
     StackNavigationOptions
 } from "@react-navigation/stack";
-import { Login, Nickname, DiaryInput, Home } from "@screens";
+
+import { Login, Nickname, DiaryInput, Home, TestPage } from "@screens";
+import { Text } from "react-native";
+
 
 export type StackNavigatorParams = {
     Login: undefined;
     Nickname: undefined;
     DiaryInput: undefined;
     Home: undefined;
+    TestPage: undefined;
 };
 
 const Stack = createStackNavigator<StackNavigatorParams>();
@@ -36,13 +40,21 @@ const Stack = createStackNavigator<StackNavigatorParams>();
         fontFamily: "space-mono",
         fontSize: 14,
     },
-    headerTitleAlign: "center"
+    headerTitleAlign: "center",
+    headerRight: () => (
+        <Text>등록</Text>
+    ),
 };
 
 export default function navigator(): ReactElement {
     return (
         <NavigationContainer>
             <Stack.Navigator screenOptions={navigatorOptions}>
+                <Stack.Screen
+                    name="TestPage"
+                    component={TestPage}
+                    options={{ headerShown: false }}
+                />
                 <Stack.Screen
                     name="Login"
                     component={Login}
@@ -64,7 +76,7 @@ export default function navigator(): ReactElement {
                     name="DiaryInput"
                     component={DiaryInput}
                     options={{
-                        headerTitle: "기록작성",
+                        headerTitle: "다이어리 선택",
                         headerStyle : {
                             backgroundColor: "#FFF",
                         }

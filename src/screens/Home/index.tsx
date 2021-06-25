@@ -30,7 +30,7 @@ const Home = observer(({navigation}:HomeProps)=> {
     return (
         <Background>
             <View style={styles.container}>
-            
+            <Text>{JSON.stringify(UserStore)}</Text>
             </View>
         </Background>
     )

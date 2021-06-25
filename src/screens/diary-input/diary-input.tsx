@@ -67,13 +67,9 @@ export default function DiaryInput() {
                 style={{ flex: 1 }}
             >
                 <View style={styles.container}>
-                    <Text>2021년 6월 6일</Text>
-                    <Select_1 style={{ marginTop: 20 }}/>
-                    <TextInput value="오늘 하늘에 구름이 진짜 예쁜날" style={{ 
-                        marginTop: 20, 
-                        backgroundColor: "#FFFFFF" , 
-                        borderColor: "#FDF5E7",
-                    }} />
+                    <TextInput 
+                        placeholder={"어떤 제목의 기록을 남겨볼까?"}
+                    />
                     {images && 
                         <View style={styles.imageList}>
                             {images.map( (image , index) => 
@@ -85,20 +81,20 @@ export default function DiaryInput() {
                                 </View>
                             )}
                         </View>}
-                    <View style={[styles.editorWrap , {marginTop: 20}]}>
+                    <View style={[styles.editorWrap , {marginTop: 5}]}>
                         <RichEditor
                             ref={richText}
                             editorStyle={{
-                                backgroundColor: "#FFFCF0",
                                 cssText :fontFace,
                                 contentCSSText: `
                                     font-family: Kyuri_diary; 
                                     font-size: 18px; 
                                 `,
+                                
                             }}
                             style={[styles.editor , {
                             }]}
-                            initialHeight={(ScreenHeight - headerHeight) - 300}
+                            initialHeight={(ScreenHeight - headerHeight) - 200}
                             placeholder={`너의 아주 작은 이야기까지 다 들어줄게!`}
                         />
                     </View>
