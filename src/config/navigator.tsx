@@ -5,9 +5,15 @@ import {
     StackNavigationOptions
 } from "@react-navigation/stack";
 
-import { Login, Nickname, DiaryInput, Home, TestPage } from "@screens";
+import { Login, Nickname, DiaryInput, Home, TestPage, TermsAndConditions } from "@screens";
 import { Text } from "react-native";
 
+interface TermsAndConditionsProps {
+    accessToken: string,
+    username: string,
+    authorities: string[],
+    status: string
+}
 
 export type StackNavigatorParams = {
     Login: undefined;
@@ -15,6 +21,7 @@ export type StackNavigatorParams = {
     DiaryInput: undefined;
     Home: undefined;
     TestPage: undefined;
+    TermsAndConditions: undefined;
 };
 
 const Stack = createStackNavigator<StackNavigatorParams>();
@@ -41,9 +48,6 @@ const Stack = createStackNavigator<StackNavigatorParams>();
         fontSize: 14,
     },
     headerTitleAlign: "center",
-    headerRight: () => (
-        <Text>등록</Text>
-    ),
 };
 
 export default function navigator(): ReactElement {
@@ -51,8 +55,8 @@ export default function navigator(): ReactElement {
         <NavigationContainer>
             <Stack.Navigator screenOptions={navigatorOptions}>
                 <Stack.Screen
-                    name="TestPage"
-                    component={TestPage}
+                    name="Nickname"
+                    component={Nickname}
                     options={{ headerShown: false }}
                 />
                 <Stack.Screen
@@ -66,12 +70,17 @@ export default function navigator(): ReactElement {
                     options={{ headerShown: false }}
                 />
                 
-                
                 <Stack.Screen
-                    name="Nickname"
-                    component={Nickname}
-                    options={{ headerTitle: "닉네임 만들기" }}
+                    name="TestPage"
+                    component={TestPage}
+                    options={{ headerShown: false }}
                 />
+                <Stack.Screen
+                    name="TermsAndConditions"
+                    component={TermsAndConditions}
+                    options={{ headerShown: false }}
+                />
+                
                 <Stack.Screen
                     name="DiaryInput"
                     component={DiaryInput}

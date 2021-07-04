@@ -1,4 +1,4 @@
-import React, {ReactElement, useState} from 'react'
+import React, {ReactElement, useState, useCallback} from 'react'
 import { View } from 'react-native'
 
 import { StackNavigatorParams } from "@config/navigator";
@@ -15,12 +15,19 @@ type LoginProps = {
 
 export default function Home({ navigation }: LoginProps): ReactElement {
     const [closeSocialModal, setCloseSocialModal] = useState(false);
-    const onComplete = (event: any) => {
-        let result = JSON.parse(event.nativeEvent.data);
-        let success = result.message;
-        alert('왔다고!!');
-        if (result.status === 'REQUIRED_SIGN_UP'){
+    const result = React.useRef<any>({});
 
+    React.useEffect(() => {
+        if (result.current.accessToken && !closeSocialModal)
+        navigation.navigate('TermsAndConditions');
+    }, [closeSocialModal])
+
+    const onComplete = (event: any) => {
+        result.current = JSON.parse(event.nativeEvent.data);
+        let success = result.current.accessToken;
+        setCloseSocialModal(false);
+        if (success && result.current.status === 'REQUIRED_SIGN_UP'){
+            
         }
     }
     return (

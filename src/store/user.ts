@@ -5,8 +5,10 @@ import { LoginReqType } from 'src/types/user';
 class UserStore {
     id = '';
     nickname = '';
+    username= '';
     accessToken = '';
     profileImgUrl = '';
+    status= '';
 
     constructor() {
         makeObservable(this, {

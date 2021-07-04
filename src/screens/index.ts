@@ -1,6 +1,7 @@
 export { default as Home } from "./home";
 export { default as Login } from "./login";
-export { Nickname } from "./join/Nickname";
+export * from './termsAndConditions';
+export * from './nickName';
 export { default as DiaryInput } from "./diary-input/diary-input";
 export { default as TestPage } from "./test-page";
 
