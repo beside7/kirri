@@ -2,12 +2,14 @@ import React, { useRef, useEffect , useState} from 'react'
 import { View , KeyboardAvoidingView, Platform, Dimensions , TouchableOpacity, Image } from 'react-native'
 import { useHeaderHeight } from '@react-navigation/stack';
 
-import { Background, Text , Select_1, TextInput } from "@components";
+import { Background, Text_2 , Select_1, TextInput } from "@components";
 import { actions , RichEditor, RichToolbar} from 'react-native-pell-rich-editor';
+import Header_1 from './header_1/header_1'
 
 import styles from './diary-input.style'
 import { FontAwesome5, AntDesign  } from '@expo/vector-icons';
 import * as ImagePicker from 'expo-image-picker';
+
 
 
 export default function DiaryInput() {
@@ -61,6 +63,7 @@ export default function DiaryInput() {
 
     return (
         <Background>
+            <Header_1 />
             <KeyboardAvoidingView
                 behavior={Platform.OS == "ios" ? "padding" : "height"}
                 keyboardVerticalOffset={headerHeight}
@@ -74,9 +77,9 @@ export default function DiaryInput() {
                         <View style={styles.imageList}>
                             {images.map( (image , index) => 
                                 <View style={styles.imageWrap} key={index}>
-                                    <Image source={{ uri: image }} style={{ width: 60, height: 60 }} />
+                                    <Image source={{ uri: image }} style={{ width: 80, height: 80 }} />
                                     <TouchableOpacity style={styles.closeIcon} onPress={e => removeImage(index)}>
-                                        <AntDesign name="closecircle" size={15} color="black" />
+                                        <AntDesign name="closecircle" size={20} color="black" />
                                     </TouchableOpacity>
                                 </View>
                             )}
@@ -100,9 +103,17 @@ export default function DiaryInput() {
                     </View>
                 </View>
                 <View style={styles.bottomTab}>
-                    <TouchableOpacity onPress={pickImage}>
-                        <FontAwesome5 name="images" size={32} color="gray" />
+                    <TouchableOpacity onPress={pickImage} style={{ position: "absolute", left: 20 }}>
+                        <Image 
+                            source={require("@assets/icons/image.png")}
+                            style={{ width: 24, height: 24 }}
+                        />
                     </TouchableOpacity>
+                    <View>
+                        <Text_2 bold="Regular" style={{ color : "#6f6f7e" }}>
+                            (200/2000)
+                        </Text_2>
+                    </View>
                 </View>
             </KeyboardAvoidingView>
         </Background>

@@ -16,10 +16,12 @@ const styles = StyleSheet.create({
         position: "absolute",
         backgroundColor: "#F2F2F2",
         width: "100%",
-        height: 50,
+        height: 48,
         paddingHorizontal: 20,
-        paddingVertical: 10
-
+        paddingVertical: 10,
+        flexDirection: "row",
+        alignItems: "center",
+        justifyContent: "center"
     },
     imageList : {
         display: "flex",
@@ -28,13 +30,14 @@ const styles = StyleSheet.create({
         width: "100%",
     },
     imageWrap: {
-        width: 68, 
-        height: 68,
+        width: 102, 
+        height: 102,
+        padding: 12,
         marginRight: 5,
     },
     closeIcon: {
         position: "absolute",
-        bottom: 0,
+        top: 0,
         right: 0
     }
 })
