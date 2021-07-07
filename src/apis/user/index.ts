@@ -6,8 +6,15 @@ export const userApis = {
     const { data } = await apiClient.post('/auth', payload);
     return data;
   },
-  async join(payload:JoinReqType) {
-    const { data } = await apiClient.post('/user/join', payload);
+  async signin(payload:JoinReqType) {
+    const { data } = await apiClient.post('/sign-up', payload);
     return data;
+  },
+  async userMe(){
+    const {data} = await apiClient.get('/user/me');
+    return data;
+  },
+  async checkNicknameDupl(payload: {}){
+
   }
 };

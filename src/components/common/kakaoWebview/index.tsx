@@ -18,13 +18,10 @@ interface Props {
 
 export const KakaoWebview:React.FC<Props>= ({source, closeSocialModal, onComplete}) => {
     return (
-        <View
-        style={styles.centeredView}
-      >
         <Modal
         animationType="slide"
         transparent={true}
-        // style={styles.}
+        style={styles.modalView}
         visible={closeSocialModal}
       >
         <SafeAreaView
@@ -45,7 +42,6 @@ export const KakaoWebview:React.FC<Props>= ({source, closeSocialModal, onComplet
         />
         </SafeAreaView>
       </Modal>
-      </View>
     )
 }
 
@@ -70,6 +66,6 @@ const styles = StyleSheet.create({
       },
       shadowOpacity: 0.25,
       shadowRadius: 4,
-      elevation: 5
+      elevation: 5,
     }
   });

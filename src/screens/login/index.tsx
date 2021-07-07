@@ -1,33 +1,32 @@
 import React, {ReactElement, useState, useCallback} from 'react'
 import { View } from 'react-native'
 
-import { StackNavigatorParams } from "@config/navigator";
-import { StackNavigationProp } from "@react-navigation/stack";
 import styles from './login.style'
 
 import { LoginButton, Text, Background } from "@components";
 import {KakaoWebview} from '@components';
-import { SERVER_URL } from '@apis';
+import { SERVER_URL, userApis } from '@apis';
+import {navigate} from '@config/navigator';
+import { AsyncStorage } from 'react-native';
+import { UserStore } from '@store';
+
 
 type LoginProps = {
-    navigation: StackNavigationProp<StackNavigatorParams, "Login">;
 };
 
-export default function Home({ navigation }: LoginProps): ReactElement {
+export default function Login({ }: LoginProps): ReactElement {
     const [closeSocialModal, setCloseSocialModal] = useState(false);
     const result = React.useRef<any>({});
 
-    React.useEffect(() => {
-        if (result.current.accessToken && !closeSocialModal)
-        navigation.navigate('TermsAndConditions');
-    }, [closeSocialModal])
-
-    const onComplete = (event: any) => {
+    const onComplete = async (event: any) => {
         result.current = JSON.parse(event.nativeEvent.data);
         let success = result.current.accessToken;
         setCloseSocialModal(false);
+        AsyncStorage.setItem('userKey', 'Bearer '+success);
         if (success && result.current.status === 'REQUIRED_SIGN_UP'){
-            
+            navigate('Nickname', result.current);
+        } else {
+            navigate('Home', null);
         }
     }
     return (
@@ -45,6 +44,7 @@ export default function Home({ navigation }: LoginProps): ReactElement {
                 </View>
                 <LoginButton style={styles.button} onPress={e => {
                     setCloseSocialModal(true);
+                    
                 }}>
                     카카오톡 로그인
                 </LoginButton>

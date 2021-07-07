@@ -8,3 +8,4 @@ export { KakaoWebview } from './common/kakaoWebview';
 export {Title} from './common/title';
 export {Container} from './common/layout';
 export * from './common/buttons';
+export * from './common/input';

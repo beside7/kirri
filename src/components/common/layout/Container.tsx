@@ -7,7 +7,8 @@ const StyledContainer = styled.View({
     paddingHorizontal: 23,
     paddingVertical:15,
     display: 'flex',
-    flexDirection: 'column'
+    flexDirection: 'column',
+    backgroundColor: '#fff'
 })
 
 const StyledSafeAreaView = styled.SafeAreaView({

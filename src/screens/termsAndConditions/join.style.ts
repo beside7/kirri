@@ -9,13 +9,13 @@ export const TermsAndConStyle = StyleSheet.create({
     },
     titleContainer: {
         display: 'flex',
-        height: '16dp',
+        height: 16,
         flexDirection:'row',
         alignItems: 'center',
         justifyContent: 'space-between'
     },
     closeIcon: {        
-        width: '16dp',
+        width: 16,
     },
     titleWarp: {
         flex:1,

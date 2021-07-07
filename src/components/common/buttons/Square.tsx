@@ -41,6 +41,7 @@ export const SquareButton = ({onClick, children, width, height, disabled, backgr
             backgroundColor={backgroundColor}
             width={width}
             height={height}
+            onPress={onClick}
         >
             {
                 typeof children === 'string'?<StyledText disabled={disabled}>{children}</StyledText>:{children}

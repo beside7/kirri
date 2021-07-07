@@ -6,7 +6,12 @@ import {
 } from "@react-navigation/stack";
 
 import { Login, Nickname, DiaryInput, Home, TestPage, TermsAndConditions } from "@screens";
-import { Text } from "react-native";
+export const navigationRef = React.createRef<any>();
+
+export function navigate(name: string, params: any) {
+    navigationRef.current?.navigate(name, params);
+  }
+  
 
 interface TermsAndConditionsProps {
     accessToken: string,
@@ -17,9 +22,9 @@ interface TermsAndConditionsProps {
 
 export type StackNavigatorParams = {
     Login: undefined;
-    Nickname: undefined;
+    Nickname: any;
     DiaryInput: undefined;
-    Home: undefined;
+    Home: any;
     TestPage: undefined;
     TermsAndConditions: undefined;
 };
@@ -31,14 +36,14 @@ const Stack = createStackNavigator<StackNavigatorParams>();
  */
  const navigatorOptions: StackNavigationOptions = {
     headerStyle: {
-        backgroundColor: "#FFFCF0",
+        // backgroundColor: "#FFFCF0",
         shadowRadius: 0,
         shadowOffset: {
             height: 0,
             width: 0
         }
     },
-    headerTintColor: "#707070",
+    // headerTintColor: "#707070",
     headerTitleStyle: {
         fontFamily: "space-mono",
         fontSize: 20,
@@ -52,13 +57,10 @@ const Stack = createStackNavigator<StackNavigatorParams>();
 
 export default function navigator(): ReactElement {
     return (
-        <NavigationContainer>
+        <NavigationContainer
+            ref={navigationRef}
+        >
             <Stack.Navigator screenOptions={navigatorOptions}>
-                <Stack.Screen
-                    name="Nickname"
-                    component={Nickname}
-                    options={{ headerShown: false }}
-                />
                 <Stack.Screen
                     name="Login"
                     component={Login}
@@ -67,6 +69,11 @@ export default function navigator(): ReactElement {
                 <Stack.Screen
                     name="Home"
                     component={Home}
+                    options={{ headerShown: false }}
+                />
+                <Stack.Screen
+                    name="Nickname"
+                    component={Nickname}
                     options={{ headerShown: false }}
                 />
                 

@@ -6,12 +6,15 @@ import styles from "./button1.style";
 type ButtonProps = {
     children: ReactNode;
     loading?: boolean;
-    textStyle?: any
+    textStyle?: any;
+    // onPress: (e:any)=>void
 } & TouchableOpacityProps;
 
-export function LoginButton({ children, style , loading, textStyle }: ButtonProps) {
+export function LoginButton({ children, style , loading, textStyle, onPress }: ButtonProps) {
     return (
-        <TouchableOpacity disabled={loading} style={[styles.button, style]}>
+        <TouchableOpacity disabled={loading} style={[styles.button, style]}
+            onPress={onPress}
+        >
             {loading ? (
                 <ActivityIndicator color="#000" />
             ) : (

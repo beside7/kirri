@@ -6,7 +6,6 @@ class UserStore {
     id = '';
     nickname = '';
     username= '';
-    accessToken = '';
     profileImgUrl = '';
     status= '';
 
@@ -15,16 +14,14 @@ class UserStore {
             nickname: observable,
             id: observable,
             profileImgUrl: observable,
-            accessToken: observable,
             login: action,
             changeProfileImg: action
         });
     }
 
-    login = ({id, nickname, accessToken, profileImgUrl}: LoginReqType) => {
+    login = ({id, nickname, profileImgUrl}: LoginReqType) => {
         this.id = id;
         this.nickname = nickname;
-        this.accessToken = accessToken;
         this.profileImgUrl = profileImgUrl;
     }
 
