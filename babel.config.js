@@ -1,7 +1,7 @@
 module.exports = function (api) {
   api.cache(true);
   return {
-      presets: ["babel-preset-expo", "module:metro-react-native-babel-preset"],
+      presets: ["babel-preset-expo", "module:metro-react-native-babel-preset", "mobx"],
       plugins: [
         [
             "babel-plugin-styled-components",
@@ -25,6 +25,7 @@ module.exports = function (api) {
                 }
             }
         ],
+        "@babel/plugin-transform-flow-strip-types",
         ["@babel/plugin-proposal-decorators", { "legacy": true}],
         ["@babel/plugin-proposal-class-properties", { "loose": true}],
         [

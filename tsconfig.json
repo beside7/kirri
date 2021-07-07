@@ -22,5 +22,6 @@
           "@apis": ["src/apis"],
           "@store": ["src/store"]
       }
-  }
+  },
+  "exclude": ["node_modules"],
 }
