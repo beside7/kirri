@@ -22,8 +22,11 @@ export default function TestPage({ navigation } : TestPageProps) {
                 <TouchableOpacity onPress={() => {navigation.navigate("DiaryInput")}}>
                     <Text_1>* write</Text_1>
                 </TouchableOpacity>
-                <TouchableOpacity onPress={() => {navigation.navigate("DiaryMain")}}>
+                <TouchableOpacity onPress={() => {navigation.navigate("DiaryList")}}>
                     <Text_1>* list</Text_1>
+                </TouchableOpacity>
+                <TouchableOpacity onPress={() => {navigation.navigate("DiaryDetail")}}>
+                    <Text_1>* view</Text_1>
                 </TouchableOpacity>
             </View>
         </Background>

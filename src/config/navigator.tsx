@@ -4,16 +4,17 @@ import {
     createStackNavigator,
     StackNavigationOptions
 } from "@react-navigation/stack";
-import { Login, NickName, DiaryInput, Home, TestPage, DiaryMain } from "@screens";
+import { Login, NickName, DiaryInput, Home, TestPage, DiaryList, DiaryDetail } from "@screens";
 import { Text } from "react-native";
 
 export type StackNavigatorParams = {
     Login: undefined;
     NickName: undefined;
     DiaryInput: undefined;
-    DiaryMain: undefined;
+    DiaryList: undefined;
     Home: undefined;
     TestPage: undefined;
+    DiaryDetail: undefined;
 };
 
 const Stack = createStackNavigator<StackNavigatorParams>();
@@ -75,8 +76,15 @@ export default function navigator(): ReactElement {
                     }}
                 />
                 <Stack.Screen
-                    name="DiaryMain"
-                    component={DiaryMain}
+                    name="DiaryList"
+                    component={DiaryList}
+                    options={{
+                        headerShown: false
+                    }}
+                />
+                <Stack.Screen
+                    name="DiaryDetail"
+                    component={DiaryDetail}
                     options={{
                         headerShown: false
                     }}

@@ -26,7 +26,8 @@ module.exports = function (api) {
             }
         ],
         ["@babel/plugin-proposal-decorators", { "legacy": true}],
-        ["@babel/plugin-proposal-class-properties", { "loose": true}]
+        // FlatList 에러발생 - https://github.com/facebook/react-native/issues/24421
+        // ["@babel/plugin-proposal-class-properties", { "loose": true}]
       ]
   }; 
 };
