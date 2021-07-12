@@ -94,19 +94,19 @@ export default function ExportFriends() {
                                             }}
                                         />
                                     </View>
-                                    <View style={{ width: "60%", alignItems: "flex-start" }}>
+                                    <View style={{ width: "55%", alignItems: "flex-start" }}>
                                         <Text_2 style={{ fontSize: 14, color: "#000000" }}>{item.name}</Text_2>
                                     </View>
-                                    <View style={{ width: "20%", alignItems: "center", justifyContent: "center" }}>
+                                    <View style={{ width: "25%", alignItems: "center", justifyContent: "center" }}>
                                         <TouchableOpacity style={{
                                             backgroundColor: "#ffdd1f",
-                                            width: 52,
+                                            width: 72,
                                             height: 28,
                                             borderRadius: 10,
                                             alignItems: "center",
                                             justifyContent: "center"
                                         }}>
-                                            <Text_2 bold="Medium" style={{ fontSize: 12, color: "#17171c" }}>초대</Text_2>
+                                            <Text_2 bold="Medium" style={{ fontSize: 12, color: "#17171c" }}>내보내기</Text_2>
                                         </TouchableOpacity>
                                     </View>
                                 </View>
