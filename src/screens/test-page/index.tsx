@@ -31,6 +31,9 @@ export default function TestPage({ navigation }: TestPageProps) {
                 <TouchableOpacity onPress={() => { navigation.navigate("FriendMain") }}>
                     <Text_1>* friend</Text_1>
                 </TouchableOpacity>
+                <TouchableOpacity onPress={() => { navigation.navigate("MassageList") }}>
+                    <Text_1>* message</Text_1>
+                </TouchableOpacity>
             </View>
         </Background>
     )
