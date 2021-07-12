@@ -27,7 +27,7 @@ const PushMessage = ({ visible, closeModal } : PushMessageProps) => {
                             <Text_2 style={styles.titleStyle}>메세지 도착</Text_2>
                         </View>
                         <View style={styles.modalText}>
-                            <Text_2 style={styles.titleStyle}>댕청미 에게, 언제까지 쓰는지 안쓰는 지 내가 지켜본다. </Text_2>
+                            <Text_2 style={styles.titleStyle}>댕청미 에게, 언제까지 쓰는 지 안쓰는 지 내가 지켜본다. </Text_2>
                             <Text_2 style={styles.textStyle}>from. 최애옹 [처음 우리들의 끼리 다이어리!!]</Text_2>
                         </View>
                     </View>
@@ -55,7 +55,7 @@ const PushMessage = ({ visible, closeModal } : PushMessageProps) => {
         alignItems: "center",
         width: width,
         height: height,
-        backgroundColor: "#17171c30",
+        backgroundColor: "#17171c60",
     },
     modalView: {
         width: 300,
