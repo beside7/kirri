@@ -1,13 +1,13 @@
-import React, {ReactElement, useCallback} from 'react'
+import React, { ReactElement, useCallback } from 'react'
 import { View } from 'react-native'
 
 import { StackNavigatorParams } from "@config/navigator";
 import { StackNavigationProp } from "@react-navigation/stack";
 import styles from './home.style';
 
-import { Button_1 as KakaoLoginButton, Text, Background } from "@components";
+import { Button_1 as KakaoLoginButton, Text_2, Background } from "@components";
 
-import {observer} from 'mobx-react';
+import { observer } from 'mobx-react';
 import { UserStore } from '@store';
 
 
@@ -19,18 +19,18 @@ type HomeProps = {
 //     return (
 //         <Background>
 //             <View style={styles.container}>
-                
+
 //             </View>
 //         </Background>
 //     )
 // }
 
 
-const Home = observer(({navigation}:HomeProps)=> {
+const Home = observer(({ navigation }: HomeProps) => {
     return (
         <Background>
             <View style={styles.container}>
-            <Text>{JSON.stringify(UserStore)}</Text>
+                <Text_2>{JSON.stringify(UserStore)}</Text_2>
             </View>
         </Background>
     )

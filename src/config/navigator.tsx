@@ -4,7 +4,7 @@ import {
     createStackNavigator,
     StackNavigationOptions
 } from "@react-navigation/stack";
-import { Login, NickName, DiaryInput, Home, TestPage, DiaryList, DiaryDetail } from "@screens";
+import { Login, NickName, DiaryInput, Home, TestPage, DiaryList, DiaryDetail, FriendMain } from "@screens";
 import { Text } from "react-native";
 
 export type StackNavigatorParams = {
@@ -15,6 +15,7 @@ export type StackNavigatorParams = {
     Home: undefined;
     TestPage: undefined;
     DiaryDetail: undefined;
+    FriendMain: undefined;
 };
 
 const Stack = createStackNavigator<StackNavigatorParams>();
@@ -22,7 +23,7 @@ const Stack = createStackNavigator<StackNavigatorParams>();
 /**
  * Settings screen 헤더 설정
  */
- const navigatorOptions: StackNavigationOptions = {
+const navigatorOptions: StackNavigationOptions = {
     // headerStyle: {
     //     backgroundColor: "#FFFCF0",
     //     shadowRadius: 0,
@@ -62,7 +63,7 @@ export default function navigator(): ReactElement {
                     component={Login}
                     options={{ headerShown: false }}
                 />
-                
+
                 <Stack.Screen
                     name="NickName"
                     component={NickName}
@@ -85,6 +86,13 @@ export default function navigator(): ReactElement {
                 <Stack.Screen
                     name="DiaryDetail"
                     component={DiaryDetail}
+                    options={{
+                        headerShown: false
+                    }}
+                />
+                <Stack.Screen
+                    name="FriendMain"
+                    component={FriendMain}
                     options={{
                         headerShown: false
                     }}

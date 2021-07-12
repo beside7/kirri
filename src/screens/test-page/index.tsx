@@ -1,5 +1,5 @@
 import React from 'react'
-import { View, TouchableOpacity,  } from 'react-native'
+import { View, TouchableOpacity, } from 'react-native'
 import { Text_1, Background } from "@components";
 import styles from './test-page.style'
 
@@ -15,18 +15,21 @@ type TestPageProps = {
  * @param param0 
  * @returns 
  */
-export default function TestPage({ navigation } : TestPageProps) {
+export default function TestPage({ navigation }: TestPageProps) {
     return (
         <Background>
             <View style={[styles.container]}>
-                <TouchableOpacity onPress={() => {navigation.navigate("DiaryInput")}}>
+                <TouchableOpacity onPress={() => { navigation.navigate("DiaryInput") }}>
                     <Text_1>* write</Text_1>
                 </TouchableOpacity>
-                <TouchableOpacity onPress={() => {navigation.navigate("DiaryList")}}>
+                <TouchableOpacity onPress={() => { navigation.navigate("DiaryList") }}>
                     <Text_1>* list</Text_1>
                 </TouchableOpacity>
-                <TouchableOpacity onPress={() => {navigation.navigate("DiaryDetail")}}>
+                <TouchableOpacity onPress={() => { navigation.navigate("DiaryDetail") }}>
                     <Text_1>* view</Text_1>
+                </TouchableOpacity>
+                <TouchableOpacity onPress={() => { navigation.navigate("FriendMain") }}>
+                    <Text_1>* friend</Text_1>
                 </TouchableOpacity>
             </View>
         </Background>
