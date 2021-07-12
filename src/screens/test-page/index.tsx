@@ -1,10 +1,11 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { View, TouchableOpacity, } from 'react-native'
 import { Text_1, Background } from "@components";
 import styles from './test-page.style'
 
 import { StackNavigatorParams } from "@config/navigator";
 import { StackNavigationProp } from "@react-navigation/stack";
+import { PushMessage } from "@components";
 
 type TestPageProps = {
     navigation: StackNavigationProp<StackNavigatorParams, "TestPage">;
@@ -16,8 +17,17 @@ type TestPageProps = {
  * @returns 
  */
 export default function TestPage({ navigation }: TestPageProps) {
+    
+    const [modal, setModal] = useState(false);
+
+    
+
     return (
         <Background>
+            <PushMessage 
+                visible={modal}
+                closeModal={() => setModal(false) }
+            />
             <View style={[styles.container]}>
                 <TouchableOpacity onPress={() => { navigation.navigate("DiaryInput") }}>
                     <Text_1>* write</Text_1>
@@ -33,6 +43,9 @@ export default function TestPage({ navigation }: TestPageProps) {
                 </TouchableOpacity>
                 <TouchableOpacity onPress={() => { navigation.navigate("MassageList") }}>
                     <Text_1>* message</Text_1>
+                </TouchableOpacity>
+                <TouchableOpacity onPress={() => setModal(true)} >
+                    <Text_1>* push message</Text_1>
                 </TouchableOpacity>
             </View>
         </Background>

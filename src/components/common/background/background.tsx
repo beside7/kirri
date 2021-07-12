@@ -9,7 +9,7 @@ type BackgroundProps = {
 export default function Background({ children }: BackgroundProps): ReactElement {
     return (
         <View style={{ flex: 1 , backgroundColor: "#fff"}}>
-            <StatusBar style="light" />
+            <StatusBar style="dark" />
             {children}
         </View>
     );
