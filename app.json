@@ -1,11 +1,11 @@
 {
   "expo": {
-    "name": "kirri_client",
-    "slug": "kirri_client",
+    "name": "Kirri",
+    "slug": "kirri",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
-    "scheme": "myapp",
+    "scheme": "kirri",
     "userInterfaceStyle": "automatic",
     "splash": {
       "image": "./assets/images/splash.png",
@@ -29,6 +29,23 @@
     },
     "web": {
       "favicon": "./assets/images/favicon.png"
+    },
+    "packagerOpts": {
+      "config": "metro.config.js",
+      "sourceExts": [
+        "expo.ts",
+        "expo.tsx",
+        "expo.js",
+        "expo.jsx",
+        "ts",
+        "tsx",
+        "js",
+        "jsx",
+        "json",
+        "wasm",
+        "svg",
+        "svgx"
+      ]
     }
   }
 }

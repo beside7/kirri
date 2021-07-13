@@ -9,12 +9,12 @@ const styles = StyleSheet.create({
     editorWrap : {
     },
     editor : {
-        backgroundColor: "#FFFCF0",
+   
     },
     bottomTab : {
         bottom: 0,
         position: "absolute",
-        backgroundColor: "#F2F2F2",
+   
         width: "100%",
         height: 48,
         paddingHorizontal: 20,

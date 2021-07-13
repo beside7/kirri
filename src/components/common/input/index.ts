@@ -1,0 +1,1 @@
+export {KirriTextInput} from './Input';

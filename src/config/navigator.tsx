@@ -1,22 +1,42 @@
-import React, { ReactElement } from "react";
-import { NavigationContainer } from "@react-navigation/native";
+import React, { ReactElement, useState, useEffect } from "react";
+import {NavigationContainer } from '@react-navigation/native';
 import {
     createStackNavigator,
     StackNavigationOptions
 } from "@react-navigation/stack";
-import { Login, NickName, DiaryInput, Home, TestPage, DiaryList, DiaryDetail, FriendMain, MassageList } from "@screens";
+
+import { Login, Nickname, DiaryInput, Home, TestPage, DiaryList, DiaryDetail, FriendMain, MassageList } from "@screens";
 import { Text } from "react-native";
+
+export const navigationRef = React.createRef<any>();
+import { View } from 'react-native';
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { userApis } from "@apis";
+
+export function navigate(name: string, params: any) {
+    navigationRef.current?.navigate(name, params);
+  }
+  
+
+interface TermsAndConditionsProps {
+    accessToken: string,
+    username: string,
+    authorities: string[],
+    status: string
+}
+
 
 export type StackNavigatorParams = {
     Login: undefined;
-    NickName: undefined;
+    Nickname: any;
     DiaryInput: undefined;
     DiaryList: undefined;
-    Home: undefined;
     TestPage: undefined;
     DiaryDetail: undefined;
     FriendMain: undefined;
     MassageList: undefined;
+    Home: any;
+    TermsAndConditions: undefined;
 };
 
 const Stack = createStackNavigator<StackNavigatorParams>();
@@ -24,16 +44,16 @@ const Stack = createStackNavigator<StackNavigatorParams>();
 /**
  * Settings screen 헤더 설정
  */
-const navigatorOptions: StackNavigationOptions = {
-    // headerStyle: {
-    //     backgroundColor: "#FFFCF0",
-    //     shadowRadius: 0,
-    //     shadowOffset: {
-    //         height: 0,
-    //         width: 0
-    //     }
-    // },
-    // headerTintColor: "#707070",
+
+ const navigatorOptions: StackNavigationOptions = {
+    headerStyle: {
+        // backgroundColor: "#FFFCF0",
+        shadowRadius: 0,
+        shadowOffset: {
+            height: 0,
+            width: 0
+        }
+    },
     headerTitleStyle: {
         fontFamily: "space-mono",
         fontSize: 20,
@@ -42,18 +62,41 @@ const navigatorOptions: StackNavigationOptions = {
         fontFamily: "space-mono",
         fontSize: 14,
     },
-    headerTitleAlign: "center"
 };
 
+type InitalizeRoutes = "Login" |"Home"|"Nickname" ;
+
 export default function navigator(): ReactElement {
+    const [loading, setLoading] = useState(true);
+    const [initalizePage, setInitailizePage] = useState<InitalizeRoutes>('Nickname');
+    const getUserInfo = () => {
+        try {
+            AsyncStorage.getItem('userKey', (err, item) => {   
+                if (item) {
+                    setLoading(false);
+                    return;
+                }
+                setInitailizePage('Login');
+                setLoading(false);
+            })
+        } catch (error) {
+            navigate('Home', null);
+        }
+    }
+    useEffect(()=>{
+        getUserInfo();
+    }, []);
+
+    if (loading) {
+        return (<View></View>)
+    }
     return (
-        <NavigationContainer>
-            <Stack.Navigator screenOptions={navigatorOptions}>
-                <Stack.Screen
-                    name="TestPage"
-                    component={TestPage}
-                    options={{ headerShown: false }}
-                />
+        <NavigationContainer
+            ref={navigationRef}
+        >
+            <Stack.Navigator screenOptions={navigatorOptions}
+                initialRouteName={initalizePage}
+            >
                 <Stack.Screen
                     name="Home"
                     component={Home}
@@ -64,12 +107,18 @@ export default function navigator(): ReactElement {
                     component={Login}
                     options={{ headerShown: false }}
                 />
+                <Stack.Screen
+                    name="Nickname"
+                    component={Nickname}
+                    options={{ headerShown: false }}
+                />
 
                 <Stack.Screen
-                    name="NickName"
-                    component={NickName}
-                    options={{ headerTitle: "닉네임 만들기" }}
+                    name="TestPage"
+                    component={TestPage}
+                    options={{ headerShown: false }}
                 />
+                
                 <Stack.Screen
                     name="DiaryInput"
                     component={DiaryInput}

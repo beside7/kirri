@@ -5,24 +5,23 @@ import { LoginReqType } from 'src/types/user';
 class UserStore {
     id = '';
     nickname = '';
-    accessToken = '';
+    username= '';
     profileImgUrl = '';
+    status= '';
 
     constructor() {
         makeObservable(this, {
             nickname: observable,
             id: observable,
             profileImgUrl: observable,
-            accessToken: observable,
             login: action,
             changeProfileImg: action
         });
     }
 
-    login = ({id, nickname, accessToken, profileImgUrl}: LoginReqType) => {
+    login = ({id, nickname, profileImgUrl}: LoginReqType) => {
         this.id = id;
         this.nickname = nickname;
-        this.accessToken = accessToken;
         this.profileImgUrl = profileImgUrl;
     }
 
