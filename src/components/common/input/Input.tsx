@@ -31,7 +31,9 @@ const RightTextWarp = styled.Text({
 });
 
 const ErrorMsg = styled.Text({
-    color: '#eb5858'
+    color: '#eb5858',
+    marginTop: 8,
+    fontSize: 12
 })
 
 const StyledTextInput = styled.TextInput({
@@ -65,25 +67,29 @@ export const KirriTextInput = ({width, height, onError, rightText, icon, text, o
         onChange(val);
     },[val]);
     return (
-        <InputContainer
-            onFocus = {onFocus}
-        >
-            <InputWarp>
-                {icon?icon:<Non></Non>}
-                <StyledTextInput
-                    onChangeText={(text:string)=> setVal(text)}
-                    onFocus={()=> {setOnFocus(true)}}
-                    onBlur={()=> {setOnFocus(false)}}
-                    editable={diabled===true?false:true}
-                    placeholder={placeholder}
-                    defaultValue={val}
-                    maxLength={maxLength?maxLength:10000}
-                />
-                {text?<TouchableOpacity onPress={()=>{setVal('')}}><Image source={require('@assets/images/search_bar_cancel_normal.png')}/></TouchableOpacity>: <Non></Non>}
-                {rightText?<RightTextWarp>{rightText}</RightTextWarp>:<Non></Non>}
-            </InputWarp>
+        <>
+            <InputContainer
+                onFocus = {onFocus}
+                onError={onError}
+            >
+                <InputWarp>
+                    {icon?icon:<Non></Non>}
+                    <StyledTextInput
+                        onChangeText={(text:string)=> setVal(text)}
+                        onFocus={()=> {setOnFocus(true)}}
+                        onBlur={()=> {setOnFocus(false)}}
+                        editable={diabled===true?false:true}
+                        placeholder={placeholder}
+                        defaultValue={val}
+                        maxLength={maxLength?maxLength:10000}
+                        
+                    />
+                    {val?<TouchableOpacity onPress={()=>{setVal('')}}><Image source={require('@assets/images/search_bar_cancel_normal.png')}/></TouchableOpacity>: <Non></Non>}
+                    {rightText?<RightTextWarp>{rightText}</RightTextWarp>:<Non></Non>}
+                </InputWarp>
+            </InputContainer>
             {onError && errorMessage? <ErrorMsg>{errorMessage}</ErrorMsg>: <Non></Non>}
-        </InputContainer>
+        </>
     )
 }
 

@@ -14,7 +14,12 @@ export const userApis = {
     const {data} = await apiClient.get('/user/me');
     return data;
   },
-  async checkNicknameDupl(payload: {}){
-
+  async recentRecords () {
+    const {data} = await apiClient.get('/user/me/recent-records');
+    return data;
+  },
+  async checkNicknameDupl(nickname: string){
+    const {data} = await apiClient.get(`/exists/users/${nickname}`);
+    return data;
   }
 };

@@ -7,7 +7,7 @@ import { LoginButton, Text, Background } from "@components";
 import {KakaoWebview} from '@components';
 import { SERVER_URL, userApis } from '@apis';
 import {navigate} from '@config/navigator';
-import { AsyncStorage } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { UserStore } from '@store';
 
 

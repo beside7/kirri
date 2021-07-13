@@ -11,3 +11,16 @@ export interface JoinReqType{
     profileImagePath: string,
     agreementList: string[]
 }
+
+export interface RecentRecodeType{
+    diaryTitle: string,
+    diaryIcon: string,
+    recordTitle: string,
+    recordCreatedBy: string,
+    recordCreatedDate: string
+}
+
+export interface RecentRecordResType {
+    totalCounts: number,
+    elements: RecentRecodeType[]
+}

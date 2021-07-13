@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { AsyncStorage } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import {navigate} from '../config/navigator';
 
 

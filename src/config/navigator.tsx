@@ -1,4 +1,4 @@
-import React, { ReactElement } from "react";
+import React, { ReactElement, useState, useEffect } from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import {
     createStackNavigator,
@@ -7,6 +7,9 @@ import {
 
 import { Login, Nickname, DiaryInput, Home, TestPage, TermsAndConditions } from "@screens";
 export const navigationRef = React.createRef<any>();
+import { View } from 'react-native';
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { userApis } from "@apis";
 
 export function navigate(name: string, params: any) {
     navigationRef.current?.navigate(name, params);
@@ -55,20 +58,47 @@ const Stack = createStackNavigator<StackNavigatorParams>();
     headerTitleAlign: "center",
 };
 
+type InitalizeRoutes = "Login" |"Home"|"Nickname" ;
+
 export default function navigator(): ReactElement {
+    const [loading, setLoading] = useState(true);
+    const [initalizePage, setInitailizePage] = useState<InitalizeRoutes>('Nickname');
+    // const getUserInfo = () => {
+    //     try {
+    //         AsyncStorage.getItem('userKey', (err, item) => {   
+    //             if (item) {
+    //                 setLoading(false);
+    //                 return;
+    //             }
+    //             setInitailizePage('Login');
+    //             setLoading(false);
+    //         })
+    //     } catch (error) {
+    //         navigate('Home', null);
+    //     }
+    // }
+    // useEffect(()=>{
+    //     getUserInfo();
+    // }, []);
+
+    // if (loading) {
+    //     return (<View></View>)
+    // }
     return (
         <NavigationContainer
             ref={navigationRef}
         >
-            <Stack.Navigator screenOptions={navigatorOptions}>
-                <Stack.Screen
-                    name="Login"
-                    component={Login}
-                    options={{ headerShown: false }}
-                />
+            <Stack.Navigator screenOptions={navigatorOptions}
+                initialRouteName={initalizePage}
+            >
                 <Stack.Screen
                     name="Home"
                     component={Home}
+                    options={{ headerShown: false }}
+                />
+                <Stack.Screen
+                    name="Login"
+                    component={Login}
                     options={{ headerShown: false }}
                 />
                 <Stack.Screen

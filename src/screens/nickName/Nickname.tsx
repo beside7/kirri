@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import {Text, Image} from 'react-native';
 import {Container, Title, SquareButton} from '@components';
 import { SelectProfileImage } from './SelectProfileImg';
 import {MakeNicknameContianer, MakeNicknameTitle, MakeNicknameInput, InputAddedText, MakeNicknameInputWarp, ButtonContainer, BackIcon} from './nickname.style'
 import {JoinProcessing} from './JoinProcessing';
-import _ from 'lodash';
+import {debounce} from 'lodash';
 import { KirriTextInput } from '@components';
 import { StackNavigatorParams } from "@config/navigator";
 import { StackNavigationProp } from "@react-navigation/stack";
@@ -20,6 +20,7 @@ interface Props {
     authorities: string[],
     [key : string]: any
 }
+
 
 export const Nickname = ({accessToken, authorities}: Props) => {
     const [joinProcessLoading, setJoinProcessLoading] = useState(false);
@@ -41,11 +42,10 @@ export const Nickname = ({accessToken, authorities}: Props) => {
                 }
             );
             const user = await userApis.userMe();
-            alert(user)
             UserStore.login(user)
             setJoinProcessLoading(false);
         } catch (error) {
-            alert(error)
+
         }
     }
     
@@ -55,11 +55,40 @@ export const Nickname = ({accessToken, authorities}: Props) => {
       )
     }
 
-    // useEffect(()=>{
-    //   _.debounce(()=>{
+    const checkDuple = debounce(() => {
+        try {
+            userApis.checkNicknameDupl(nickname).then((result: any)=>{
+                if (result.exists) {
+                    setDuplicate(true);
+                    
+                }else {
+                    setDuplicate(false);
+                }
+                
+            })
+            
+        } catch (error) {
+            
+        }
+    }, 1000);
 
-    //   },2000)
-    // },[nickname]);
+    const checkSubmitPayload = useCallback(()=>{
+        if (!nickname) {
+            return true;
+        }
+        if(duplicate) {
+            return true;
+        }
+        return false;
+    }, [nickname, duplicate])
+
+    useEffect(()=>{
+        if(!nickname) {
+            setDuplicate(false);
+
+        }
+        checkDuple();
+    },[nickname]);
 
     const handleGoBack = () => {
         navigate('Login', null);
@@ -82,10 +111,15 @@ export const Nickname = ({accessToken, authorities}: Props) => {
                 <MakeNicknameContianer>
                     <MakeNicknameTitle>한글, 영문, 숫자를 사용해 멋진 닉네임을 만들어주세요</MakeNicknameTitle>
                     <KirriTextInput
-                        onChange={(text)=>{setNickname(text)}}
+                        onChange={(text)=>{
+                            setNickname(text);
+                           
+                        }}
                         placeholder='멋진자몽'
-                        text={nickname}
+                        text=''
                         rightText='끼리'
+                        onError={duplicate}
+                        errorMessage='사용할 수 없는 닉네임이예요'
                     />
                     
                 </MakeNicknameContianer>
@@ -94,7 +128,7 @@ export const Nickname = ({accessToken, authorities}: Props) => {
                         onClick={()=>{
                             joinKirri();
                         }}
-                        disabled={false}
+                        disabled={checkSubmitPayload()}
                     >다음</SquareButton>
                 </ButtonContainer>
             </Container>
