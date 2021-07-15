@@ -47,5 +47,9 @@
         "svgx"
       ]
     }
+  },
+  "ios": {
+    "bundleIdentifier": "com.duc7.kkiri",
+    "buildNumber": "1.0.0"
   }
 }
