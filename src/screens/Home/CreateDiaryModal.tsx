@@ -19,7 +19,7 @@ import {
 } from './home.style';
 
 import { View, Image, Modal, Text } from 'react-native';
-import { KirriTextInput, SquareButton } from '@components';
+import { KirriTextInput, Button } from '@components';
 import { CoverImages, CoverCircleImages, CoverColor, CoverCircleImageTypes, CoverColorTypes, CoverImageTypes } from '@utils';
 import { CreateDiaryReqType } from '@type-definition/diary';
 import { diaryApis } from '@apis';
@@ -143,11 +143,12 @@ export const CreateDiaryModal = ({open, reloadDiary, close}: Props) => {
                     </CreateDiaryCoverList>
                 </CreateDiaryCoverContainer>
                     <View>
-                        <SquareButton
-                            onClick={()=>{createNewDiary()}}
+                        <Button
+                            type='large'
+                            onPress={()=>{createNewDiary()}}
                             disabled={createButtonDisable}
-                            height={50}
-                        >완료</SquareButton>
+                            
+                        >완료</Button>
                     </View>
                 
             </CreateDiary>

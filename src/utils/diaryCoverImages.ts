@@ -13,8 +13,6 @@ const Diary_CircleImage_05 = require('@assets/images/diary/diary_circleimg_05.pn
 const Diary_CircleImage_06 = require('@assets/images/diary/diary_circleimg_06.png');
 
 
-
-
 export const CoverImages = {
 	'01':Diary_Image_01,
 	'02':Diary_Image_02,

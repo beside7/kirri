@@ -1,9 +1,9 @@
 import React, {ReactElement, useState, useCallback} from 'react'
-import { View } from 'react-native'
+import { View, Text } from 'react-native'
 
 import styles from './login.style'
 
-import { LoginButton, Text, Background } from "@components";
+import { LoginButton, Background } from "@components";
 import {KakaoWebview} from '@components';
 import { SERVER_URL, userApis } from '@apis';
 import {navigate} from '@config/navigator';

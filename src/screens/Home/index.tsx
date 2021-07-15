@@ -1,6 +1,6 @@
 
 import React, {ReactElement, useCallback, useState, useEffect, useRef} from 'react'
-import { View, Button } from 'react-native'
+import { View } from 'react-native'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import { StackNavigatorParams } from "@config/navigator";
@@ -8,7 +8,7 @@ import { StackNavigationProp } from "@react-navigation/stack";
 import styles, { HomeContainer, ContentWarp, DiaryListWarp, IconWarp, ProfileWarp, ProfileIcon, NicknameWarp, NicknameContainer, DiaryTitle, DiaryList, RecentContentWarp, RecentContentList, DiaryListContainer, RecommandCreateDiary } from './home.style';
 import {RecentContent} from './RecentContent';
 
-import {Background, IconButton } from "@components";
+import {Background, Button, IconButton } from "@components";
 
 import { observer } from 'mobx-react';
 import { UserStore } from '@store';

@@ -14,3 +14,5 @@ export {Title} from './common/title';
 export {Container} from './common/layout';
 export * from './common/buttons';
 export * from './common/input';
+export {Button} from './common/buttons';
+export {IconButton} from './common/iconButton';

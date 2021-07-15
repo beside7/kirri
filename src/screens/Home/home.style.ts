@@ -280,7 +280,7 @@ export const CreateInputTitle = styled.Text({
     marginBottom: 8
 })
 
-export const CreateDiaryCoverContainer = styled.View((props: {backgroundColor: string})=>({
+export const CreateDiaryCoverContainer = styled.View((props: {backgroundColor?: string})=>({
     marginTop: 40,
     display: 'flex',
     flexBasis: 1,

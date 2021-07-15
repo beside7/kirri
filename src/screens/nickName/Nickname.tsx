@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import {Text, Image} from 'react-native';
-import {Container, Title, SquareButton} from '@components';
+import {Container, Title, Button} from '@components';
 import { SelectProfileImage } from './SelectProfileImg';
 import {MakeNicknameContianer, MakeNicknameTitle, MakeNicknameInput, InputAddedText, MakeNicknameInputWarp, ButtonContainer, BackIcon} from './nickname.style'
 import {JoinProcessing} from './JoinProcessing';
@@ -124,12 +124,13 @@ export const Nickname = ({accessToken, authorities}: Props) => {
                     
                 </MakeNicknameContianer>
                 <ButtonContainer>
-                    <SquareButton
-                        onClick={()=>{
+                    <Button
+                        type='large'
+                        onPress={()=>{
                             joinKirri();
                         }}
                         disabled={checkSubmitPayload()}
-                    >다음</SquareButton>
+                    >다음</Button>
                 </ButtonContainer>
             </Container>
         </>
