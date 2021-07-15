@@ -8,13 +8,8 @@ type BackgroundProps = {
 
 export default function Background({ children }: BackgroundProps): ReactElement {
     return (
-<<<<<<< HEAD
-        <View style={{ flex: 1 , backgroundColor: "#fff"}}>
-            <StatusBar style="dark" />
-=======
         <SafeAreaView style={{ flex: 1 , backgroundColor: "#fff"}}>
             {/* <StatusBar style="light" /> */}
->>>>>>> develop
             {children}
         </SafeAreaView>
     );
