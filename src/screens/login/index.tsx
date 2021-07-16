@@ -1,10 +1,10 @@
-import React, {ReactElement, useState, useCallback} from 'react'
-import { View, Text } from 'react-native'
+import React, {ReactElement, useState, useCallback, useRef} from 'react'
+import { View, Text, Button } from 'react-native'
 
 import styles from './login.style'
 
-import { LoginButton, Background, Popup } from "@components";
-import {KakaoWebview, Button, Switch} from '@components';
+import { LoginButton, Background, Popup, SlideDownModal } from "@components";
+import {KakaoWebview, Switch} from '@components';
 import { SERVER_URL, userApis } from '@apis';
 import {navigate} from '@config/navigator';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -17,6 +17,7 @@ type LoginProps = {
 export default function Login({ }: LoginProps): ReactElement {
     const [closeSocialModal, setCloseSocialModal] = useState(false);
     const result = React.useRef<any>({});
+    const ref_test = useRef<any>();
 
     const onComplete = async (event: any) => {
         result.current = JSON.parse(event.nativeEvent.data);
@@ -53,6 +54,12 @@ export default function Login({ }: LoginProps): ReactElement {
                 {/* <Text style={styles.message}>아직 끼리에 가입하지 않으셨나요?</Text> */}
             </View>
         </Background>
+        <Button
+            onPress={
+                () => {ref_test.current.open()}
+            }
+            title='test'
+        ></Button>
         </>
     )
 }
