@@ -47,6 +47,9 @@ export default function TestPage({ navigation }: TestPageProps) {
                 <TouchableOpacity onPress={() => setModal(true)} >
                     <Text_1>* push message</Text_1>
                 </TouchableOpacity>
+                <TouchableOpacity onPress={() => { navigation.navigate("MainHome") }}>
+                    <Text_1>* main home</Text_1>
+                </TouchableOpacity>
             </View>
         </Background>
     )

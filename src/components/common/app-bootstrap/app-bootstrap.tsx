@@ -26,6 +26,7 @@ export default function AppBootstrap({ children }: AppBootstrapProps): ReactElem
         'Korea_hero': require('../../../../assets/fonts/Korea_hero.ttf'),
         'SpoqaHanSansNeo-Medium' : require('../../../../assets/fonts/SpoqaHanSansNeo-Medium.ttf'),
         'SpoqaHanSansNeo-Regular' : require('../../../../assets/fonts/SpoqaHanSansNeo-Regular.ttf'),
+        'SpoqaHanSansNeo-Bold' : require('../../../../assets/fonts/SpoqaHanSansNeo-Bold.ttf'),
     });
 
 

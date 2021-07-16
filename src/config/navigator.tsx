@@ -5,7 +5,7 @@ import {
     StackNavigationOptions
 } from "@react-navigation/stack";
 
-import { Login, Nickname, DiaryInput, Home, TestPage, DiaryList, DiaryDetail, FriendMain, MassageList } from "@screens";
+import { Login, Nickname, DiaryInput, Home, TestPage, DiaryList, DiaryDetail, FriendMain, MassageList, MainHome } from "@screens";
 import { Text } from "react-native";
 
 export const navigationRef = React.createRef<any>();
@@ -37,6 +37,7 @@ export type StackNavigatorParams = {
     MassageList: undefined;
     Home: any;
     TermsAndConditions: undefined;
+    MainHome: undefined
 };
 
 const Stack = createStackNavigator<StackNavigatorParams>();
@@ -84,19 +85,26 @@ export default function navigator(): ReactElement {
         }
     }
     useEffect(()=>{
-        getUserInfo();
+        // getUserInfo();
     }, []);
 
-    if (loading) {
-        return (<View></View>)
-    }
+    // if (loading) {
+    //     return (<View></View>)
+    // }
     return (
         <NavigationContainer
             ref={navigationRef}
         >
             <Stack.Navigator screenOptions={navigatorOptions}
-                initialRouteName={initalizePage}
+                // initialRouteName={initalizePage}
             >
+
+                <Stack.Screen
+                    name="TestPage"
+                    component={TestPage}
+                    options={{ headerShown: false }}
+                />
+                
                 <Stack.Screen
                     name="Home"
                     component={Home}
@@ -113,11 +121,7 @@ export default function navigator(): ReactElement {
                     options={{ headerShown: false }}
                 />
 
-                <Stack.Screen
-                    name="TestPage"
-                    component={TestPage}
-                    options={{ headerShown: false }}
-                />
+                
                 
                 <Stack.Screen
                     name="DiaryInput"
@@ -150,6 +154,13 @@ export default function navigator(): ReactElement {
                 <Stack.Screen
                     name="MassageList"
                     component={MassageList}
+                    options={{
+                        headerShown: false
+                    }}
+                />
+                <Stack.Screen
+                    name="MainHome"
+                    component={MainHome}
                     options={{
                         headerShown: false
                     }}

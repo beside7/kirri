@@ -2,9 +2,8 @@ import React, { useRef, useEffect , useState} from 'react'
 import { View , KeyboardAvoidingView, Platform, Dimensions , TouchableOpacity, Image } from 'react-native'
 import { useHeaderHeight } from '@react-navigation/stack';
 
-import { Background, Text_2 , Select_1, TextInput } from "@components";
+import { Background, Text_2 , Select_1, TextInput, Header } from "@components";
 import { actions , RichEditor, RichToolbar} from 'react-native-pell-rich-editor';
-import Header_1 from './header_1/header_1'
 
 import styles from './diary-input.style'
 import { FontAwesome5, AntDesign  } from '@expo/vector-icons';
@@ -63,7 +62,16 @@ export default function DiaryInput() {
 
     return (
         <Background>
-            <Header_1 />
+            <Header
+                leftIcon={<Image
+                    style={{ width: 24, height: 24 }}
+                    source={require("@assets/icons/x.png")} 
+                />}
+                rightIcon={<Text_2>
+                    등록
+                </Text_2>}
+                title="처음 우리들의 끼리 다이러리"
+             />
             <KeyboardAvoidingView
                 behavior={Platform.OS == "ios" ? "padding" : "height"}
                 keyboardVerticalOffset={headerHeight}

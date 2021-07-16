@@ -1,7 +1,6 @@
 import React from 'react'
 import { View, FlatList , TouchableOpacity, Image, SafeAreaView, Dimensions } from 'react-native'
-import Header_1 from './header_1/header_1'
-import { Background, Text_2  } from "@components";
+import { Background, Text_2, Header  } from "@components";
 
 import styles from './style'
 
@@ -10,7 +9,9 @@ const SCREEN_HEIGHT = Dimensions.get("screen").height;
 export default function index() {
     return (
         <Background>
-            <Header_1 />
+            <Header
+                title="처음 우리들의 끼리 다이러리"
+            />
             <SafeAreaView style={{flex: 1}}>
                 <FlatList 
                     contentContainerStyle={{ backgroundColor: "#f4f4f8" }}

@@ -1,13 +1,12 @@
 import React from 'react'
 import { View, ScrollView, Image } from 'react-native'
-import Header_1 from './header_1/header_1'
-import { Background, Text_2  } from "@components";
+import { Background, Text_2, Header  } from "@components";
 
 
 export default function DiaryDetail() {
     return (
         <Background>
-            <Header_1 />
+            <Header title="기록보기" />
             <ScrollView style={{flex: 1}}>
                 {/* 제목 */}
                 <View style={{ justifyContent : "center", paddingHorizontal: 20 , height: 80, borderBottomWidth: 1, borderColor: "#e1e1eb" }}>
