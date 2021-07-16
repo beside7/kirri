@@ -3,8 +3,8 @@ import { View, Text } from 'react-native'
 
 import styles from './login.style'
 
-import { LoginButton, Background } from "@components";
-import {KakaoWebview} from '@components';
+import { LoginButton, Background, Popup } from "@components";
+import {KakaoWebview, Button, Switch} from '@components';
 import { SERVER_URL, userApis } from '@apis';
 import {navigate} from '@config/navigator';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -30,6 +30,7 @@ export default function Login({ }: LoginProps): ReactElement {
         }
     }
     return (
+        <>
         <Background>
             <KakaoWebview
                 source={`${SERVER_URL}/kakao-sign-in`}
@@ -42,21 +43,16 @@ export default function Login({ }: LoginProps): ReactElement {
                     <Text style={styles.subTitleText}>우리끼리 만들어가는</Text>
                     <Text style={styles.subTitleText}>일상의 기록</Text>
                 </View>
-                <LoginButton style={styles.button} onPress={e => {
-                    setCloseSocialModal(true);
-                    
-                }}>
+                <LoginButton
+                    onPress={(e: any)=> {
+                        setCloseSocialModal(true);    
+                    }}
+                >
                     카카오톡 로그인
-                </LoginButton>
-                <LoginButton style={styles.appleButton} onPress={e => {
-                    setCloseSocialModal(true);
-                }}>
-                    Sign in with Apple
                 </LoginButton>
                 {/* <Text style={styles.message}>아직 끼리에 가입하지 않으셨나요?</Text> */}
             </View>
-            
-            
         </Background>
+        </>
     )
 }

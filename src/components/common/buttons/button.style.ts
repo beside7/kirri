@@ -1,5 +1,5 @@
 import styled from 'styled-components/native';
-import {CommonStyledProps} from './types';
+import {StyledProps} from './types';
 
 
 
@@ -11,7 +11,7 @@ const fontSizeOfType = {
 }
 
 
-export const StyledText = styled.Text((props: CommonStyledProps) => {
+export const StyledText = styled.Text((props: StyledProps) => {
         let fontColor = '';
         switch(props.color){
             case 'primary':
@@ -25,30 +25,31 @@ export const StyledText = styled.Text((props: CommonStyledProps) => {
                 break;
 
         }   
-        return ({
-            color:  props.disabled?props.theme['103']:'#fff',
+        return {
+            color:  props.disabled?props.theme['103']:fontColor,
             fontSize: fontSizeOfType[props.type],
-            })
+            fontWeight:'bold'
+        }
     }
 )
 
-const Button = styled.TouchableOpacity((props: CommonStyledProps)=>({
+const Button = styled.TouchableOpacity((props: StyledProps)=>({
     display: 'flex',
     justifyContent:'center',
     alignItems: 'center',
     width: props.width || '100%',
-    
+    borderRadius: 10,
 }));
 
 
-export const Large = styled(Button)((props: CommonStyledProps)=>({
+export const Large = styled(Button)((props: StyledProps)=>({
     maxWidth: 335,
     height: props.height || 50,
-    backgroundColor: props.disabled?props.theme['101']+' !important': ''
+    backgroundColor: props.disabled?props.theme['101']:props.theme['201'],
 }));
 
 
-const ButtonOfType = styled(Button)((props: CommonStyledProps)=>{
+const ButtonOfType = styled(Button)((props: StyledProps)=>{
     let color = ''
     switch (props.color) {
         case 'primary':
@@ -66,12 +67,12 @@ const ButtonOfType = styled(Button)((props: CommonStyledProps)=>{
     })
 })
 
-export const Medium = styled(ButtonOfType)((props: CommonStyledProps)=>({
+export const Medium = styled(ButtonOfType)((props: StyledProps)=>({
     maxWidth: 219,
     height: props.height || 50,
 }));
 
-export const Small = styled(ButtonOfType)((props: CommonStyledProps)=>({
+export const Small = styled(ButtonOfType)((props: StyledProps)=>({
     maxWidth: 52,
     height: props.height || 28,
 }));

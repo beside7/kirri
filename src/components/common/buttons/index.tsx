@@ -9,18 +9,16 @@ const buttonTypes = {
 }
 
 
-type ButtonProps = {
-    children: string
-} & Props;
 
-export const Button = (props:ButtonProps) =>{
+export const Button = (props:Props) =>{
     return React.createElement(buttonTypes[props.type], {
         ...props
-    }, (<StyledText>{props.children}</StyledText>)
+    }, (<StyledText color={props.color} disabled={props.disabled}>{props.children}</StyledText>)
     )
 }
 
 Button.defaultProps = {
     color: 'primary',
-    disabled: false
+    disabled: false,
+    type: 'large'
 }

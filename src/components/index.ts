@@ -16,3 +16,5 @@ export * from './common/buttons';
 export * from './common/input';
 export {Button} from './common/buttons';
 export {IconButton} from './common/iconButton';
+export {Popup} from './common/popup';
+export {Switch} from './switch'

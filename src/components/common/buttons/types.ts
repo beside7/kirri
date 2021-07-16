@@ -4,7 +4,7 @@ import { ReactElement } from "react";
 
 export type ButtonTypes = 'large'|'medium'|'small';
 
-export type ColorType = 'primary' | 'secondary';
+export type ColorType = 'primary' | 'secondary' | undefined;
 
 export type Props = {
     children: string| ReactElement,
@@ -16,11 +16,11 @@ export type Props = {
 } & TouchableOpacityProps;
 
 
-export interface CommonStyledProps {
-    width?: string | number,
-    height?: string | number,
-    disabled?: boolean,
-    color?: ColorType,
+export interface StyledProps {
+    width: string | number,
+    height: string | number,
+    disabled: boolean,
+    color: ColorType,
     theme: any,
     type: ButtonTypes,
     [key: string]: any
