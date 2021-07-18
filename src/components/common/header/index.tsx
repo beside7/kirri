@@ -8,7 +8,7 @@ const HeaderContaner = styled.View`
     border-color: #d1d1de;
 `
 const Empty = styled.View`
-    height: 30
+    height: 45
 `
 const Content = styled.View`
     height: 62;

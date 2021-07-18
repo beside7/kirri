@@ -1,4 +1,4 @@
-interface Memeber {
+export interface Memeber {
     username: string,
     nickname: string,
     authority: string,

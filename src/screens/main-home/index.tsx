@@ -1,13 +1,14 @@
 import React from 'react'
-import { View, Image } from "react-native"
+import { Image, SafeAreaView, ListRenderItemInfo } from "react-native"
 import { Background } from '@components'
+import { DiaryResType } from '@type-definition/diary'
 import { 
     TopMenu,
     Icons,
     Icon,
     UserInfo,
     Profile,
-    Title,
+    UserContent,
     UserName,
     Kirri,
     ListContainer,
@@ -21,104 +22,170 @@ import {
     DiaryListItem,
     DiaryListItemTitle,
     DiaryListItemHeader,
-    DiaryListItemBody
+    DiaryHeaderImage,
+    DiaryListItemBody,
 } from "./style";
 
 import { CoverBigImages } from "@utils";
 
+let data : DiaryResType[] = [
+    {
+        uuid: "2",
+        title: "기록 제목 노출되는 구 ...",
+        created_date: "2021-07-16",
+        members: [{
+            username: "string",
+            nickname: "string",
+            authority: "string",
+            status: "string"
+        }],
+        icon: "01"
+    },{
+        uuid: "2",
+        title: "기록 제목 노출되는 구 ...",
+        created_date: "2021-07-16",
+        members: [{
+            username: "string",
+            nickname: "string",
+            authority: "string",
+            status: "string"
+        }],
+        icon: "01"
+    },{
+        uuid: "3",
+        title: "기록 제목 노출되는 구 ...",
+        created_date: "2021-07-16",
+        members: [{
+            username: "string",
+            nickname: "string",
+            authority: "string",
+            status: "string"
+        }],
+        icon: "01"
+    } ,{
+        uuid: "4",
+        title: "기록 제목 노출되는 구 ...",
+        created_date: "2021-07-16",
+        members: [{
+            username: "string",
+            nickname: "string",
+            authority: "string",
+            status: "string"
+        }],
+        icon: "01"
+    },{
+        uuid: "5",
+        title: "기록 제목 노출되는 구 ...",
+        created_date: "2021-07-16",
+        members: [{
+            username: "string",
+            nickname: "string",
+            authority: "string",
+            status: "string"
+        }],
+        icon: "01"
+    },{
+        uuid: "6",
+        title: "기록 제목 노출되는 구 ...",
+        created_date: "2021-07-16",
+        members: [{
+            username: "string",
+            nickname: "string",
+            authority: "string",
+            status: "string"
+        }],
+        icon: "01"
+    }
+]
+
+// data = []
 
 export default function MainHome() {
     return (
         <Background>
-            <TopMenu>
-                <Icons>
-                    <Icon 
-                        source={require("@assets/icons/writing.png")}
+            <SafeAreaView style={{ flex: 1 }}>
+                <TopMenu>
+                    <Icons>
+                        <Icon 
+                            source={require("@assets/icons/writing.png")}
+                        />
+                        <Icon 
+                            source={require("@assets/icons/notice.png")}
+                        />
+                        <Icon 
+                            source={require("@assets/icons/setting.png")}
+                        />
+                    </Icons>
+                </TopMenu>
+                <UserInfo>
+                    <Profile 
+                        source={require("@assets/images/profile/home_profile_01.png")}
                     />
-                    <Icon 
-                        source={require("@assets/icons/notice.png")}
-                    />
-                    <Icon 
-                        source={require("@assets/icons/setting.png")}
-                    />
-                </Icons>
-            </TopMenu>
-            <UserInfo>
-                <Profile 
-                    source={require("@assets/images/profile/home_profile_01.png")}
-                />
-                <Title>
-                    <UserName>
-                        멋진 자몽
-                    </UserName>
-                    <Kirri>
-                        77ㅣ Zㅣ
-                    </Kirri>
-                </Title>
-            </UserInfo>
-            <ListContainer>
-                <ListTitle>
-                    최근 작성된 기록
-                </ListTitle>
-                <LatestList
-                    horizontal
-                    data={[
-                        {
-                            username: "작성자 닉네임 노출",
-                            title: "기록 제목 노출되는 구 ...",
-                            subTitle : "다이어리 제목 노출"
-                        },{
-                            username: "작성자 닉네임 노출",
-                            title: "기록 제목 노출되는 구 ...",
-                            subTitle : "다이어리 제목 노출"
-                        },{
-                            username: "작성자 닉네임 노출",
-                            title: "기록 제목 노출되는 구 ...",
-                            subTitle : "다이어리 제목 노출"
-                        }
-                    ]}
-                    renderItem={({ item }) => {
-                        return (<LatestItem>
-                            <LatestListItemNicName>{ item.username }</LatestListItemNicName>
-                            <LatestListItemTitle>{ item.title }</LatestListItemTitle>
-                            <LatestListItemDiary>{ item.subTitle }</LatestListItemDiary>
-                        </LatestItem>)
-                    }}
-                />
+                    <UserContent>
+                        <UserName>
+                            멋진 자몽
+                        </UserName>
+                        <Kirri>
+                            77ㅣ Zㅣ
+                        </Kirri>
+                    </UserContent>
+                </UserInfo>
+                {
+                    (data.length === 0) ? (
+                        <DiaryListItemBody>
 
-                <ListTitle style={{ marginTop: 36}}>
-                    다이어리 목록
-                </ListTitle>
+                        </DiaryListItemBody>
+                    )
+                    :
+                    (
+                        <>
+                            
+                            <ListContainer>
+                                <ListTitle>
+                                    최근 작성된 기록
+                                </ListTitle>
+                                <LatestList
+                                    horizontal
+                                    data={data}
+                                    renderItem={({item}) => {
+                                        return (<LatestItem>
+                                            <LatestListItemNicName>{ item.members[0].username }</LatestListItemNicName>
+                                            <LatestListItemTitle>{ item.title }</LatestListItemTitle>
+                                            <LatestListItemDiary>123</LatestListItemDiary>
+                                        </LatestItem>)
+                                    }}
+                                />
 
-                <DiaryList
-                    data={[
-                        {
-                            title: "다이어리 제목 구간 입니다.",
-                            type: 1
-                        },{
-                            title: "오늘 자몽은 맛있다!",
-                            type: 2
-                        },{
-                            title: "처음 우리들의 끼리 다이어리!!",
-                            type: 3
-                        }
-                    ]}
-                    numColumns={2}
-                    keyExtractor={(item, index) => item.title }
+                                <ListTitle style={{ marginTop: 36}}>
+                                    다이어리 목록
+                                </ListTitle>
 
-                    renderItem={({ item }) => {
-                        return (<DiaryListItem>
-                            <DiaryListItemHeader>
-                            </DiaryListItemHeader>
-                            <DiaryListItemBody>
-                                <DiaryListItemTitle>{item.title}</DiaryListItemTitle>
+                                <SafeAreaView>
+                                    <DiaryList
+                                        data={data}
+                                        numColumns={2}
+                                        keyExtractor={(item, index) => `${index}` }
+                                        renderItem={({ item }) => {
+                                            return (<DiaryListItem>
+                                                <DiaryListItemHeader>
+                                                    <DiaryHeaderImage source={CoverBigImages["01"]} />
+                                                </DiaryListItemHeader>
+                                                <DiaryListItemBody>
+                                                    <DiaryListItemTitle>{item.title}</DiaryListItemTitle>
+                                                </DiaryListItemBody>
+                                            </DiaryListItem>)
+                                        }}
+                                    />
+                                </SafeAreaView>
 
-                            </DiaryListItemBody>
-                        </DiaryListItem>)
-                    }}
-                />
+                                
 
-            </ListContainer>
+                            </ListContainer>
+                        </>
+                    )
+                }
+                
+            </SafeAreaView>
         </Background>
     )
 }

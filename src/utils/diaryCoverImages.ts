@@ -1,3 +1,5 @@
+import { ImageURISource } from "react-native";
+
 const Diary_Image_01 = require('@assets/images/diary/diary_coverimg_01.png');
 const Diary_Image_02 = require('@assets/images/diary/diary_coverimg_02.png');
 const Diary_Image_03 = require('@assets/images/diary/diary_coverimg_03.png');
@@ -13,12 +15,12 @@ const Diary_CircleImage_05 = require('@assets/images/diary/diary_circleimg_05.pn
 const Diary_CircleImage_06 = require('@assets/images/diary/diary_circleimg_06.png');
 
 
-const Diary_Big_Image_01 = require('@assets/images/diary/diary_coverimg_big_01.png');
-const Diary_Big_Image_02 = require('@assets/images/diary/diary_coverimg_big_02.png');
-const Diary_Big_Image_03 = require('@assets/images/diary/diary_coverimg_big_03.png');
-const Diary_Big_Image_04 = require('@assets/images/diary/diary_coverimg_big_04.png');
-const Diary_Big_Image_05 = require('@assets/images/diary/diary_coverimg_big_05.png');
-const Diary_Big_Image_06 = require('@assets/images/diary/diary_coverimg_big_06.png');
+const Diary_Big_Image_01 : ImageURISource = require('@assets/images/diary/diary_coverimg_big_01.png');
+const Diary_Big_Image_02 : ImageURISource = require('@assets/images/diary/diary_coverimg_big_02.png');
+const Diary_Big_Image_03 : ImageURISource = require('@assets/images/diary/diary_coverimg_big_03.png');
+const Diary_Big_Image_04 : ImageURISource = require('@assets/images/diary/diary_coverimg_big_04.png');
+const Diary_Big_Image_05 : ImageURISource = require('@assets/images/diary/diary_coverimg_big_05.png');
+const Diary_Big_Image_06 : ImageURISource = require('@assets/images/diary/diary_coverimg_big_06.png');
 
 
 

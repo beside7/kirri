@@ -1,4 +1,9 @@
+import { memo } from 'react'
 import styled from "styled-components/native"
+import { Dimensions } from "react-native";
+
+const SCREEN_HEIGHT = Dimensions.get("screen").height
+
 /**
  * 상단메뉴
  */
@@ -43,7 +48,7 @@ export const Profile = styled.Image`
 /**
  * 유저네임 영역
  */
-export const Title = styled.View`
+export const UserContent = styled.View`
     flex-direction: row;
 `
 /**
@@ -68,9 +73,10 @@ export const Kirri = styled.Text`
 /**
  * 리스트 영역
  */
-export const ListContainer = styled.View`
+export const ListContainer = styled.ScrollView`
     padding-left: 25;
     padding-top: 24;
+    height: 1000;
 `
 
 /**
@@ -93,7 +99,8 @@ export const LatestList = styled.FlatList`
 /**
  * 최근 작성된 리스트 아이템
  */
-export const LatestItem = styled.View`
+
+export const LatestItem = memo(styled.View`
     width: 150;
     height: 80;
     padding-horizontal: 10;
@@ -113,7 +120,7 @@ export const LatestItem = styled.View`
     shadow-radius: 10;
     elevation: 7;
     background-color: white;
-`
+`)
 
 export const LatestListItemNicName = styled.Text`
     font-size: 12;
@@ -158,6 +165,14 @@ export const DiaryListItem = styled.View`
 `
 
 export const DiaryListItemHeader = styled.View``
+
+export const DiaryHeaderImage= styled.Image`
+    width: 159;
+    height: 49;
+    border-top-left-radius: 10;
+    border-top-right-radius: 10;
+`
+
 export const DiaryListItemBody = styled.View`
     padding-top: 13;
     padding-horizontal: 14;
@@ -165,4 +180,7 @@ export const DiaryListItemBody = styled.View`
 
 export const DiaryListItemTitle = styled.Text`
     font-size: 14;
+`
+
+export const DiaryListEmpty = styled.View`
 `
