@@ -26,7 +26,7 @@ export default function CheerupMessage() {
                 </Title>
                 <ImageContainer>
                     <CheerupImage 
-                        source={require("@assets/images/diary_cheerup_bgimg_01.png")}
+                        source={require("@assets/images/diary/diary_cheerup_bgimg_01.png")}
                     />
                 </ImageContainer>
                 <From>

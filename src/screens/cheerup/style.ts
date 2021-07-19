@@ -66,3 +66,69 @@ export const ListItemTitle = styled.Text`
     font-size: 12;
     color: #17171c;
 `
+
+export const ActionSheetContainer = styled.View`
+    height: 686;
+    padding-top: 30;
+    padding-left: 34;
+    padding-right: 34;
+`
+
+export const ProfileContainer = styled.View`
+    flex-direction: row;
+`
+
+export const ProfileImage = styled.Image`
+    width: 70;
+    height: 70;
+`
+
+export const TitleContainer = styled.View`
+    margin-left: 12;
+`
+
+export const Title = styled.Text`
+    width: 225;
+    font-size: 16;
+    color: #17171c;
+    font-family: 'SpoqaHanSansNeo-Medium';
+`
+export const SubTitle = styled.Text`
+    width: 238;
+    font-size: 12;
+    color: #babacb;
+    margin-top: 4;    
+    font-family: 'SpoqaHanSansNeo-Regular';
+`
+
+export const ChreerupContainer = styled.View`
+    margin-top: 33;
+    flex-direction: row;
+    flex-wrap: wrap;
+`
+
+export const Chreerup = styled.TouchableOpacity`
+    width: 45.5%;
+    height: 160;
+    margin-top: 7;
+    margin-bottom: 7;
+    margin-left: 7;
+    margin-right: 7;
+    align-items: center;
+    justify-content: center;
+    border-width: 1;
+    border-color: #e1e1eb;
+    border-radius: 10;
+`
+
+export const ChreerupImage = styled.Image`
+    width: 70;
+    height: 70;
+    margin-bottom: 15;
+`
+
+export const ChreerupMessage = styled.Text`
+    color: #17171c;
+    font-size: 12;
+    font-family: 'SpoqaHanSansNeo-Regular';
+`
