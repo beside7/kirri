@@ -10,6 +10,7 @@ export { default as FriendMain } from "./friend-main";
 export { default as MassageList } from "./message-list";
 export { default as MainHome } from "./main-home";
 export { default as Cheerup } from "./cheerup";
+export { default as CheerupMessage } from "./cheerup-message";
 
 
 /**

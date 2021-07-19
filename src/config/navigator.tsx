@@ -5,7 +5,20 @@ import {
     StackNavigationOptions
 } from "@react-navigation/stack";
 
-import { Login, Nickname, DiaryInput, Home, TestPage, DiaryList, DiaryDetail, FriendMain, MassageList, MainHome, Cheerup } from "@screens";
+import {
+    Login,
+    Nickname,
+    DiaryInput,
+    Home,
+    TestPage,
+    DiaryList,
+    DiaryDetail,
+    FriendMain,
+    MassageList,
+    MainHome,
+    Cheerup,
+    CheerupMessage
+} from "@screens";
 import { Text } from "react-native";
 
 export const navigationRef = React.createRef<any>();
@@ -39,6 +52,7 @@ export type StackNavigatorParams = {
     TermsAndConditions: undefined;
     MainHome: undefined
     Cheerup: undefined
+    CheerupMessage: undefined
 };
 
 const Stack = createStackNavigator<StackNavigatorParams>();
@@ -169,6 +183,13 @@ export default function navigator(): ReactElement {
                 <Stack.Screen
                     name="Cheerup"
                     component={Cheerup}
+                    options={{
+                        headerShown: false
+                    }}
+                />
+                <Stack.Screen
+                    name="CheerupMessage"
+                    component={CheerupMessage}
                     options={{
                         headerShown: false
                     }}

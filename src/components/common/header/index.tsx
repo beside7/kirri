@@ -1,30 +1,16 @@
 import React ,{ ReactElement } from 'react'
 import { View , Image, TouchableOpacity, GestureResponderEvent } from 'react-native'
 import Text from "../text_2/text_2";
-import styled from 'styled-components/native'
+import { 
+    HeaderContaner,
+    Empty,
+    Content,
+    Side,
+    Center,
+} from "./style";
+import { Button, Menu, Divider } from 'react-native-paper';
 
-const HeaderContaner = styled.View`
-    border-bottom-width: 1;
-    border-color: #d1d1de;
-`
-const Empty = styled.View`
-    height: 45
-`
-const Content = styled.View`
-    height: 62;
-    flex-direction: row
-`
-const Side = styled.View`
-    width : 20% ;
-    justify-content: center;
-    align-items: center 
-`
 
-const Center = styled.View`
-    width : 60% ;
-    justify-content: center;
-    align-items: center 
-`
 
 type HeaderProps = {
     title? : string
@@ -35,6 +21,11 @@ type HeaderProps = {
 }
 
 export default function Header({ title, leftIcon, rightIcon, onLeftIconClick, onRightIconClick } : HeaderProps) {
+      const [visible, setVisible] = React.useState(false);
+
+  const openMenu = () => setVisible(true);
+
+  const closeMenu = () => setVisible(false);
     return (
         <HeaderContaner>
             <Empty />
@@ -53,12 +44,29 @@ export default function Header({ title, leftIcon, rightIcon, onLeftIconClick, on
                     </Text>
                 </Center>
                 <Side>
-                    <TouchableOpacity onPress={onRightIconClick}>
-                        { (rightIcon || rightIcon === null ) || <Image
-                            style={{ width: 24, height: 24 }}
-                            source={require("@assets/icons/menu.png")} 
-                        />}
-                    </TouchableOpacity>
+                    {(rightIcon === undefined) ? 
+                        <>
+                            <Menu
+                                visible={visible}
+                                onDismiss={closeMenu}
+                                anchor={
+                                    <TouchableOpacity onPress={openMenu}>
+                                        <Image
+                                            style={{ width: 24, height: 24 }}
+                                            source={require("@assets/icons/menu.png")} 
+                                        />
+                                    </TouchableOpacity>
+                                }
+                            >
+                                <Menu.Item onPress={() => {}} title="우리끼리 응원하기" />
+                                <Menu.Item onPress={() => {}} title="친구 관리" />
+                                <Menu.Item onPress={() => {}} title="다이어리 수정" />
+                                <Menu.Item onPress={() => {}} title="다이어리 삭제" />
+                            </Menu>
+                        </>
+                        : (rightIcon === null) ? null
+                        : rightIcon
+                    }
                 </Side>
             </Content>
         </HeaderContaner>
@@ -70,8 +78,4 @@ Header.defaultProps = {
         style={{ width: 24, height: 24 }}
         source={require("@assets/icons/back.png")} 
     />,
-    rightIcon: <Image
-        style={{ width: 24, height: 24 }}
-        source={require("@assets/icons/menu.png")} 
-    />
 }

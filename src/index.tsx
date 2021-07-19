@@ -1,6 +1,7 @@
 import React, { ReactElement, ReactNode } from "react";
 import Navigator from "@config/navigator";
 import { AppBootstrap } from "@components";
+import { Provider as PaperProvider } from 'react-native-paper';
 
 /**
  * 기본
@@ -9,8 +10,10 @@ import { AppBootstrap } from "@components";
  */
  export default function App(): ReactElement {
     return (
-        <AppBootstrap>
-            <Navigator />
-        </AppBootstrap>
+        <PaperProvider>
+            <AppBootstrap>
+                <Navigator />
+            </AppBootstrap>
+        </PaperProvider>
     )
 }

@@ -3,7 +3,9 @@ import { StyleSheet } from 'react-native';
 
 const styles = StyleSheet.create({
     container: {
-        ...globalStyles.container
+        // ...globalStyles.container
+        justifyContent: "center",
+        flex: 1
     },
 })
 
