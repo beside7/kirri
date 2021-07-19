@@ -56,6 +56,9 @@ export default function TestPage({ navigation }: TestPageProps) {
                 <TouchableOpacity onPress={() => { navigation.navigate("CheerupMessage") }}>
                     <Text_1>* pushdetail_응원메시지자세히보기</Text_1>
                 </TouchableOpacity>
+                <TouchableOpacity onPress={() => { navigation.navigate("Setting") }}>
+                    <Text_1>* setting01_설정</Text_1>
+                </TouchableOpacity>
             </View>
         </Background>
     )

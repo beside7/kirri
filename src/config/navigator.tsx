@@ -17,7 +17,8 @@ import {
     MassageList,
     MainHome,
     Cheerup,
-    CheerupMessage
+    CheerupMessage,
+    Setting
 } from "@screens";
 import { Text } from "react-native";
 
@@ -53,6 +54,7 @@ export type StackNavigatorParams = {
     MainHome: undefined
     Cheerup: undefined
     CheerupMessage: undefined
+    Setting: undefined
 };
 
 const Stack = createStackNavigator<StackNavigatorParams>();
@@ -190,6 +192,14 @@ export default function navigator(): ReactElement {
                 <Stack.Screen
                     name="CheerupMessage"
                     component={CheerupMessage}
+                    options={{
+                        headerShown: false
+                    }}
+                />
+                
+                <Stack.Screen
+                    name="Setting"
+                    component={Setting}
                     options={{
                         headerShown: false
                     }}
