@@ -20,7 +20,7 @@ export interface StyledProps {
     width: string | number,
     height: string | number,
     disabled: boolean,
-    color: ColorType,
+    color?: ColorType,
     theme: any,
     type: ButtonTypes,
     [key: string]: any

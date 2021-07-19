@@ -1,5 +1,4 @@
 export { default as AppBootstrap } from "./common/app-bootstrap/app-bootstrap";
-export { LoginButton } from "./common/loginButton";
 export { default as Select_1 } from "./common/select_1/select_1";
 export { default as Text_1 } from './common/text_1/text_1'
 export { default as Text_2 } from './common/text_2/text_2'
@@ -17,5 +16,6 @@ export * from './common/input';
 export {Button} from './common/buttons';
 export {IconButton} from './common/iconButton';
 export {Popup} from './common/popup';
-export {Switch} from './common/switch'
-export {SlideDownModal} from './common/slideDownModal'
+export {Switch} from './common/switch';
+export {SlideDownModal} from './common/slideDownModal';
+export {Tabs} from './common/Tabs';

@@ -11,7 +11,7 @@ const fontSizeOfType = {
 }
 
 
-export const StyledText = styled.Text((props: StyledProps) => {
+export const StyledText = styled.Text((props: StyledProps): any => {
         let fontColor = '';
         switch(props.color){
             case 'primary':
