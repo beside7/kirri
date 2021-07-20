@@ -28,7 +28,6 @@ export default function Header({ title, leftIcon, rightIcon, onLeftIconClick, on
   const closeMenu = () => setVisible(false);
     return (
         <HeaderContaner>
-            <Empty />
             <Content>
                 <Side>
                     <TouchableOpacity onPress={onLeftIconClick}>

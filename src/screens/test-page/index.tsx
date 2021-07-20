@@ -59,6 +59,9 @@ export default function TestPage({ navigation }: TestPageProps) {
                 <TouchableOpacity onPress={() => { navigation.navigate("Setting") }}>
                     <Text_1>* setting01_설정</Text_1>
                 </TouchableOpacity>
+                <TouchableOpacity onPress={() => { navigation.navigate("Onboarding") }}>
+                    <Text_1>* onboarding</Text_1>
+                </TouchableOpacity>
             </View>
         </Background>
     )

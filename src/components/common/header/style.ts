@@ -1,8 +1,10 @@
 import styled from 'styled-components/native'
+import Constants from 'expo-constants';
 
 export const HeaderContaner = styled.View`
     border-bottom-width: 1;
     border-color: #d1d1de;
+    padding-top: ${Constants.statusBarHeight};
 `
 export const Empty = styled.View`
     height: 45
