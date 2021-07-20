@@ -3,7 +3,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import {navigate} from '../config/navigator';
 
 
-const SERVER_URL = 'http://118.36.207.124:8080';
+const SERVER_URL = 'https://www.kkiri.site/api';
 
 const apiClient = axios.create({
   baseURL: SERVER_URL,

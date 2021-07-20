@@ -1,17 +1,15 @@
-import React, { useState, useEffect, useCallback } from 'react';
-import {Text, Image} from 'react-native';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import {Container, Title, Button} from '@components';
 import { SelectProfileImage } from './SelectProfileImg';
 import {MakeNicknameContianer, MakeNicknameTitle, MakeNicknameInput, InputAddedText, MakeNicknameInputWarp, ButtonContainer, BackIcon} from './nickname.style'
 import {JoinProcessing} from './JoinProcessing';
 import {debounce} from 'lodash';
 import { KirriTextInput } from '@components';
-import { StackNavigatorParams } from "@config/navigator";
-import { StackNavigationProp } from "@react-navigation/stack";
 import { userApis } from '@apis';
 import {UserStore} from '@store';
 import {navigate} from '@config/navigator';
 import { TouchableOpacity } from 'react-native-gesture-handler';
+import { ProfileImageTypes } from '@utils';
 
 
 interface Props {
@@ -25,6 +23,7 @@ interface Props {
 export const Nickname = ({accessToken, authorities}: Props) => {
     const [joinProcessLoading, setJoinProcessLoading] = useState(false);
     const [nickname, setNickname] = useState('');
+    const selectedProfileImage = useRef<ProfileImageTypes>();
     const [duplicate, setDuplicate] = useState(false);
     
     const joinKirri = async () =>{
@@ -37,23 +36,19 @@ export const Nickname = ({accessToken, authorities}: Props) => {
                 {
                     nickname,
                     autoLogin: true,
-                    profileImagePath:'',
+                    profileImagePath:'profile:'+selectedProfileImage,
                     agreementList:['SERVICE']
                 }
             );
             const user = await userApis.userMe();
-            UserStore.login(user)
+            UserStore.login(user);
             setJoinProcessLoading(false);
+            navigate('Home', null);
         } catch (error) {
-
+            setJoinProcessLoading(false);
         }
     }
-    
-    if (joinProcessLoading) {
-      return (
-        <JoinProcessing open={joinProcessLoading}></JoinProcessing>
-      )
-    }
+
 
     const checkDuple = debounce(() => {
         try {
@@ -104,8 +99,8 @@ export const Nickname = ({accessToken, authorities}: Props) => {
                 />
 
                 <SelectProfileImage
-                    selecteChanged={(img: string)=>{
-
+                    selecteChanged={(img: ProfileImageTypes)=>{
+                        selectedProfileImage.current = img;
                     }}
                 ></SelectProfileImage>
                 <MakeNicknameContianer>

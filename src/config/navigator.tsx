@@ -12,6 +12,7 @@ export const navigationRef = React.createRef<any>();
 import { View } from 'react-native';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { userApis } from "@apis";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 export function navigate(name: string, params: any) {
     navigationRef.current?.navigate(name, params);
@@ -64,22 +65,27 @@ const Stack = createStackNavigator<StackNavigatorParams>();
     },
 };
 
-type InitalizeRoutes = "Login" |"Home"|"Nickname" ;
+type InitalizeRoutes = "Login" |"Home";
 
 export default function navigator(): ReactElement {
     const [loading, setLoading] = useState(true);
-    const [initalizePage, setInitailizePage] = useState<InitalizeRoutes>('Nickname');
+    const [initalizePage, setInitailizePage] = useState<InitalizeRoutes>();
     const getUserInfo = () => {
         try {
-            AsyncStorage.getItem('userKey', (err, item) => {   
+            AsyncStorage.getItem('userKey', async(err, item) => {   
                 if (item) {
-                    setLoading(false);
-                    return;
+                    const user = await userApis.userMe();
+                    if (user.status === 'ACTIVE') {
+                        setLoading(false);
+                        setInitailizePage('Home');
+                        return;
+                    }
                 }
                 setInitailizePage('Login');
                 setLoading(false);
             })
         } catch (error) {
+            alert('error');
             navigate('Home', null);
         }
     }
@@ -87,8 +93,8 @@ export default function navigator(): ReactElement {
         getUserInfo();
     }, []);
 
-    if (loading) {
-        return (<View></View>)
+    if (loading || !initalizePage) {
+        return (<SafeAreaView></SafeAreaView>)
     }
     return (
         <NavigationContainer

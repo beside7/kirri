@@ -8,7 +8,7 @@ export { default as PushMessage } from './common/push-message'
 // export { default as Text } from './common/text/text';
 // export { default as Background } from './common/background/background';
 // export { default as TextInput } from './common/text-input/text-input';
-export { KakaoWebview } from './common/kakaoWebview';
+export { LoginWebview } from './common/loginWebview';
 export {Title} from './common/title';
 export {Container} from './common/layout';
 export * from './common/buttons';

@@ -1,49 +1,31 @@
-import React, { ReactElement } from 'react';
-import {Text} from 'react-native';
-import { SelectedImage, Warp, ImageLisContainer, Images, SelectedImageContainer, ImageWapper } from './nickname.style';
-const kirri_profile_1 = require('@assets/images/kirri_profile_1.png');
-const kirri_profile_2 = require('@assets/images/kirri_profile_2.png');
-const kirri_profile_3 = require('@assets/images/kirri_profile_3.png');
-const kirri_profile_4 = require('@assets/images/kirri_profile_4.png');
+import React, { ReactElement, useEffect } from 'react';
+import {Image} from 'react-native';
+import { SelectedImage, Warp, ImageLisContainer, Images, SelectedImageContainer, ImageWapper, SelectedCheck } from './nickname.style';
+import {ProfileImageTypes, ProfileImages} from '@utils';
 
-
-const _ImageList = [
-    {
-        id: 'elephant_1',
-        url: kirri_profile_1
-    },
-    {
-        id: 'elephant_2',
-        url: kirri_profile_2
-    },
-    {
-        id: 'elephant_3',
-        url: kirri_profile_3
-    },
-    {
-        id: 'elephant_4',
-        url: kirri_profile_4
-    }
-]
+const SelecedCheckImage = require('@assets/images/diary/writing_select_diary_check_box_checked.png');
 
 interface Props {
-    selecteChanged: (img: string)=>void,
+    selecteChanged: (img: ProfileImageTypes)=>void,
     selectedImage?: string 
 }
 
 
 
 export const SelectProfileImage = ({selecteChanged, selectedImage}: Props): ReactElement => {
-    const ImageList = React.useRef(_ImageList);
-    const [selected, setSelected] = React.useState(selectedImage?ImageList.current.find(img=>img.id===selectedImage):ImageList.current[0]);
     
+    const [selected, setSelected] = React.useState<ProfileImageTypes>('01');
+    
+    useEffect(()=>{
+        selecteChanged(selected)
+    },[selected]);
     
     return (
         <>
             <Warp>
                 <SelectedImageContainer>
                     <SelectedImage
-                        source={selected?.url}
+                        source={ProfileImages[selected]}
                     />
                 </SelectedImageContainer>
                 
@@ -51,13 +33,15 @@ export const SelectProfileImage = ({selecteChanged, selectedImage}: Props): Reac
             <Warp>
                 <ImageLisContainer>
                     {   
-                        ImageList.current.map((image)=>
+                        Object.keys(ProfileImages).map((key, index)=>
                             <ImageWapper
-                                key={image.id}
+                                key={'profile_image_'+index}
+                                onPress={()=>{setSelected(key as ProfileImageTypes)}}
                             >
                                 <Images
-                                    source={image.url}
+                                    source={ProfileImages[key as ProfileImageTypes]}
                                 />
+                                {key===selected ? <SelectedCheck><Image source={SelecedCheckImage} /></SelectedCheck> : <></>}
                             </ImageWapper>
                         )
                     }

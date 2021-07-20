@@ -2,6 +2,7 @@ import { globalStyles } from "@utils";
 import { StyleSheet, Dimensions } from 'react-native';
 import styled from 'styled-components/native';
 
+
 // const backgroundPatterns = {
 //     'pattern_1': require()
 // }
@@ -47,12 +48,17 @@ export const IconWarp = styled.View({
 })
 
 
-export const ProfileIcon = styled.View({
+export const ProfileImageWarp = styled.View({
     width: 68,
     height: 68,
     borderRadius: 34,
-    overflow: 'hidden',
-    backgroundColor: 'yellow'
+    overflow: 'hidden'
+});
+
+export const ProfileImage=styled.Image({
+    width: 68,
+    height: 68,
+    resizeMode: "contain",
 })
 
 
@@ -75,15 +81,14 @@ export const DiaryListWarp = styled(warpStyle)({
     paddingTop: 24,
     paddingBottom:20,
     display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'space-between'
-
+    flexDirection: 'column'
 })
 
 
 
 export const RecentContentWarp = styled.View({
-    height: 130
+    height: 130,
+    width: '100%'
 })
 
 export const RecentContentList = styled.ScrollView({
@@ -97,7 +102,8 @@ export const RecentContentContainer = styled.View({
     borderRadius: 10,
     boxShadow:'1.5px 2.5px 5px #0000002b',
     backgroundColor: '#fff',
-    padding: 10
+    padding: 10,
+    marginRight: 12
 })
 
 export const RecentContentWriter = styled.Text({
@@ -155,14 +161,22 @@ export const DiaryList = styled.View({
 })
 
 export const DiaryContainer = styled.View({
+    flexGrow: 1,
+    display: 'flex',
+    alignItems: 'center',
+    height: 158,
+    marginBottom: 18,
+    maxWidth: 250
+});
+
+export const DiaryWarp = styled.TouchableOpacity({
     width: 159,
     height: 158,
     borderRadius:12,
     display: 'flex',
     flexDirection: 'column',
     boxShadow:'1.5px 2.5px 5px #0000002b',
-    marginBottom: 18
-});
+})
 
 export const DiaryContent = styled.View({
     flexGrow: 1,
@@ -174,6 +188,7 @@ export const DiaryContent = styled.View({
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'space-between',
+    alignItems: 'flex-start'
 });
 
 export const DiaryCover = styled.View((props: {backgroundColor: string, pattern?: string, })=>({
@@ -189,7 +204,9 @@ export const DiaryDetailTitle = styled.Text({
 });
 
 export const DiaryBottom = styled.View({
-
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center'
 })
 export const MembersText = styled.Text({
     color: '#696969',
@@ -338,4 +355,26 @@ export const SelectedCheck = styled.View({
     height: 158,
     top:0,
     left: 0
+})
+
+export const DiaryEmptyImageWarp = styled.View({
+    position: 'relative'
+});
+
+export const DiaryEmptyImage = styled.Image({
+    width: 120,
+    height: 94,
+    resizeMode: 'contain'
+})
+
+export const LogoType = styled.Image({
+    width: 40,
+    height: 18,
+    resizeMode: 'contain'
+})
+
+export const DiaryBadge = styled.Image({
+    width: 25,
+    height: 20,
+    resizeMode: 'contain'
 })

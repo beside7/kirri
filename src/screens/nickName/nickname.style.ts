@@ -20,15 +20,18 @@ export const SelectedImage = styled.Image({
 
 
 
-export const ImageWapper = styled.View({
+export const ImageWapper = styled.TouchableOpacity({
     borderRadius: 30,
     marginHorizontal: 11,
-    overflow: 'hidden'
-});
+    position:'relative',
+    overflow: 'hidden',
+})
 
 export const Images = styled.Image({
-    width: 54,
-    height: 54
+    width:54,
+    height:54,
+    resizeMode: "contain",
+    
 })
 
 export const ImageLisContainer = styled.View({
@@ -85,3 +88,19 @@ export const BackIcon = styled.Image({
     width:24,
     height:24
 })
+
+
+export const SelectedCheck = styled.View((props:{ theme: any}):any=>({
+    position: 'absolute',
+    display: 'flex',
+    justifyContent:'center',
+    alignItems:'center',
+    width: 54,
+    height: 54,
+    borderRadius:26,
+    top:0,
+    left: 0,
+    borderColor: props.theme['201'],
+    borderWidth: 1.5,
+    backgroundColor:'#8017171c'
+}))

@@ -1,19 +1,20 @@
 import { makeObservable, observable, action } from 'mobx';
 import { LoginReqType } from 'src/types/user';
+import { getProfileImage, ProfileImageTypes } from '@utils';
 
 
 class UserStore {
     id = '';
     nickname = '';
     username= '';
-    profileImgUrl = '';
+    profileImage: any = undefined;
     status= '';
 
     constructor() {
         makeObservable(this, {
             nickname: observable,
             id: observable,
-            profileImgUrl: observable,
+            profileImage: observable,
             login: action,
             changeProfileImg: action
         });
@@ -22,11 +23,13 @@ class UserStore {
     login = ({id, nickname, profileImgUrl}: LoginReqType) => {
         this.id = id;
         this.nickname = nickname;
-        this.profileImgUrl = profileImgUrl;
+        const image = profileImgUrl?profileImgUrl.split(':'):['',''];
+        this.profileImage = (image[0] === 'profile')?getProfileImage(image[1] as ProfileImageTypes):getProfileImage('01');
+       
     }
 
     changeProfileImg = (profileImgUrl:string) => {
-        this.profileImgUrl = profileImgUrl;
+        this.profileImage = profileImgUrl;
     }
 
 
