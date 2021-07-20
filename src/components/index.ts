@@ -19,3 +19,4 @@ export {Popup} from './common/popup';
 export {Switch} from './common/switch';
 export {SlideDownModal} from './common/slideDownModal';
 export {Tabs} from './common/Tabs';
+export {Header} from './common/header';
