@@ -378,3 +378,24 @@ export const DiaryBadge = styled.Image({
     height: 20,
     resizeMode: 'contain'
 })
+
+
+export const DiaryListBottom = styled.View({
+    marginBottom: 20,
+    marginTop: 12,
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+    alignItems: 'center'
+})
+
+export const DiaryListBottomImage = styled.Image({
+    width: 100,
+    height: 100,
+    resizeMode: 'contain'
+})
+
+export const DiaryListBottomMention = styled.Text({
+    color: '#bebece',
+    fontSize: 12
+})

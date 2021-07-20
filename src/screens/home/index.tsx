@@ -24,7 +24,10 @@ import styles, {
     DiaryEmptyImageWarp,
     DiaryEmptyImage,
     LogoType,
-    DiaryContainer
+    DiaryContainer,
+    DiaryListBottom,
+    DiaryListBottomImage,
+    DiaryListBottomMention
 } from './home.style';
 import {RecentContent} from './RecentContent';
 
@@ -57,47 +60,7 @@ const Home = observer(({navigation}:HomeProps)=> {
     const [diaryList, setDiaryList] = useState<DiaryResType[]>([]);
     const [pageNum, setPageNum] = useState<any>();
     const pageInfo = useRef<any>();
-    const [recentRecord, setRecentRecord] = useState<RecentRecodeType[]>([{diaryTitle: 'string',
-    diaryIcon: '',
-    recordTitle: '',
-    recordCreatedBy: '',
-    recordCreatedDate: ''},{diaryTitle: 'string',
-    diaryIcon: '',
-    recordTitle: '',
-    recordCreatedBy: '',
-    recordCreatedDate: ''},{diaryTitle: 'string',
-    diaryIcon: '',
-    recordTitle: '',
-    recordCreatedBy: '',
-    recordCreatedDate: ''},{diaryTitle: 'string',
-    diaryIcon: '',
-    recordTitle: '',
-    recordCreatedBy: '',
-    recordCreatedDate: ''},{diaryTitle: 'string',
-    diaryIcon: '',
-    recordTitle: '',
-    recordCreatedBy: '',
-    recordCreatedDate: ''},{diaryTitle: 'string',
-    diaryIcon: '',
-    recordTitle: '',
-    recordCreatedBy: '',
-    recordCreatedDate: ''},{diaryTitle: 'string',
-    diaryIcon: '',
-    recordTitle: '',
-    recordCreatedBy: '',
-    recordCreatedDate: ''},{diaryTitle: 'string',
-    diaryIcon: '',
-    recordTitle: '',
-    recordCreatedBy: '',
-    recordCreatedDate: ''},{diaryTitle: 'string',
-    diaryIcon: '',
-    recordTitle: '',
-    recordCreatedBy: '',
-    recordCreatedDate: ''},{diaryTitle: 'string',
-    diaryIcon: '',
-    recordTitle: '',
-    recordCreatedBy: '',
-    recordCreatedDate: ''}]);
+    const [recentRecord, setRecentRecord] = useState<RecentRecodeType[]>();
     const [createDiaryOpen, setCreateDiaryOpen] = useState(false);
     
     const getUser = async () => {
@@ -138,7 +101,7 @@ const Home = observer(({navigation}:HomeProps)=> {
     useEffect(()=>{
         getUser();
         getDiaries();
-        // getRecentRecord();
+        getRecentRecord();
     }, []);
 
     if (userLoading || diaryLoading){
@@ -184,12 +147,13 @@ const Home = observer(({navigation}:HomeProps)=> {
                                                 alwaysBounceVertical={true}
                                             >
                                                 {
-                                                    recentRecord? recentRecord.map((recode:RecentRecodeType)=>      
+                                                    recentRecord? recentRecord.map((recode:RecentRecodeType, index)=>      
                                                         <RecentContent
-                                                            title='test'
-                                                            nickname='test'
-                                                            diaryName='test'
+                                                            title={recode.recordTitle}
+                                                            nickname={recode.recordCreatedBy}
+                                                            diaryName={recode.diaryTitle}
                                                             backgroundColor='purple'
+                                                            key={'recent_recode_'+index}
                                                         />):
                                                         <></>
                                                     }
@@ -219,6 +183,10 @@ const Home = observer(({navigation}:HomeProps)=> {
                                     </DiaryList>
                                     
                                 </DiaryListContainer>
+                                <DiaryListBottom>
+                                    <DiaryListBottomMention>오늘의 너를 기억할게 :D</DiaryListBottomMention>
+                                    <DiaryListBottomImage source={require('@assets/images/home/home_bottom_illust.png')}/>
+                                </DiaryListBottom>
                             </DiaryListWarp>
                             :
                             <RecommandCreateDiary>
