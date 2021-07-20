@@ -23,8 +23,21 @@ export const OnboardItem = styled.View`
 export const OnboardingImage = styled.Image`
     height: 240;
     width: 315;
+    margin-bottom: 20;
 `
 
 export const OnboardingText = styled.Text`
+    font-family: 'SpoqaHanSansNeo-Regular';
+    font-size: 16;
+    color: #17171c;
+`
 
+export const ButtonContainer = styled.View`
+    margin-top: 132;
+`
+
+export const ButtonImage = styled.Image`
+    width: 335;
+    height: 56;
+    margin-bottom: 8;
 `

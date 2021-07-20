@@ -1,20 +1,50 @@
-import React from 'react'
-import { View, Text } from 'react-native'
+import React, { useRef, useState, useCallback } from 'react'
+import { View, Text, TouchableOpacity } from 'react-native'
 import { Background } from "@components";
 import { 
     Container,
     OnboardingContainer,
     OnboardItem,
     OnboardingImage,
-    OnboardingText
+    OnboardingText,
+    ButtonContainer,
+    ButtonImage
 } from "./style";
 import Swiper from 'react-native-web-swiper';
 
 export default function Onboarding() {
+    const swiperRef = useRef<Swiper>(null);
+    const [viewButton, setViewButton] = useState(false)
+
+    const onAnimationEnd = useCallback(()=>{
+        if(swiperRef.current !== null){
+            if(swiperRef.current!.getActiveIndex() === 3){
+                setViewButton(true)
+            } else {
+                setViewButton(false)
+            }
+        }
+    },[])
+
+
     return (
         <Container>
             <OnboardingContainer>
-                <Swiper>
+                <Swiper
+                    ref={swiperRef}
+                    innerContainerStyle={{
+                        height: 380,
+                    }}
+                    onAnimationEnd={onAnimationEnd}
+                    controlsProps={{
+                        dotActiveStyle:{
+                            backgroundColor: "#ffcc24",
+                            width: 20,
+                        },
+                        prevPos: false,
+                        nextPos: false,
+                    }}
+                >
                     <OnboardItem>
                         <OnboardingImage
                             source={require('@assets/images/onboarding_01.png')}
@@ -44,7 +74,22 @@ export default function Onboarding() {
                         <OnboardingText>다이어리 기록을 만들어 보세요!</OnboardingText>    
                     </OnboardItem>
                 </Swiper>
-            </OnboardingContainer>  
+            </OnboardingContainer>
+            {
+                viewButton &&
+                    <ButtonContainer>
+                        <TouchableOpacity>
+                            <ButtonImage
+                                source={require('@assets/images/login_kakao.png')}
+                            />
+                        </TouchableOpacity>
+                        <TouchableOpacity>
+                            <ButtonImage
+                                source={require('@assets/images/login_apple.png')}
+                            />
+                        </TouchableOpacity>
+                    </ButtonContainer>
+            }
         </Container>
     )
 }
