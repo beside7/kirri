@@ -1,4 +1,4 @@
-export { default as Home } from "./Home";
+export { default as Home } from "./home";
 export { default as Login } from "./login";
 export * from './termsAndConditions';
 export * from './nickName';
