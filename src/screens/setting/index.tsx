@@ -21,8 +21,15 @@ import {
 } from "./style";
 
 import { Background, Header,  } from "@components";
+import { StackNavigatorParams } from "@config/navigator";
+import { StackNavigationProp } from "@react-navigation/stack";
 
-export default function Setting() {
+
+type SettingProps = {
+    navigation: StackNavigationProp<StackNavigatorParams, "Setting">;
+}
+
+export default function Setting({ navigation } : SettingProps) {
 
     const [profileIcon, setProfileIcon] = useState("01")
 
@@ -30,12 +37,18 @@ export default function Setting() {
         <Background>
             <Header 
                 title="설정"
-                leftIcon={<TouchableOpacity>
-                    <Image 
-                        style={{ width: 24, height: 24 }}
-                        source={require("@assets/icons/back.png")}
-                    />
-                </TouchableOpacity>}
+                leftIcon={
+                    <TouchableOpacity
+                        onPress={() => {
+                            navigation.goBack()
+                        }}
+                    >
+                        <Image 
+                            style={{ width: 24, height: 24 }}
+                            source={require("@assets/icons/back.png")}
+                        />
+                    </TouchableOpacity>
+                }
             />
             <Container>
                 <ProfileContainer>

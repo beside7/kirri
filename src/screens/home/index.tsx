@@ -119,6 +119,9 @@ const Home = observer(({navigation}:HomeProps)=> {
                                 icon={require('@assets/images/home_writing_normal.png')}
                             />
                             <IconButton
+                                onPress={() => {
+                                    navigation.navigate("MassageList")
+                                }}
                                 style={styles.iconSpace}
                                 icon={require('@assets/images/home_notice_normal.png')}
                             />
