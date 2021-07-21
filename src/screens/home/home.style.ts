@@ -1,6 +1,7 @@
 import { globalStyles } from "@utils";
 import { StyleSheet, Dimensions } from 'react-native';
 import styled from 'styled-components/native';
+import Constants from 'expo-constants';
 
 
 // const backgroundPatterns = {
@@ -20,6 +21,7 @@ export default styles;
 
 export const HomeContainer = styled.SafeAreaView({
     backgroundColor: '#fff',
+    flex: 1
 })
 
 
@@ -27,7 +29,8 @@ export const ContentWarp = styled.View({
     display: 'flex',
     flexDirection: 'column',
     backgroundColor: '#f4f4f8',
-    height: '100%'
+    height: '100%',
+    paddingTop: Constants.statusBarHeight + 10
 })
 
 const warpStyle = styled.View({

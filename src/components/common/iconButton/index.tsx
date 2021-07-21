@@ -19,13 +19,15 @@ interface Props{
     icon?: ImageSourcePropType,
     width?: string | number,
     height?: string | number,
-    style?: any
+    style?: any,
+    onPress? : () => void
 }
 
-export const IconButton = ({children, icon, style}: Props) => {
+export const IconButton = ({children, icon, style, onPress}: Props) => {
     return(
         <Button
             style={style}
+            onPress={onPress}
         >
             {
                 icon?<Image source={icon}></Image>:{children}

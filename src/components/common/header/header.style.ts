@@ -1,7 +1,9 @@
 import styled from 'styled-components/native';
+import Constants from 'expo-constants';
+
 
 export const HeaderContainer = styled.View({
-    paddingTop: 27,
+    paddingTop: 27 + Constants.statusBarHeight,
     paddingBottom: 24,
     paddingHorizontal: 20,
     display: 'flex',

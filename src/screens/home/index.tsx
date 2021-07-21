@@ -1,6 +1,6 @@
 
 import React, {ReactElement, useCallback, useState, useEffect, useRef} from 'react'
-import { View, Image } from 'react-native';
+import { View, TouchableOpacity } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import { StackNavigatorParams } from "@config/navigator";
@@ -123,6 +123,9 @@ const Home = observer(({navigation}:HomeProps)=> {
                                 icon={require('@assets/images/home_notice_normal.png')}
                             />
                             <IconButton
+                                onPress={() => {
+                                    navigation.navigate("Setting")
+                                }}
                                 icon={require('@assets/images/home_setting_normal.png')}
                             />
                         </IconWarp>

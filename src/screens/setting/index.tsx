@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { View, Text, TouchableOpacity } from 'react-native'
+import { View, Text, TouchableOpacity, Image } from 'react-native'
 import { Switch } from 'react-native-paper';
 
 import {
@@ -30,7 +30,12 @@ export default function Setting() {
         <Background>
             <Header 
                 title="설정"
-                rightIcon={null}
+                leftIcon={<TouchableOpacity>
+                    <Image 
+                        style={{ width: 24, height: 24 }}
+                        source={require("@assets/icons/back.png")}
+                    />
+                </TouchableOpacity>}
             />
             <Container>
                 <ProfileContainer>

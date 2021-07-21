@@ -110,7 +110,7 @@ export default function navigator(): ReactElement {
         }
     }
     useEffect(()=>{
-        // getUserInfo();
+        getUserInfo();
     }, []);
 
     if (loading || !initalizePage) {
@@ -121,7 +121,7 @@ export default function navigator(): ReactElement {
             ref={navigationRef}
         >
             <Stack.Navigator screenOptions={navigatorOptions}
-                // initialRouteName={initalizePage}
+                initialRouteName={initalizePage}
             >
 
                 <Stack.Screen
