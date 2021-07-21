@@ -16,7 +16,7 @@ interface Props {
 
 
 
-export const KakaoWebview:React.FC<Props>= ({source, closeSocialModal, onComplete}) => {
+export const LoginWebview:React.FC<Props>= ({source, closeSocialModal, onComplete}) => {
     return (
         <Modal
         animationType="slide"

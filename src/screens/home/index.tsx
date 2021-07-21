@@ -1,14 +1,37 @@
 
 import React, {ReactElement, useCallback, useState, useEffect, useRef} from 'react'
-import { View, Button } from 'react-native'
+import { View, Image } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import { StackNavigatorParams } from "@config/navigator";
 import { StackNavigationProp } from "@react-navigation/stack";
-import styles, { HomeContainer, ContentWarp, DiaryListWarp, IconWarp, ProfileWarp, ProfileIcon, NicknameWarp, NicknameContainer, DiaryTitle, DiaryList, RecentContentWarp, RecentContentList, DiaryListContainer, RecommandCreateDiary } from './home.style';
+import styles, {
+    HomeContainer,
+    ContentWarp,
+    DiaryListWarp,
+    IconWarp,
+    ProfileWarp,
+    ProfileImageWarp,
+    NicknameWarp,
+    NicknameContainer,
+    DiaryTitle,
+    DiaryList,
+    RecentContentWarp,
+    RecentContentList,
+    DiaryListContainer,
+    RecommandCreateDiary,
+    ProfileImage,
+    DiaryEmptyImageWarp,
+    DiaryEmptyImage,
+    LogoType,
+    DiaryContainer,
+    DiaryListBottom,
+    DiaryListBottomImage,
+    DiaryListBottomMention
+} from './home.style';
 import {RecentContent} from './RecentContent';
 
-import {Background, IconButton } from "@components";
+import {Background, Button, IconButton } from "@components";
 
 import { observer } from 'mobx-react';
 import { UserStore } from '@store';
@@ -16,10 +39,11 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import {userApis, diaryApis} from '@apis';
 
 import {Diary} from './Diary';
-import { DiariesResType, DiaryResType } from '@type-definition/diary';
+import { DiaryResType } from '@type-definition/diary';
 import { RecentRecodeType } from '@type-definition/user';
 import { CreateDiary } from './CreateDiary';
 import {CreateDiaryModal} from './CreateDiaryModal';
+import {navigate} from '@config/navigator';
 
 
 
@@ -32,7 +56,7 @@ type HomeProps = {
 const Home = observer(({navigation}:HomeProps)=> {
     const [userLoading, setUserLoading] = useState(true);
     const [diaryLoading, setDiaryLoading] = useState(true);
-    const {nickname } = UserStore;
+    const {nickname, profileImage } = UserStore;
     const [diaryList, setDiaryList] = useState<DiaryResType[]>([]);
     const [pageNum, setPageNum] = useState<any>();
     const pageInfo = useRef<any>();
@@ -40,12 +64,16 @@ const Home = observer(({navigation}:HomeProps)=> {
     const [createDiaryOpen, setCreateDiaryOpen] = useState(false);
     
     const getUser = async () => {
+        if (nickname) {
+            setUserLoading(false);
+            return;
+        }
         try {
             const user = await userApis.userMe();
             UserStore.login(user);
             setUserLoading(false);
         } catch (error) {
-            
+            navigate('Login', null)
         }
     }
 
@@ -69,11 +97,13 @@ const Home = observer(({navigation}:HomeProps)=> {
         }
     }
 
+
     useEffect(()=>{
         getUser();
         getDiaries();
         getRecentRecord();
     }, []);
+
     if (userLoading || diaryLoading){
         return <></>;
     }
@@ -97,32 +127,40 @@ const Home = observer(({navigation}:HomeProps)=> {
                             />
                         </IconWarp>
                         <View>
-                            <ProfileIcon></ProfileIcon>
+                            <ProfileImageWarp>
+                                <ProfileImage source={profileImage}></ProfileImage>
+                            </ProfileImageWarp>
                         </View>
                         <NicknameContainer>
-                        <NicknameWarp>{nickname}</NicknameWarp>
+                        <NicknameWarp>{nickname}</NicknameWarp><View><LogoType source={require('@assets/images/home/home_logotype.png')}/></View>
                         </NicknameContainer>
                     </ProfileWarp>
                     {
                         diaryList.length?
                             <DiaryListWarp>
-                                <RecentContentWarp>
-                                    <DiaryTitle>최근 작성된 기록</DiaryTitle>
-                                    <RecentContentList
-                                        alwaysBounceVertical={true}
-                                    >
-                                        {
-                                            recentRecord? recentRecord.map((recode:RecentRecodeType)=>      
-                                                <RecentContent
-                                                    title='test'
-                                                    nickname='test'
-                                                    diaryName='test'
-                                                    backgroundColor='purple'
-                                                />):
-                                                <></>
-                                            }
-                                    </RecentContentList>
-                                </RecentContentWarp>
+                                {
+                                    recentRecord?
+                                        <RecentContentWarp>
+                                            <DiaryTitle>최근 작성된 기록</DiaryTitle>
+                                            <RecentContentList
+                                                horizontal={true}
+                                                alwaysBounceVertical={true}
+                                            >
+                                                {
+                                                    recentRecord? recentRecord.map((recode:RecentRecodeType, index)=>      
+                                                        <RecentContent
+                                                            title={recode.recordTitle}
+                                                            nickname={recode.recordCreatedBy}
+                                                            diaryName={recode.diaryTitle}
+                                                            backgroundColor='purple'
+                                                            key={'recent_recode_'+index}
+                                                        />):
+                                                        <></>
+                                                    }
+                                            </RecentContentList>
+                                        </RecentContentWarp>:<></>
+                                }
+                                
                                 <DiaryListContainer>
                                     <DiaryTitle>다이어리 목록</DiaryTitle>
                                     <DiaryList>
@@ -137,14 +175,24 @@ const Home = observer(({navigation}:HomeProps)=> {
                                                 />
                                             ): <></>
                                         }
+                                        <DiaryContainer>
+                                            <CreateDiary
+                                                onClick={()=>{setCreateDiaryOpen(true)}}
+                                            />
+                                        </DiaryContainer>
                                     </DiaryList>
-                                    <CreateDiary
-                                        onClick={()=>{setCreateDiaryOpen(true)}}
-                                    />
+                                    
                                 </DiaryListContainer>
+                                <DiaryListBottom>
+                                    <DiaryListBottomMention>오늘의 너를 기억할게 :D</DiaryListBottomMention>
+                                    <DiaryListBottomImage source={require('@assets/images/home/home_bottom_illust.png')}/>
+                                </DiaryListBottom>
                             </DiaryListWarp>
                             :
                             <RecommandCreateDiary>
+                                <DiaryEmptyImageWarp>
+                                    <DiaryEmptyImage source={require('@assets/images/home/home_diary_add_empty.png')}></DiaryEmptyImage>
+                                </DiaryEmptyImageWarp>
                                 <CreateDiary
                                     onClick={()=>{setCreateDiaryOpen(true)}}
                                 />

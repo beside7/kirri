@@ -9,3 +9,11 @@ export const ProfileImages = {
     '03': Profile_Image_03,
     '04': Profile_Image_04
 }
+
+
+export type ProfileImageTypes = keyof (typeof  ProfileImages);
+
+
+export const getProfileImage = (key: ProfileImageTypes) => {
+    return ProfileImages[key];
+}

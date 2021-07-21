@@ -81,7 +81,7 @@ export default function CheerUp() {
                      height: 24 }}
                     source={require("@assets/icons/x.png")}
                 />}
-                rightIcon={null}
+                // rightIcon={null}
             />
             <Container>
                 <BackgroundImage 

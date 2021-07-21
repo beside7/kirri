@@ -1,80 +1,22 @@
-import React ,{ ReactElement } from 'react'
-import { View , Image, TouchableOpacity, GestureResponderEvent } from 'react-native'
-import Text from "../text_2/text_2";
-import { 
-    HeaderContaner,
-    Empty,
-    Content,
-    Side,
-    Center,
-} from "./style";
-import { Button, Menu, Divider } from 'react-native-paper';
+import React, {ReactElement} from 'react';
+import {HeaderContainer, IconWrap, Icon, Title} from './header.style';
 
-
-
-type HeaderProps = {
-    title? : string
-    leftIcon? : ReactElement | null
-    rightIcon? : ReactElement | null
-    onLeftIconClick?: (event: GestureResponderEvent) => void
-    onRightIconClick?: (event: GestureResponderEvent) => void
+interface Props {
+    title: string | ReactElement,
+    rightIcon?: ReactElement | any,
+    leftIcon?: ReactElement | any,
+    onRightClick?:(e: any) => void,
+    onLeftClick?:(e: any) => void,
+    borderBottom?: boolean
 }
 
-export default function Header({ title, leftIcon, rightIcon, onLeftIconClick, onRightIconClick } : HeaderProps) {
-      const [visible, setVisible] = React.useState(false);
-
-  const openMenu = () => setVisible(true);
-
-  const closeMenu = () => setVisible(false);
+export const Header = ({title, rightIcon, leftIcon, onRightClick=()=>{}, onLeftClick=()=>{}, borderBottom=true}:Props) => {
     return (
-        <HeaderContaner>
-            <Content>
-                <Side>
-                    <TouchableOpacity onPress={onLeftIconClick}>
-                         { (leftIcon || leftIcon === null ) || <Image
-                            style={{ width: 24, height: 24 }}
-                            source={require("@assets/icons/back.png")} 
-                        />}
-                    </TouchableOpacity>
-                </Side>
-                <Center>
-                    <Text bold="Medium">
-                        {title}
-                    </Text>
-                </Center>
-                <Side>
-                    {(rightIcon === undefined) ? 
-                        <>
-                            <Menu
-                                visible={visible}
-                                onDismiss={closeMenu}
-                                anchor={
-                                    <TouchableOpacity onPress={openMenu}>
-                                        <Image
-                                            style={{ width: 24, height: 24 }}
-                                            source={require("@assets/icons/menu.png")} 
-                                        />
-                                    </TouchableOpacity>
-                                }
-                            >
-                                <Menu.Item onPress={() => {}} title="우리끼리 응원하기" />
-                                <Menu.Item onPress={() => {}} title="친구 관리" />
-                                <Menu.Item onPress={() => {}} title="다이어리 수정" />
-                                <Menu.Item onPress={() => {}} title="다이어리 삭제" />
-                            </Menu>
-                        </>
-                        : (rightIcon === null) ? null
-                        : rightIcon
-                    }
-                </Side>
-            </Content>
-        </HeaderContaner>
+        <HeaderContainer>
+            {React.isValidElement(leftIcon)?leftIcon:<IconWrap disabled={!leftIcon} onPress={onLeftClick}>{leftIcon?<Icon source={leftIcon}></Icon>:<></>}</IconWrap>}
+            {React.isValidElement(title)?{title}:<Title>{title}</Title>}
+            {React.isValidElement(rightIcon)?rightIcon:<IconWrap disabled={!rightIcon}  onPress={onRightClick}>{rightIcon?<Icon source={rightIcon}></Icon>:<></>}</IconWrap>}
+        </HeaderContainer>
     )
-}
 
-Header.defaultProps = {
-    leftIcon: <Image
-        style={{ width: 24, height: 24 }}
-        source={require("@assets/icons/back.png")} 
-    />,
 }

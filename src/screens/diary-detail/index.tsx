@@ -6,7 +6,10 @@ import { Background, Text_2, Header  } from "@components";
 export default function DiaryDetail() {
     return (
         <Background>
-            <Header title="기록보기" />
+            <Header 
+                title="기록보기" 
+                
+                />
             <ScrollView style={{flex: 1}}>
                 {/* 제목 */}
                 <View style={{ justifyContent : "center", paddingHorizontal: 20 , height: 80, borderBottomWidth: 1, borderColor: "#e1e1eb" }}>

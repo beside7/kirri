@@ -1,53 +1,82 @@
 import { globalStyles } from "@utils";
-import { StyleSheet, Dimensions } from 'react-native';
+import { StyleSheet } from 'react-native';
 
-const ScreenHeight = Dimensions.get("window").height;
 
 const styles = StyleSheet.create({
-    container: {
-        ...globalStyles.container
-    },
     content: {
+        flex: 1,
         width: "100%",
-        height: ScreenHeight,
-        paddingTop: 40,
-        paddingBottom: 20,
-        paddingLeft: 30,
-        paddingRight: 30,
         justifyContent: "center",
         alignItems: "center",
+        display: 'flex',
+        
     },
-    title: {
-        fontSize: 42,
-        marginBottom: 80
+    swiperContainer:{
+        flex: 1,
+        width: '100%',
+        display: 'flex',
+        paddingTop: 189,
+        paddingHorizontal: 30,
     },
-    subTitle: {
-        alignItems: "center",
-        marginBottom: 80
+    swiperWarp: {
+        width: '100%',
+        minHeight: 281,
+        padding: 0,
+        marginHorizontal: 0,
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems:'center',
     },
-    subTitleText: {
-        fontSize: 18,
-        color: "#707070",
-        marginTop: 3,
-        marginBottom: 3
+    swiperContent: {
+        justifyContent: 'center',
+        alignItems: 'center',
     },
-    button: {
-        marginBottom: 20,
-        width: 300,
+    swiperImage: {
+        width: 315,
+        height: 240,
+        resizeMode: 'contain',
+    },
+    swiperText: {
+        textAlign: 'center'
+    },
+    swiperIndexWarp: {
+        marginTop: 48,
+        width: '100%',
+        display: 'flex',
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    swiperIndex: {
+        marginHorizontal: 4,
+        width: 6, 
+        height: 6,
+        borderRadius: 3,
+        backgroundColor: '#e8e8e8',
+        
+    },
+    swiperIndexActive: {
+        marginHorizontal: 4,
+        width: 20, 
+        height: 6,
+        borderRadius: 3,
+        backgroundColor: '#ffcc24'
     },
     kakaoButton: {
-        marginBottom: 20,
-        width: 300,
+        marginBottom: 8,
+        width: 335,
+        height: 56
+    },
+    buttonImage:{
+        width: 335,
+        resizeMode: 'contain',
     },
     appleButton: {
-        marginBottom: 20,
-        width: 300,
-        backgroundColor: '#000'
+        width: 335,
+        height: 56,
+        marginBottom: 38
     },
-    message: {
-        fontSize: 12,
-        color: "#a4a4a4",
-    },
+    
 });
 
 export default styles;

@@ -17,7 +17,7 @@ export default function CheerupMessage() {
             <Header 
                 title="응원 메세지"
                 leftIcon={<Image style={{ width: 24, height: 24 }} source={require("@assets/icons/x.png")} />}
-                rightIcon={null}
+                rightIcon={<Image style={{ width: 24, height: 24 }} source={require("@assets/icons/menu.png")} />}
             />
             <Contanier>
                 <Title>

@@ -1,7 +1,10 @@
 import React, { ReactElement, ReactNode } from "react";
 import Navigator from "@config/navigator";
 import { AppBootstrap } from "@components";
+
 import { Provider as PaperProvider } from 'react-native-paper';
+import { ThemeProvider } from "styled-components/native";
+import { theme } from "./utils/styleTheme";
 
 /**
  * 기본
@@ -10,10 +13,14 @@ import { Provider as PaperProvider } from 'react-native-paper';
  */
  export default function App(): ReactElement {
     return (
-        <PaperProvider>
-            <AppBootstrap>
-                <Navigator />
-            </AppBootstrap>
-        </PaperProvider>
+        <AppBootstrap>
+            <PaperProvider>
+                <ThemeProvider
+                    theme={theme}
+                >
+                    <Navigator />
+                </ThemeProvider>
+            </PaperProvider>
+        </AppBootstrap>
     )
 }
