@@ -46,7 +46,7 @@ export type StackNavigatorParams = {
     Login: undefined;
     Nickname: any;
     DiaryInput: undefined;
-    DiaryList: undefined;
+    DiaryList: { uuid?: string };
     TestPage: undefined;
     DiaryDetail: undefined;
     FriendMain: undefined;

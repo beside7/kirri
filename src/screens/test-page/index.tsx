@@ -32,7 +32,7 @@ export default function TestPage({ navigation }: TestPageProps) {
                 <TouchableOpacity onPress={() => { navigation.navigate("DiaryInput") }}>
                     <Text_1>* diary06_기록 작성 1</Text_1>
                 </TouchableOpacity>
-                <TouchableOpacity onPress={() => { navigation.navigate("DiaryList") }}>
+                <TouchableOpacity onPress={() => { navigation.navigate("DiaryList" , {}) }}>
                     <Text_1>* diary02_다이어리 홈</Text_1>
                 </TouchableOpacity>
                 <TouchableOpacity onPress={() => { navigation.navigate("DiaryDetail") }}>

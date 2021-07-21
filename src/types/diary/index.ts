@@ -10,7 +10,7 @@ export interface DiariesResType {
     page: number,
     size: number,
     totalPages: number,
-    elements: DiaryResType
+    elements: DiaryResType[]
 }
 
 export interface DiaryResType {

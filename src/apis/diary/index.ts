@@ -3,7 +3,7 @@ import { apiClient } from '../clients';
 import { DiariesResType } from '@type-definition/diary';
 
 export const diaryApis = {
-  async getDiaries() {
+  async getDiaries() : Promise<DiariesResType> {
     const { data } = await apiClient.get('/diaries');
     return data;
   },
