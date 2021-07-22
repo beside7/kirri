@@ -9,7 +9,7 @@ class UserStore {
     username= '';
     profileImage: any = undefined;
     status= '';
-    profileImageUrl: string[] = [];
+    profileImagePath: string[] = [];
 
     constructor() {
         makeObservable(this, {
@@ -21,17 +21,17 @@ class UserStore {
         });
     }
 
-    login = ({id, nickname, profileImgUrl}: LoginReqType) => {
+    login = ({id, nickname, profileImagePath}: LoginReqType) => {
         this.id = id;
         this.nickname = nickname;
-        this.changeProfileImg(profileImgUrl);
+        this.changeProfileImg(profileImagePath);
        
     }
 
-    changeProfileImg = (profileImgUrl:string) => {
-        const image = profileImgUrl?profileImgUrl.split(':'):['profile','01'];
+    changeProfileImg = (profileImgPath:string) => {
+        const image = profileImgPath?profileImgPath.split(':'):['profile','01'];
         this.profileImage = (image[0] === 'profile')?getProfileImage(image[1] as ProfileImageTypes):getProfileImage('01');
-        this.profileImageUrl = image;
+        this.profileImagePath = image;
     }
 
     setNickname = (nickname: string) => {

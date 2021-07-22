@@ -14,11 +14,7 @@ interface Props {
 
 export const SelectProfileImage = ({selecteChanged, selectedImage}: Props): ReactElement => {
     
-    const [selected, setSelected] = React.useState<ProfileImageTypes>('01');
-    
-    useEffect(()=>{
-        selecteChanged(selected)
-    },[selected]);
+    const [selected, setSelected] = React.useState<ProfileImageTypes>(selectedImage as ProfileImageTypes);
     
     return (
         <ProfileImageContainer
@@ -37,7 +33,11 @@ export const SelectProfileImage = ({selecteChanged, selectedImage}: Props): Reac
                         Object.keys(ProfileImages).map((key, index)=>
                             <ImageWapper
                                 key={'profile_image_'+index}
-                                onPress={()=>{setSelected(key as ProfileImageTypes)}}
+                                onPress={()=>{
+                                        setSelected(key as ProfileImageTypes); 
+                                        selecteChanged(key as ProfileImageTypes);
+                                    }
+                                }
                             >
                                 <Images
                                     source={ProfileImages[key as ProfileImageTypes]}

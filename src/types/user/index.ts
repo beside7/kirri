@@ -2,7 +2,7 @@ export interface LoginReqType {
     id: string,
     nickname: string,
     accessToken: string,
-    profileImgUrl: string
+    profileImagePath: string
 }
 
 export interface JoinReqType{

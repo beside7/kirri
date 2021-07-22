@@ -29,7 +29,7 @@ import { navigate, navigateGoBack } from '@config/navigator';
 import { UpdateUserMeResType } from '@type-definition/user';
 
 export const Settings = observer(()=> {
-    const {nickname, profileImageUrl} = UserStore;
+    const {nickname, profileImagePath} = UserStore;
     const [newNickname, setNewNickname] = useState('');
     const [duplicate, setDuplicate] = useState(false);
     const [leavKKiriPopupOpen, setLeavKKiriPopupOpen] = useState(false);
@@ -62,7 +62,8 @@ export const Settings = observer(()=> {
 
     const updateUserInfo = async (payload: UpdateUserMeResType) =>{
         try{
-            await userApis.updateUserMe(payload);
+            const data = await userApis.updateUserMe(payload);
+            alert(data)
             payload.profileImagePath && (UserStore.changeProfileImg(payload.profileImagePath));
             payload.nickname && (UserStore.setNickname(payload.nickname));
         }catch(error){
@@ -101,7 +102,7 @@ export const Settings = observer(()=> {
                 <ContentContainer>
                     <Profile>
                         <SelectProfileImage
-                            selectedImage={profileImageUrl[1]}
+                            selectedImage={profileImagePath[1]}
                             selecteChanged={(key)=>{
                                 updateUserInfo({profileImagePath:'profile:'+key});
                             }}

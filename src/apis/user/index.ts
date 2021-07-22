@@ -1,5 +1,5 @@
 import { apiClient } from '../clients';
-import { LoginReqType, JoinReqType, EditUserMeResType, PushUpdateResType } from '@type-definition/user';
+import { LoginReqType, JoinReqType, UpdateUserMeResType, PushUpdateResType } from '@type-definition/user';
 
 export const userApis = {
   async login(payload:LoginReqType) {

@@ -29,19 +29,20 @@ interface Props {
 
 export const Nickname = ({accessToken, authorities}: Props) => {
     const [joinProcessLoading, setJoinProcessLoading] = useState(false);
-    const [nickname, setNickname] = useState('');
-    const selectedProfileImage = useRef<ProfileImageTypes>();
+    // const [nickname, setNickname] = useState('');
+    const selectedProfileImage = useRef<ProfileImageTypes>('01');
     const [duplicate, setDuplicate] = useState(false);
+    const nickname = useRef<string>('');
     
     const joinKirri = async () =>{
-        if (!nickname || duplicate) {
+        if (!nickname.current || duplicate) {
             return;
         }
         setJoinProcessLoading(true);
         try {
             const result = await userApis.signin(
                 {
-                    nickname,
+                    nickname: nickname.current,
                     autoLogin: true,
                     profileImagePath:'profile:'+selectedProfileImage,
                     agreementList:['SERVICE']
@@ -59,7 +60,7 @@ export const Nickname = ({accessToken, authorities}: Props) => {
 
     const checkDuple = debounce(() => {
         try {
-            userApis.checkNicknameDupl(nickname).then((result: any)=>{
+            userApis.checkNicknameDupl(nickname.current).then((result: any)=>{
                 if (result.exists) {
                     setDuplicate(true);
                     
@@ -72,7 +73,7 @@ export const Nickname = ({accessToken, authorities}: Props) => {
         } catch (error) {
             
         }
-    }, 1000);
+    }, 500);
 
     const checkSubmitPayload = useCallback(()=>{
         if (!nickname) {
@@ -84,13 +85,6 @@ export const Nickname = ({accessToken, authorities}: Props) => {
         return false;
     }, [nickname, duplicate])
 
-    useEffect(()=>{
-        if(!nickname) {
-            setDuplicate(false);
-
-        }
-        checkDuple();
-    },[nickname]);
 
     const handleGoBack = () => {
         navigate('Login', null);
@@ -118,7 +112,12 @@ export const Nickname = ({accessToken, authorities}: Props) => {
                         <MakeNicknameTitle>한글, 영문, 숫자를 사용해 멋진 닉네임을 만들어주세요</MakeNicknameTitle>
                         <KirriTextInput
                             onChange={(text)=>{
-                                setNickname(text);
+                                nickname.current = text;
+                                if(!nickname) {
+                                    setDuplicate(false);
+                        
+                                }
+                                checkDuple();
                             
                             }}
                             placeholder='멋진자몽'
