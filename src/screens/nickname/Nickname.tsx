@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
-import {Container, Title, Button} from '@components';
+import {Container, Title, Button, Header} from '@components';
 import { SelectProfileImage } from './SelectProfileImg';
 import {MakeNicknameContianer, MakeNicknameTitle, MakeNicknameInput, InputAddedText, MakeNicknameInputWarp, ButtonContainer, BackIcon} from './nickname.style'
 import {JoinProcessing} from './JoinProcessing';
@@ -93,9 +93,11 @@ export const Nickname = ({accessToken, authorities}: Props) => {
         <>
             <JoinProcessing  open={joinProcessLoading}/>
             <Container>
-                <Title
+                <Header
                     title='닉네임만들기'
-                    rightIcon={<TouchableOpacity onPress={()=>{handleGoBack()}}><BackIcon style={{width:24, height:24}} source={require('@assets/images/various_back_normal.png') }/></TouchableOpacity>}
+                    rightIcon={require('@assets/images/various_back_normal.png')}
+                    onRightClick={handleGoBack}
+                    borderBottom={false}
                 />
 
                 <SelectProfileImage

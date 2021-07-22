@@ -1,9 +1,24 @@
 import styled from 'styled-components/native'
 
-export const Warp = styled.View({
-    marginTop: 75,
+
+export const ProfileImageContainer = styled.View({
+    height: 194,
     display: 'flex',
+    flexDirection: 'column',
+    alignItems:"center",
+    justifyContent: 'space-between',
+    width: '100%',
+    marginTop:54
+})
+
+export const SelectedWarp = styled.View({
     alignItems: 'center'
+})
+
+export const ProfileImageWarp = styled.View({
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: '100%'
 })
 
 export const SelectedImageContainer = styled.View({
