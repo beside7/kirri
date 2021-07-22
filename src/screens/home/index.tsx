@@ -80,8 +80,8 @@ const Home = observer(({navigation}:HomeProps)=> {
     const getDiaries = async () => {
         try {
             const data = await diaryApis.getDiaries();
-            pageInfo.current = {totalPages: data.totalPages, totalCounts: data.totalCounts};
-            setDiaryList(data.elements||[]);
+            pageInfo.current = {totalPages: data.totalPages, totalCounts: data.totalCounts};            
+            setDiaryList(data.element||[]);
             setDiaryLoading(false);
         } catch (error) {
             
@@ -173,12 +173,18 @@ const Home = observer(({navigation}:HomeProps)=> {
                                         {
                                             diaryList?
                                             diaryList.map((diary: DiaryResType)=>
-                                                <Diary
-                                                    diaryTitle={diary.title}
-                                                    members={diary.members.length}
-                                                    coverType={diary.icon.split(':')[0]}
-                                                    coverId={diary.icon.split(':')[1]}
-                                                />
+                                                <TouchableOpacity
+                                                    onPress={() => {
+                                                        navigation.navigate("RecordList" , { uuid : diary.uuid })
+                                                    }}
+                                                >
+                                                    <Diary
+                                                        diaryTitle={diary.title}
+                                                        members={diary.members.length}
+                                                        coverType={diary.icon.split(':')[0]}
+                                                        coverId={diary.icon.split(':')[1]}
+                                                    />
+                                                </TouchableOpacity>
                                             ): <></>
                                         }
                                         <DiaryContainer>

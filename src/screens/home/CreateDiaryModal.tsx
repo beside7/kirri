@@ -60,11 +60,11 @@ export const CreateDiaryModal = ({open, reloadDiary, close}: Props) => {
         selectedCoverImage && (payload.icon = 'image:'+selectedCoverImage);
         selectedCoverColor && (payload.icon = 'color:' + selectedCoverImage);
         try {
-            const data = await diaryApis.createDiary(payload);
+            const data = await diaryApis.createDiary(payload);            
             reloadDiary();
             close();
         } catch (error) {
-            
+            console.log(error);
         }
     }
     return (

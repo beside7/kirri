@@ -11,7 +11,7 @@ import {
     DiaryInput,
     Home,
     TestPage,
-    DiaryList,
+    RecordList,
     DiaryDetail,
     FriendMain,
     MassageList,
@@ -46,7 +46,7 @@ export type StackNavigatorParams = {
     Login: undefined;
     Nickname: any;
     DiaryInput: undefined;
-    DiaryList: { uuid?: string };
+    RecordList: { uuid?: string };
     TestPage: undefined;
     DiaryDetail: undefined;
     FriendMain: undefined;
@@ -156,8 +156,8 @@ export default function navigator(): ReactElement {
                     }}
                 />
                 <Stack.Screen
-                    name="DiaryList"
-                    component={DiaryList}
+                    name="RecordList"
+                    component={RecordList}
                     options={{
                         headerShown: false
                     }}

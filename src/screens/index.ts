@@ -3,7 +3,7 @@ export { default as Login } from "./login";
 export * from './termsAndConditions';
 export * from './nickname';
 export { default as DiaryInput } from "./diary-input/diary-input";
-export { default as DiaryList } from "./diary-list";
+export { default as RecordList } from "./record-list";
 export { default as DiaryDetail } from "./diary-detail"
 export { default as TestPage } from "./test-page";
 export { default as FriendMain } from "./friend-main";

@@ -1,16 +1,73 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { View, FlatList , TouchableOpacity, Image, SafeAreaView, Dimensions } from 'react-native'
 import { Background, Text_2, Header  } from "@components";
 
 import styles from './style'
 
+import { StackNavigatorParams } from "@config/navigator";
+import { StackNavigationProp } from "@react-navigation/stack";
+import { RouteProp } from "@react-navigation/native";
+
+import { recodeApis } from "@apis"
+
+import { RecordResType } from "@type-definition/diary"
+
 const SCREEN_HEIGHT = Dimensions.get("screen").height;
 
-export default function index() {
+
+
+type RecordListProps = {
+    navigation: StackNavigationProp<StackNavigatorParams, "RecordList">;
+    route: RouteProp<StackNavigatorParams, "RecordList">;
+}
+
+
+export default function RecordList({navigation, route} : RecordListProps) {
+
+    const [list, setList] = useState<RecordResType[]>([])
+
+    const getRecordList = async (uuid : string | undefined) => {
+        try {
+            console.log(uuid);
+            if(uuid){
+                const getRecordRes = await recodeApis.getRecords(uuid);
+                const { elements } = getRecordRes
+                console.log(getRecordRes);
+                return getRecordList;
+            } else {
+                return []
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    useEffect(() => {
+        console.log(18);
+        
+        const uuid = route.params.uuid;
+        getRecordList(uuid)
+        return () => {
+            
+        }
+    }, [])
+
     return (
         <Background>
             <Header
                 title="처음 우리들의 끼리 다이러리"
+                leftIcon={
+                    <TouchableOpacity
+                        onPress={() => {
+                            navigation.goBack()
+                        }}
+                    >
+                        <Image 
+                            style={{ width: 24, height: 24 }}
+                            source={require("@assets/icons/back.png")}
+                        />
+                    </TouchableOpacity>
+                }
             />
             <SafeAreaView style={{flex: 1}}>
                 <FlatList 
