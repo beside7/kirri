@@ -30,7 +30,6 @@ export const ContentWarp = styled.View({
     flexDirection: 'column',
     backgroundColor: '#f4f4f8',
     height: '100%',
-    paddingTop: Constants.statusBarHeight + 10
 })
 
 const warpStyle = styled.View({

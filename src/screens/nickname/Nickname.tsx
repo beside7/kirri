@@ -1,7 +1,14 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
-import {Container, Title, Button, Header} from '@components';
+import {Title, Button, Header} from '@components';
 import { SelectProfileImage } from './SelectProfileImg';
-import {MakeNicknameContianer, MakeNicknameTitle, MakeNicknameInput, InputAddedText, MakeNicknameInputWarp, ButtonContainer, BackIcon} from './nickname.style'
+import {
+    MakeNicknameContianer,
+    ButtonContainer,
+    BackIcon,
+    MakeNicknameTitle,
+    SafeAreaView,
+    Container
+} from './nickname.style'
 import {JoinProcessing} from './JoinProcessing';
 import {debounce} from 'lodash';
 import { KirriTextInput } from '@components';
@@ -92,44 +99,48 @@ export const Nickname = ({accessToken, authorities}: Props) => {
     return (
         <>
             <JoinProcessing  open={joinProcessLoading}/>
-            <Container>
+            <SafeAreaView>
                 <Header
                     title='닉네임만들기'
-                    rightIcon={require('@assets/images/various_back_normal.png')}
-                    onRightClick={handleGoBack}
+                    leftIcon={require('@assets/images/various_back_normal.png')}
+                    onLeftClick={handleGoBack}
                     borderBottom={false}
                 />
-
-                <SelectProfileImage
-                    selecteChanged={(img: ProfileImageTypes)=>{
-                        selectedProfileImage.current = img;
-                    }}
-                ></SelectProfileImage>
-                <MakeNicknameContianer>
-                    <MakeNicknameTitle>한글, 영문, 숫자를 사용해 멋진 닉네임을 만들어주세요</MakeNicknameTitle>
-                    <KirriTextInput
-                        onChange={(text)=>{
-                            setNickname(text);
-                           
-                        }}
-                        placeholder='멋진자몽'
-                        text=''
-                        rightText='끼리'
-                        onError={duplicate}
-                        errorMessage='사용할 수 없는 닉네임이예요'
-                    />
+                <Container>
                     
-                </MakeNicknameContianer>
-                <ButtonContainer>
-                    <Button
-                        type='large'
-                        onPress={()=>{
-                            joinKirri();
+                    
+                    <SelectProfileImage
+                        selecteChanged={(img: ProfileImageTypes)=>{
+                            selectedProfileImage.current = img;
                         }}
-                        disabled={checkSubmitPayload()}
-                    >다음</Button>
-                </ButtonContainer>
-            </Container>
+                    ></SelectProfileImage>
+                    <MakeNicknameContianer>
+                        <MakeNicknameTitle>한글, 영문, 숫자를 사용해 멋진 닉네임을 만들어주세요</MakeNicknameTitle>
+                        <KirriTextInput
+                            onChange={(text)=>{
+                                setNickname(text);
+                            
+                            }}
+                            placeholder='멋진자몽'
+                            text=''
+                            rightText='끼리'
+                            onError={duplicate}
+                            errorMessage='사용할 수 없는 닉네임이예요'
+                        />
+                        
+                    </MakeNicknameContianer>
+                    <ButtonContainer>
+                        <Button
+                            type='large'
+                            onPress={()=>{
+                                joinKirri();
+                            }}
+                            disabled={checkSubmitPayload()}
+                        >다음</Button>
+                    </ButtonContainer>
+                </Container>
+            </SafeAreaView>
+            
         </>
     )
 }

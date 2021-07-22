@@ -20,6 +20,7 @@ import {
     CheerupMessage,
     Setting,
     Onboarding,
+    Settings,
 } from "@screens";
 import { Text } from "react-native";
 
@@ -32,7 +33,10 @@ import { SafeAreaView } from "react-native-safe-area-context";
 export function navigate(name: string, params: any) {
     navigationRef.current?.navigate(name, params);
   }
-  
+
+  export function navigateGoBack() {
+    navigationRef.current?.goBack();
+  }
 
 interface TermsAndConditionsProps {
     accessToken: string,
@@ -57,7 +61,8 @@ export type StackNavigatorParams = {
     Cheerup: undefined
     CheerupMessage: undefined
     Setting: undefined
-    Onboarding: undefined
+    Onboarding: undefined,
+    Settings: any;
 };
 
 const Stack = createStackNavigator<StackNavigatorParams>();
@@ -215,6 +220,13 @@ export default function navigator(): ReactElement {
                 <Stack.Screen
                     name="Onboarding"
                     component={Onboarding}
+                    options={{
+                        headerShown: false
+                    }}
+                />
+                <Stack.Screen
+                    name="Settings"
+                    component={Settings}
                     options={{
                         headerShown: false
                     }}

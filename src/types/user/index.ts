@@ -24,3 +24,13 @@ export interface RecentRecordResType {
     totalCounts: number,
     elements: RecentRecodeType[]
 }
+
+export interface UpdateUserMeResType {
+    nickname?: string,
+    profileImagePath?: string
+}
+
+export interface PushUpdateResType {
+    type:string,
+    active: boolean
+}

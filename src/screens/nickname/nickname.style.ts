@@ -1,6 +1,19 @@
 import styled from 'styled-components/native'
 
 
+export const SafeAreaView = styled.SafeAreaView({
+    display: 'flex',
+    backgroundColor: '#fff',
+    flexDirection:'column',
+    height: '100%'
+})
+
+export const Container = styled.View({
+    flexGrow: 1,
+    paddingHorizontal: 34,
+    backgroundColor: '#fff'
+})
+
 export const ProfileImageContainer = styled.View({
     height: 194,
     display: 'flex',

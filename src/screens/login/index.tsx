@@ -20,6 +20,7 @@ export default function Login({ }: LoginProps): ReactElement {
     const result = React.useRef<any>({});
     const onBoardCnt = useRef(4);
     const [onBoardIndex, setOnBoardIndex] = useState(0);
+    const [showLoginImage, setShowLoginImage] = useState(false);
 
 
     const onComplete = async (event: any) => {
@@ -43,6 +44,10 @@ export default function Login({ }: LoginProps): ReactElement {
         </View>)
 
     }
+
+    useEffect(()=>{
+        setShowLoginImage(true);
+    }, [onBoardIndex])
     
     return (
         <Background>
@@ -89,7 +94,7 @@ export default function Login({ }: LoginProps): ReactElement {
                         }
                     </View>
                 </View>
-                <TouchableOpacity
+                {(showLoginImage?<><TouchableOpacity
                     style={styles.kakaoButton}
                     onPress={(e: any)=> {
                         setKakaoLoginOpen(true);    
@@ -104,7 +109,7 @@ export default function Login({ }: LoginProps): ReactElement {
                     }}
                 >
                     <Image  style={styles.buttonImage} source={require('@assets/images/login/apple.png')}/>
-                </TouchableOpacity>
+                </TouchableOpacity></>:<></>)}
                 {/* <Text style={styles.message}>아직 끼리에 가입하지 않으셨나요?</Text> */}
             </View>
         </Background>

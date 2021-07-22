@@ -127,7 +127,7 @@ const Home = observer(({navigation}:HomeProps)=> {
                             />
                             <IconButton
                                 onPress={() => {
-                                    navigation.navigate("Setting")
+                                    navigate('Settings', null);
                                 }}
                                 icon={require('@assets/images/home_setting_normal.png')}
                             />
