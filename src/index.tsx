@@ -13,14 +13,14 @@ import { theme } from "./utils/styleTheme";
  */
  export default function App(): ReactElement {
     return (
-        <AppBootstrap>
-            <PaperProvider>
+        <PaperProvider>
+            <AppBootstrap>
                 <ThemeProvider
                     theme={theme}
                 >
                     <Navigator />
                 </ThemeProvider>
-            </PaperProvider>
-        </AppBootstrap>
+            </AppBootstrap>
+        </PaperProvider>
     )
 }

@@ -175,7 +175,7 @@ const Home = observer(({navigation}:HomeProps)=> {
                                             diaryList.map((diary: DiaryResType)=>
                                                 <TouchableOpacity
                                                     onPress={() => {
-                                                        navigation.navigate("RecordList" , { uuid : diary.uuid })
+                                                        navigation.navigate("RecordInfo" , { diary : diary })
                                                     }}
                                                 >
                                                     <Diary

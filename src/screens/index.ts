@@ -14,6 +14,8 @@ export { default as CheerupMessage } from "./cheerup-message";
 export { default as Setting } from "./setting"
 export { default as Onboarding } from "./onboarding"
 
+export { default as RecordInfo } from "./record-info"
+
 
 /**
  * # overall  - user

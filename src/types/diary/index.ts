@@ -17,7 +17,7 @@ export interface DiaryResType {
     uuid: string,
     title: string,
     icon: string,
-    created_date: string,
+    createdDate: string,
     members: Memeber[]
 }
 

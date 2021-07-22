@@ -20,6 +20,7 @@ import {
     CheerupMessage,
     Setting,
     Onboarding,
+    RecordInfo
 } from "@screens";
 import { Text } from "react-native";
 
@@ -28,6 +29,9 @@ import { View } from 'react-native';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { userApis } from "@apis";
 import { SafeAreaView } from "react-native-safe-area-context";
+
+import { DiaryResType } from "@type-definition/diary"
+
 
 export function navigate(name: string, params: any) {
     navigationRef.current?.navigate(name, params);
@@ -58,6 +62,7 @@ export type StackNavigatorParams = {
     CheerupMessage: undefined
     Setting: undefined
     Onboarding: undefined
+    RecordInfo: { diary : DiaryResType }
 };
 
 const Stack = createStackNavigator<StackNavigatorParams>();
@@ -215,6 +220,14 @@ export default function navigator(): ReactElement {
                 <Stack.Screen
                     name="Onboarding"
                     component={Onboarding}
+                    options={{
+                        headerShown: false
+                    }}
+                />
+                
+                <Stack.Screen
+                    name="RecordInfo"
+                    component={RecordInfo}
                     options={{
                         headerShown: false
                     }}

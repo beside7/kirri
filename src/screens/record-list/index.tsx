@@ -1,18 +1,16 @@
 import React, { useEffect, useState } from 'react'
 import { View, FlatList , TouchableOpacity, Image, SafeAreaView, Dimensions } from 'react-native'
 import { Background, Text_2, Header  } from "@components";
-
 import styles from './style'
-
 import { StackNavigatorParams } from "@config/navigator";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { RouteProp } from "@react-navigation/native";
-
 import { recodeApis } from "@apis"
-
 import { RecordResType } from "@type-definition/diary"
+import { Menu } from 'react-native-paper';
 
 const SCREEN_HEIGHT = Dimensions.get("screen").height;
+
 
 
 
@@ -24,6 +22,10 @@ type RecordListProps = {
 
 export default function RecordList({navigation, route} : RecordListProps) {
 
+    const [visible, setVisible] = React.useState(false);
+    const closeMenu = () => setVisible(false);
+    
+    const openMenu = () => setVisible(true);
     const [list, setList] = useState<RecordResType[]>([])
 
     const getRecordList = async (uuid : string | undefined) => {
@@ -67,6 +69,31 @@ export default function RecordList({navigation, route} : RecordListProps) {
                             source={require("@assets/icons/back.png")}
                         />
                     </TouchableOpacity>
+                }
+
+                rightIcon={
+                    <Menu
+                        style={{
+                            top: 105
+                        }}
+                        visible={visible}
+                        onDismiss={closeMenu}
+                        anchor={
+                            <TouchableOpacity onPress={openMenu}>
+                                <Image 
+                                    style={{ width: 24, height: 24 }}
+                                    source={require("@assets/icons/menu.png")}
+                                />
+                            </TouchableOpacity>
+                        }
+                    >
+                        <Menu.Item onPress={() => {
+                            
+                        }} title="우리끼리 응원하기" />
+                        <Menu.Item onPress={() => {}} title="친구 관리" />
+                        <Menu.Item onPress={() => {}} title="다이어리 수정" />
+                        <Menu.Item onPress={() => {}} title="다이어리 삭제" />
+                    </Menu>
                 }
             />
             <SafeAreaView style={{flex: 1}}>
