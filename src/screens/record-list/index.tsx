@@ -44,9 +44,7 @@ export default function RecordList({navigation, route} : RecordListProps) {
         }
     }
 
-    useEffect(() => {
-        console.log(18);
-        
+    useEffect(() => {        
         const uuid = route.params.uuid;
         getRecordList(uuid)
         return () => {
@@ -155,7 +153,9 @@ export default function RecordList({navigation, route} : RecordListProps) {
             </SafeAreaView>
             <TouchableOpacity 
                 style={styles.editButton}
-                    
+                onPress={() => {
+                    navigation.navigate("DiaryInput")
+                }}
                 >
                 <Image 
                     source={require("@assets/icons/edit.png")}

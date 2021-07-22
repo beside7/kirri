@@ -1,29 +1,58 @@
 import React, { useRef, useEffect , useState} from 'react'
-import { View , KeyboardAvoidingView, Platform, Dimensions , TouchableOpacity, Image } from 'react-native'
+import { View , KeyboardAvoidingView, Platform, Dimensions , TouchableOpacity, Image, TextInput, ScrollView } from 'react-native'
 import { useHeaderHeight } from '@react-navigation/stack';
 
-import { Background, Text_2 , Select_1, TextInput, Header } from "@components";
+import { Background, Text_2, Header } from "@components";
 import { actions , RichEditor, RichToolbar} from 'react-native-pell-rich-editor';
 
 import styles from './diary-input.style'
-import { FontAwesome5, AntDesign  } from '@expo/vector-icons';
+import { AntDesign } from '@expo/vector-icons';
 import * as ImagePicker from 'expo-image-picker';
 
+import { StackNavigatorParams } from "@config/navigator";
+import { StackNavigationProp } from "@react-navigation/stack";
+import { RouteProp } from "@react-navigation/native";
 
+type DiaryInputProps = {
+    navigation: StackNavigationProp<StackNavigatorParams, "DiaryInput">;
+    route: RouteProp<StackNavigatorParams, "DiaryInput">;
+}
 
-export default function DiaryInput() {
+export default function DiaryInput({navigation , route} : DiaryInputProps) {
     
     const richText = React.createRef<RichEditor>() || useRef<RichEditor>();
 
+    /**
+     * 헤더 높이
+     */
     const headerHeight = useHeaderHeight();
 
+    /**
+     * 스크린 높이
+     */
     const ScreenHeight = Dimensions.get("window").height;
 
+    /**
+     * 이미지 목록
+     */
     const [images, setImages] = useState<string[]>([]);
 
+    /**
+     * 본문
+     */
+    const [content, setContent] = useState("")
+
+    /**
+     * 제목
+     */
+    const [title, setTitle] = useState("")
+
+    /**
+     * 에디터 내부 css 설정
+     */
     const fontFace = `@font-face {
-        font-family: 'Kyuri_diary';
-        src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/naverfont_07@1.0/Kyuri_diary.woff') format('woff');
+        font-family: 'SpoqaHanSansNeo-Regular';
+        src: url('https://cdn.jsdelivr.net/gh/spoqa/spoqa-han-sans@latest/Subset/SpoqaHanSansNeo/SpoqaHanSansNeo-Regular.woff') format('woff';
         font-weight: normal;
         font-style: normal;
     }`;
@@ -39,6 +68,9 @@ export default function DiaryInput() {
         })();
     }, []);
 
+    /**
+     * image pick 설정 및 실행
+     */
     const pickImage = async () => {
         let result = await ImagePicker.launchImageLibraryAsync({
           mediaTypes: ImagePicker.MediaTypeOptions.All,
@@ -55,22 +87,41 @@ export default function DiaryInput() {
         }
     };
 
+    /**
+     * 
+     * @param index 이미지 번호
+     */
     const removeImage = (index: number) : void => {
         const newImages = images?.filter((_ , num) => num !== index)
         setImages(newImages);
     }
 
+    /**
+     * 에디테에 글을 입력시 이벤트 처리
+     * @param text 본문내용
+     */
+    const onKeyUp = (text: string) => {
+        setContent(text)
+    }
+
     return (
         <Background>
             <Header
-                leftIcon={<Image
-                    style={{ width: 24, height: 24 }}
-                    source={require("@assets/icons/x.png")} 
-                />}
+                leftIcon={
+                    <TouchableOpacity
+                        onPress={() => {navigation.goBack()}}
+                    >
+                        <Image
+                            style={{ width: 24, height: 24 }}
+                            source={require("@assets/icons/x.png")} 
+                        />
+                    </TouchableOpacity>
+                }
                 rightIcon={<Text_2>
                     등록
                 </Text_2>}
                 title="처음 우리들의 끼리 다이러리"
+                borderBottom={true}
              />
             <KeyboardAvoidingView
                 behavior={Platform.OS == "ios" ? "padding" : "height"}
@@ -79,7 +130,13 @@ export default function DiaryInput() {
             >
                 <View style={styles.container}>
                     <TextInput 
+                        style={styles.title}
+                        placeholderTextColor="#d1d1de"
                         placeholder={"어떤 제목의 기록을 남겨볼까?"}
+                        value={title}
+                        onChangeText={value => {
+                            setTitle(value)
+                        }}
                     />
                     {images && 
                         <View style={styles.imageList}>
@@ -92,23 +149,29 @@ export default function DiaryInput() {
                                 </View>
                             )}
                         </View>}
-                    <View style={[styles.editorWrap , {marginTop: 5}]}>
+                    <ScrollView style={[styles.editorWrap , {marginTop: 5}]}>
                         <RichEditor
                             ref={richText}
                             editorStyle={{
                                 cssText :fontFace,
                                 contentCSSText: `
-                                    font-family: Kyuri_diary; 
-                                    font-size: 18px; 
+                                    font-family: SpoqaHanSansNeo-Regular; 
+                                    font-size: 14px; 
                                 `,
                                 
                             }}
                             style={[styles.editor , {
                             }]}
+                            onChange={onKeyUp}
                             initialHeight={(ScreenHeight - headerHeight) - 200}
                             placeholder={`너의 아주 작은 이야기까지 다 들어줄게!`}
                         />
-                    </View>
+                        
+                    </ScrollView>
+                    <Image
+                        style={styles.backgroudImage}
+                        source={require("@assets/images/diary/diary_bottom_illust.png")}
+                    />
                 </View>
                 <View style={styles.bottomTab}>
                     <TouchableOpacity onPress={pickImage} style={{ position: "absolute", left: 20 }}>
@@ -119,7 +182,9 @@ export default function DiaryInput() {
                     </TouchableOpacity>
                     <View>
                         <Text_2 bold="Regular" style={{ color : "#6f6f7e" }}>
-                            (200/2000)
+                            ({
+                                content.length
+                            }/2000)
                         </Text_2>
                     </View>
                 </View>

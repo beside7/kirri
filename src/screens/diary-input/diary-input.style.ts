@@ -1,15 +1,17 @@
-import { globalStyles } from "@utils";
-
-import { StyleSheet } from "react-native";
+import { StyleSheet, Dimensions } from "react-native";
+const SCREEN_HEIGHT = Dimensions.get("screen").height;
 
 const styles = StyleSheet.create({
     container: {
-        ...globalStyles.container
+        backgroundColor: "#fff",
+        paddingHorizontal: 20,
+        paddingTop: 34
     },
     editorWrap : {
+        height: SCREEN_HEIGHT - 300,
     },
     editor : {
-   
+        height: SCREEN_HEIGHT - 300,
     },
     bottomTab : {
         bottom: 0,
@@ -21,7 +23,8 @@ const styles = StyleSheet.create({
         paddingVertical: 10,
         flexDirection: "row",
         alignItems: "center",
-        justifyContent: "center"
+        justifyContent: "center",
+        backgroundColor: "#f4f4f8"
     },
     imageList : {
         display: "flex",
@@ -39,6 +42,18 @@ const styles = StyleSheet.create({
         position: "absolute",
         top: 0,
         right: 0
+    },
+    title : {
+        fontSize: 20,
+        fontFamily: "SpoqaHanSansNeo-Medium",
+    },
+    backgroudImage : {
+        position: "absolute",
+        top: 490,
+        right: 0,
+        width: 150,
+        height: 86,
+        opacity: 0.5,
     }
 })
 

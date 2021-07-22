@@ -10,7 +10,7 @@ export const HeaderContainer = styled.View({
     flexDirection:'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    borderColor:'#29000000',
+    borderColor:'rgba(41, 0, 0, 0.1)',
     borderBottomWidth:  1
 });
 
