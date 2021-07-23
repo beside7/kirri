@@ -20,14 +20,12 @@ interface Props{
     width?: string | number,
     height?: string | number,
     style?: any,
-    onPress? : () => void
 }
 
-export const IconButton = ({children, icon, style, onPress}: Props) => {
+export const IconButton = ({children, icon, style}: Props) => {
     return(
         <Button
             style={style}
-            onPress={onPress}
         >
             {
                 icon?<Image source={icon}></Image>:{children}

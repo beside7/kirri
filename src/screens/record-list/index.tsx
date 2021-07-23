@@ -88,7 +88,9 @@ export default function RecordList({navigation, route} : RecordListProps) {
                         <Menu.Item onPress={() => {
                             
                         }} title="우리끼리 응원하기" />
-                        <Menu.Item onPress={() => {}} title="친구 관리" />
+                        <Menu.Item onPress={() => {
+                            navigation.navigate("FriendMain")
+                        }} title="친구 관리" />
                         <Menu.Item onPress={() => {}} title="다이어리 수정" />
                         <Menu.Item onPress={() => {}} title="다이어리 삭제" />
                     </Menu>

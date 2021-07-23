@@ -80,6 +80,8 @@ const Home = observer(({navigation}:HomeProps)=> {
     const getDiaries = async () => {
         try {
             const data = await diaryApis.getDiaries();
+            console.log(data);
+            
             pageInfo.current = {totalPages: data.totalPages, totalCounts: data.totalCounts};            
             setDiaryList(data.element||[]);
             setDiaryLoading(false);
@@ -119,16 +121,10 @@ const Home = observer(({navigation}:HomeProps)=> {
                                 icon={require('@assets/images/home_writing_normal.png')}
                             />
                             <IconButton
-                                onPress={() => {
-                                    navigation.navigate("MassageList")
-                                }}
                                 style={styles.iconSpace}
                                 icon={require('@assets/images/home_notice_normal.png')}
                             />
                             <IconButton
-                                onPress={() => {
-                                    navigation.navigate("Setting")
-                                }}
                                 icon={require('@assets/images/home_setting_normal.png')}
                             />
                         </IconWarp>
