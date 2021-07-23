@@ -1,20 +1,37 @@
 import styled from 'styled-components/native';
 
-export const Background = styled.View({
+export const  Container = styled.View({
+    position: 'relative'
+})
+
+export const Background = styled.SafeAreaView({
     backgroundColor: 'rgba(23, 23, 28, 0.3)',
-    display: 'flex',
-    flexDirection: 'column',
-    height: '100%'
+    height: '100%',
+    position: 'relative',
+    top: 0,
 });
 
 
-export const ContentContainer = styled.View({
-    height: 558,
-    backgroundColor: '#fff',
+// export const Background = styled.SafeAreaView({
+//     backgroundColor: 'rgba(23, 23, 28, 0.3)',
+//     height: '100%',  w
+//     borderWidth: 1
+// });
+
+export const ContentContainer = styled.SafeAreaView({
+    
     paddingHorizontal: 34,
-    paddingBottom: 38,
+    backgroundColor: '#fff',
+    
+    
+});
+
+export const Content = styled.View({
+    backgroundColor: '#fff',
     borderTopLeftRadius: 10,
-    borderTopRightRadius: 10
+    borderTopRightRadius: 10,
+    minHeight: 558,
+    overflow: 'hidden'
 });
 
 

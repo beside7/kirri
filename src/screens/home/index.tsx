@@ -1,5 +1,5 @@
 
-import React, {ReactElement, useCallback, useState, useEffect, useRef} from 'react'
+import React, {ReactElement, useCallback, useState, useEffect, useRef, Fragment} from 'react'
 import { View, TouchableOpacity } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -108,7 +108,7 @@ const Home = observer(({navigation}:HomeProps)=> {
     }
 
     return (
-        <>
+        <Fragment>
             <HomeContainer>
                 <ContentWarp>
                     <ProfileWarp>
@@ -173,6 +173,7 @@ const Home = observer(({navigation}:HomeProps)=> {
                                             diaryList?
                                             diaryList.map((diary: DiaryResType)=>
                                                 <Diary
+                                                    key={diary.uuid}
                                                     diaryTitle={diary.title}
                                                     members={diary.members.length}
                                                     coverType={diary.icon.split(':')[0]}
@@ -205,13 +206,14 @@ const Home = observer(({navigation}:HomeProps)=> {
                     }
                     
                 </ContentWarp>
+               
             </HomeContainer>
             <CreateDiaryModal
                 open={createDiaryOpen}
                 reloadDiary={getDiaries}
                 close={()=>{setCreateDiaryOpen(false)}}
             ></CreateDiaryModal>
-        </>
+        </Fragment>
     )
 })
 export default Home;

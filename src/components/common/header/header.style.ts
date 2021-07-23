@@ -3,7 +3,7 @@ import Constants from 'expo-constants';
 
 
 export const HeaderContainer = styled.View({
-    paddingTop:27,
+    paddingTop:17,
     paddingBottom: 24,
     paddingHorizontal: 20,
     display: 'flex',
