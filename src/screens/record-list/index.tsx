@@ -6,7 +6,7 @@ import { StackNavigatorParams } from "@config/navigator";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { RouteProp } from "@react-navigation/native";
 import { recodeApis } from "@apis"
-import { RecordResType } from "@type-definition/diary"
+import { DiaryResType, RecordResType } from "@type-definition/diary"
 import { Menu } from 'react-native-paper';
 
 const SCREEN_HEIGHT = Dimensions.get("screen").height;
@@ -28,6 +28,9 @@ export default function RecordList({navigation, route} : RecordListProps) {
     const openMenu = () => setVisible(true);
     const [list, setList] = useState<RecordResType[]>([])
 
+
+    const [diary, setDiary] = useState<DiaryResType | undefined>(undefined)
+
     const getRecordList = async (uuid : string | undefined) => {
         try {
             console.log(uuid);
@@ -45,8 +48,12 @@ export default function RecordList({navigation, route} : RecordListProps) {
     }
 
     useEffect(() => {        
-        const uuid = route.params.uuid;
-        getRecordList(uuid)
+        const diary = route.params.diary;
+        if(diary){
+            setDiary(diary);
+            const { uuid } = diary
+            getRecordList(uuid)
+        }
         return () => {
             
         }
@@ -89,7 +96,7 @@ export default function RecordList({navigation, route} : RecordListProps) {
                             
                         }} title="우리끼리 응원하기" />
                         <Menu.Item onPress={() => {
-                            navigation.navigate("FriendMain")
+                            navigation.navigate("FriendMain", { diary : diary })
                         }} title="친구 관리" />
                         <Menu.Item onPress={() => {}} title="다이어리 수정" />
                         <Menu.Item onPress={() => {}} title="다이어리 삭제" />

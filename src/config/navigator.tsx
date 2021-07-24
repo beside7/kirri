@@ -50,10 +50,10 @@ export type StackNavigatorParams = {
     Login: undefined;
     Nickname: any;
     DiaryInput: undefined;
-    RecordList: { uuid?: string };
+    RecordList: { diary? : DiaryResType };
     TestPage: undefined;
     DiaryDetail: undefined;
-    FriendMain: undefined;
+    FriendMain: { diary? : DiaryResType };
     MassageList: undefined;
     Home: any;
     TermsAndConditions: undefined;

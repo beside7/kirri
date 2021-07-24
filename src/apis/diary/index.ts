@@ -9,6 +9,21 @@ export const diaryApis = {
   async createDiary(payload: CreateDiaryReqType) {
     const { data } = await apiClient.post('/diaries', payload);
     return data;
+  },
+
+  /**
+   * 다이러리 멤버 조회
+   * @param uuid 다이러리기본키 
+   * @param nickname 닉네임
+   * @returns 
+   */
+  async findMember(uuid : string, nickname : string) {
+    const { data } = await apiClient.get(`/diaries/${uuid}/members` , {
+      params: {
+        'nickname' : nickname
+      }
+    });
+    return data;
   }
 };
 

@@ -24,7 +24,7 @@ export default function RecordInfo({navigation , route} : RecordInfoProps) {
 
 
     const { nickname } = members[0];
-    console.log(diary);
+    // console.log(diary);
     
 
     return (
@@ -55,7 +55,7 @@ export default function RecordInfo({navigation , route} : RecordInfoProps) {
 
             <Button
                 onPress={()=>{
-                    navigation.navigate("RecordList", { uuid })
+                    navigation.navigate("RecordList", { diary: diary })
                 }}
             >
                 <Icon 
