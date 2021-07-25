@@ -22,3 +22,4 @@ export {Switch} from './common/switch';
 export {SlideDownModal} from './common/slideDownModal';
 export {Tabs} from './common/Tabs';
 export {Header} from './common/header';
+export {Dropdown} from './common/dropdown';
