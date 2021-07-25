@@ -9,7 +9,36 @@ export const diaryApis = {
   async createDiary(payload: CreateDiaryReqType) {
     const { data } = await apiClient.post('/diaries', payload);
     return data;
-  }
+  },
+
+  /**
+   * 다이러리 멤버 조회
+   * @param uuid 다이러리기본키 
+   * @param nickname 닉네임
+   * @returns 
+   */
+  async findMember(uuid : string, nickname : string) {
+    const { data } = await apiClient.get(`/diaries/${uuid}/members` , {
+      params: {
+        'nickname' : nickname
+      }
+    });
+    return data;
+  },
+
+  /**
+   * 다이러리 멤버 추가
+   * @param uuid  다이러리기본키
+   * @param nickname 닉네임
+   * @returns 
+   */
+  async addMember(uuid : string, nickname : string){
+    const { data } = await apiClient.post(`/diaries/${uuid}/members` , {
+      'nickname' : nickname
+    });
+    return data;
+  },
+
 };
 
 /**
@@ -32,8 +61,18 @@ export const recodeApis = {
    * @param payload 입력 값
    * @returns 
    */
-  async createRecord( uuid: string ,payload: CreateRecordReqType) {
-    const { data } = await apiClient.post(`/diaries/${uuid}/records`, payload);
+  async createRecord( uuid: string , payload: CreateRecordReqType) {
+    const bodyFormData = new FormData();
+    bodyFormData.append("title" , payload.title)
+    bodyFormData.append("body" , payload.body)
+    if(payload.file){
+      bodyFormData.append("file" , payload.file)
+    }
+    // console.log(bodyFormData);
+    
+    const { data } = await apiClient.post(`/diaries/${uuid}/records`, bodyFormData , {
+      headers: { "Content-Type": "multipart/form-data" }
+    });
     return data;
   }
 }

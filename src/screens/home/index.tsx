@@ -80,7 +80,6 @@ const Home = observer(({navigation}:HomeProps)=> {
     const getDiaries = async () => {
         try {
             const data = await diaryApis.getDiaries();
-            console.log(data);
             
             pageInfo.current = {totalPages: data.totalPages, totalCounts: data.totalCounts};            
             setDiaryList(data.element||[]);
