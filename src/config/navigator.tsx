@@ -8,10 +8,8 @@ import {
 import {
     Login,
     Nickname,
-    DiaryInput,
     Home,
     TestPage,
-    RecordList,
     DiaryDetail,
     FriendMain,
     MassageList,
@@ -20,7 +18,9 @@ import {
     CheerupMessage,
     Setting,
     Onboarding,
-    RecordInfo
+    RecordInfo,
+    RecordList,
+    RecordInput,
 } from "@screens";
 import { Text } from "react-native";
 
@@ -49,11 +49,9 @@ interface TermsAndConditionsProps {
 export type StackNavigatorParams = {
     Login: undefined;
     Nickname: any;
-    DiaryInput: undefined;
-    RecordList: { diary? : DiaryResType };
     TestPage: undefined;
     DiaryDetail: undefined;
-    FriendMain: { diary? : DiaryResType };
+    FriendMain: { diary : DiaryResType | null };
     MassageList: undefined;
     Home: any;
     TermsAndConditions: undefined;
@@ -63,6 +61,8 @@ export type StackNavigatorParams = {
     Setting: undefined
     Onboarding: undefined
     RecordInfo: { diary : DiaryResType }
+    RecordList: { diary : DiaryResType | null}
+    RecordInput: { diary : DiaryResType | null }
 };
 
 const Stack = createStackNavigator<StackNavigatorParams>();
@@ -154,8 +154,8 @@ export default function navigator(): ReactElement {
                 
                 
                 <Stack.Screen
-                    name="DiaryInput"
-                    component={DiaryInput}
+                    name="RecordInput"
+                    component={RecordInput}
                     options={{
                         headerShown: false
                     }}

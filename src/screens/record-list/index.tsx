@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react'
-import { View, FlatList , TouchableOpacity, Image, SafeAreaView, Dimensions } from 'react-native'
+import { View, FlatList , TouchableOpacity, Image, SafeAreaView, Dimensions, } from 'react-native'
 import { Background, Text_2, Header  } from "@components";
 import styles from './style'
 import { StackNavigatorParams } from "@config/navigator";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { RouteProp } from "@react-navigation/native";
 import { recodeApis } from "@apis"
-import { DiaryResType, RecordResType } from "@type-definition/diary"
+import { RecordResType, RecordsResType } from "@type-definition/diary"
 import { Menu } from 'react-native-paper';
 
 const SCREEN_HEIGHT = Dimensions.get("screen").height;
@@ -26,18 +26,22 @@ export default function RecordList({navigation, route} : RecordListProps) {
     const closeMenu = () => setVisible(false);
     
     const openMenu = () => setVisible(true);
+
+    const diary = route.params.diary;
+
+    /**
+     * 기록리스트 부분
+     */
     const [list, setList] = useState<RecordResType[]>([])
-
-
-    const [diary, setDiary] = useState<DiaryResType | undefined>(undefined)
 
     const getRecordList = async (uuid : string | undefined) => {
         try {
-            console.log(uuid);
+            // console.log(uuid);
             if(uuid){
                 const getRecordRes = await recodeApis.getRecords(uuid);
-                const { elements } = getRecordRes
+                const { element } = getRecordRes
                 console.log(getRecordRes);
+                setList(element)
                 return getRecordList;
             } else {
                 return []
@@ -47,10 +51,13 @@ export default function RecordList({navigation, route} : RecordListProps) {
         }
     }
 
+    // useEffect(() => {
+    //     console.log(list);
+    // }, [list])
+
     useEffect(() => {        
-        const diary = route.params.diary;
+        
         if(diary){
-            setDiary(diary);
             const { uuid } = diary
             getRecordList(uuid)
         }
@@ -77,6 +84,7 @@ export default function RecordList({navigation, route} : RecordListProps) {
                 }
 
                 rightIcon={
+                    // 우측 상단 메뉴
                     <Menu
                         style={{
                             top: 105
@@ -92,10 +100,9 @@ export default function RecordList({navigation, route} : RecordListProps) {
                             </TouchableOpacity>
                         }
                     >
+                        <Menu.Item onPress={() => {}} title="우리끼리 응원하기" />
                         <Menu.Item onPress={() => {
-                            
-                        }} title="우리끼리 응원하기" />
-                        <Menu.Item onPress={() => {
+                            closeMenu()
                             navigation.navigate("FriendMain", { diary : diary })
                         }} title="친구 관리" />
                         <Menu.Item onPress={() => {}} title="다이어리 수정" />
@@ -106,72 +113,88 @@ export default function RecordList({navigation, route} : RecordListProps) {
             <SafeAreaView style={{flex: 1}}>
                 <FlatList 
                     contentContainerStyle={{ backgroundColor: "#f4f4f8" }}
-                    data={[
-                        {title: "자몽자몽", author: "멋진자몽끼리", date: "2021년 6월 17일", image: "https://picsum.photos/id/237/536/354" ,content: "니들 다 조용히해. 강아지가 최고다 댕청미를 모르다니 쯧쯧. 들어봐 우리 댕댕이가 니들 다 조용히해. 강아지가 최고다 댕청미를 모르다니 쯧쯧. 들어봐 우리 댕댕이가…"}, 
-                        {title: "자몽자몽", author: "멋진자몽끼리", date: "2021년 6월 17일", image: "https://picsum.photos/id/237/536/354" ,content: "니들 다 조용히해. 강아지가 최고다 댕청미를 모르다니 쯧쯧. 들어봐 우리 댕댕이가 니들 다 조용히해. 강아지가 최고다 댕청미를 모르다니 쯧쯧. 들어봐 우리 댕댕이가…"}, 
-                        {title: "자몽자몽", author: "멋진자몽끼리", date: "2021년 6월 17일", image: "https://picsum.photos/id/237/536/354" ,content: "니들 다 조용히해. 강아지가 최고다 댕청미를 모르다니 쯧쯧. 들어봐 우리 댕댕이가 니들 다 조용히해. 강아지가 최고다 댕청미를 모르다니 쯧쯧. 들어봐 우리 댕댕이가…"}, 
-                        {title: "자몽자몽", author: "멋진자몽끼리", date: "2021년 6월 17일", image: "https://picsum.photos/id/237/536/354" ,content: "니들 다 조용히해. 강아지가 최고다 댕청미를 모르다니 쯧쯧. 들어봐 우리 댕댕이가 니들 다 조용히해. 강아지가 최고다 댕청미를 모르다니 쯧쯧. 들어봐 우리 댕댕이가…"}, 
-                        {title: "자몽자몽", author: "멋진자몽끼리", date: "2021년 6월 17일", image: "https://picsum.photos/id/237/536/354" ,content: "니들 다 조용히해. 강아지가 최고다 댕청미를 모르다니 쯧쯧. 들어봐 우리 댕댕이가 니들 다 조용히해. 강아지가 최고다 댕청미를 모르다니 쯧쯧. 들어봐 우리 댕댕이가…"}, 
-                    ]} 
-                    renderItem={({item}) => (
-                        <View style={{ 
-                            paddingTop: 24, 
-                            paddingHorizontal: 20, 
-                            paddingBottom: 20, 
-                            backgroundColor: "#ffffff",
-                            marginVertical: 4
-                        }}>
-                            <View style={{ flexDirection: "row", justifyContent: "space-between", marginBottom: 17 }}>
-                                <Text_2 style={{fontSize: 12, color: "#24242e"}} >{item.author}</Text_2>
-                                <Text_2 style={{fontSize: 12, color: "#6f6f7e" }}>{item.date}</Text_2>
+                    data={list} 
+                    renderItem={({item : { uuid , title, body , images, createdDate}}) => (
+                        <View style={styles.listItemContainer}>
+                            <View style={styles.listItemTop}>
+                                {/* <Text_2 style={{fontSize: 12, color: "#24242e"}} >{item.author}</Text_2> */}
+                                <Text_2 style={styles.listItemCreatedDate}>{createdDate}</Text_2>
                             </View>
-                            <View style={{ alignItems: "flex-end" }}>
-                                <Image 
-                                    style={{ width: 291 , height: 200, borderRadius: 10 }}
-                                    source={{
-                                        uri: item.image
-                                    }}
-                                />
+                            <View style={styles.listItemMiddle}>
+                                {
+                                    (images.length > 0) && <Image 
+                                        style={styles.listItemThumbnail}
+                                        source={{
+                                            uri: images[0].path
+                                        }}
+                                    />
+                                }
                             </View>
                             <View>
-                                <Text_2>{item.title}</Text_2>
+                                <Text_2 style={{ color: "#17171c", fontSize: 14, fontFamily: "SpoqaHanSansNeo-Regular" }}>{title}</Text_2>
                             </View>
                             <View>
-                                <Text_2>{item.content}</Text_2>
+                                <Text_2 style={{ color: "#17171c", fontSize: 14, fontFamily: "SpoqaHanSansNeo-Regular" }}>{body}</Text_2>
                             </View>
                         </View>
                     )}
                     keyExtractor={(item, index) =>
                         `${index}`
                     } 
-                    ListFooterComponent={
-                        () => {
-                            return (
-                                <View>
-                                    <View>
-                                        <Text_2 bold="Regular" style={{ color : "#bebece" , fontSize: 12 }}>
-                                            오늘의 너를 기억할께
-                                        </Text_2>
-                                    </View>
-                                </View>
-                            )
-                        }
+
+                    ListEmptyComponent={
+                        <View style={styles.ListEmptyContainer}>
+                            <Image 
+                                style={styles.ListEmptyThumbnail}
+                                source={require("@assets/images/diary/diary_history_empty.png")}
+                            />
+                            <View
+                                style={styles.ListEmptyContent}
+                            >
+                                <Text_2>앗!</Text_2>
+                                <Text_2>기록이 없어요.</Text_2>
+                            </View>
+                        </View>
                     }
+
+                    // ListFooterComponent={
+                    //     () => {
+                    //         return (
+                    //             <View>
+                    //                 <View>
+                    //                     <Text_2 bold="Regular" style={{ color : "#bebece" , fontSize: 12 }}>
+                    //                         오늘의 너를 기억할께
+                    //                     </Text_2>
+                    //                 </View>
+                    //             </View>
+                    //         )
+                    //     }
+                    // }
                     ListFooterComponentStyle={styles.bottomTab}
                 />
             </SafeAreaView>
-            <TouchableOpacity 
-                style={styles.editButton}
-                onPress={() => {
-                    navigation.navigate("DiaryInput")
-                }}
-                >
-                <Image 
-                    source={require("@assets/icons/edit.png")}
-                    style={{ width: 114, height: 114 }}
-                />
-            </TouchableOpacity>
-            
+            <View style={styles.editButton}>
+                {
+                    (!list || list.length === 0)  &&
+                    <View style={styles.emptyMessage}>
+                        <View style={styles.emptyMessageContainer_1}>
+                            <Text_2 style={{ fontSize: 11 , color: "#fff" , fontFamily: "SpoqaHanSansNeo-Regular" }}>기록 작성 버튼을 눌러</Text_2>
+                            <Text_2 style={{ fontSize: 11 , color: "#fff" , fontFamily: "SpoqaHanSansNeo-Regular" }}>첫 기록을 남겨봐요 :)</Text_2>
+                        </View>
+                        <View style={styles.emptyMessageContainer_2}/>
+                    </View>
+                }
+                <TouchableOpacity 
+                    onPress={() => {
+                        navigation.navigate("RecordInput" , { diary : diary })
+                    }}
+                    >
+                    <Image 
+                        source={require("@assets/icons/edit.png")}
+                        style={{ width: 114, height: 114 }}
+                    />
+                </TouchableOpacity>
+            </View>
         </Background>
     )
 }

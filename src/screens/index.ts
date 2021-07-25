@@ -2,8 +2,7 @@ export { default as Home } from "./home";
 export { default as Login } from "./login";
 export * from './termsAndConditions';
 export * from './nickname';
-export { default as DiaryInput } from "./diary-input/diary-input";
-export { default as RecordList } from "./record-list";
+
 export { default as DiaryDetail } from "./diary-detail"
 export { default as TestPage } from "./test-page";
 export { default as FriendMain } from "./friend-main";
@@ -15,7 +14,8 @@ export { default as Setting } from "./setting"
 export { default as Onboarding } from "./onboarding"
 
 export { default as RecordInfo } from "./record-info"
-
+export { default as RecordList } from "./record-list";
+export { default as RecordInput } from "./record-input/record-input";
 
 /**
  * # overall  - user
