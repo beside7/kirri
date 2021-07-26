@@ -43,7 +43,7 @@ export default function RecordList({navigation, route} : RecordListProps) {
                 setLoading(true)
                 const getRecordRes = await recodeApis.getRecords(uuid);
                 const { element } = getRecordRes
-                console.log(getRecordRes);
+                // sconsole.log(getRecordRes);
                 setList(element)
                 setLoading(false)
                 return getRecordList;
@@ -118,7 +118,7 @@ export default function RecordList({navigation, route} : RecordListProps) {
                 <FlatList 
                     contentContainerStyle={{ backgroundColor: "#f4f4f8" }}
                     data={list} 
-                    renderItem={({item : { uuid , title, body , images, createdDate}}) => (
+                    renderItem={( {item : { uuid , title, body , images, createdDate, createdBy , updatedDate} }) => (
                         <View style={styles.listItemContainer}>
                             <View style={styles.listItemTop}>
                                 <View style={{ flexDirection: "row", alignItems: "center" }}>
@@ -140,14 +140,20 @@ export default function RecordList({navigation, route} : RecordListProps) {
                                     />
                                 }
                             </View>
-                            <View style={{ paddingLeft: 64 }}>
-                                <Text_2 style={styles.listItemTitle}>{title}</Text_2>
-                            </View>
-                            <View style={{ paddingLeft: 64 }}>
-                                <Text_2 style={styles.listItemBody}>
-                                    {body.replace(/(&lt;([^>]+)>)/gi, "")}
-                                </Text_2>
-                            </View>
+                            <TouchableOpacity
+                                onPress={() => {
+                                    navigation.navigate("RecordView" , {  diary: diary , record : { uuid , title, body , images, createdDate, createdBy , updatedDate} })
+                                }}
+                            >
+                                <View style={{ paddingLeft: 64 }}>
+                                    <Text_2 style={styles.listItemTitle}>{title}</Text_2>
+                                </View>
+                                <View style={{ paddingLeft: 64 }}>
+                                    <Text_2 style={styles.listItemBody}>
+                                        {body.replace(/(<([^>]+)>)/ig, "")}
+                                    </Text_2>
+                                </View>
+                            </TouchableOpacity>
                         </View>
                     )}
                     keyExtractor={(item, index) =>

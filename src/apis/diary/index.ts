@@ -1,4 +1,4 @@
-import { CreateDiaryReqType, DiariesResType, RecordsResType, CreateRecordReqType } from './../../types/diary/index';
+import { CreateDiaryReqType, DiariesResType, RecordsResType, RecordResType, CreateRecordReqType } from './../../types/diary/index';
 import { apiClient } from '../clients';
 import FormData from 'form-data';
 
@@ -47,12 +47,23 @@ export const diaryApis = {
  */
 export const recodeApis = {
   /**
-   * 기록을 가져온다
+   * 기록목록을 가져온다
    * @param uuid 다이러리 기본키
    * @returns 
    */
   async getRecords( uuid : string ) : Promise<RecordsResType> {
     const { data } = await apiClient.get(`/diaries/${uuid}/records`);
+    return data;
+  },
+
+  /**
+   * 기록상세조회
+   * @param diaryUuid 다이러리 아이디
+   * @param recordUuid 레코드 아이디
+   * @returns 
+   */
+  async viewRecord(diaryUuid : string , recordUuid: string) : Promise<RecordResType> {
+    const { data } = await apiClient.get(`/diaries/${diaryUuid}/records/${recordUuid}`);
     return data;
   },
   
@@ -66,12 +77,15 @@ export const recodeApis = {
     const bodyFormData = new FormData();
     bodyFormData.append("title" , payload.title)
     bodyFormData.append("body" , payload.body)
-    if(payload.file){
-      // bodyFormData.append("file" , payload.file , "image.jpg")
-      bodyFormData.append("file" , {
-        uri : payload.file,
-        name: "test.jpg",
-        type: 'image/jpeg'
+    
+    
+    if(payload.files && payload.files.length > 0){
+      payload.files.forEach(file => {
+        bodyFormData.append("file" , {
+          uri : file,
+          name: "test.jpg",
+          type: 'image/jpeg'
+        })
       })
     }
     // console.log(bodyFormData);

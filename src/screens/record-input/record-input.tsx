@@ -97,23 +97,15 @@ export default function RecordInput({ navigation, route }: RecordInputProps) {
   const pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
-      allowsEditing: true,
-      aspect: [4, 3],
-      quality: 1,
+      allowsEditing: false,
+      // aspect: [4, 3],
+      // quality: 1,
     });
 
     console.log(result);
 
     if (!result.cancelled) {
       const newImages = images ? images.concat(result.uri) : [result.uri];
-      // const response = await fetch(result.uri);
-      // const blob = await response.blob();
-      // var reader = new FileReader();
-      // reader.onload = () => {
-      //     console.log(reader.result);
-      // }
-      // reader.readAsDataURL(blob);
-
       setImages(newImages);
     }
   };
@@ -143,21 +135,17 @@ export default function RecordInput({ navigation, route }: RecordInputProps) {
         const { uuid } = diary;
         
         // let file : Blob | null = null;
-        let file : string | null = null;
+        let files : string[] | null = null;
 
         if(images.length > 0) {
-            // const response = await fetch(images[0]);
-            // const blob = await response.blob();
-            // file = blob
-
-            file = images[0];
-            file = Platform.OS === "android" ? file : file.replace('file://', '')
+            files = images;
+            files = files.map(file => (Platform.OS === "android") ? file : file.replace('file://', ''))
         }
 
         
         
         const payload : CreateRecordReqType = {
-            title , body , file
+            title , body , files
         }
 
         try {

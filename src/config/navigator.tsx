@@ -10,7 +10,6 @@ import {
     Nickname,
     Home,
     TestPage,
-    DiaryDetail,
     FriendMain,
     MassageList,
     MainHome,
@@ -21,6 +20,7 @@ import {
     RecordInfo,
     RecordList,
     RecordInput,
+    RecordView,
 } from "@screens";
 import { Text } from "react-native";
 
@@ -30,7 +30,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { userApis } from "@apis";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-import { DiaryResType } from "@type-definition/diary"
+import { DiaryResType, RecordResType } from "@type-definition/diary"
 
 
 export function navigate(name: string, params: any) {
@@ -50,7 +50,6 @@ export type StackNavigatorParams = {
     Login: undefined;
     Nickname: any;
     TestPage: undefined;
-    DiaryDetail: undefined;
     FriendMain: { diary : DiaryResType | null };
     MassageList: undefined;
     Home: any;
@@ -61,8 +60,9 @@ export type StackNavigatorParams = {
     Setting: undefined
     Onboarding: undefined
     RecordInfo: { diary : DiaryResType }
-    RecordList: { diary : DiaryResType | null}
+    RecordList: { diary : DiaryResType | null }
     RecordInput: { diary : DiaryResType | null }
+    RecordView: {  diary : DiaryResType | null , record : RecordResType | null };
 };
 
 const Stack = createStackNavigator<StackNavigatorParams>();
@@ -168,8 +168,8 @@ export default function navigator(): ReactElement {
                     }}
                 />
                 <Stack.Screen
-                    name="DiaryDetail"
-                    component={DiaryDetail}
+                    name="RecordView"
+                    component={RecordView}
                     options={{
                         headerShown: false
                     }}

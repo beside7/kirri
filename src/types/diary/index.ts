@@ -69,5 +69,5 @@ export interface CreateRecordReqType {
     title: string,
     body: string,
     // file: Blob | null
-    file: string | null
+    files: string[] | null
 }
