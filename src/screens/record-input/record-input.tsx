@@ -102,7 +102,7 @@ export default function RecordInput({ navigation, route }: RecordInputProps) {
       quality: 1,
     });
 
-    // console.log(result);
+    console.log(result);
 
     if (!result.cancelled) {
       const newImages = images ? images.concat(result.uri) : [result.uri];
@@ -142,14 +142,20 @@ export default function RecordInput({ navigation, route }: RecordInputProps) {
       if(diary){
         const { uuid } = diary;
         
-        let file : Blob | null = null;
+        // let file : Blob | null = null;
+        let file : string | null = null;
 
         if(images.length > 0) {
-            const response = await fetch(images[0]);
-            const blob = await response.blob();
-            file = blob
+            // const response = await fetch(images[0]);
+            // const blob = await response.blob();
+            // file = blob
+
+            file = images[0];
+            file = Platform.OS === "android" ? file : file.replace('file://', '')
         }
 
+        
+        
         const payload : CreateRecordReqType = {
             title , body , file
         }
@@ -159,6 +165,7 @@ export default function RecordInput({ navigation, route }: RecordInputProps) {
             Alert.alert("글이 작성되었습니다.");
             navigation.navigate("RecordList", { diary: diary })
         } catch (error) {
+            console.log(error);
             
         }
       }

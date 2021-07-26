@@ -1,5 +1,6 @@
 import { CreateDiaryReqType, DiariesResType, RecordsResType, CreateRecordReqType } from './../../types/diary/index';
 import { apiClient } from '../clients';
+import FormData from 'form-data';
 
 export const diaryApis = {
   async getDiaries() : Promise<DiariesResType> {
@@ -66,12 +67,17 @@ export const recodeApis = {
     bodyFormData.append("title" , payload.title)
     bodyFormData.append("body" , payload.body)
     if(payload.file){
-      bodyFormData.append("file" , payload.file)
+      // bodyFormData.append("file" , payload.file , "image.jpg")
+      bodyFormData.append("file" , {
+        uri : payload.file,
+        name: "test.jpg",
+        type: 'image/jpeg'
+      })
     }
     // console.log(bodyFormData);
     
     const { data } = await apiClient.post(`/diaries/${uuid}/records`, bodyFormData , {
-      headers: { "Content-Type": "multipart/form-data" }
+      headers: { "content-type": "multipart/form-data" }
     });
     return data;
   }

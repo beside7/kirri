@@ -27,6 +27,8 @@ export default function RecordList({navigation, route} : RecordListProps) {
     
     const openMenu = () => setVisible(true);
 
+    const [loading, setLoading] = useState(false)
+
     const diary = route.params.diary;
 
     /**
@@ -38,10 +40,12 @@ export default function RecordList({navigation, route} : RecordListProps) {
         try {
             // console.log(uuid);
             if(uuid){
+                setLoading(true)
                 const getRecordRes = await recodeApis.getRecords(uuid);
                 const { element } = getRecordRes
                 console.log(getRecordRes);
                 setList(element)
+                setLoading(false)
                 return getRecordList;
             } else {
                 return []
@@ -117,7 +121,13 @@ export default function RecordList({navigation, route} : RecordListProps) {
                     renderItem={({item : { uuid , title, body , images, createdDate}}) => (
                         <View style={styles.listItemContainer}>
                             <View style={styles.listItemTop}>
-                                {/* <Text_2 style={{fontSize: 12, color: "#24242e"}} >{item.author}</Text_2> */}
+                                <View style={{ flexDirection: "row", alignItems: "center" }}>
+                                    <Image 
+                                        source={require("@assets/images/profile/home_profile_02.png")}
+                                        style={{ width: 36, height: 36, marginRight: 8 }}
+                                    />
+                                    <Text_2 style={{fontSize: 12, color: "#24242e"}} >닉네임</Text_2>
+                                </View>
                                 <Text_2 style={styles.listItemCreatedDate}>{createdDate}</Text_2>
                             </View>
                             <View style={styles.listItemMiddle}>
@@ -130,11 +140,13 @@ export default function RecordList({navigation, route} : RecordListProps) {
                                     />
                                 }
                             </View>
-                            <View>
-                                <Text_2 style={{ color: "#17171c", fontSize: 14, fontFamily: "SpoqaHanSansNeo-Regular" }}>{title}</Text_2>
+                            <View style={{ paddingLeft: 64 }}>
+                                <Text_2 style={styles.listItemTitle}>{title}</Text_2>
                             </View>
-                            <View>
-                                <Text_2 style={{ color: "#17171c", fontSize: 14, fontFamily: "SpoqaHanSansNeo-Regular" }}>{body}</Text_2>
+                            <View style={{ paddingLeft: 64 }}>
+                                <Text_2 style={styles.listItemBody}>
+                                    {body.replace(/(&lt;([^>]+)>)/gi, "")}
+                                </Text_2>
                             </View>
                         </View>
                     )}

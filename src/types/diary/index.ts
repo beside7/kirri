@@ -63,5 +63,6 @@ export interface RecordImageInfo {
 export interface CreateRecordReqType {
     title: string,
     body: string,
-    file: Blob | null
+    // file: Blob | null
+    file: string | null
 }

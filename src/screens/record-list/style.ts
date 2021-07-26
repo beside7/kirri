@@ -24,9 +24,9 @@ const styles = StyleSheet.create({
         paddingHorizontal: 20,
         paddingBottom: 20,
         backgroundColor: "#ffffff",
-        marginVertical: 4
+        marginVertical: 4,
     },
-    listItemTop: { flexDirection: "row", justifyContent: "space-between", marginBottom: 17 },
+    listItemTop: { flexDirection: "row", justifyContent: "space-between", marginBottom: 17, alignItems: "center" },
     listItemCreatedDate: { fontSize: 12, color: "#6f6f7e" },
     listItemMiddle: { alignItems: "flex-end" },
     listItemThumbnail: { width: 291, height: 200, borderRadius: 10 },
@@ -78,6 +78,8 @@ const styles = StyleSheet.create({
         borderBottomColor: "transparent",
         borderLeftColor: "transparent",
     },
+    listItemTitle : { color: "#17171c", fontSize: 16, fontFamily: "SpoqaHanSansNeo-Regular", marginTop: 8 },
+    listItemBody : { color: "#6f6f7e", fontSize: 12, fontFamily: "SpoqaHanSansNeo-Regular", marginTop: 6 }
 });
 
 export default styles;
