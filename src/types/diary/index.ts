@@ -1,8 +1,13 @@
 export interface Memeber {
-    username: string,
-    nickname: string,
-    authority: string,
-    status: string
+    userId: number | null;
+    nickname: string | null;
+    /**
+     * INVITING :초대중
+     * ACTIVE : 초대 승락
+     * null: 초대안함 (프론트엔드에서 추가됨)
+     */
+    status: "INVITING" | "ACTIVE" | null;
+    authority: "DIARY_MEMBER" | "DIARY_OWNER" | null;
 }
 
 export interface DiariesResType {

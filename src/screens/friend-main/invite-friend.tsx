@@ -8,7 +8,7 @@ import {
   Alert,
 } from "react-native";
 import { Background, Text_2 } from "@components";
-import { DiaryResType } from "@type-definition/diary";
+import { DiaryResType, Memeber } from "@type-definition/diary";
 
 import { TextInput, Icon, Button } from "./style";
 import { userApis, diaryApis } from "@apis";
@@ -23,20 +23,10 @@ type CheckNicknameDuplRes = {
 /**
  * 다이러리 멤버 조회 결과
  */
-type FindNicknameRes = {
-  userId: number | null;
-  nickname: string | null;
-  /**
-   * INVITING :초대중
-   * ACTIVE : 초대 승락
-   * INACTIVE: 초대안함 (프론트엔드에서 추가됨)
-   */
-  status: "INVITING" | "ACTIVE" | "INACTIVE";
-  authority: string | null;
-};
+
 
 type InviteFriendProps = {
-  diary?: DiaryResType;
+  diary: DiaryResType | null;
 };
 
 export default function InviteFriend({ diary }: InviteFriendProps) {
@@ -53,7 +43,7 @@ export default function InviteFriend({ diary }: InviteFriendProps) {
   /**
    * 초대하기 결과 상태
    */
-  const [members, setMembers] = useState<FindNicknameRes[]>([]);
+  const [members, setMembers] = useState<Memeber[]>([]);
 
   /**
    * 검색결과가 없을때 처리
@@ -87,7 +77,7 @@ export default function InviteFriend({ diary }: InviteFriendProps) {
             const data = (await diaryApis.findMember(
               uuid,
               nickname
-            )) as FindNicknameRes;
+            )) as Memeber;
             // console.log(data);
             if (data) {
               setMembers([data]);
@@ -106,7 +96,7 @@ export default function InviteFriend({ diary }: InviteFriendProps) {
                   {
                     userId: null,
                     nickname: nickname,
-                    status: "INACTIVE",
+                    status: null,
                     authority: null,
                   },
                 ]);
@@ -227,7 +217,7 @@ export default function InviteFriend({ diary }: InviteFriendProps) {
                       justifyContent: "center",
                     }}
                   >
-                    {status !== "INACTIVE" && (
+                    {status !== null && (
                       <View
                         style={{
                           backgroundColor: "#b4b4b4",
@@ -247,7 +237,7 @@ export default function InviteFriend({ diary }: InviteFriendProps) {
                         </Text_2>
                       </View>
                     )}
-                    {status === "INACTIVE" && (
+                    {status === null && (
                       <TouchableOpacity
                         style={{
                           backgroundColor: "#ffdd1f",

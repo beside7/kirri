@@ -11,7 +11,7 @@ import ExportFriends from "./export-friends";
 const Tab = createMaterialTopTabNavigator();
 
 type TabsProps = {
-    diary? : DiaryResType
+    diary : DiaryResType | null
 }
 
 export default function TabNavigator({ diary } : TabsProps) {
@@ -23,7 +23,7 @@ export default function TabNavigator({ diary } : TabsProps) {
                 },
             }}
         >
-            <Tab.Screen name="멤버 목록" component={ExportFriends} />
+            <Tab.Screen name="멤버 목록" children={() => <ExportFriends diary={diary} />} />
             <Tab.Screen name="초대 하기" children={() => <InviteFriend diary={diary} />} />
         </Tab.Navigator>
     );

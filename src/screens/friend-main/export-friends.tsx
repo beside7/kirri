@@ -1,70 +1,20 @@
 import React from 'react'
 import { View, SafeAreaView, FlatList, TouchableOpacity, Image } from 'react-native'
 import { Background, Text_2 } from "@components";
+import { DiaryResType } from "@type-definition/diary";
 
-export default function ExportFriends() {
+
+type ExportFriendsProps = {
+    diary: DiaryResType | null;
+};
+
+export default function ExportFriends({ diary } : ExportFriendsProps) {
     return (
         <Background>
             <View style={{ flex: 1, paddingHorizontal: 34, paddingVertical: 45 }}>
                 <SafeAreaView style={{ flex: 1 }}>
                     <FlatList
-                        data={[
-                            {
-                                id: "tset1",
-                                name: "망고",
-                                thumbnail: "https://picsum.photos/id/1074/40/40"
-                            },
-                            {
-                                id: "tset2",
-                                name: "망고는 맛있어",
-                                thumbnail: "https://picsum.photos/id/1074/40/40"
-                            },
-                            {
-                                id: "tset3",
-                                name: "망고는 맛있어",
-                                thumbnail: "https://picsum.photos/id/1074/40/40"
-                            },
-                            {
-                                id: "tset4",
-                                name: "망고는 맛있어",
-                                thumbnail: "https://picsum.photos/id/1074/40/40"
-                            },
-                            {
-                                id: "tset5",
-                                name: "망고는 맛있어",
-                                thumbnail: "https://picsum.photos/id/1074/40/40"
-                            },
-                            {
-                                id: "tset6",
-                                name: "망고는 맛있어",
-                                thumbnail: "https://picsum.photos/id/1074/40/40"
-                            },
-                            {
-                                id: "tset7",
-                                name: "망고는 맛있어",
-                                thumbnail: "https://picsum.photos/id/1074/40/40"
-                            },
-                            {
-                                id: "tset8",
-                                name: "망고는 맛있어",
-                                thumbnail: "https://picsum.photos/id/1074/40/40"
-                            },
-                            {
-                                id: "tset9",
-                                name: "망고는 맛있어",
-                                thumbnail: "https://picsum.photos/id/1074/40/40"
-                            },
-                            {
-                                id: "tset10",
-                                name: "망고는 맛있어",
-                                thumbnail: "https://picsum.photos/id/1074/40/40"
-                            },
-                            {
-                                id: "tset11",
-                                name: "망고는 맛있어 end",
-                                thumbnail: "https://picsum.photos/id/1074/40/40"
-                            }
-                        ]}
+                        data={ diary?.members }
                         ListEmptyComponent={() => {
                             return (
                                 <View>
@@ -89,13 +39,11 @@ export default function ExportFriends() {
                                                 height: 40,
                                                 borderRadius: 40
                                             }}
-                                            source={{
-                                                uri: item.thumbnail
-                                            }}
+                                            source={require("@assets/images/profile/home_profile_01.png")}
                                         />
                                     </View>
                                     <View style={{ width: "55%", alignItems: "flex-start" }}>
-                                        <Text_2 style={{ fontSize: 14, color: "#000000" }}>{item.name}</Text_2>
+                                        <Text_2 style={{ fontSize: 14, color: "#000000" }}>{item.nickname}</Text_2>
                                     </View>
                                     <View style={{ width: "25%", alignItems: "center", justifyContent: "center" }}>
                                         <TouchableOpacity style={{
