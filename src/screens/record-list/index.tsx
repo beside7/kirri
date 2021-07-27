@@ -109,8 +109,6 @@ export default function RecordList({navigation, route} : RecordListProps) {
                             closeMenu()
                             navigation.navigate("FriendMain", { diary : diary })
                         }} title="친구 관리" />
-                        <Menu.Item onPress={() => {}} title="다이어리 수정" />
-                        <Menu.Item onPress={() => {}} title="다이어리 삭제" />
                     </Menu>
                 }
             />
@@ -132,12 +130,19 @@ export default function RecordList({navigation, route} : RecordListProps) {
                             </View>
                             <View style={styles.listItemMiddle}>
                                 {
-                                    (images.length > 0) && <Image 
-                                        style={styles.listItemThumbnail}
-                                        source={{
-                                            uri: images[0].path
+                                    (images.length > 0) && 
+                                    <TouchableOpacity
+                                        onPress={() => {
+                                            navigation.navigate("RecordView" , {  diary: diary , record : { uuid , title, body , images, createdDate, createdBy , updatedDate} })
                                         }}
-                                    />
+                                    >
+                                        <Image 
+                                            style={styles.listItemThumbnail}
+                                            source={{
+                                            uri: images[0].path
+                                            }}
+                                        />
+                                    </TouchableOpacity>
                                 }
                             </View>
                             <TouchableOpacity
@@ -204,7 +209,7 @@ export default function RecordList({navigation, route} : RecordListProps) {
                 }
                 <TouchableOpacity 
                     onPress={() => {
-                        navigation.navigate("RecordInput" , { diary : diary })
+                        navigation.navigate("RecordInput" , { diary : diary, record : null })
                     }}
                     >
                     <Image 
