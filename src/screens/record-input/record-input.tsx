@@ -23,7 +23,7 @@ import styles from "./record-input.style";
 import { AntDesign } from "@expo/vector-icons";
 import * as ImagePicker from "expo-image-picker";
 
-import { recodeApis } from "@apis";
+import { recordApis } from "@apis";
 
 import { StackNavigatorParams } from "@config/navigator";
 import { StackNavigationProp } from "@react-navigation/stack";
@@ -42,6 +42,17 @@ export default function RecordInput({ navigation, route }: RecordInputProps) {
    */
   const diary = route.params.diary;
 
+  /**
+   * 기록정보
+   */
+  const record = route.params.record;
+
+  /**
+   * new : 신규 , modify 수정
+   */
+  const type : "new" | "modify" = record === undefined ? "new" : "modify"
+
+
   const richText = React.createRef<RichEditor>() || useRef<RichEditor>();
 
   /**
@@ -57,17 +68,17 @@ export default function RecordInput({ navigation, route }: RecordInputProps) {
   /**
    * 사용자가 입력한 이미지 목록
    */
-  const [images, setImages] = useState<string[]>([]);
-
+  const [images, setImages] = useState<string[]>((type === "modify" && record) ? record.images.map( item => item.path ) : []);
+  
   /**
    * 본문
    */
-  const [body, setBody] = useState("");
+  const [body, setBody] = useState((type === "modify" && record) ? record.body : "");
 
   /**
    * 제목
    */
-  const [title, setTitle] = useState("");
+  const [title, setTitle] = useState( (type === "modify" && record) ? record.title : "" );
 
   /**
    * 에디터 내부 css 설정
@@ -79,6 +90,9 @@ export default function RecordInput({ navigation, route }: RecordInputProps) {
         font-style: normal;
     }`;
 
+  /**
+   * 최초 로드시 이벤트
+   */
   useEffect(() => {
     (async () => {
       if (Platform.OS !== "web") {
@@ -102,7 +116,7 @@ export default function RecordInput({ navigation, route }: RecordInputProps) {
       // quality: 1,
     });
 
-    console.log(result);
+    // console.log(result);
 
     if (!result.cancelled) {
       const newImages = images ? images.concat(result.uri) : [result.uri];
@@ -111,7 +125,7 @@ export default function RecordInput({ navigation, route }: RecordInputProps) {
   };
 
   /**
-   *
+   * 추가한 이미지 제거
    * @param index 이미지 번호
    */
   const removeImage = (index: number): void => {
@@ -149,15 +163,17 @@ export default function RecordInput({ navigation, route }: RecordInputProps) {
         }
 
         try {
-            await recodeApis.createRecord(uuid , payload)
-            Alert.alert("글이 작성되었습니다.");
-            navigation.navigate("RecordList", { diary: diary })
+            (type === "new") ? await recordApis.createRecord(uuid , payload) 
+              : await recordApis.modifyRecord(uuid , record!.uuid , payload)
+            Alert.alert(`글이 ${ type === "modify" ? "수정" : "생성"}되었습니다.`);
+            navigation.replace("RecordList", { diary: diary })
         } catch (error) {
             console.log(error);
-            
+            Alert.alert(`글이 ${ type === "modify" ? "수정" : "생성"} 간 에러가 발생했습니다.`);
         }
       }
   }
+
 
   return (
     <Background>
@@ -176,7 +192,9 @@ export default function RecordInput({ navigation, route }: RecordInputProps) {
         }
         rightIcon={
             <TouchableOpacity onPress={sendServer}>
-                <Text_2>등록</Text_2>
+                <Text_2>
+                  { type === "new" ? "등록" : "수정" } 
+                </Text_2>
             </TouchableOpacity>
         }
         title="처음 우리들의 끼리 다이러리"
@@ -224,6 +242,7 @@ export default function RecordInput({ navigation, route }: RecordInputProps) {
               }}
               style={[styles.editor, {}]}
               onChange={onKeyUp}
+              initialContentHTML={ (type==="modify" && record) ? record.body : ""}
               initialHeight={ScreenHeight - headerHeight - 200}
               placeholder={`너의 아주 작은 이야기까지 다 들어줄게!`}
             />

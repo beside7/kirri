@@ -1,5 +1,5 @@
 import { userApis } from './user';
 import {SERVER_URL} from './clients';
-import {diaryApis , recodeApis} from './diary';
+import {diaryApis , recordApis} from './diary';
 
-export { userApis, diaryApis, recodeApis , SERVER_URL  };
+export { userApis, diaryApis, recordApis , SERVER_URL  };

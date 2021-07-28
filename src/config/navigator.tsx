@@ -61,7 +61,7 @@ export type StackNavigatorParams = {
     Onboarding: undefined
     RecordInfo: { diary : DiaryResType }
     RecordList: { diary : DiaryResType | null }
-    RecordInput: { diary : DiaryResType | null , record : RecordResType | null }
+    RecordInput: { diary : DiaryResType | null , record? : RecordResType }
     RecordView: {  diary : DiaryResType | null , record : RecordResType | null };
 };
 

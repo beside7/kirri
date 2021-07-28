@@ -5,7 +5,7 @@ import styles from './style'
 import { StackNavigatorParams } from "@config/navigator";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { RouteProp } from "@react-navigation/native";
-import { recodeApis } from "@apis"
+import { recordApis } from "@apis"
 import { RecordResType, RecordsResType } from "@type-definition/diary"
 import { Menu } from 'react-native-paper';
 
@@ -41,7 +41,7 @@ export default function RecordList({navigation, route} : RecordListProps) {
             // console.log(uuid);
             if(uuid){
                 setLoading(true)
-                const getRecordRes = await recodeApis.getRecords(uuid);
+                const getRecordRes = await recordApis.getRecords(uuid);
                 const { element } = getRecordRes
                 // sconsole.log(getRecordRes);
                 setList(element)
@@ -209,7 +209,7 @@ export default function RecordList({navigation, route} : RecordListProps) {
                 }
                 <TouchableOpacity 
                     onPress={() => {
-                        navigation.navigate("RecordInput" , { diary : diary, record : null })
+                        navigation.navigate("RecordInput" , { diary : diary })
                     }}
                     >
                     <Image 

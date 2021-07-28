@@ -1,17 +1,18 @@
 import React, { useState, useEffect } from 'react'
-import { View, ScrollView, Image, TouchableOpacity } from 'react-native'
+import { View, ScrollView, Image, TouchableOpacity, Alert } from 'react-native'
 import { Background, Text_2, Header  } from "@components";
 
 import { StackNavigatorParams } from "@config/navigator";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { RouteProp } from "@react-navigation/native";
 
-import { recodeApis } from "@apis";
+import { recordApis } from "@apis";
 import { RecordResType } from "@type-definition/diary";
 import RenderHtml from 'react-native-render-html';
 import { Menu } from 'react-native-paper';
-import { PushMessage } from "@components";
+import { Confirm } from "@components";
 
+import styles from "./styles"
 
 type RecordViewProps = {
     navigation: StackNavigationProp<StackNavigatorParams, "RecordView">;
@@ -31,14 +32,30 @@ export default function RecordView( { route, navigation } : RecordViewProps) {
 
     const { diary , record } = route.params
     const [modal, setModal] = useState(false);
+    
     /**
      * 기록 상세내용 조회
      */
     const getData = async () => {
         setLoading(true)
         if(diary && record){
-            const res = await recodeApis.viewRecord( diary.uuid, record.uuid );
+            const res = await recordApis.viewRecord( diary.uuid, record.uuid );
             setData(res);
+        }
+        setLoading(false)
+    }
+
+    const deleteData = async () => {
+        setLoading(true)
+        if(diary && record){
+            try {
+                await recordApis.deleteRecord( diary.uuid, record.uuid );
+                Alert.alert("삭제되었습니다.")
+                navigation.navigate("RecordList", { diary : diary })
+            } catch (error) {
+                console.log(error);
+                Alert.alert("삭제중 에러발생")
+            }
         }
         setLoading(false)
     }
@@ -54,9 +71,24 @@ export default function RecordView( { route, navigation } : RecordViewProps) {
         const { title, createdDate , body , images } = data
         return (
             <Background>
-                <PushMessage 
+                <Confirm 
                     visible={modal}
-                    closeModal={() => setModal(false) }
+                    onClose={() => setModal(false) }
+                    onConfirm={() => deleteData()}
+                    close="남겨둘래요"
+                    confirm="삭제할래요"
+                    content={
+                        <>
+                            <View style={styles.modalImages}>
+                                <Image 
+                                    source={require("@assets/images/popup_diary_delete_bgimg.png")}
+                                    style={styles.modalDeleteIcon}
+                                />
+                                <Text_2 style={styles.modalTitleStyle}>현재 기록을 정말 삭제할 거에요?</Text_2>
+                            </View>
+
+                        </>
+                    }
                 />
                 <Header 
                     leftIcon={
@@ -91,24 +123,24 @@ export default function RecordView( { route, navigation } : RecordViewProps) {
                             <Menu.Item onPress={() => {
                                 closeMenu()
                                 navigation.navigate("RecordInput" , { diary : diary, record : data })
-                            }} title="다이어리 수정" />
+                            }} title="기록 수정" />
                             <Menu.Item onPress={() => {
                                 closeMenu()
                                 setModal(true)
-                            }} title="다이어리 삭제" />
+                            }} title="기록 삭제" />
                         </Menu>
                     }
-                    title="기록보기"     
+                    title="기록 보기"     
                 />
-                <View style={{flex: 1}}>
+                <ScrollView style={{flex: 1}}>
                     {/* 제목 */}
-                    <View style={{ justifyContent : "center", paddingHorizontal: 20 , height: 80, borderBottomWidth: 1, borderColor: "#e1e1eb" }}>
+                    <View style={styles.viewTitle}>
                         <Text_2 style={{ fontSize : 20}}>{title}</Text_2>
                     </View>
                     {/* 본문 */}
                     <View>
                         {/* 글쓴이 , 시간 */}
-                        <View style={{ marginBottom: 8, paddingTop: 24 , height: 60 ,justifyContent: "space-between", flexDirection: "row" , paddingHorizontal: 28 }}>
+                        <View style={styles.viewWriterContainer}>
                             <View style={{ flexDirection : "row" , alignItems : "center"}}>
                                 <Image 
                                     source={require("@assets/images/profile/home_profile_02.png")}
@@ -125,7 +157,7 @@ export default function RecordView( { route, navigation } : RecordViewProps) {
                             </View>
                         </View>
 
-                        <ScrollView style={{ height: 700 }}>
+                        <View >
                             {images.map( (item, index) => (
                                 // 이미지
                                 <View key={index} style={{ alignItems:"center", paddingHorizontal:20, paddingVertical: 5 }}>
@@ -149,10 +181,10 @@ export default function RecordView( { route, navigation } : RecordViewProps) {
                                     source={{ html : body }}
                                 />
                             </View>
-                        </ScrollView>
+                        </View>
                         
                     </View>
-                </View>
+                </ScrollView>
             </Background>
         )
     } else {

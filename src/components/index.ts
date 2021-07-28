@@ -6,6 +6,7 @@ export { default as Text } from './common/text_2/text_2'
 export { default as Background } from './common/background/background'
 export { default as TextInput } from './common/text-input/text-input'
 export { default as PushMessage } from './common/push-message'
+export { default as Confirm } from './common/confirm'
 
 // export { default as Text } from './common/text/text';
 // export { default as Background } from './common/background/background';

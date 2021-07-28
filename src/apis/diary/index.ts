@@ -45,7 +45,7 @@ export const diaryApis = {
 /**
  * 기록에 관한 API
  */
-export const recodeApis = {
+export const recordApis = {
   /**
    * 기록목록을 가져온다
    * @param uuid 다이러리 기본키
@@ -94,5 +94,46 @@ export const recodeApis = {
       headers: { "content-type": "multipart/form-data" }
     });
     return data;
-  }
+  },
+
+
+  /**
+   * 기록을 수정한다.
+   * @param diaryUuid 다이러리 아이디
+   * @param recordUuid 레코드 아이디
+   * @param payload 입력 값
+   * @returns 
+   */
+  async modifyRecord( diaryUuid: string, recordUuid: string , payload: CreateRecordReqType) {
+    const bodyFormData = new FormData();
+    bodyFormData.append("title" , payload.title)
+    bodyFormData.append("body" , payload.body)
+    
+    
+    if(payload.files && payload.files.length > 0){
+      payload.files.forEach(file => {
+        bodyFormData.append("file" , {
+          uri : file,
+          name: "test.jpg",
+          type: 'image/jpeg'
+        })
+      })
+    }
+    // console.log(bodyFormData);
+    
+    const { data } = await apiClient.put(`/diaries/${diaryUuid}/records/${recordUuid}`, bodyFormData , {
+      headers: { "content-type": "multipart/form-data" }
+    });
+    return data;
+  },
+
+  /**
+   * 기록을 삭제한다
+   * @param diaryUuid 다이러리 아이디
+   * @param recordUuid 레코드 아이디
+   */
+  async deleteRecord(diaryUuid : string , recordUuid: string) : Promise<void> {
+    await apiClient.delete(`/diaries/${diaryUuid}/records/${recordUuid}`);
+    return;
+  },
 }
