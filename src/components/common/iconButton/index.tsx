@@ -1,7 +1,6 @@
 import React, { ReactElement } from 'react';
-import { TouchableOpacity } from 'react-native-gesture-handler';
 import styled from 'styled-components/native';
-import {Text, Image, ImageSourcePropType} from 'react-native';
+import {Text, Image, ImageSourcePropType, TouchableOpacityProps } from 'react-native';
 
 
 interface StyleProps {
@@ -14,17 +13,18 @@ const Button = styled.TouchableOpacity((props: StyleProps) => ({
     height: props.height || '24'
 }))
 
-interface Props{
+type Props = {
     children?: ReactElement,
     icon?: ImageSourcePropType,
     width?: string | number,
     height?: string | number,
     style?: any,
-}
+} & TouchableOpacityProps
 
-export const IconButton = ({children, icon, style}: Props) => {
+export const IconButton = ({children, icon, style, ...props}: Props) => {
     return(
         <Button
+            {...props}
             style={style}
         >
             {

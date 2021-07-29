@@ -42,9 +42,9 @@ export default function RecordList({navigation, route} : RecordListProps) {
             if(uuid){
                 setLoading(true)
                 const getRecordRes = await recordApis.getRecords(uuid);
-                const { element } = getRecordRes
-                // sconsole.log(getRecordRes);
-                setList(element)
+                const { elements } = getRecordRes
+                // console.log(getRecordRes);
+                setList(elements)
                 setLoading(false)
                 return getRecordList;
             } else {
@@ -73,7 +73,7 @@ export default function RecordList({navigation, route} : RecordListProps) {
     return (
         <Background>
             <Header
-                title="처음 우리들의 끼리 다이러리"
+                title={ diary ? diary.title : "처음 우리들의 끼리 다이러리" }
                 leftIcon={
                     <TouchableOpacity
                         onPress={() => {

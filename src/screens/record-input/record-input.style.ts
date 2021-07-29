@@ -38,6 +38,7 @@ const styles = StyleSheet.create({
         padding: 12,
         marginRight: 5,
     },
+    insertImages : { width: 80, height: 80 },
     closeIcon: {
         position: "absolute",
         top: 0,
@@ -54,6 +55,64 @@ const styles = StyleSheet.create({
         width: 150,
         height: 86,
         opacity: 0.5,
+    },
+    bottomPopupContainer:{
+        height: 550,
+        width: "100%",
+        backgroundColor: "#fff",
+        borderRadius: 20,
+    },
+    bottomPopupBarContainer: { 
+        alignItems: "center",
+        justifyContent: "center",
+        marginTop: 4 
+    },
+    bottomPopupBar: {
+        width: 42,
+        height: 6,
+        backgroundColor: "#d1d1de",
+        borderRadius: 10,
+        marginBottom: 20,
+    },
+    bottomPopupTitleContainer: {
+        justifyContent: "center",
+        alignItems: "center",
+        marginBottom: 50,
+    },
+    bottomPopupTitle: {
+        fontSize: 16,
+        color: "#17171c"
+    },
+    diatyListItemContainer: {
+        height: 60,
+        justifyContent: "flex-start",
+        alignItems: "center",
+        paddingHorizontal: 34,
+        flexDirection: "row",
+    },
+    diatyListItemThumbnailContainer: {
+        marginRight: 12
+    },
+    diatyListItemTitle: {
+        fontSize: 16,
+        color: "#17171c"
+    },
+    diatyListItemCount: {
+        color: "#6f6f7e",
+        fontSize: 12,
+    },
+    bottomPopupButtonContainer: {
+        alignItems: "center",
+        justifyContent: "center",
+        marginTop: 60
+    },
+    bottomPopupButton: {
+        width: 307,
+        height: 50,
+        backgroundColor: "#f4f4f8",
+        justifyContent: "center",
+        alignItems: "center",
+        borderRadius: 10,
     }
 })
 

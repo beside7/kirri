@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState } from "react";
+import React, { useRef, useEffect, useState, createRef } from "react";
 import {
   View,
   KeyboardAvoidingView,
@@ -8,7 +8,8 @@ import {
   Image,
   TextInput,
   ScrollView,
-  Alert
+  Alert,
+  SafeAreaView
 } from "react-native";
 import { useHeaderHeight } from "@react-navigation/stack";
 
@@ -29,7 +30,12 @@ import { StackNavigatorParams } from "@config/navigator";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { RouteProp } from "@react-navigation/native";
 
-import { CreateRecordReqType } from "@type-definition/diary";
+import { CreateRecordReqType, DiaryResType, DiariesResType } from "@type-definition/diary";
+import { diaryApis } from '@apis';
+
+import ActionSheet from "react-native-actions-sheet";
+import { FlatList } from "react-native-gesture-handler";
+
 
 type RecordInputProps = {
   navigation: StackNavigationProp<StackNavigatorParams, "RecordInput">;
@@ -37,10 +43,22 @@ type RecordInputProps = {
 };
 
 export default function RecordInput({ navigation, route }: RecordInputProps) {
+
+  /**
+   * 하단 팝업 ref
+   */
+  const actionSheetRef = createRef<ActionSheet>();
+
+
   /**
    * 다이러리 정보
    */
-  const diary = route.params.diary;
+  const [diary, setDiary] = useState<DiaryResType | null>(route.params.diary);
+
+  /**
+   * 하단 다이러리 리스트
+   */
+  const [diatyList, setDiatyList] = useState<DiaryResType[]>([])
 
   /**
    * 기록정보
@@ -53,6 +71,9 @@ export default function RecordInput({ navigation, route }: RecordInputProps) {
   const type : "new" | "modify" = record === undefined ? "new" : "modify"
 
 
+  /**
+   * editor ref
+   */
   const richText = React.createRef<RichEditor>() || useRef<RichEditor>();
 
   /**
@@ -94,6 +115,9 @@ export default function RecordInput({ navigation, route }: RecordInputProps) {
    * 최초 로드시 이벤트
    */
   useEffect(() => {
+    /**
+     * 이미지 사용권한 요청
+     */
     (async () => {
       if (Platform.OS !== "web") {
         const { status } =
@@ -171,7 +195,22 @@ export default function RecordInput({ navigation, route }: RecordInputProps) {
             console.log(error);
             Alert.alert(`글이 ${ type === "modify" ? "수정" : "생성"} 간 에러가 발생했습니다.`);
         }
+      } else {
+        Alert.alert("다이러리를 선택해주세요")
       }
+  }
+
+  /**
+   * 타이틀 클릭시 이벤트 처리
+   */
+  const onPressTitle = async () => {
+    /**
+     * 하단 팝업 열기
+     */
+    actionSheetRef.current?.setModalVisible();
+    const data = await diaryApis.getDiaries();
+    const { element } = data;
+    setDiatyList(element);
   }
 
 
@@ -197,7 +236,21 @@ export default function RecordInput({ navigation, route }: RecordInputProps) {
                 </Text_2>
             </TouchableOpacity>
         }
-        title="처음 우리들의 끼리 다이러리"
+        title={
+          (diary !== null) ? 
+            diary.title
+            :
+            <TouchableOpacity
+              onPress={onPressTitle}
+              style={{ flexDirection: "row" }}
+              >
+              <Text_2>처음 우리들의 끼리 다이러리</Text_2>
+              <Image 
+                style={{ width: 24 , height: 24 }}
+                source={require("@assets/images/various_collapse_on_normal.png")}
+              />
+            </TouchableOpacity>
+        }
         borderBottom={true}
       />
       <KeyboardAvoidingView
@@ -221,7 +274,7 @@ export default function RecordInput({ navigation, route }: RecordInputProps) {
                 <View style={styles.imageWrap} key={index}>
                   <Image
                     source={{ uri: image }}
-                    style={{ width: 80, height: 80 }}
+                    style={styles.insertImages}
                   />
                   <TouchableOpacity
                     style={styles.closeIcon}
@@ -268,6 +321,45 @@ export default function RecordInput({ navigation, route }: RecordInputProps) {
             </Text_2>
           </View>
         </View>
+        
+        {/* 하단 팝업 부분 */}
+        <ActionSheet ref={actionSheetRef}>
+          <View style={styles.bottomPopupContainer}>
+            <View style={styles.bottomPopupBarContainer}>
+              <View style={styles.bottomPopupBar} />
+            </View>
+            <View style={styles.bottomPopupTitleContainer}>
+              <Text_2 style={styles.bottomPopupTitle}>다이어리 선택</Text_2>
+            </View>
+            <SafeAreaView style={{ height: 300 }}>
+              <FlatList 
+                data={diatyList}
+                keyExtractor={(item, index) => item.uuid}
+                renderItem={({ item }) => {
+                  return(
+                    <View style={styles.diatyListItemContainer}>
+                      <View style={styles.diatyListItemThumbnailContainer}>
+                        <Image 
+                          source={require("@assets/images/diary/diary_circleimg_01.png")}
+                        />
+                      </View>
+                      <View>
+                        <Text_2 style={styles.diatyListItemTitle}>{item.title}</Text_2>
+                        <Text_2 style={styles.diatyListItemCount}>{item.members.length} 끼리</Text_2>
+                      </View>
+                    </View>
+                  )
+                }}
+              />
+            </SafeAreaView>
+            <View style={styles.bottomPopupButtonContainer}>
+              <TouchableOpacity style={styles.bottomPopupButton}>
+                <Text_2>완료</Text_2>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </ActionSheet>
+
       </KeyboardAvoidingView>
     </Background>
   );

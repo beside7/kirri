@@ -32,40 +32,40 @@ import ActionSheet from "react-native-actions-sheet";
 
 let data : Memeber[] = [
     {
-        username: "댕청미",
+        userId: 1,
         nickname: "댕청미",
-        authority: "user",
-        status: "01"
+        authority: "DIARY_MEMBER",
+        status: "INVITING"
     },
     {
-        username: "댕청미",
+        userId: 1,
         nickname: "댕청미",
-        authority: "user",
-        status: "01"
+        authority: "DIARY_MEMBER",
+        status: "INVITING"
     },
     {
-        username: "댕청미",
+        userId: 1,
         nickname: "댕청미",
-        authority: "user",
-        status: "01"
+        authority: "DIARY_MEMBER",
+        status: "INVITING"
     },
     {
-        username: "댕청미",
+        userId: 1,
         nickname: "댕청미",
-        authority: "user",
-        status: "01"
+        authority: "DIARY_MEMBER",
+        status: "INVITING"
     },
     {
-        username: "댕청미",
+        userId: 1,
         nickname: "댕청미",
-        authority: "user",
-        status: "01"
+        authority: "DIARY_MEMBER",
+        status: "INVITING"
     },
     {
-        username: "댕청미",
+        userId: 1,
         nickname: "댕청미",
-        authority: "user",
-        status: "01"
+        authority: "DIARY_MEMBER",
+        status: "INVITING"
     },
 ]
 

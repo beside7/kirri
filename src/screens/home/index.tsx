@@ -116,6 +116,9 @@ const Home = observer(({navigation}:HomeProps)=> {
                     <ProfileWarp>
                         <IconWarp>
                             <IconButton
+                                onPress={()=> {                                    
+                                    navigation.navigate("RecordInput", { diary : null })
+                                }}
                                 style={styles.iconSpace}
                                 icon={require('@assets/images/home_writing_normal.png')}
                             />

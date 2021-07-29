@@ -41,7 +41,7 @@ export interface RecordsResType {
     page: number,
     size: number,
     totalPages: number,
-    element: RecordResType[]
+    elements: RecordResType[]
 }
 
 /**

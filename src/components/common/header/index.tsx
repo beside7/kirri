@@ -14,7 +14,7 @@ export const Header = ({title, rightIcon, leftIcon, onRightClick=()=>{}, onLeftC
     return (
         <HeaderContainer>
             {React.isValidElement(leftIcon)?leftIcon:<IconWrap disabled={!leftIcon} onPress={onLeftClick}>{leftIcon?<Icon source={leftIcon}></Icon>:<></>}</IconWrap>}
-            {React.isValidElement(title)?{title}:<Title>{title}</Title>}
+            {React.isValidElement(title)?title:<Title>{title}</Title>}
             {React.isValidElement(rightIcon)?rightIcon:<IconWrap disabled={!rightIcon}  onPress={onRightClick}>{rightIcon?<Icon source={rightIcon}></Icon>:<></>}</IconWrap>}
         </HeaderContainer>
     )
