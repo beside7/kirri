@@ -154,7 +154,7 @@ export default function RecordList({navigation, route} : RecordListProps) {
                                     <Text_2 style={styles.listItemTitle}>{title}</Text_2>
                                 </View>
                                 <View style={{ paddingLeft: 64 }}>
-                                    <Text_2 style={styles.listItemBody}>
+                                    <Text_2 style={styles.listItemBody} numberOfLines={3}>
                                         {body.replace(/(<([^>]+)>)/ig, "")}
                                     </Text_2>
                                 </View>

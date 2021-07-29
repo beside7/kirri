@@ -23,13 +23,21 @@ export default function RecordView( { route, navigation } : RecordViewProps) {
 
     const [loading, setLoading] = useState(false)
 
+    /**
+     * 우측 상단 메뉴 활성화여부
+     */
     const [visible, setVisible] = React.useState(false);
     const closeMenu = () => setVisible(false);
-    
     const openMenu = () => setVisible(true);
 
+    /**
+     * 서버에서 가져온 기록 데이터를 저장하는 부분
+     */
     const [data, setData] = useState<RecordResType | null >(null)
 
+    /**
+     * 리스트에서 가져오는 부분
+     */
     const { diary , record } = route.params
     const [modal, setModal] = useState(false);
     
@@ -45,13 +53,16 @@ export default function RecordView( { route, navigation } : RecordViewProps) {
         setLoading(false)
     }
 
+    /**
+     * 기록 삭제
+     */
     const deleteData = async () => {
         setLoading(true)
         if(diary && record){
             try {
                 await recordApis.deleteRecord( diary.uuid, record.uuid );
                 Alert.alert("삭제되었습니다.")
-                navigation.navigate("RecordList", { diary : diary })
+                navigation.replace("RecordList", { diary : diary })
             } catch (error) {
                 console.log(error);
                 Alert.alert("삭제중 에러발생")
@@ -165,6 +176,7 @@ export default function RecordView( { route, navigation } : RecordViewProps) {
                                         style={{
                                             width: 335,
                                             height: 335,
+                                            resizeMode:'contain',
                                             borderRadius: 20
                                         }}
                                         source={{
