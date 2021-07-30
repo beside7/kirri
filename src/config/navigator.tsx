@@ -17,14 +17,11 @@ import {
     CheerupMessage,
     Setting,
     Onboarding,
-<<<<<<< HEAD
     RecordInfo,
     RecordList,
     RecordInput,
     RecordView,
-=======
     Settings,
->>>>>>> develop
 } from "@screens";
 import { Text } from "react-native";
 
@@ -232,16 +229,17 @@ export default function navigator(): ReactElement {
                         headerShown: false
                     }}
                 />
-<<<<<<< HEAD
                 
                 <Stack.Screen
                     name="RecordInfo"
                     component={RecordInfo}
-=======
+                    options={{
+                        headerShown: false
+                    }}
+                />
                 <Stack.Screen
                     name="Settings"
                     component={Settings}
->>>>>>> develop
                     options={{
                         headerShown: false
                     }}

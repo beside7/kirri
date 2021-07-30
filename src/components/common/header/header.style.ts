@@ -1,9 +1,9 @@
 import styled from 'styled-components/native';
 import Constants from 'expo-constants';
-
+import { Platform } from "react-native";
 
 export const HeaderContainer = styled.View({
-    paddingTop:17,
+    paddingTop: (Platform.OS === "android") ? 24 + Constants.statusBarHeight :17,
     paddingBottom: 24,
     paddingHorizontal: 20,
     display: 'flex',

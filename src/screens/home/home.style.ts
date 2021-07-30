@@ -2,6 +2,7 @@ import { globalStyles } from "@utils";
 import { StyleSheet, Dimensions } from 'react-native';
 import styled from 'styled-components/native';
 import Constants from 'expo-constants';
+import { Platform } from "react-native";
 
 
 // const backgroundPatterns = {
@@ -39,7 +40,7 @@ const warpStyle = styled.View({
 
 export const ProfileWarp = styled(warpStyle)({
  
-    
+    paddingTop: (Platform.OS === "android") ? Constants.statusBarHeight : 0,
 });
 
 export const IconWarp = styled.View({
