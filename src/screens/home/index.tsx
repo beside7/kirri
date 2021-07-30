@@ -1,5 +1,5 @@
 
-import React, {ReactElement, useCallback, useState, useEffect, useRef} from 'react'
+import React, {ReactElement, useCallback, useState, useEffect, useRef, Fragment} from 'react'
 import { View, TouchableOpacity } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -31,11 +31,10 @@ import styles, {
 } from './home.style';
 import {RecentContent} from './RecentContent';
 
-import {Background, Button, IconButton } from "@components";
+import {IconButton} from "@components";
 
 import { observer } from 'mobx-react';
 import { UserStore } from '@store';
-import { SafeAreaView } from 'react-native-safe-area-context';
 import {userApis, diaryApis} from '@apis';
 
 import {Diary} from './Diary';
@@ -56,7 +55,7 @@ type HomeProps = {
 const Home = observer(({navigation}:HomeProps)=> {
     const [userLoading, setUserLoading] = useState(true);
     const [diaryLoading, setDiaryLoading] = useState(true);
-    const {nickname, profileImage } = UserStore;
+    const {nickname, profileImage, profileImagePath } = UserStore;
     const [diaryList, setDiaryList] = useState<DiaryResType[]>([]);
     const [pageNum, setPageNum] = useState<any>();
     const pageInfo = useRef<any>();
@@ -110,7 +109,7 @@ const Home = observer(({navigation}:HomeProps)=> {
     }
 
     return (
-        <>
+        <Fragment>
             <HomeContainer>
                 <ContentWarp>
                     <ProfileWarp>
@@ -127,6 +126,9 @@ const Home = observer(({navigation}:HomeProps)=> {
                                 icon={require('@assets/images/home_notice_normal.png')}
                             />
                             <IconButton
+                                onPress={() => {
+                                    navigate('Settings', null);
+                                }}
                                 icon={require('@assets/images/home_setting_normal.png')}
                             />
                         </IconWarp>
@@ -136,7 +138,7 @@ const Home = observer(({navigation}:HomeProps)=> {
                             </ProfileImageWarp>
                         </View>
                         <NicknameContainer>
-                        <NicknameWarp>{nickname}</NicknameWarp><View><LogoType source={require('@assets/images/home/home_logotype.png')}/></View>
+                            <NicknameWarp>{nickname}</NicknameWarp><View><LogoType source={require('@assets/images/home/home_logotype.png')}/></View>
                         </NicknameContainer>
                     </ProfileWarp>
                     {
@@ -177,6 +179,7 @@ const Home = observer(({navigation}:HomeProps)=> {
                                                     }}
                                                 >
                                                     <Diary
+                                                        key={diary.uuid}
                                                         diaryTitle={diary.title}
                                                         members={diary.members.length}
                                                         coverType={diary.icon.split(':')[0]}
@@ -210,13 +213,14 @@ const Home = observer(({navigation}:HomeProps)=> {
                     }
                     
                 </ContentWarp>
+               
             </HomeContainer>
             <CreateDiaryModal
                 open={createDiaryOpen}
                 reloadDiary={getDiaries}
                 close={()=>{setCreateDiaryOpen(false)}}
             ></CreateDiaryModal>
-        </>
+        </Fragment>
     )
 })
 export default Home;

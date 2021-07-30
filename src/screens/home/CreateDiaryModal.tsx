@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import {
     CreateDiaryModalBackground,
     CreateDiary,
@@ -19,12 +19,13 @@ import {
 } from './home.style';
 
 import { View, Image, Modal, Text } from 'react-native';
-import { KirriTextInput, Button } from '@components';
+import { KirriTextInput, Button, SlideDownModal } from '@components';
 import { CoverImages, CoverCircleImages, CoverColor, CoverCircleImageTypes, CoverColorTypes, CoverImageTypes } from '@utils';
 import { CreateDiaryReqType } from '@type-definition/diary';
 import { diaryApis } from '@apis';
 import { navigate } from '@config/navigator';
 import { TouchableOpacity } from 'react-native-gesture-handler';
+import { create } from 'lodash';
 
 
 
@@ -41,6 +42,7 @@ export const CreateDiaryModal = ({open, reloadDiary, close}: Props) => {
     const [selectedCoverColor, setSelectedCoverColor] = useState<CoverColorTypes>();
     const [newDiaryName, setNewDiaryName] = useState<string>();
     const [createButtonDisable, setCreateButtonDisable] = useState(false);
+    const createDiaryModal = useRef<any>();
     const selectCover = (type: string, key: CoverImageTypes | CoverColorTypes) => {
         switch(type) {
             case 'image':
@@ -67,22 +69,18 @@ export const CreateDiaryModal = ({open, reloadDiary, close}: Props) => {
             console.log(error);
         }
     }
+    useEffect(() => {
+        if (open) {
+            createDiaryModal.current.open();
+        }
+    }, [open]);
     return (
-        <Modal
-            visible={open}
-            style={{height: '100%'}}
+        <SlideDownModal
+            ref={createDiaryModal}
+            onClosed={()=>{close();}}
         >
-        <CreateDiaryModalBackground>
-            <View style={{width: "100%",flexBasis:1, flexGrow:1, flexShrink: 1}}>
-                <TouchableOpacity
-                    style={{width: "100%", height: '100%'}}
-                    onPress={()=>{close()}}
-                ></TouchableOpacity>
-            </View>
+
             <CreateDiary>
-                <ModalTouchable>
-                    <TouchableIcon></TouchableIcon>
-                </ModalTouchable>
                 <CreateDiatyTitleWarp>
                     <CreateDiaryTitle>새 다이어리 만들기</CreateDiaryTitle>
                 </CreateDiatyTitleWarp>
@@ -152,7 +150,6 @@ export const CreateDiaryModal = ({open, reloadDiary, close}: Props) => {
                     </View>
                 
             </CreateDiary>
-        </CreateDiaryModalBackground>
-        </Modal>
+        </SlideDownModal>
     )
 }

@@ -2,7 +2,7 @@ export interface LoginReqType {
     id: string,
     nickname: string,
     accessToken: string,
-    profileImgUrl: string
+    profileImagePath: string
 }
 
 export interface JoinReqType{
@@ -23,4 +23,14 @@ export interface RecentRecodeType{
 export interface RecentRecordResType {
     totalCounts: number,
     elements: RecentRecodeType[]
+}
+
+export interface UpdateUserMeResType {
+    nickname?: string,
+    profileImagePath?: string
+}
+
+export interface PushUpdateResType {
+    type:string,
+    active: boolean
 }

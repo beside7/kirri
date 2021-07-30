@@ -1,7 +1,14 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
-import {Container, Title, Button} from '@components';
+import {Title, Button, Header} from '@components';
 import { SelectProfileImage } from './SelectProfileImg';
-import {MakeNicknameContianer, MakeNicknameTitle, MakeNicknameInput, InputAddedText, MakeNicknameInputWarp, ButtonContainer, BackIcon} from './nickname.style'
+import {
+    MakeNicknameContianer,
+    ButtonContainer,
+    BackIcon,
+    MakeNicknameTitle,
+    SafeAreaView,
+    Container
+} from './nickname.style'
 import {JoinProcessing} from './JoinProcessing';
 import {debounce} from 'lodash';
 import { KirriTextInput } from '@components';
@@ -22,19 +29,20 @@ interface Props {
 
 export const Nickname = ({accessToken, authorities}: Props) => {
     const [joinProcessLoading, setJoinProcessLoading] = useState(false);
-    const [nickname, setNickname] = useState('');
-    const selectedProfileImage = useRef<ProfileImageTypes>();
+    // const [nickname, setNickname] = useState('');
+    const selectedProfileImage = useRef<ProfileImageTypes>('01');
     const [duplicate, setDuplicate] = useState(false);
+    const nickname = useRef<string>('');
     
     const joinKirri = async () =>{
-        if (!nickname || duplicate) {
+        if (!nickname.current || duplicate) {
             return;
         }
         setJoinProcessLoading(true);
         try {
             const result = await userApis.signin(
                 {
-                    nickname,
+                    nickname: nickname.current,
                     autoLogin: true,
                     profileImagePath:'profile:'+selectedProfileImage,
                     agreementList:['SERVICE']
@@ -52,7 +60,7 @@ export const Nickname = ({accessToken, authorities}: Props) => {
 
     const checkDuple = debounce(() => {
         try {
-            userApis.checkNicknameDupl(nickname).then((result: any)=>{
+            userApis.checkNicknameDupl(nickname.current).then((result: any)=>{
                 if (result.exists) {
                     setDuplicate(true);
                     
@@ -65,7 +73,7 @@ export const Nickname = ({accessToken, authorities}: Props) => {
         } catch (error) {
             
         }
-    }, 1000);
+    }, 500);
 
     const checkSubmitPayload = useCallback(()=>{
         if (!nickname) {
@@ -77,13 +85,6 @@ export const Nickname = ({accessToken, authorities}: Props) => {
         return false;
     }, [nickname, duplicate])
 
-    useEffect(()=>{
-        if(!nickname) {
-            setDuplicate(false);
-
-        }
-        checkDuple();
-    },[nickname]);
 
     const handleGoBack = () => {
         navigate('Login', null);
@@ -92,42 +93,53 @@ export const Nickname = ({accessToken, authorities}: Props) => {
     return (
         <>
             <JoinProcessing  open={joinProcessLoading}/>
-            <Container>
-                <Title
+            <SafeAreaView>
+                <Header
                     title='닉네임만들기'
-                    rightIcon={<TouchableOpacity onPress={()=>{handleGoBack()}}><BackIcon style={{width:24, height:24}} source={require('@assets/images/various_back_normal.png') }/></TouchableOpacity>}
+                    leftIcon={require('@assets/images/various_back_normal.png')}
+                    onLeftClick={handleGoBack}
+                    borderBottom={false}
                 />
-
-                <SelectProfileImage
-                    selecteChanged={(img: ProfileImageTypes)=>{
-                        selectedProfileImage.current = img;
-                    }}
-                ></SelectProfileImage>
-                <MakeNicknameContianer>
-                    <MakeNicknameTitle>한글, 영문, 숫자를 사용해 멋진 닉네임을 만들어주세요</MakeNicknameTitle>
-                    <KirriTextInput
-                        onChange={(text)=>{
-                            setNickname(text);
-                           
-                        }}
-                        placeholder='멋진자몽'
-                        text=''
-                        rightText='끼리'
-                        onError={duplicate}
-                        errorMessage='사용할 수 없는 닉네임이예요'
-                    />
+                <Container>
                     
-                </MakeNicknameContianer>
-                <ButtonContainer>
-                    <Button
-                        type='large'
-                        onPress={()=>{
-                            joinKirri();
+                    
+                    <SelectProfileImage
+                        selecteChanged={(img: ProfileImageTypes)=>{
+                            selectedProfileImage.current = img;
                         }}
-                        disabled={checkSubmitPayload()}
-                    >다음</Button>
-                </ButtonContainer>
-            </Container>
+                    ></SelectProfileImage>
+                    <MakeNicknameContianer>
+                        <MakeNicknameTitle>한글, 영문, 숫자를 사용해 멋진 닉네임을 만들어주세요</MakeNicknameTitle>
+                        <KirriTextInput
+                            onChange={(text)=>{
+                                nickname.current = text;
+                                if(!nickname) {
+                                    setDuplicate(false);
+                        
+                                }
+                                checkDuple();
+                            
+                            }}
+                            placeholder='멋진자몽'
+                            text=''
+                            rightText='끼리'
+                            onError={duplicate}
+                            errorMessage='사용할 수 없는 닉네임이예요'
+                        />
+                        
+                    </MakeNicknameContianer>
+                    <ButtonContainer>
+                        <Button
+                            type='large'
+                            onPress={()=>{
+                                joinKirri();
+                            }}
+                            disabled={checkSubmitPayload()}
+                        >다음</Button>
+                    </ButtonContainer>
+                </Container>
+            </SafeAreaView>
+            
         </>
     )
 }

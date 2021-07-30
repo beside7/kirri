@@ -17,10 +17,14 @@ import {
     CheerupMessage,
     Setting,
     Onboarding,
+<<<<<<< HEAD
     RecordInfo,
     RecordList,
     RecordInput,
     RecordView,
+=======
+    Settings,
+>>>>>>> develop
 } from "@screens";
 import { Text } from "react-native";
 
@@ -36,7 +40,10 @@ import { DiaryResType, RecordResType } from "@type-definition/diary"
 export function navigate(name: string, params: any) {
     navigationRef.current?.navigate(name, params);
   }
-  
+
+  export function navigateGoBack() {
+    navigationRef.current?.goBack();
+  }
 
 interface TermsAndConditionsProps {
     accessToken: string,
@@ -58,11 +65,12 @@ export type StackNavigatorParams = {
     Cheerup: undefined
     CheerupMessage: undefined
     Setting: undefined
-    Onboarding: undefined
     RecordInfo: { diary : DiaryResType }
     RecordList: { diary : DiaryResType | null }
     RecordInput: { diary : DiaryResType | null , record? : RecordResType }
     RecordView: {  diary : DiaryResType | null , record : RecordResType | null };
+    Onboarding: undefined,
+    Settings: any;
 };
 
 const Stack = createStackNavigator<StackNavigatorParams>();
@@ -224,10 +232,16 @@ export default function navigator(): ReactElement {
                         headerShown: false
                     }}
                 />
+<<<<<<< HEAD
                 
                 <Stack.Screen
                     name="RecordInfo"
                     component={RecordInfo}
+=======
+                <Stack.Screen
+                    name="Settings"
+                    component={Settings}
+>>>>>>> develop
                     options={{
                         headerShown: false
                     }}

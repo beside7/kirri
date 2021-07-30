@@ -3,7 +3,7 @@ import Constants from 'expo-constants';
 
 
 export const HeaderContainer = styled.View({
-    paddingTop: 27 + Constants.statusBarHeight,
+    paddingTop:17,
     paddingBottom: 24,
     paddingHorizontal: 20,
     display: 'flex',
@@ -11,7 +11,8 @@ export const HeaderContainer = styled.View({
     justifyContent: 'space-between',
     alignItems: 'center',
     borderColor:'rgba(41, 0, 0, 0.1)',
-    borderBottomWidth:  1
+    borderBottomWidth:  1,
+    backgroundColor: '#fff',
 });
 
 export const IconWrap = styled.TouchableOpacity({
