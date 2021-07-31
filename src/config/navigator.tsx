@@ -22,6 +22,7 @@ import {
     RecordInput,
     RecordView,
     Settings,
+    DiaryConfig,
 } from "@screens";
 import { Text } from "react-native";
 
@@ -65,9 +66,10 @@ export type StackNavigatorParams = {
     RecordInfo: { diary : DiaryResType }
     RecordList: { diary : DiaryResType | null }
     RecordInput: { diary : DiaryResType | null , record? : RecordResType }
-    RecordView: {  diary : DiaryResType | null , record : RecordResType | null };
+    RecordView: { diary : DiaryResType | null , record : RecordResType | null };
     Onboarding: undefined,
     Settings: any;
+    DiaryConfig: { diary : DiaryResType | null };
 };
 
 const Stack = createStackNavigator<StackNavigatorParams>();
@@ -240,6 +242,13 @@ export default function navigator(): ReactElement {
                 <Stack.Screen
                     name="Settings"
                     component={Settings}
+                    options={{
+                        headerShown: false
+                    }}
+                />
+                <Stack.Screen
+                    name="DiaryConfig"
+                    component={DiaryConfig}
                     options={{
                         headerShown: false
                     }}

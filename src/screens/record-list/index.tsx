@@ -1,13 +1,19 @@
 import React, { useEffect, useState } from 'react'
-import { View, FlatList , TouchableOpacity, Image, SafeAreaView, Dimensions, } from 'react-native'
+import { View, FlatList , TouchableOpacity, Image, SafeAreaView, Dimensions, Alert } from 'react-native'
 import { Background, Text_2, Header  } from "@components";
 import styles from './style'
 import { StackNavigatorParams } from "@config/navigator";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { RouteProp } from "@react-navigation/native";
-import { recordApis } from "@apis"
+import { recordApis, diaryApis } from "@apis"
 import { RecordResType, RecordsResType } from "@type-definition/diary"
 import { Menu } from 'react-native-paper';
+
+import { observer } from 'mobx-react';
+import { UserStore } from '@store';
+
+import DeleteConfirm from './delete-confirm'
+
 
 const SCREEN_HEIGHT = Dimensions.get("screen").height;
 
@@ -19,23 +25,72 @@ type RecordListProps = {
     route: RouteProp<StackNavigatorParams, "RecordList">;
 }
 
+export const RecordList = observer(({navigation, route} : RecordListProps) => {
 
-export default function RecordList({navigation, route} : RecordListProps) {
+    /**
+     * mobx 으로 유저 닉네임 추출
+     */
+    const { nickname } = UserStore;
 
+    /**
+     * 우측 상단메뉴 노출여부
+     */
     const [visible, setVisible] = React.useState(false);
+    /**
+     * 우측 상단메뉴 열기
+     */
     const closeMenu = () => setVisible(false);
-    
+    /**
+     * 우측 상단메뉴 닫기
+     * @returns 
+     */
     const openMenu = () => setVisible(true);
-
+    /**
+     * 로딩
+     */
     const [loading, setLoading] = useState(false)
-
+    /**
+     * info 에서 넘겨받은 다이러리 정보
+     */
     const diary = route.params.diary;
+
+    /**
+     * 현재 로그인한 사용자가 해당 다이러리에서 관리자인지 판별하는 부분 
+     * -> true : 관리자 , false : 일반 유저
+     */
+    const isAdministrator = diary?.members.find((item) => item.nickname === nickname )?.authority === "DIARY_OWNER"
 
     /**
      * 기록리스트 부분
      */
     const [list, setList] = useState<RecordResType[]>([])
 
+    /**
+     * 삭제동의창 여부
+     */
+    const [deleteConfirm, setDeleteConfirm] = useState(false)
+
+
+    /**
+     * 다이러리 삭제
+     */
+    const deleteDiary = async () => {
+        try {
+            if(diary){
+                await diaryApis.deleteDiary(diary.uuid);
+                Alert.alert("삭제되었습니다.");
+                navigation.replace("Home");
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    /**
+     * 기록목록 가져오기
+     * @param uuid 다이러리 아이디
+     * @returns 기록목록
+     */
     const getRecordList = async (uuid : string | undefined) => {
         try {
             // console.log(uuid);
@@ -55,12 +110,7 @@ export default function RecordList({navigation, route} : RecordListProps) {
         }
     }
 
-    // useEffect(() => {
-    //     console.log(list);
-    // }, [list])
-
-    useEffect(() => {        
-        
+    useEffect(() => {
         if(diary){
             const { uuid } = diary
             getRecordList(uuid)
@@ -87,31 +137,77 @@ export default function RecordList({navigation, route} : RecordListProps) {
                     </TouchableOpacity>
                 }
 
+                // 우측 상단 메뉴
                 rightIcon={
-                    // 우측 상단 메뉴
-                    <Menu
-                        style={{
-                            top: 105
-                        }}
-                        visible={visible}
-                        onDismiss={closeMenu}
-                        anchor={
-                            <TouchableOpacity onPress={openMenu}>
-                                <Image 
-                                    style={{ width: 24, height: 24 }}
-                                    source={require("@assets/icons/menu.png")}
-                                />
-                            </TouchableOpacity>
-                        }
-                    >
-                        <Menu.Item onPress={() => {}} title="우리끼리 응원하기" />
-                        <Menu.Item onPress={() => {
-                            closeMenu()
-                            navigation.navigate("FriendMain", { diary : diary })
-                        }} title="친구 관리" />
-                    </Menu>
+                    // 관리자 일경우
+                    isAdministrator ? 
+                    (
+                        <Menu
+                            style={{
+                                top: 105
+                            }}
+                            visible={visible}
+                            onDismiss={closeMenu}
+                            anchor={
+                                <TouchableOpacity onPress={openMenu}>
+                                    <Image 
+                                        style={{ width: 24, height: 24 }}
+                                        source={require("@assets/icons/menu.png")}
+                                    />
+                                </TouchableOpacity>
+                            }
+                        >
+                            <Menu.Item onPress={() => {}} title="끼리 응원하기" />
+                            <Menu.Item onPress={() => {
+                                closeMenu()
+                                navigation.navigate("FriendMain", { diary : diary })
+                            }} title="끼리 멤버" />
+                            <Menu.Item onPress={() => {
+                                closeMenu()
+                                navigation.navigate("DiaryConfig", { diary : diary })
+                            }} title="다이러리 수정" />
+                            <Menu.Item onPress={() => {
+                                setDeleteConfirm(true)
+                            }} title="다이러리 삭제" />
+                            <Menu.Item onPress={() => {}} title="나가기" />
+                        </Menu>
+                    ) :
+                    // 일반 유저일경우
+                    (
+                        <Menu
+                            style={{
+                                top: 105
+                            }}
+                            visible={visible}
+                            onDismiss={closeMenu}
+                            anchor={
+                                <TouchableOpacity onPress={openMenu}>
+                                    <Image 
+                                        style={{ width: 24, height: 24 }}
+                                        source={require("@assets/icons/menu.png")}
+                                    />
+                                </TouchableOpacity>
+                            }
+                        >
+                            <Menu.Item onPress={() => {}} title="끼리 응원하기" />
+                            <Menu.Item onPress={() => {
+                                closeMenu()
+                                navigation.navigate("FriendMain", { diary : diary })
+                            }} title="끼리 멤버" />
+                            <Menu.Item onPress={() => {}} title="나가기" />
+                        </Menu>
+                    )
                 }
             />
+            {/* 다이러리 삭제창 */}
+            <DeleteConfirm 
+                modal={deleteConfirm}
+                onClose={() => {
+                    setDeleteConfirm(false)
+                }}
+                onConfirm={deleteDiary}
+            />
+            {/* 리스트 */}
             <SafeAreaView style={{flex: 1}}>
                 <FlatList 
                     contentContainerStyle={{ backgroundColor: "#f4f4f8" }}
@@ -220,4 +316,7 @@ export default function RecordList({navigation, route} : RecordListProps) {
             </View>
         </Background>
     )
-}
+})
+
+
+export default RecordList;
