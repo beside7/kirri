@@ -47,7 +47,7 @@ export default function RecordView( { route, navigation } : RecordViewProps) {
     const getData = async () => {
         setLoading(true)
         if(diary && record){
-            console.log({diary, record});
+            // console.log({diary, record});
             try {
                 const res = await recordApis.viewRecord( diary.uuid, record.uuid );
                 setData(res);

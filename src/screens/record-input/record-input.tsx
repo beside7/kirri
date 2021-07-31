@@ -36,6 +36,7 @@ import { diaryApis } from '@apis';
 import ActionSheet from "react-native-actions-sheet";
 import { FlatList } from "react-native-gesture-handler";
 
+import { CoverCircleImages , CoverColor} from "@utils";
 
 type RecordInputProps = {
   navigation: StackNavigationProp<StackNavigatorParams, "RecordInput">;
@@ -54,6 +55,11 @@ export default function RecordInput({ navigation, route }: RecordInputProps) {
    * 다이러리 정보
    */
   const [diary, setDiary] = useState<DiaryResType | null>(route.params.diary);
+
+  /**
+   * 선택한 다이러리 정보 - uuid
+   */
+  const [selectDiary, setSelectDiary] = useState<string | null>(null)
 
   /**
    * 하단 다이러리 리스트
@@ -337,23 +343,52 @@ export default function RecordInput({ navigation, route }: RecordInputProps) {
                 keyExtractor={(item, index) => item.uuid}
                 renderItem={({ item }) => {
                   return(
-                    <View style={styles.diatyListItemContainer}>
+                    <TouchableOpacity 
+                      style={styles.diatyListItemContainer}
+                      onPress={() => {
+                        item.uuid !== selectDiary ? setSelectDiary(item.uuid) : setSelectDiary(null)
+                      }}
+                    >
                       <View style={styles.diatyListItemThumbnailContainer}>
-                        <Image 
-                          source={require("@assets/images/diary/diary_circleimg_01.png")}
-                        />
+                        {
+                          item.icon.split(":")[0] === "image" ?
+                          <Image 
+                            style={ item.uuid === selectDiary && styles.selectDiaryImage }
+                            source={CoverCircleImages[item.icon.split(":")[1] as '01' | '02' | '03' | '04' | '05' | '06' ]}
+                          />
+                          :
+                          <View 
+                            style={{
+                              width: 40,
+                              height: 40,
+                              backgroundColor: CoverColor[item.icon.split(":")[1] as '01' | '02' | '03' | '04' | '05' | '06' ]
+                            }}
+                          />
+                        }
                       </View>
                       <View>
                         <Text_2 style={styles.diatyListItemTitle}>{item.title}</Text_2>
                         <Text_2 style={styles.diatyListItemCount}>{item.members.length} 끼리</Text_2>
                       </View>
-                    </View>
+                    </TouchableOpacity>
                   )
                 }}
               />
             </SafeAreaView>
             <View style={styles.bottomPopupButtonContainer}>
-              <TouchableOpacity style={styles.bottomPopupButton}>
+              <TouchableOpacity 
+                style={selectDiary === null ? styles.bottomPopupDisableButton : styles.bottomPopupEnableButton}
+                onPress={() => {
+                  if(selectDiary ){
+                    const diary = diatyList.find(({uuid}) => uuid === selectDiary);
+                    if(diary){
+                      setSelectDiary(null)
+                      setDiary( diary )
+                      actionSheetRef.current?.setModalVisible(false)
+                    }
+                  } 
+                }}
+              >
                 <Text_2>완료</Text_2>
               </TouchableOpacity>
             </View>
