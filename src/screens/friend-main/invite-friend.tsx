@@ -1,129 +1,269 @@
-import React from 'react'
-import { View, SafeAreaView, TextInput, FlatList, TouchableOpacity, Image } from 'react-native'
+import React, { useState } from "react";
+import {
+  View,
+  SafeAreaView,
+  FlatList,
+  TouchableOpacity,
+  Image,
+  Alert,
+} from "react-native";
 import { Background, Text_2 } from "@components";
+import { DiaryResType, Memeber } from "@type-definition/diary";
 
-export default function InviteFriend() {
-    return (
-        <Background>
-            <View style={{ paddingVertical: 0, paddingHorizontal: 34, flex: 1 }}>
-                <View style={{ height: 77, alignItems: "center", justifyContent: "center" }}>
-                    <Text_2 style={{ fontSize: 14, color: "#17171c" }}>친구와 같이 일기를 작성해보세요!</Text_2>
+import { TextInput, Icon, Button } from "./style";
+import { userApis, diaryApis } from "@apis";
+
+/**
+ * 닉네임 중복체크 결과 타입
+ */
+type CheckNicknameDuplRes = {
+  exists: boolean;
+};
+
+/**
+ * 다이러리 멤버 조회 결과
+ */
+
+
+type InviteFriendProps = {
+  diary: DiaryResType | null;
+};
+
+export default function InviteFriend({ diary }: InviteFriendProps) {
+  /**
+   * 사용자가 입력한 닉네임
+   */
+  const [nickname, setNickname] = useState("");
+
+  /**
+   * api 호출중 표시
+   */
+  const [loading, setLoading] = useState(false);
+
+  /**
+   * 초대하기 결과 상태
+   */
+  const [members, setMembers] = useState<Memeber[]>([]);
+
+  /**
+   * 검색결과가 없을때 처리
+   */
+  const [notfound, setNotfound] = useState(false);
+
+  const findNickname = async () => {
+    setLoading(true);
+
+    if (diary) {
+      const { uuid } = diary;
+
+      /**
+       * 닉네임 중복 체크
+       */
+
+      try {
+        const res = (await userApis.checkNicknameDupl(
+          nickname
+        )) as CheckNicknameDuplRes;
+        // console.log(res);
+
+        const { exists } = res;
+        if (exists) {
+          try {
+            // console.log(uuid);
+            /**
+             * 다이러리 멤버 조회
+             */
+            // console.log(nickname);
+            const data = (await diaryApis.findMember(
+              uuid,
+              nickname
+            )) as Memeber;
+            // console.log(data);
+            if (data) {
+              setMembers([data]);
+            } else {
+              setNotfound(true);
+              setMembers([]);
+            }
+          } catch (error) {
+            if (error.response) {
+              const { data } = error.response;
+              /**
+               * 만약 해당멤베가 존재하지 않는다면
+               */
+              if (data.code === "4001") {
+                setMembers([
+                  {
+                    userId: null,
+                    nickname: nickname,
+                    status: null,
+                    authority: null,
+                  },
+                ]);
+              }
+            }
+            // console.log(error);
+            // setNotfound(true);
+            // setMembers([]);
+          }
+        } else {
+          /**
+           * 닉네임 중복테스트 결과 중복되는 아이디가 없으면 없다고 처리
+           */
+          setNotfound(true);
+          setMembers([]);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    setLoading(false);
+  };
+
+  const addMember = async () => {
+    if (diary) {
+        setLoading(true)
+        const { uuid } = diary;
+        try {
+            const res = await diaryApis.addMember(uuid , nickname);
+            Alert.alert("초대 되었습니다.");
+            findNickname()
+            setLoading(false)
+            console.log(res);
+            return res
+        } catch (error) {
+            console.log(error);
+        }
+    }
+  }
+
+  return (
+    <Background>
+      <View style={{ paddingVertical: 0, paddingHorizontal: 34, flex: 1 }}>
+        <View
+          style={{ height: 77, alignItems: "center", justifyContent: "center" }}
+        >
+          <Text_2 style={{ fontSize: 14, color: "#17171c" }}>
+            친구와 같이 일기를 작성해보세요!
+          </Text_2>
+        </View>
+        <View>
+          <TextInput
+            placeholder="친구의 닉네임을 검색해보세요!"
+            value={nickname}
+            onChangeText={(value) => {
+              setNickname(value);
+            }}
+          />
+          <Button onPress={findNickname}>
+            <Icon source={require("@assets/icons/search.png")} />
+          </Button>
+        </View>
+        <View
+          style={{ height: 77, alignItems: "center", justifyContent: "center" }}
+        >
+          <Text_2 style={{ fontSize: 12, color: "#6f6f7e" }}>
+            앗, 친구가 아직 끼리에 가입하지 않았나요?
+          </Text_2>
+        </View>
+        <SafeAreaView style={{ flex: 1 }}>
+          <FlatList
+            data={members}
+            ListEmptyComponent={() => {
+              return notfound ? (
+                <View
+                  style={{ paddingTop: 130, alignItems: "center", flex: 1 }}
+                >
+                  <Text_2>검색 결과가 없습니다.</Text_2>
                 </View>
-                <View>
-                    <TextInput style={{ borderColor: "#d1d1de", borderWidth: 1, borderRadius: 5, height: 40 }} />
-                </View>
-                <View style={{ height: 77, alignItems: "center", justifyContent: "center" }}>
-                    <Text_2 style={{ fontSize: 12, color: "#6f6f7e" }}>앱 다운로드 링크를 공유</Text_2>
-                </View>
-                <SafeAreaView style={{ flex: 1 }}>
-                    <FlatList
-                        data={[
-                            {
-                                id: "tset1",
-                                name: "망고",
-                                thumbnail: "https://picsum.photos/id/1074/40/40"
-                            },
-                            {
-                                id: "tset2",
-                                name: "망고는 맛있어",
-                                thumbnail: "https://picsum.photos/id/1074/40/40"
-                            },
-                            {
-                                id: "tset3",
-                                name: "망고는 맛있어",
-                                thumbnail: "https://picsum.photos/id/1074/40/40"
-                            },
-                            {
-                                id: "tset4",
-                                name: "망고는 맛있어",
-                                thumbnail: "https://picsum.photos/id/1074/40/40"
-                            },
-                            {
-                                id: "tset5",
-                                name: "망고는 맛있어",
-                                thumbnail: "https://picsum.photos/id/1074/40/40"
-                            },
-                            {
-                                id: "tset6",
-                                name: "망고는 맛있어",
-                                thumbnail: "https://picsum.photos/id/1074/40/40"
-                            },
-                            {
-                                id: "tset7",
-                                name: "망고는 맛있어",
-                                thumbnail: "https://picsum.photos/id/1074/40/40"
-                            },
-                            {
-                                id: "tset8",
-                                name: "망고는 맛있어",
-                                thumbnail: "https://picsum.photos/id/1074/40/40"
-                            },
-                            {
-                                id: "tset9",
-                                name: "망고는 맛있어",
-                                thumbnail: "https://picsum.photos/id/1074/40/40"
-                            },
-                            {
-                                id: "tset10",
-                                name: "망고는 맛있어",
-                                thumbnail: "https://picsum.photos/id/1074/40/40"
-                            },
-                            {
-                                id: "tset11",
-                                name: "망고는 맛있어 end",
-                                thumbnail: "https://picsum.photos/id/1074/40/40"
-                            }
-                        ]}
-                        ListEmptyComponent={() => {
-                            return (
-                                <View>
-                                    <Text_2>
-                                        검색 결과가 없습니다.
-                                    </Text_2>
-                                </View>
-                            )
-                        }}
-                        renderItem={({ item }) => {
-                            return (
-                                <View style={{
-                                    flexDirection: "row",
-                                    justifyContent: "space-between",
-                                    alignItems: "center",
-                                    height: 60
-                                }}>
-                                    <View style={{ width: 40 }}>
-                                        <Image
-                                            style={{
-                                                width: 40,
-                                                height: 40,
-                                                borderRadius: 40
-                                            }}
-                                            source={{
-                                                uri: item.thumbnail
-                                            }}
-                                        />
-                                    </View>
-                                    <View style={{ width: "60%", alignItems: "flex-start" }}>
-                                        <Text_2 style={{ fontSize: 14, color: "#000000" }}>{item.name}</Text_2>
-                                    </View>
-                                    <View style={{ width: "20%", alignItems: "center", justifyContent: "center" }}>
-                                        <TouchableOpacity style={{
-                                            backgroundColor: "#ffdd1f",
-                                            width: 52,
-                                            height: 28,
-                                            borderRadius: 10,
-                                            alignItems: "center",
-                                            justifyContent: "center"
-                                        }}>
-                                            <Text_2 bold="Medium" style={{ fontSize: 12, color: "#17171c" }}>초대</Text_2>
-                                        </TouchableOpacity>
-                                    </View>
-                                </View>
-                            )
-                        }}
+              ) : null;
+            }}
+            keyExtractor={(item, index) => `${index}`}
+            renderItem={({ item: { nickname, status } }) => {
+              return (
+                <View
+                  style={{
+                    flexDirection: "row",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                    height: 60,
+                  }}
+                >
+                  {/*
+                   * 프로파일 이미지
+                   */}
+                  <View style={{ width: 40 }}>
+                    <Image
+                      style={{
+                        width: 40,
+                        height: 40,
+                        borderRadius: 40,
+                      }}
+                      source={require("@assets/images/profile/home_profile_01.png")}
                     />
-                </SafeAreaView>
-            </View>
-        </Background>
-    )
+                  </View>
+                  {/*
+                   * 닉네임 부분
+                   */}
+                  <View style={{ width: "60%", alignItems: "flex-start" }}>
+                    <Text_2 style={{ fontSize: 14, color: "#000000" }}>
+                      {nickname}
+                    </Text_2>
+                  </View>
+                  <View
+                    style={{
+                      width: "20%",
+                      alignItems: "center",
+                      justifyContent: "center",
+                    }}
+                  >
+                    {status !== null && (
+                      <View
+                        style={{
+                          backgroundColor: "#b4b4b4",
+                          width: 52,
+                          height: 28,
+                          borderRadius: 10,
+                          alignItems: "center",
+                          justifyContent: "center",
+                        }}
+                      >
+                        <Text_2
+                          bold="Medium"
+                          style={{ fontSize: 12, color: "#17171c" }}
+                        >
+                          {status === "ACTIVE" && "초대됨"}
+                          {status === "INVITING" && "초대중"}
+                        </Text_2>
+                      </View>
+                    )}
+                    {status === null && (
+                      <TouchableOpacity
+                        style={{
+                          backgroundColor: "#ffdd1f",
+                          width: 52,
+                          height: 28,
+                          borderRadius: 10,
+                          alignItems: "center",
+                          justifyContent: "center",
+                        }}
+                        onPress={addMember}
+                      >
+                        <Text_2
+                          bold="Medium"
+                          style={{ fontSize: 12, color: "#17171c" }}
+                        >
+                          초대
+                        </Text_2>
+                      </TouchableOpacity>
+                    )}
+                  </View>
+                </View>
+              );
+            }}
+          />
+        </SafeAreaView>
+      </View>
+    </Background>
+  );
 }

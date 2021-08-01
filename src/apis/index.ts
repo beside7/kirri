@@ -1,6 +1,6 @@
 import { userApis } from './user';
 import {SERVER_URL} from './clients';
-import {diaryApis} from './diary';
 import {messageApis} from './message';
+import {diaryApis , recordApis} from './diary';
 
-export { userApis, diaryApis, SERVER_URL, messageApis };
+export { userApis, diaryApis, recordApis , SERVER_URL, messageApis};

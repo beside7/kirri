@@ -1,16 +1,16 @@
 import styled from 'styled-components/native';
 import Constants from 'expo-constants';
-
+import { Platform } from "react-native";
 
 export const HeaderContainer = styled.View({
-    paddingTop:17,
+    paddingTop: (Platform.OS === "android") ? 24 + Constants.statusBarHeight :17,
     paddingBottom: 24,
     paddingHorizontal: 20,
     display: 'flex',
     flexDirection:'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    borderColor:'#29000030',
+    borderColor:'rgba(41, 0, 0, 0.1)',
     borderBottomWidth:  1,
     backgroundColor: '#fff',
 });

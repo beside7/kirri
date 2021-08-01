@@ -8,11 +8,8 @@ import {
 import {
     Login,
     Nickname,
-    DiaryInput,
     Home,
     TestPage,
-    DiaryList,
-    DiaryDetail,
     FriendMain,
     MassageList,
     MainHome,
@@ -20,6 +17,10 @@ import {
     CheerupMessage,
     Setting,
     Onboarding,
+    RecordInfo,
+    RecordList,
+    RecordInput,
+    RecordView,
     Settings,
 } from "@screens";
 import { Text } from "react-native";
@@ -29,6 +30,9 @@ import { View } from 'react-native';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { userApis } from "@apis";
 import { SafeAreaView } from "react-native-safe-area-context";
+
+import { DiaryResType, RecordResType } from "@type-definition/diary"
+
 
 export function navigate(name: string, params: any) {
     navigationRef.current?.navigate(name, params);
@@ -49,11 +53,8 @@ interface TermsAndConditionsProps {
 export type StackNavigatorParams = {
     Login: undefined;
     Nickname: any;
-    DiaryInput: undefined;
-    DiaryList: undefined;
     TestPage: undefined;
-    DiaryDetail: undefined;
-    FriendMain: undefined;
+    FriendMain: { diary : DiaryResType | null };
     MassageList: undefined;
     Home: any;
     TermsAndConditions: undefined;
@@ -61,6 +62,10 @@ export type StackNavigatorParams = {
     Cheerup: undefined
     CheerupMessage: undefined
     Setting: undefined
+    RecordInfo: { diary : DiaryResType }
+    RecordList: { diary : DiaryResType | null }
+    RecordInput: { diary : DiaryResType | null , record? : RecordResType }
+    RecordView: {  diary : DiaryResType | null , record : RecordResType | null };
     Onboarding: undefined,
     Settings: any;
 };
@@ -154,22 +159,22 @@ export default function navigator(): ReactElement {
                 
                 
                 <Stack.Screen
-                    name="DiaryInput"
-                    component={DiaryInput}
+                    name="RecordInput"
+                    component={RecordInput}
                     options={{
                         headerShown: false
                     }}
                 />
                 <Stack.Screen
-                    name="DiaryList"
-                    component={DiaryList}
+                    name="RecordList"
+                    component={RecordList}
                     options={{
                         headerShown: false
                     }}
                 />
                 <Stack.Screen
-                    name="DiaryDetail"
-                    component={DiaryDetail}
+                    name="RecordView"
+                    component={RecordView}
                     options={{
                         headerShown: false
                     }}
@@ -220,6 +225,14 @@ export default function navigator(): ReactElement {
                 <Stack.Screen
                     name="Onboarding"
                     component={Onboarding}
+                    options={{
+                        headerShown: false
+                    }}
+                />
+                
+                <Stack.Screen
+                    name="RecordInfo"
+                    component={RecordInfo}
                     options={{
                         headerShown: false
                     }}

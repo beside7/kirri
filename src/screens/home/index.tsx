@@ -79,7 +79,8 @@ const Home = observer(({navigation}:HomeProps)=> {
     const getDiaries = async () => {
         try {
             const data = await diaryApis.getDiaries();
-            pageInfo.current = {totalPages: data.totalPages, totalCounts: data.totalCounts};
+            
+            pageInfo.current = {totalPages: data.totalPages, totalCounts: data.totalCounts};            
             setDiaryList(data.element||[]);
             setDiaryLoading(false);
         } catch (error) {
@@ -114,13 +115,13 @@ const Home = observer(({navigation}:HomeProps)=> {
                     <ProfileWarp>
                         <IconWarp>
                             <IconButton
+                                onPress={()=> {                                    
+                                    navigation.navigate("RecordInput", { diary : null })
+                                }}
                                 style={styles.iconSpace}
                                 icon={require('@assets/images/home_writing_normal.png')}
                             />
                             <IconButton
-                                onPress={() => {
-                                    navigation.navigate("MassageList")
-                                }}
                                 style={styles.iconSpace}
                                 icon={require('@assets/images/home_notice_normal.png')}
                             />
@@ -172,13 +173,19 @@ const Home = observer(({navigation}:HomeProps)=> {
                                         {
                                             diaryList?
                                             diaryList.map((diary: DiaryResType)=>
-                                                <Diary
-                                                    key={diary.uuid}
-                                                    diaryTitle={diary.title}
-                                                    members={diary.members.length}
-                                                    coverType={diary.icon.split(':')[0]}
-                                                    coverId={diary.icon.split(':')[1]}
-                                                />
+                                                <TouchableOpacity
+                                                    onPress={() => {
+                                                        navigation.navigate("RecordInfo" , { diary : diary })
+                                                    }}
+                                                >
+                                                    <Diary
+                                                        key={diary.uuid}
+                                                        diaryTitle={diary.title}
+                                                        members={diary.members.length}
+                                                        coverType={diary.icon.split(':')[0]}
+                                                        coverId={diary.icon.split(':')[1]}
+                                                    />
+                                                </TouchableOpacity>
                                             ): <></>
                                         }
                                         <DiaryContainer>
