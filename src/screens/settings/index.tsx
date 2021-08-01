@@ -89,10 +89,10 @@ export const Settings = observer(()=> {
 
     return (
         <Fragment>
-            <SafeAreaViewTop>
+            {/* <SafeAreaViewTop>
                 
-            </SafeAreaViewTop>
-            <StatusBar barStyle="light-content" />
+            </SafeAreaViewTop> */}
+            {/* <StatusBar barStyle="light-content" /> */}
             <SafeAreaViewBottom>
                 <Header
                     leftIcon={require('@assets/icons/back.png')}

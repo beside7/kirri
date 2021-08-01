@@ -15,7 +15,7 @@ export const SafeAreaViewBottom = styled.SafeAreaView({
     height: '100%'
 })
 
-export const ContentContainer = styled.View({
+export const ContentContainer = styled.ScrollView({
     backgroundColor:'#f7f7f7'
 })
 
