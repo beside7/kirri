@@ -52,7 +52,7 @@ export const BigCoverImage = styled.Image({})
 
 export const BigCoverColor = styled.View(( { color } : StyledProps): any => ({
     backgroundColor : color,
-    width: 161,
+    width: 159,
     height: 47,
     borderTopLeftRadius: 10,
     borderTopRightRadius: 10,

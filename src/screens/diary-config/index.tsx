@@ -91,6 +91,11 @@ export default function DiaryConfig({ navigation, route } : DiaryConfigProps) {
                 Alert.alert("수정되었습니다.");
                 navigation.replace("Home")
             } catch (error) {
+                if (error.response) {
+                    const { data } = error.response;
+                    console.log(data);
+                }
+                Alert.alert("서버 전송간 에러가 발생했습니다.");
                 console.log(error);
             }
         }
@@ -151,18 +156,18 @@ export default function DiaryConfig({ navigation, route } : DiaryConfigProps) {
                         </BigCoverImageLine>
                     </BigCoverImageConteiner>
                     <CircleCoverImageConteiner>
-                        <TouchableOpacity onPress={() => { setIcon({ type: "image" , index: "01" }) }} ><CircleCoverImage source={require("@assets/images/diary/diary_circleimg_01.png")} /></TouchableOpacity>
-                        <TouchableOpacity onPress={() => { setIcon({ type: "image" , index: "02" }) }} ><CircleCoverImage source={require("@assets/images/diary/diary_circleimg_02.png")} /></TouchableOpacity>
-                        <TouchableOpacity onPress={() => { setIcon({ type: "image" , index: "03" }) }} ><CircleCoverImage source={require("@assets/images/diary/diary_circleimg_03.png")} /></TouchableOpacity>
-                        <TouchableOpacity onPress={() => { setIcon({ type: "image" , index: "04" }) }} ><CircleCoverImage source={require("@assets/images/diary/diary_circleimg_04.png")} /></TouchableOpacity>
-                        <TouchableOpacity onPress={() => { setIcon({ type: "image" , index: "05" }) }} ><CircleCoverImage source={require("@assets/images/diary/diary_circleimg_05.png")} /></TouchableOpacity>
-                        <TouchableOpacity onPress={() => { setIcon({ type: "image" , index: "06" }) }} ><CircleCoverImage source={require("@assets/images/diary/diary_circleimg_06.png")} /></TouchableOpacity>
-                        <CircleCoverColor onPress={() => { setIcon({ type: "color" , index: "01" }) }} color="#6173ff" />
-                        <CircleCoverColor onPress={() => { setIcon({ type: "color" , index: "02" }) }} color="#e49ffd" />
-                        <CircleCoverColor onPress={() => { setIcon({ type: "color" , index: "03" }) }} color="#4fbcd0" />
-                        <CircleCoverColor onPress={() => { setIcon({ type: "color" , index: "04" }) }} color="#b59aff" />
-                        <CircleCoverColor onPress={() => { setIcon({ type: "color" , index: "05" }) }} color="#fdae43" />
-                        <CircleCoverColor onPress={() => { setIcon({ type: "color" , index: "06" }) }} color="#1ad0ff" />
+                        <TouchableOpacity onPress={() => { setIcon({ type: "image" , index: "01" }) }} ><CircleCoverImage style={{ borderWidth: (icon?.type==="image" && icon.index === "01") ? 2 : 0, borderColor: "#ffdd1f", borderRadius: 100 }} source={require("@assets/images/diary/diary_circleimg_01.png")} /></TouchableOpacity>
+                        <TouchableOpacity onPress={() => { setIcon({ type: "image" , index: "02" }) }} ><CircleCoverImage style={{ borderWidth: (icon?.type==="image" && icon.index === "02") ? 2 : 0, borderColor: "#ffdd1f", borderRadius: 100 }} source={require("@assets/images/diary/diary_circleimg_02.png")} /></TouchableOpacity>
+                        <TouchableOpacity onPress={() => { setIcon({ type: "image" , index: "03" }) }} ><CircleCoverImage style={{ borderWidth: (icon?.type==="image" && icon.index === "03") ? 2 : 0, borderColor: "#ffdd1f", borderRadius: 100 }} source={require("@assets/images/diary/diary_circleimg_03.png")} /></TouchableOpacity>
+                        <TouchableOpacity onPress={() => { setIcon({ type: "image" , index: "04" }) }} ><CircleCoverImage style={{ borderWidth: (icon?.type==="image" && icon.index === "04") ? 2 : 0, borderColor: "#ffdd1f", borderRadius: 100 }} source={require("@assets/images/diary/diary_circleimg_04.png")} /></TouchableOpacity>
+                        <TouchableOpacity onPress={() => { setIcon({ type: "image" , index: "05" }) }} ><CircleCoverImage style={{ borderWidth: (icon?.type==="image" && icon.index === "05") ? 2 : 0, borderColor: "#ffdd1f", borderRadius: 100 }} source={require("@assets/images/diary/diary_circleimg_05.png")} /></TouchableOpacity>
+                        <TouchableOpacity onPress={() => { setIcon({ type: "image" , index: "06" }) }} ><CircleCoverImage style={{ borderWidth: (icon?.type==="image" && icon.index === "06") ? 2 : 0, borderColor: "#ffdd1f", borderRadius: 100 }} source={require("@assets/images/diary/diary_circleimg_06.png")} /></TouchableOpacity>
+                        <CircleCoverColor style={{ borderWidth: (icon?.type==="color" && icon.index === "01") ? 2 : 0, borderColor: "#ffdd1f" }} onPress={() => { setIcon({ type: "color" , index: "01" }) }} color="#6173ff" />
+                        <CircleCoverColor style={{ borderWidth: (icon?.type==="color" && icon.index === "02") ? 2 : 0, borderColor: "#ffdd1f" }} onPress={() => { setIcon({ type: "color" , index: "02" }) }} color="#e49ffd" />
+                        <CircleCoverColor style={{ borderWidth: (icon?.type==="color" && icon.index === "03") ? 2 : 0, borderColor: "#ffdd1f" }} onPress={() => { setIcon({ type: "color" , index: "03" }) }} color="#4fbcd0" />
+                        <CircleCoverColor style={{ borderWidth: (icon?.type==="color" && icon.index === "04") ? 2 : 0, borderColor: "#ffdd1f" }} onPress={() => { setIcon({ type: "color" , index: "04" }) }} color="#b59aff" />
+                        <CircleCoverColor style={{ borderWidth: (icon?.type==="color" && icon.index === "05") ? 2 : 0, borderColor: "#ffdd1f" }} onPress={() => { setIcon({ type: "color" , index: "05" }) }} color="#fdae43" />
+                        <CircleCoverColor style={{ borderWidth: (icon?.type==="color" && icon.index === "06") ? 2 : 0, borderColor: "#ffdd1f" }} onPress={() => { setIcon({ type: "color" , index: "06" }) }} color="#1ad0ff" />
                     </CircleCoverImageConteiner>
                 </CoverConteiner>
             </Container>
