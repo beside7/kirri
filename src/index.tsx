@@ -1,6 +1,6 @@
 import React, { ReactElement, ReactNode } from "react";
 import Navigator from "@config/navigator";
-import { AppBootstrap } from "@components";
+import { AppBootstrap, PushMessageProvider } from "@components";
 
 import { Provider as PaperProvider } from 'react-native-paper';
 import { ThemeProvider } from "styled-components/native";
@@ -18,7 +18,9 @@ import { theme } from "./utils/styleTheme";
                 <ThemeProvider
                     theme={theme}
                 >
-                    <Navigator />
+                    <PushMessageProvider>
+                        <Navigator />
+                    </PushMessageProvider>
                 </ThemeProvider>
             </AppBootstrap>
         </PaperProvider>
