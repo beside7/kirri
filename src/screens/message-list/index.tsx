@@ -1,33 +1,107 @@
-import React from 'react'
-import { Background, Header } from "@components";
+import React, { useState, useRef, useEffect} from 'react'
+import { Background, Header, Tabs, Dropdown } from "@components";
 import AppNavigator from "./tab-navigator";
-import { TouchableOpacity, Image } from 'react-native';
+import { TouchableOpacity, Image, Text, FlatList } from 'react-native';
 import { StackNavigatorParams } from "@config/navigator";
 import { StackNavigationProp } from "@react-navigation/stack";
+import {Container, PickerWrap, AlarmListWarp, EmptyMessage, EmtyMsgImage, EmtyMsgText} from './messageList.style';
+import { MessageDataType, MessageType, MessageResType, MessageReqType } from '@type-definition/message';
+import { messageApis } from '@apis';
+import { Message } from './Message';
+// import {  } from 'react-native-gesture-handler';
+
 
 type MessageListProps = {
     navigation: StackNavigationProp<StackNavigatorParams, "MassageList">;
 }
 
 export default function MessageList({ navigation } : MessageListProps) {
+    const selectedMessageType = useRef<'all' | MessageType>('all');
+    const pageInfo = useRef({page: 0, totalPage: 1, size: 10});
+    const [messageList, setMessageList] = useState<MessageDataType[]>([]);
+    
+
+    const updateMessageStatus = (message:MessageDataType) => {
+        setMessageList(messageList?.map(msg=> msg.id === message.id?message:msg));
+    }
+
+    const handleChangeSelectedMsgType = async (type: 'all'| MessageType) => {
+        selectedMessageType.current = type;
+        pageInfo.current.page = 0;
+        pageInfo.current.totalPage = 1;
+        setMessageList([]);
+    }
+    const setMessages = (addMessageList: MessageDataType[]) => {
+        let messages: MessageDataType[] = [];
+        if (messageList) {
+            messages = [...messageList];
+        }
+        setMessageList(messages.concat(addMessageList));
+    }
+    const getMessages = async () => {
+        if (pageInfo.current.totalPage>pageInfo.current.page) {
+            try {
+                let data:MessageResType;
+                switch(selectedMessageType.current) {
+                    case 'all':
+                        data = await messageApis.getAllMessages({size: pageInfo.current.size, page: pageInfo.current.page});
+                        break;
+                    default :
+                        data = await messageApis.getMessagesByType({size: pageInfo.current.size, page: pageInfo.current.page, type: selectedMessageType.current as MessageType});                   
+                        break;
+                }
+                pageInfo.current.totalPage = data.totalPages;
+                pageInfo.current.page = pageInfo.current.page+1;
+                setMessages(data.elements);
+
+            } catch (error) {
+                console.log(error);
+            }
+            
+        }
+    }
+
+    useEffect(()=>{
+        getMessages();
+    },[])
+    
     return (
         <Background>
             <Header
                 title="알림"
-                leftIcon={
-                    <TouchableOpacity
-                        onPress={() => {
-                            navigation.goBack()
-                        }}
-                    >
-                        <Image 
-                            style={{ width: 24, height: 24 }}
-                            source={require("@assets/icons/back.png")}
-                        />
-                    </TouchableOpacity>
-                }
+                leftIcon={require("@assets/icons/back.png")}
+                onLeftClick={() => {
+                    navigation.goBack()
+                }}
             />
-            <AppNavigator />
+            <Container>
+                
+                <PickerWrap>
+                    <Dropdown
+                        items={[{label: '전체', value:'all'},{label: '응원', value:'CHEERING'},{label: '초대', value:'INVITATION'}, {label: '알림', value:'NOTIFICATION'},{label: '새기록', value:'NEW_RECORD'} ]}
+                        value='all'
+                        onChangeValue={(val)=>{handleChangeSelectedMsgType(val)}}
+                    ></Dropdown>
+                </PickerWrap>
+                <AlarmListWarp>
+                    {messageList.length?
+                        <FlatList
+                            data={messageList}
+                            renderItem={({item})=> <Message {...item} updateMessageStatus={updateMessageStatus}/>}
+                            keyExtractor={(item: MessageDataType)=> item.id.toString()}
+                            onEndReached={getMessages}
+                            onEndReachedThreshold={1}
+                        />
+                        :
+                        <EmptyMessage>
+                            <EmtyMsgImage source={require('@assets/images/alarm/notification_invite_empty.png')}/>
+                            <EmtyMsgText>받은 알림이 없어요!</EmtyMsgText>
+                        </EmptyMessage>
+                    
+                    }
+                    
+                </AlarmListWarp>
+            </Container>
         </Background>
     )
 }

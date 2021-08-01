@@ -10,3 +10,8 @@ export interface ResType<T> {
     data: T,
     [key: string]: any
 }
+
+export interface PageReqType {
+    page: number,
+    size: number
+}
