@@ -73,6 +73,6 @@ export const Medium = styled(ButtonOfType)((props: StyledProps)=>({
 }));
 
 export const Small = styled(ButtonOfType)((props: StyledProps)=>({
-    maxWidth: 52,
+    width: props.width || 52,
     height: props.height || 28,
 }));

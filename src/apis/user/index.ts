@@ -64,5 +64,21 @@ export const userApis = {
     }catch(error){
       return false;
     }
-  }
+  },
+  async refuseInvitationDiary (uuid: string) {
+    try{
+      const result = await apiClient.delete(`/user/me/diaries/${uuid}`);
+      return result;
+    }catch(error){
+
+    }
+  },
+  async acceptInvitationDiary (uuid: string) {
+    try{
+      const result = await apiClient.post(`/user/me/diaries/${uuid}`);
+      return result;
+    }catch(error){
+
+    }
+  },
 };
