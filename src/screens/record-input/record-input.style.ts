@@ -93,6 +93,11 @@ const styles = StyleSheet.create({
     diatyListItemThumbnailContainer: {
         marginRight: 12
     },
+    selectDiaryImage : {
+        borderWidth: 3,
+        borderColor: "yellow",
+        borderRadius: 100
+    },
     diatyListItemTitle: {
         fontSize: 16,
         color: "#17171c"
@@ -106,14 +111,22 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         marginTop: 60
     },
-    bottomPopupButton: {
+    bottomPopupDisableButton: {
         width: 307,
         height: 50,
         backgroundColor: "#f4f4f8",
         justifyContent: "center",
         alignItems: "center",
         borderRadius: 10,
-    }
+    },
+    bottomPopupEnableButton: {
+        width: 307,
+        height: 50,
+        backgroundColor: "#ffdd1f",
+        justifyContent: "center",
+        alignItems: "center",
+        borderRadius: 10,
+    },
 })
 
 

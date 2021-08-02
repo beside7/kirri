@@ -40,7 +40,7 @@ const warpStyle = styled.View({
 
 export const ProfileWarp = styled(warpStyle)({
  
-    paddingTop: (Platform.OS === "android") ? Constants.statusBarHeight : 0,
+    paddingTop: (Platform.OS === "android") ? Constants.statusBarHeight + 17 : 0,
 });
 
 export const IconWarp = styled.View({

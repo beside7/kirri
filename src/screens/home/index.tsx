@@ -79,7 +79,7 @@ const Home = observer(({navigation}:HomeProps)=> {
     const getDiaries = async () => {
         try {
             const data = await diaryApis.getDiaries();
-            pageInfo.current = {totalPages: data.totalPages, totalCounts: data.totalCounts};    
+            pageInfo.current = {totalPages: data.totalPages, totalCounts: data.totalCounts}; 
             setDiaryList(data.elements||[]);
             setDiaryLoading(false);
         } catch (error) {
@@ -115,7 +115,7 @@ const Home = observer(({navigation}:HomeProps)=> {
                         <IconWarp>
                             <IconButton
                                 onPress={()=> {                                    
-                                    navigation.navigate("RecordInput", { diary : null })
+                                    navigate("RecordInput", { diary : null })
                                 }}
                                 style={styles.iconSpace}
                                 icon={require('@assets/images/home_writing_normal.png')}

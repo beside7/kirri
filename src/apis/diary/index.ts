@@ -1,4 +1,4 @@
-import { CreateDiaryReqType, DiariesResType, RecordsResType, RecordResType, CreateRecordReqType } from './../../types/diary/index';
+import { CreateDiaryReqType, DiariesResType, RecordsResType, RecordResType, CreateRecordReqType, DiaryResType } from './../../types/diary/index';
 import { apiClient } from '../clients';
 import FormData from 'form-data';
 
@@ -12,6 +12,32 @@ export const diaryApis = {
     return data;
   },
 
+  /**
+   * 다이러리 상세조회
+   * @param uuid 다이러리기본키
+   * @returns 
+   */
+  async viewDiary(uuid: string) : Promise<DiaryResType> {
+    const { data } = await apiClient.get(`/diaries/${uuid}`);
+    return data;
+  },
+  /**
+   * 다이러리 수정
+   * @param uuid 다이러리기본키 
+   * @param payload 
+   * @returns 
+   */
+  async modifyDiary(uuid: string,payload: CreateDiaryReqType) {    
+    const { data } = await apiClient.put(`/diaries/${uuid}`, payload);
+    return data;
+  },
+  /**
+   * 다이러리 삭제
+   * @param uuid 
+   */
+  async deleteDiary(uuid: string) : Promise<void> {
+    await apiClient.delete(`/diaries/${uuid}`);
+  },
   /**
    * 다이러리 멤버 조회
    * @param uuid 다이러리기본키 

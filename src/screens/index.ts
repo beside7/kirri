@@ -17,6 +17,7 @@ export { default as RecordInfo } from "./record-info"
 export { default as RecordList } from "./record-list";
 export { default as RecordInput } from "./record-input/record-input";
 export { default as RecordView } from "./record-view"
+export { default as DiaryConfig } from "./diary-config"
 
 /**
  * # overall  - user

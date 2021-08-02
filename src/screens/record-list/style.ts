@@ -79,7 +79,23 @@ const styles = StyleSheet.create({
         borderLeftColor: "transparent",
     },
     listItemTitle : { color: "#17171c", fontSize: 16, fontFamily: "SpoqaHanSansNeo-Regular", marginTop: 8 },
-    listItemBody : { color: "#6f6f7e", fontSize: 12, fontFamily: "SpoqaHanSansNeo-Regular", marginTop: 6 }
+    listItemBody : { color: "#6f6f7e", fontSize: 12, fontFamily: "SpoqaHanSansNeo-Regular", marginTop: 6 },
+
+    modalImages: {
+        alignItems: "center",
+        justifyContent: "center",
+    },
+    modalDeleteIcon: {
+        width: 100,
+        height: 100,
+        marginBottom: 24,
+    },
+    modalTitleStyle: {
+        color: "#17171c",
+        fontWeight: "bold",
+        textAlign: "center",
+        fontSize: 14,
+    },
 });
 
 export default styles;
