@@ -1,4 +1,4 @@
-import React, { useState, Fragment } from 'react';
+import React, { useState, Fragment, useEffect } from 'react';
 import {View, StatusBar} from 'react-native';
 import { Header, KirriTextInput, Switch, Popup } from '@components';
 import {
@@ -74,8 +74,11 @@ export const Settings = observer(()=> {
                         console.log("api",error);
                     }
                 }
+            } else {
+                
             }
             setPushNotification(value);
+            AsyncStorage.setItem('pushNotification', JSON.stringify(value));
         }catch(error){
             console.log("device",error);
         }
@@ -107,6 +110,12 @@ export const Settings = observer(()=> {
             
         }
     }
+
+    useEffect(() => {
+        AsyncStorage.getItem('pushNotification', (err, value) => {
+            setPushNotification(value ? JSON.parse(value) as boolean : false);
+        });
+    }, []);
 
     return (
         <Fragment>
