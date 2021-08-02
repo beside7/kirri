@@ -34,7 +34,7 @@ import { UpdateUserMeResType } from '@type-definition/user';
 import {getProfileImage, ProfileImageTypes} from '@utils';
 
 export const Settings = observer(()=> {
-    const {nickname, profileImagePath} = UserStore;
+    const {nickname, profileImage} = UserStore;
     const [newNickname, setNewNickname] = useState('');
     const [duplicate, setDuplicate] = useState(false);
     const [leavKKiriPopupOpen, setLeavKKiriPopupOpen] = useState(false);
@@ -68,9 +68,9 @@ export const Settings = observer(()=> {
     const updateUserInfo = async (payload: UpdateUserMeResType) =>{
         try{
             const data = await userApis.updateUserMe(payload);
-            alert(data)
             payload.profileImagePath && (UserStore.changeProfileImg(payload.profileImagePath));
             payload.nickname && (UserStore.setNickname(payload.nickname));
+            
         }catch(error){
 
         }
@@ -106,28 +106,8 @@ export const Settings = observer(()=> {
                 ></Header>
                 <ContentContainer>
                     <Profile>
-                        {/* <SelectProfileImage
-                            selectedImage={profileImagePath[1]}
-                            selecteChanged={(key)=>{
-                                updateUserInfo({profileImagePath:'profile:'+key});
-                            }}
-                        ></SelectProfileImage>
-                        <NicknameInputWarp>
-                            <MakeNicknameTitle>한글, 영문, 숫자를 사용해 멋진 닉네임을 만들어주세요</MakeNicknameTitle>
-                            <KirriTextInput
-                                onChange={(text)=>{
-                                    setNewNickname(text);
-                                
-                                }}
-                                placeholder='멋진자몽'
-                                text={nickname}
-                                rightText='끼리'
-                                onError={duplicate}
-                                errorMessage='사용할 수 없는 닉네임이예요'
-                            />
-                        </NicknameInputWarp> */}
-                        <ProfileImage source={getProfileImage(profileImagePath[1] as ProfileImageTypes)}/>
-                        <NicknameWarp><NicknameText>{nickname}</NicknameText><EditProfile></EditProfile></NicknameWarp>
+                        <ProfileImage source={profileImage}/>
+                        <NicknameWarp><NicknameText>{nickname}</NicknameText><EditProfile onPress={()=>{navigate('EditPersonalInfo', null)}}></EditProfile></NicknameWarp>
                     </Profile>
                     <Content>
                                 

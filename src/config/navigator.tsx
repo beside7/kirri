@@ -23,6 +23,7 @@ import {
     RecordView,
     Settings,
     DiaryConfig,
+    EditPersonalInfo
 } from "@screens";
 import { Text } from "react-native";
 
@@ -70,6 +71,7 @@ export type StackNavigatorParams = {
     Onboarding: undefined,
     Settings: any;
     DiaryConfig: { diary : DiaryResType | null };
+    EditPersonalInfo: undefined;
 };
 
 const Stack = createStackNavigator<StackNavigatorParams>();
@@ -220,6 +222,13 @@ export default function navigator(): ReactElement {
                 <Stack.Screen
                     name="Setting"
                     component={Setting}
+                    options={{
+                        headerShown: false
+                    }}
+                />
+                 <Stack.Screen
+                    name="EditPersonalInfo"
+                    component={EditPersonalInfo}
                     options={{
                         headerShown: false
                     }}
