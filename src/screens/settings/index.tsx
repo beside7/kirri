@@ -15,7 +15,11 @@ import {
     LeaveKKiriWarp,
     LeaveKirriPopupContent,
     SignoutImage,
-    SignoutText
+    SignoutText,
+    ProfileImage,
+    NicknameWarp,
+    EditProfile,
+    NicknameText
 } from './setting.style';
 import { SelectProfileImage } from '../nickname/SelectProfileImg';
 import { observer } from 'mobx-react';
@@ -27,6 +31,7 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { navigate, navigateGoBack } from '@config/navigator';
 import { UpdateUserMeResType } from '@type-definition/user';
+import {getProfileImage, ProfileImageTypes} from '@utils';
 
 export const Settings = observer(()=> {
     const {nickname, profileImagePath} = UserStore;
@@ -101,7 +106,7 @@ export const Settings = observer(()=> {
                 ></Header>
                 <ContentContainer>
                     <Profile>
-                        <SelectProfileImage
+                        {/* <SelectProfileImage
                             selectedImage={profileImagePath[1]}
                             selecteChanged={(key)=>{
                                 updateUserInfo({profileImagePath:'profile:'+key});
@@ -120,7 +125,9 @@ export const Settings = observer(()=> {
                                 onError={duplicate}
                                 errorMessage='사용할 수 없는 닉네임이예요'
                             />
-                        </NicknameInputWarp>
+                        </NicknameInputWarp> */}
+                        <ProfileImage source={getProfileImage(profileImagePath[1] as ProfileImageTypes)}/>
+                        <NicknameWarp><NicknameText>{nickname}</NicknameText><EditProfile></EditProfile></NicknameWarp>
                     </Profile>
                     <Content>
                                 

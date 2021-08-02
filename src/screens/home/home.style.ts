@@ -84,7 +84,7 @@ export const DiaryListWarp = styled(warpStyle)({
     paddingTop: 24,
     paddingBottom:20,
     display: 'flex',
-    flexDirection: 'column'
+    flexDirection: 'column',
 })
 
 
@@ -149,27 +149,26 @@ export const DiaryTitle = styled.Text({
   
 })
 
-export const DiaryListContainer = styled.ScrollView({
+export const DiaryListContainer = styled.View({
     paddingTop:20,
     flexGrow: 1,
     flexBasis: 1,
+    overflow: 'visible'
 })
 
-export const DiaryList = styled.View({
-    display: 'flex',
-    justifyContent:'space-between',
-    flexDirection:'row',
-    flexWrap: 'wrap',
-    marginTop: 8
+export const DiaryList = styled.ScrollView({
+    paddingTop: 8,
+    marginHorizontal: -20,
+    paddingHorizontal: 20
 })
 
 export const DiaryContainer = styled.View({
     flexGrow: 1,
     display: 'flex',
-    alignItems: 'center',
     height: 158,
     marginBottom: 18,
-    maxWidth: 250
+    width: 159,
+    boxShadow:'1.5px 2.5px 5px #0000002b',
 });
 
 export const DiaryWarp = styled.TouchableOpacity({
@@ -178,7 +177,7 @@ export const DiaryWarp = styled.TouchableOpacity({
     borderRadius:12,
     display: 'flex',
     flexDirection: 'column',
-    boxShadow:'1.5px 2.5px 5px #0000002b',
+    
 })
 
 export const DiaryContent = styled.View({
@@ -211,6 +210,7 @@ export const DiaryBottom = styled.View({
     flexDirection: 'row',
     alignItems: 'center'
 })
+
 export const MembersText = styled.Text({
     color: '#696969',
     fontSize: 12
@@ -343,7 +343,7 @@ export const CreateDiaryCoverContent = styled.TouchableOpacity((props:{color?: s
     width: 40,
     height: 40,
     borderRadius: 20,
-    overflow: 'hidden',
+    // overflow: 'hidden',
     backgroundColor: props.color || '#fff',
     borderWidth: props.selected?1.5:0,
     borderColor: '#ffdd1f'
