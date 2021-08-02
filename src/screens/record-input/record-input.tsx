@@ -215,8 +215,8 @@ export default function RecordInput({ navigation, route }: RecordInputProps) {
      */
     actionSheetRef.current?.setModalVisible();
     const data = await diaryApis.getDiaries();
-    const { element } = data;
-    setDiatyList(element);
+    const { elements } = data;
+    setDiatyList(elements);
   }
 
 
