@@ -197,10 +197,11 @@ const Home = observer(({navigation}:HomeProps)=> {
                                                 </TouchableOpacity>
                                             ): <></>
                                         }
-                                        
-                                        <CreateDiary
-                                            onClick={()=>{setCreateDiaryOpen(true)}}
-                                        />
+                                        <DiaryContainer>
+                                            <CreateDiary
+                                                onClick={()=>{setCreateDiaryOpen(true)}}
+                                            />
+                                        </DiaryContainer>
                                         
                                     </DiaryList>
                                     

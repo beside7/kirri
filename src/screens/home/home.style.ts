@@ -40,7 +40,7 @@ const warpStyle = styled.View({
 
 export const ProfileWarp = styled(warpStyle)({
  
-    paddingTop: (Platform.OS === "android") ? Constants.statusBarHeight + 17 : 0,
+    paddingTop: (Platform.OS === "android") ? Constants.statusBarHeight : 0,
 });
 
 export const IconWarp = styled.View({
@@ -163,7 +163,6 @@ export const DiaryList = styled.ScrollView({
 })
 
 export const DiaryContainer = styled.View({
-    flexGrow: 1,
     display: 'flex',
     height: 158,
     marginBottom: 18,
