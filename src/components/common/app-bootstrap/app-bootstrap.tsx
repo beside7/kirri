@@ -16,7 +16,7 @@ type AppBootstrapProps = {
 export default function AppBootstrap({ children }: AppBootstrapProps): ReactElement {
 
     useEffect(() => {
-        initNotifications()
+        // initNotifications()
     }, [])
 
     

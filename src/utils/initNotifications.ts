@@ -3,7 +3,7 @@ import Constants from "expo-constants";
 import { Platform } from "react-native";
 
 
-const initNotifications = async (): Promise<void> => {
+const initNotifications = async (): Promise<string | null> => {
     if (Constants.isDevice) {
         /**
          * 푸쉬 알람 권한 부여 확인
@@ -24,7 +24,7 @@ const initNotifications = async (): Promise<void> => {
          * 권한을 요청해도 승인이 없을경우 중단
          */
         if (finalStatus !== "granted") {
-            return;
+            return null;
         }
 
         /**
@@ -32,6 +32,8 @@ const initNotifications = async (): Promise<void> => {
          */
         const tokenRes = await Notifications.getExpoPushTokenAsync();
         console.log(tokenRes);
+
+        const { data } = tokenRes
         
         /**
          * 여기에 토큰값 전송
@@ -47,6 +49,9 @@ const initNotifications = async (): Promise<void> => {
                 importance: Notifications.AndroidImportance.MAX
             });
         }
+        return data;
+    } else {
+        return null;
     }
 }
 

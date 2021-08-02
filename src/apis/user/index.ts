@@ -81,4 +81,16 @@ export const userApis = {
 
     }
   },
+
+  /**
+   * 푸시 디바이스 등록
+   * @param token 디바이스 토큰값
+   * @returns 
+   */
+  async addPushDevice(token: string){
+    const result = await apiClient.post(`/user/me/devices`, {
+      token
+    });
+    return result;
+  }
 };

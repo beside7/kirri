@@ -27,12 +27,18 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { navigate, navigateGoBack } from '@config/navigator';
 import { UpdateUserMeResType } from '@type-definition/user';
+import { initNotifications } from "@utils";
 
 export const Settings = observer(()=> {
     const {nickname, profileImagePath} = UserStore;
     const [newNickname, setNewNickname] = useState('');
     const [duplicate, setDuplicate] = useState(false);
     const [leavKKiriPopupOpen, setLeavKKiriPopupOpen] = useState(false);
+
+    /**
+     * 알림설정 여부
+     */
+    const [pushNotification, setPushNotification] = useState(false);
 
     const checkDuple = debounce(() => {
         try {
@@ -51,12 +57,27 @@ export const Settings = observer(()=> {
         }
     }, 1000);
 
-    const handleChangeAlarmState = async (payload: UpdateUserMeResType) =>{
+    /**
+     * 알림설정 토글시 이벤트
+     * @param payload 
+     */
+    const handleChangeAlarmState = async (value : boolean) =>{
         try{
-            await userApis.updateUserMe(payload);
-
+            // await userApis.updateUserMe(payload);
+            if(value){
+                const token = await initNotifications();
+                if(token !== null){
+                    try {
+                        const { data } = await userApis.addPushDevice(token)
+                        console.log({ data , token });
+                    } catch (error) {
+                        console.log("api",error);
+                    }
+                }
+            }
+            setPushNotification(value);
         }catch(error){
-
+            console.log("device",error);
         }
     }
 
@@ -130,7 +151,7 @@ export const Settings = observer(()=> {
 
                         >
                             <Switch
-                                value={true}
+                                value={pushNotification}
                                 onValueChange={handleChangeAlarmState}
                             ></Switch>
                         </SettingContent>
