@@ -64,6 +64,7 @@ export const CreateDiaryModal = ({open, reloadDiary, close}: Props) => {
         try {
             const data = await diaryApis.createDiary(payload);            
             reloadDiary();
+            createDiaryModal.current.close();
             close();
         } catch (error) {
             console.log(error);

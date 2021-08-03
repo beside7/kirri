@@ -25,9 +25,36 @@ export const Content = styled.View({
 })
 
 export const Profile = styled(Content)({
-    paddingBottom: 70,
-    marginBottom: 8
+    paddingBottom: 80,
+    marginBottom: 8,
+    paddingTop: 54,
+    alignItems:'center',
 }) 
+
+export const ProfileImage = styled.Image({
+    width: 100,
+    height: 100,
+    resizeMode: 'contain'
+})
+
+export const NicknameWarp = styled.View({
+    display: 'flex',
+    flexDirection: 'row',
+    marginTop: 24
+})
+
+export const NicknameText = styled.Text({
+    fontSize: 24,
+    color: '#333333',
+    marginRight: 5
+})
+
+export const EditProfile = styled.TouchableOpacity((props: {theme: any})=>({
+    width: 18,
+    height: 18,
+    borderRadius:9,
+    backgroundColor: props.theme['101']
+}))
 
 export const NicknameInputWarp = styled.View({
     marginTop:70,

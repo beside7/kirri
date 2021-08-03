@@ -100,8 +100,8 @@ export const userApis = {
    * @returns 
    */
   async updatePush(payload : {CHEERING: boolean, NEW_RECORD: boolean, NOTIFICATION: boolean, INVITATION: boolean}){
-    const req = Object.entries(payload).map(([key , active] , index) => ({
-      key, active
+    const req = Object.entries(payload).map(([type , active] , index) => ({
+      type, active
     }))
     // console.log(req);
     

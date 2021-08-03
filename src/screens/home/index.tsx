@@ -79,8 +79,7 @@ const Home = observer(({navigation}:HomeProps)=> {
     const getDiaries = async () => {
         try {
             const data = await diaryApis.getDiaries();
-            
-            pageInfo.current = {totalPages: data.totalPages, totalCounts: data.totalCounts};            
+            pageInfo.current = {totalPages: data.totalPages, totalCounts: data.totalCounts}; 
             setDiaryList(data.elements||[]);
             setDiaryLoading(false);
         } catch (error) {
@@ -172,7 +171,14 @@ const Home = observer(({navigation}:HomeProps)=> {
                                 
                                 <DiaryListContainer>
                                     <DiaryTitle>다이어리 목록</DiaryTitle>
-                                    <DiaryList>
+                                    <DiaryList
+                                        contentContainerStyle={
+                                            {display: 'flex',
+                                            flexDirection:'row',
+                                            justifyContent: 'space-between',
+                                            
+                                            flexWrap: 'wrap',}}
+                                    >  
                                         {
                                             diaryList?
                                             diaryList.map((diary: DiaryResType)=>
@@ -196,6 +202,7 @@ const Home = observer(({navigation}:HomeProps)=> {
                                                 onClick={()=>{setCreateDiaryOpen(true)}}
                                             />
                                         </DiaryContainer>
+                                        
                                     </DiaryList>
                                     
                                 </DiaryListContainer>

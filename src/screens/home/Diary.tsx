@@ -1,7 +1,9 @@
 import React from 'react';
-import {DiaryContainer, DiaryCover, DiaryContent, DiaryDetailTitle, DiaryBottom, MembersText} from './home.style';
-import { CoverColorTypes, CoverImageTypes, CoverColor, CoverImages } from '@utils';
+import {DiaryContainer, DiaryCover, DiaryContent, DiaryDetailTitle, DiaryBottom, MembersText, DiaryBadge} from './home.style';
+import { CoverColorTypes, CoverImageTypes, CoverColor, CoverImages} from '@utils';
 import {Image} from 'react-native';
+
+const badge = require('@assets/images/home/home_diary_badge.png');
 
 interface Props{
     diaryTitle: string,
@@ -22,7 +24,7 @@ export const Diary = ({diaryTitle, members, coverType, coverId}: Props) => {
             </DiaryCover>
             <DiaryContent>
                 <DiaryDetailTitle>{diaryTitle}</DiaryDetailTitle>
-                <DiaryBottom><MembersText>+{members}</MembersText></DiaryBottom>
+                <DiaryBottom><DiaryBadge source={badge}/><MembersText>+{members}</MembersText></DiaryBottom>
             </DiaryContent>
         </DiaryContainer>
     )
