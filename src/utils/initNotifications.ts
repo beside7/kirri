@@ -2,6 +2,15 @@ import * as Notifications from "expo-notifications";
 import Constants from "expo-constants";
 import { Platform } from "react-native";
 
+
+Notifications.setNotificationHandler({
+    handleNotification: async () => ({
+      shouldShowAlert: true,
+      shouldPlaySound: false,
+      shouldSetBadge: false,
+    }),
+});
+
 /**
  * 기기에 Notification 권한을 획득해서 expo token 값을 획득하는 메서드
  * @returns 

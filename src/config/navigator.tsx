@@ -1,5 +1,5 @@
-import React, { ReactElement, useState, useEffect } from "react";
-import {NavigationContainer } from '@react-navigation/native';
+import React, { ReactElement, useState, useEffect,useRef } from "react";
+import { NavigationContainer ,NavigationContainerRef, StackActions} from '@react-navigation/native';
 import {
     createStackNavigator,
     StackNavigationOptions
@@ -33,6 +33,9 @@ import { userApis } from "@apis";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 import { DiaryResType, RecordResType } from "@type-definition/diary"
+import { PushNotification } from "@type-definition/message"
+
+import * as Notifications from "expo-notifications";
 
 
 export function navigate(name: string, params: any) {
@@ -61,7 +64,7 @@ export type StackNavigatorParams = {
     TermsAndConditions: undefined;
     MainHome: undefined
     Cheerup: undefined
-    CheerupMessage: undefined
+    CheerupMessage: { title: string , body : string , data : PushNotification  }
     Setting: undefined
     RecordInfo: { diary : DiaryResType }
     RecordList: { diary : DiaryResType | null }
@@ -102,6 +105,7 @@ type InitalizeRoutes = "Login" |"Home";
 export default function navigator(): ReactElement {
     const [loading, setLoading] = useState(true);
     const [initalizePage, setInitailizePage] = useState<InitalizeRoutes>();
+    const [isNavigatorReady, setIsNavigatorReady] = useState(false);
     const getUserInfo = () => {
         try {
             AsyncStorage.getItem('userKey', async(err, item) => {   
@@ -125,12 +129,59 @@ export default function navigator(): ReactElement {
         getUserInfo();
     }, []);
 
+    /**
+     * 모바일 기기에서 푸쉬알림을 클릭했을때 이벤트 처리
+     */
+    useEffect(()=>{
+        /**
+         * 로그인한 이용자만 푸쉬 알림이 가능하도록
+         */
+        AsyncStorage.getItem('userKey', async(err, user) => {
+            if (user && isNavigatorReady) {
+
+                /**
+                 * 푸쉬 알림 클릭시 이벤트 
+                 */
+                const subscription = Notifications.addNotificationResponseReceivedListener(
+                    response => {
+                        const data = response.notification.request.content.data as unknown as PushNotification
+                        const { title , body } = response.notification.request.content
+                        const { messageType } = data;
+
+                        switch (messageType) {
+                            case "CHEERING":
+                                navigationRef.current.dispatch(
+                                    StackActions.replace("CheerupMessage" , { title , body , data })
+                                );
+                                break;
+                        
+                            default:
+                                break;
+                        }
+                    }
+                );
+
+                /**
+                 * 끝나면 제거
+                 */
+                return () => {
+                    subscription.remove();
+                }
+            }
+        })
+
+        
+    }, [isNavigatorReady]);
+
     if (loading || !initalizePage) {
         return (<SafeAreaView></SafeAreaView>)
     }
     return (
         <NavigationContainer
             ref={navigationRef}
+            onReady={() => {
+                setIsNavigatorReady(true);
+            }}
         >
             <Stack.Navigator screenOptions={navigatorOptions}
                 initialRouteName={initalizePage}

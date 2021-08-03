@@ -25,3 +25,13 @@ export interface MessageReqType extends PageReqType{
 export interface MessageByTypeReqType extends PageReqType{
     type: MessageType
 }
+
+/**
+ * 푸쉬알림에서 받아오는 data 형식
+ */
+export interface PushNotification {
+    diaryUuid : string,
+    fromUserId: number,
+    messageType : MessageType,
+    toUserId: number,
+}

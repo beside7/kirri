@@ -1,5 +1,5 @@
-import React from 'react'
-import { View, Text, Image } from 'react-native'
+import React, { useEffect , useState, useMemo } from 'react'
+import { Image, TouchableOpacity } from 'react-native'
 import { 
     Contanier,
     Title,
@@ -11,18 +11,73 @@ import {
 } from "./style";
 import { Background, Header } from '@components'
 
-export default function CheerupMessage() {
+import { diaryApis } from "@apis";
+import { DiaryResType } from "@type-definition/diary";
+
+import { StackNavigatorParams } from "@config/navigator";
+import { StackNavigationProp } from "@react-navigation/stack";
+import { RouteProp } from "@react-navigation/native";
+
+
+type CheerupMessageProps = {
+    navigation: StackNavigationProp<StackNavigatorParams, "CheerupMessage">;
+    route: RouteProp<StackNavigatorParams, "CheerupMessage">;
+};
+
+
+function getFromNickName(diary : DiaryResType | null, id : number) {
+    const nickname = diary?.members.find(item => item.userId === id )?.nickname;
+    return nickname ? nickname : null
+}
+
+export default function CheerupMessage({navigation , route} : CheerupMessageProps) {
+
+    const [diary, setDiary] = useState<DiaryResType | null>(null);
+    const [loading, setLoading] = useState(false)
+
+    /**
+     * title : 제목 , body : 본문 , data : 기타 데이터
+     */
+    const { title , body , data } = route.params;
+
+    /**
+     * 다이러리 정보 추출
+     */
+    const { fromUserId, toUserId , diaryUuid } = data;
+
+    const getDiary = async (diaryUuid : string) => {
+        setLoading(true);
+        
+        const res = await diaryApis.viewDiary(diaryUuid)
+        setDiary(res);
+
+        setLoading(false)
+    }
+
+    useEffect(() => {
+        getDiary(diaryUuid)
+    }, [])
+
+    const fromUserNickName = useMemo(() => getFromNickName(diary , fromUserId), [diary, fromUserId])
+
     return (
         <Background>
             <Header 
                 title="응원 메세지"
-                leftIcon={<Image style={{ width: 24, height: 24 }} source={require("@assets/icons/x.png")} />}
+                leftIcon={
+                    <TouchableOpacity
+                        onPress={() => {
+                            navigation.replace("Home")
+                        }}
+                    >
+                        <Image style={{ width: 24, height: 24 }} source={require("@assets/icons/x.png")} />
+                    </TouchableOpacity>
+                }
                 rightIcon={<Image style={{ width: 24, height: 24 }} source={require("@assets/icons/menu.png")} />}
             />
             <Contanier>
                 <Title>
-                    꾸준함은
-                    배신하지 않아
+                    {body}
                 </Title>
                 <ImageContainer>
                     <CheerupImage 
@@ -30,9 +85,13 @@ export default function CheerupMessage() {
                     />
                 </ImageContainer>
                 <From>
-                    from. 최애옹 [처음 우리들의 끼리 다이어리!!]
+                    from. {fromUserNickName} [{diary?.title}]
                 </From>
-                <Button>
+                <Button
+                    onPress={() => {
+                        navigation.navigate("RecordInput" , { diary })
+                    }}
+                >
                     <ButtonText>기록 작성하러 가기</ButtonText>
                 </Button>
             </Contanier>
