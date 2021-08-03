@@ -92,5 +92,20 @@ export const userApis = {
       token
     });
     return result;
+  },
+
+  /**
+   * 알림설정
+   * @param payload 
+   * @returns 
+   */
+  async updatePush(payload : {CHEERING: boolean, NEW_RECORD: boolean, NOTIFICATION: boolean, INVITATION: boolean}){
+    const req = Object.entries(payload).map(([key , active] , index) => ({
+      key, active
+    }))
+    // console.log(req);
+    
+    const result = await apiClient.put(`/user/me/push-settings`, req)
+    return result;
   }
 };

@@ -1,7 +1,7 @@
 import React, { ReactElement, ReactNode, useEffect } from "react";
 import { useFonts } from 'expo-font';
 import AppLoading from "expo-app-loading";
-import { initNotifications } from "@utils";
+import { updateExpoToken } from "@utils";
 
 type AppBootstrapProps = {
     children: ReactNode;
@@ -16,11 +16,16 @@ type AppBootstrapProps = {
 export default function AppBootstrap({ children }: AppBootstrapProps): ReactElement {
 
     useEffect(() => {
-        // initNotifications()
+        /**
+         * 서버에 expo Notification token 전송
+         */
+        updateExpoToken();
     }, [])
 
     
-
+    /**
+     * 폰트 로드
+     */
     let [fontLoaded] = useFonts({
         'space-mono': require('../../../../assets/fonts/SpaceMono-Regular.ttf'),
         'Korea_hero': require('../../../../assets/fonts/Korea_hero.ttf'),

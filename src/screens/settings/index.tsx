@@ -63,22 +63,16 @@ export const Settings = observer(()=> {
      */
     const handleChangeAlarmState = async (value : boolean) =>{
         try{
-            // await userApis.updateUserMe(payload);
-            if(value){
-                const token = await initNotifications();
-                if(token !== null){
-                    try {
-                        const { data } = await userApis.addPushDevice(token)
-                        console.log({ data , token });
-                    } catch (error) {
-                        console.log("api",error);
-                    }
-                }
-            } else {
-                
-            }
             setPushNotification(value);
             AsyncStorage.setItem('pushNotification', JSON.stringify(value));
+            userApis.updatePush({
+                CHEERING: value,
+                NEW_RECORD: value,
+                NOTIFICATION: value,
+                INVITATION: value
+            }).catch((err) => {
+                // console.log(err.response);
+            })
         }catch(error){
             console.log("device",error);
         }

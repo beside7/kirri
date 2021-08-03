@@ -2,7 +2,10 @@ import * as Notifications from "expo-notifications";
 import Constants from "expo-constants";
 import { Platform } from "react-native";
 
-
+/**
+ * 기기에 Notification 권한을 획득해서 expo token 값을 획득하는 메서드
+ * @returns 
+ */
 const initNotifications = async (): Promise<string | null> => {
     if (Constants.isDevice) {
         /**
@@ -31,7 +34,7 @@ const initNotifications = async (): Promise<string | null> => {
          * Expo token 발급
          */
         const tokenRes = await Notifications.getExpoPushTokenAsync();
-        console.log(tokenRes);
+        console.log("EXPO TOKEN : " , tokenRes);
 
         const { data } = tokenRes
         
