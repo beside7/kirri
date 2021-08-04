@@ -140,7 +140,7 @@ export default function navigator(): ReactElement {
             if (user && isNavigatorReady) {
 
                 /**
-                 * 푸쉬 알림 클릭시 이벤트 
+                 * 모바일기기에서 푸쉬 알림 클릭시 이벤트 처리 
                  */
                 const subscription = Notifications.addNotificationResponseReceivedListener(
                     response => {
@@ -149,12 +149,30 @@ export default function navigator(): ReactElement {
                         const { messageType } = data;
 
                         switch (messageType) {
+                            /**
+                             * 받는 푸쉬알림이 응원일경우에는 "응원메시지 자세히보기"(pushdetails)
+                             */
                             case "CHEERING":
                                 navigationRef.current.dispatch(
                                     StackActions.replace("CheerupMessage" , { title , body , data })
                                 );
                                 break;
-                        
+                            /**
+                             * 받는 푸쉬알림이 공지push선택 일경우에는 끼리 메인 홈
+                             */
+                            case "NOTIFICATION": case "NEW_RECORD":
+                                navigationRef.current.dispatch(
+                                    StackActions.replace("Home")
+                                );
+                                break;
+                            /**
+                             * 초대push 선택 일경우에는 알림(push-01)
+                             */
+                            case "INVITATION": 
+                                navigationRef.current.dispatch(
+                                    StackActions.replace("MassageList")
+                                );
+                                break;
                             default:
                                 break;
                         }
