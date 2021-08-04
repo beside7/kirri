@@ -11,7 +11,8 @@ export default function Color({color} : ColorType) {
             style={{
                 width: 219,
                 height: 90,
-                borderRadius: 10,
+                borderTopLeftRadius: 10,
+                borderTopRightRadius: 10,
                 backgroundColor: color
             }}
         />

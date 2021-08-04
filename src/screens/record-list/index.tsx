@@ -6,7 +6,7 @@ import { StackNavigatorParams } from "@config/navigator";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { RouteProp } from "@react-navigation/native";
 import { recordApis, diaryApis } from "@apis"
-import { RecordResType, RecordsResType } from "@type-definition/diary"
+import { RecordResType } from "@type-definition/diary"
 import { Menu } from 'react-native-paper';
 
 import { observer } from 'mobx-react';
@@ -14,9 +14,7 @@ import { UserStore } from '@store';
 
 import DeleteConfirm from './delete-confirm'
 
-
-const SCREEN_HEIGHT = Dimensions.get("screen").height;
-
+import RenderItem from './render-item'
 
 
 
@@ -49,6 +47,13 @@ export const RecordList = observer(({navigation, route} : RecordListProps) => {
      * 로딩
      */
     const [loading, setLoading] = useState(false)
+    const [refreshing, setRefreshing] = useState(false);
+    /**
+     * 리스트 맨마직막 아이디
+     */
+    const [lastId, setLastId] = useState<string | undefined>()
+    
+    
     /**
      * info 에서 넘겨받은 다이러리 정보
      */
@@ -91,17 +96,30 @@ export const RecordList = observer(({navigation, route} : RecordListProps) => {
      * @param uuid 다이러리 아이디
      * @returns 기록목록
      */
-    const getRecordList = async (uuid : string | undefined) => {
+    const getRecordList = async (uuid : string | undefined , recordUuid: string | undefined) => {
         try {
             // console.log(uuid);
             if(uuid){
                 setLoading(true)
-                const getRecordRes = await recordApis.getRecords(uuid);
+                if (lastId === undefined && !recordUuid) {
+                    setRefreshing(true);
+                }
+                const getRecordRes = await recordApis.getRecords(uuid , recordUuid);
                 const { elements } = getRecordRes
                 // console.log(getRecordRes);
-                setList(elements)
+                // 기존리스트에 추가
+                const newList = list.concat(elements)
+                const lastItem = newList[newList.length - 1];
+                
+                const lastUuid = (lastItem !== undefined) ? lastItem.uuid : undefined
+                // console.log(lastUuid);
+                // // 마직막 아이디 지정
+                setLastId(lastUuid)
+                
+                setList(recordUuid ? newList : elements)
                 setLoading(false)
-                return getRecordList;
+                setRefreshing(false);
+                return newList;
             } else {
                 return []
             }
@@ -110,10 +128,17 @@ export const RecordList = observer(({navigation, route} : RecordListProps) => {
         }
     }
 
+    const handleLoadMore = () => {
+        if(diary){
+            const { uuid } = diary
+            getRecordList(uuid, lastId)
+        }
+    }
+
     useEffect(() => {
         if(diary){
             const { uuid } = diary
-            getRecordList(uuid)
+            getRecordList(uuid, undefined)
         }
         return () => {
             
@@ -212,69 +237,44 @@ export const RecordList = observer(({navigation, route} : RecordListProps) => {
                 <FlatList 
                     contentContainerStyle={{ backgroundColor: "#f4f4f8" }}
                     data={list} 
-                    renderItem={( {item : { uuid , title, body , images, createdDate, createdBy , updatedDate} }) => (
-                        <View style={styles.listItemContainer}>
-                            <View style={styles.listItemTop}>
-                                <View style={{ flexDirection: "row", alignItems: "center" }}>
-                                    <Image 
-                                        source={require("@assets/images/profile/home_profile_02.png")}
-                                        style={{ width: 36, height: 36, marginRight: 8 }}
-                                    />
-                                    <Text_2 style={{fontSize: 12, color: "#24242e"}} >닉네임</Text_2>
-                                </View>
-                                <Text_2 style={styles.listItemCreatedDate}>{createdDate}</Text_2>
-                            </View>
-                            <View style={styles.listItemMiddle}>
-                                {
-                                    (images.length > 0) && 
-                                    <TouchableOpacity
-                                        onPress={() => {
-                                            navigation.navigate("RecordView" , {  diary: diary , record : { uuid , title, body , images, createdDate, createdBy , updatedDate} })
-                                        }}
-                                    >
-                                        <Image 
-                                            style={styles.listItemThumbnail}
-                                            source={{
-                                            uri: images[0].path
-                                            }}
-                                        />
-                                    </TouchableOpacity>
-                                }
-                            </View>
-                            <TouchableOpacity
-                                onPress={() => {
-                                    navigation.navigate("RecordView" , {  diary: diary , record : { uuid , title, body , images, createdDate, createdBy , updatedDate} })
-                                }}
-                            >
-                                <View style={{ paddingLeft: 64 }}>
-                                    <Text_2 style={styles.listItemTitle}>{title}</Text_2>
-                                </View>
-                                <View style={{ paddingLeft: 64 }}>
-                                    <Text_2 style={styles.listItemBody} numberOfLines={3}>
-                                        {body.replace(/(<([^>]+)>)/ig, "")}
-                                    </Text_2>
-                                </View>
-                            </TouchableOpacity>
-                        </View>
+                    renderItem={( {item} ) => (
+                        item && <RenderItem 
+                            item={item}
+                            diary={diary}
+                            navigation={navigation}
+                        />
                     )}
-                    keyExtractor={(item, index) =>
-                        `${index}`
-                    } 
+                    keyExtractor={(item, index) => `${index}`} 
+                    ListEmptyComponent={() => {
+                        if(loading){
+                            return (
+                                <View style={styles.loading}>
 
-                    ListEmptyComponent={
-                        <View style={styles.ListEmptyContainer}>
-                            <Image 
-                                style={styles.ListEmptyThumbnail}
-                                source={require("@assets/images/diary/diary_history_empty.png")}
-                            />
-                            <View
-                                style={styles.ListEmptyContent}
-                            >
-                                <Text_2>앗!</Text_2>
-                                <Text_2>기록이 없어요.</Text_2>
-                            </View>
-                        </View>
-                    }
+                                </View>
+                            )
+                        } else {
+                            return (
+                                <View style={styles.ListEmptyContainer}>
+                                    <Image 
+                                        style={styles.ListEmptyThumbnail}
+                                        source={require("@assets/images/diary/diary_history_empty.png")}
+                                    />
+                                    <View
+                                        style={styles.ListEmptyContent}
+                                    >
+                                        <Text_2>앗!</Text_2>
+                                        <Text_2>기록이 없어요.</Text_2>
+                                    </View>
+                                </View>
+                            )
+                        }
+                    }}
+                    onEndReachedThreshold={1}
+                    onEndReached={handleLoadMore}
+                    refreshing={refreshing}
+                    onRefresh={() => {
+                        getRecordList(diary?.uuid, undefined)
+                    }}
 
                     // ListFooterComponent={
                     //     () => {
@@ -292,28 +292,33 @@ export const RecordList = observer(({navigation, route} : RecordListProps) => {
                     ListFooterComponentStyle={styles.bottomTab}
                 />
             </SafeAreaView>
-            <View style={styles.editButton}>
-                {
-                    (!list || list.length === 0)  &&
-                    <View style={styles.emptyMessage}>
-                        <View style={styles.emptyMessageContainer_1}>
-                            <Text_2 style={{ fontSize: 11 , color: "#fff" , fontFamily: "SpoqaHanSansNeo-Regular" }}>기록 작성 버튼을 눌러</Text_2>
-                            <Text_2 style={{ fontSize: 11 , color: "#fff" , fontFamily: "SpoqaHanSansNeo-Regular" }}>첫 기록을 남겨봐요 :)</Text_2>
-                        </View>
-                        <View style={styles.emptyMessageContainer_2}/>
+            {
+                !loading &&
+                (
+                    <View style={styles.editButton}>
+                        {
+                            (!list || list.length === 0)  &&
+                            <View style={styles.emptyMessage}>
+                                <View style={styles.emptyMessageContainer_1}>
+                                    <Text_2 style={{ fontSize: 11 , color: "#fff" , fontFamily: "SpoqaHanSansNeo-Regular" }}>기록 작성 버튼을 눌러</Text_2>
+                                    <Text_2 style={{ fontSize: 11 , color: "#fff" , fontFamily: "SpoqaHanSansNeo-Regular" }}>첫 기록을 남겨봐요 :)</Text_2>
+                                </View>
+                                <View style={styles.emptyMessageContainer_2}/>
+                            </View>
+                        }
+                        <TouchableOpacity 
+                            onPress={() => {
+                                navigation.navigate("RecordInput" , { diary : diary })
+                            }}
+                            >
+                            <Image 
+                                source={require("@assets/icons/edit.png")}
+                                style={{ width: 114, height: 114 }}
+                            />
+                        </TouchableOpacity>
                     </View>
-                }
-                <TouchableOpacity 
-                    onPress={() => {
-                        navigation.navigate("RecordInput" , { diary : diary })
-                    }}
-                    >
-                    <Image 
-                        source={require("@assets/icons/edit.png")}
-                        style={{ width: 114, height: 114 }}
-                    />
-                </TouchableOpacity>
-            </View>
+                )
+            }
         </Background>
     )
 })

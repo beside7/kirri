@@ -5,6 +5,14 @@ const SCREEN_HEIGHT = Dimensions.get("screen").height;
 const HEADER_HEIGHT = 174
 
 const styles = StyleSheet.create({
+    loading : {
+        flex: 1,
+        justifyContent: "center",
+        alignItems: "center",
+        width: "100%",
+        backgroundColor: "#fff",
+        height: SCREEN_HEIGHT - (HEADER_HEIGHT),
+    },
     bottomTab: {
         backgroundColor: "#F2F2F2",
         width: "100%",

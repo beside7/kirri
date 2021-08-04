@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { View, ScrollView, Image, TouchableOpacity, Alert } from 'react-native'
+import { View, ScrollView, Image, TouchableOpacity, Alert, Dimensions, ActivityIndicator } from 'react-native'
 import { Background, Text_2, Header  } from "@components";
 
 import { StackNavigatorParams } from "@config/navigator";
@@ -12,16 +12,21 @@ import RenderHtml from 'react-native-render-html';
 import { Menu } from 'react-native-paper';
 import { Confirm } from "@components";
 
+import { observer } from 'mobx-react';
+import { UserStore } from '@store';
 import styles from "./styles"
+
+const SCREEN_WIDTH = Dimensions.get("screen").width;
 
 type RecordViewProps = {
     navigation: StackNavigationProp<StackNavigatorParams, "RecordView">;
     route: RouteProp<StackNavigatorParams, "RecordView">;
 }
 
-export default function RecordView( { route, navigation } : RecordViewProps) {
+export const RecordView = observer(({ route, navigation } : RecordViewProps) => {
 
     const [loading, setLoading] = useState(false)
+    
 
     /**
      * 우측 상단 메뉴 활성화여부
@@ -39,7 +44,17 @@ export default function RecordView( { route, navigation } : RecordViewProps) {
      * 리스트에서 가져오는 부분
      */
     const { diary , record } = route.params
+
+    /**
+     * 기록 삭제 동의창 생성부분
+     */
     const [modal, setModal] = useState(false);
+
+
+    /**
+     * mobx 으로 유저 닉네임 추출
+     */
+     const { nickname } = UserStore;
     
     /**
      * 기록 상세내용 조회
@@ -49,7 +64,7 @@ export default function RecordView( { route, navigation } : RecordViewProps) {
         if(diary && record){
             // console.log({diary, record});
             try {
-                const res = await recordApis.viewRecord( diary.uuid, record.uuid );
+                const res = await recordApis.viewRecord( diary.uuid, record.uuid );                
                 setData(res);
             } catch (error) {
                 console.log(error);
@@ -75,6 +90,17 @@ export default function RecordView( { route, navigation } : RecordViewProps) {
         }
         setLoading(false)
     }
+
+    /**
+     * 현재 로그인한 사용자가 해당 다이러리에서 관리자인지 판별하는 부분 
+     * -> true : 관리자 , false : 일반 유저
+     */
+    const isAdministrator = diary?.members.find((item) => item.nickname === nickname )?.authority === "DIARY_OWNER"
+
+    /**
+     * 현재 로그인 사용자가 해당 기록을 작성했는지 체크
+     */
+    const isCreateUser = nickname === data?.createdByNickname
 
     /**
      * 컨포넌트 최초 마운트시 이벤트
@@ -120,31 +146,34 @@ export default function RecordView( { route, navigation } : RecordViewProps) {
                         </TouchableOpacity>
                     }
                     rightIcon={
-                        // 우측 상단 메뉴
-                        <Menu
-                            style={{
-                                top: 105
-                            }}
-                            visible={visible}
-                            onDismiss={closeMenu}
-                            anchor={
-                                <TouchableOpacity onPress={openMenu}>
-                                    <Image 
-                                        style={{ width: 24, height: 24 }}
-                                        source={require("@assets/icons/menu.png")}
-                                    />
-                                </TouchableOpacity>
-                            }
-                        >
-                            <Menu.Item onPress={() => {
-                                closeMenu()
-                                navigation.navigate("RecordInput" , { diary : diary, record : data })
-                            }} title="기록 수정" />
-                            <Menu.Item onPress={() => {
-                                closeMenu()
-                                setModal(true)
-                            }} title="기록 삭제" />
-                        </Menu>
+                        // 만약 다이러리 관리자 이거나 해당글을 생성한 유저일경우에는 수정 및 삭제 활성화
+                        (isAdministrator || isCreateUser ) &&
+                            // 우측 상단 메뉴
+                            <Menu
+                                style={{
+                                    top: 105
+                                }}
+                                visible={visible}
+                                onDismiss={closeMenu}
+                                anchor={
+                                    <TouchableOpacity onPress={openMenu}>
+                                        <Image 
+                                            style={{ width: 24, height: 24 }}
+                                            source={require("@assets/icons/menu.png")}
+                                        />
+                                    </TouchableOpacity>
+                                }
+                            >
+
+                                <Menu.Item onPress={() => {
+                                    closeMenu()
+                                    navigation.navigate("RecordInput" , { diary : diary, record : data })
+                                }} title="기록 수정" />
+                                <Menu.Item onPress={() => {
+                                    closeMenu()
+                                    setModal(true)
+                                }} title="기록 삭제" />
+                            </Menu>
                     }
                     title="기록 보기"     
                 />
@@ -163,7 +192,7 @@ export default function RecordView( { route, navigation } : RecordViewProps) {
                                     style={{ width: 36, height: 36, marginRight: 8}}
                                 />
                                 <Text_2 style={{ fontSize: 12 }}>
-                                    멋진 자몽 끼리
+                                    {data.createdByNickname}
                                 </Text_2>
                             </View>
                             <View  style={{ alignItems : "center", justifyContent: "center"}}>
@@ -195,6 +224,7 @@ export default function RecordView( { route, navigation } : RecordViewProps) {
                                 {body}
                                 </Text_2> */}
                                 <RenderHtml
+                                    contentWidth={SCREEN_WIDTH}
                                     source={{ html : body }}
                                 />
                             </View>
@@ -211,12 +241,14 @@ export default function RecordView( { route, navigation } : RecordViewProps) {
                     title="기록보기" 
                     
                     />
-                <ScrollView style={{flex: 1}}>
-                    <Text_2>loading</Text_2>
-                </ScrollView>
+                <View style={{flex: 1 , justifyContent: "center" , alignItems: "center"}}>
+                    <ActivityIndicator
+                        color="#000"
+                    />
+                </View>
             </Background>
         )
     }
+})
 
-    
-}
+export default RecordView

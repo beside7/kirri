@@ -52,6 +52,7 @@ export interface RecordResType {
     title: string,
     body: string,
     images: RecordImageInfo[],
+    createdByNickname: string,
     createdBy: number,
     createdDate: string,
     updatedDate: string
@@ -62,7 +63,6 @@ export interface RecordResType {
  */
 export interface RecordImageInfo {
     path : string,
-    name : string
 }
 
 export interface CreateRecordReqType {
