@@ -12,7 +12,7 @@ interface Props {
 
 export const Header = ({title, rightIcon, leftIcon, onRightClick=()=>{}, onLeftClick=()=>{}, borderBottom=true}:Props) => {
     return (
-        <HeaderContainer>
+        <HeaderContainer borderBottom={borderBottom}>
             {React.isValidElement(leftIcon)?leftIcon:<IconWrap disabled={!leftIcon} onPress={onLeftClick}>{leftIcon?<Icon source={leftIcon}></Icon>:<></>}</IconWrap>}
             {React.isValidElement(title)?title:<Title>{title}</Title>}
             {React.isValidElement(rightIcon)?rightIcon:<IconWrap disabled={!rightIcon}  onPress={onRightClick}>{rightIcon?<Icon source={rightIcon}></Icon>:<></>}</IconWrap>}

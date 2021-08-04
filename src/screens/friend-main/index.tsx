@@ -30,6 +30,7 @@ export default function FriendMain({ navigation, route } : FriendMainProps) {
                         />
                     </TouchableOpacity>
                 }
+                borderBottom={false}
             />
             <AppNavigator 
                 diary={diary}
