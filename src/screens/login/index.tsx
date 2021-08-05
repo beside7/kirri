@@ -9,7 +9,7 @@ import { SERVER_URL, userApis } from '@apis';
 import {navigate} from '@config/navigator';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Carousel from 'react-native-snap-carousel';
-import { updateExpoToken } from "@utils";
+import { updateExpoToken, initNotifications } from "@utils";
 import { UserStore } from '@store';
 
 
@@ -34,9 +34,14 @@ export default function Login({ }: LoginProps): ReactElement {
             if (success && (result.current.status === 'REQUIRED_SIGN_UP')){
                 navigate('Nickname', result.current);
             } else {
-                const me = await userApis.userMe();
-                UserStore.login(me);
-                navigate('Home', null);
+                try {
+                    const me = await userApis.userMe();
+                    const notificationToken = await initNotifications();
+                    UserStore.login(me);
+                    navigate('Home', null);
+                } catch (error) {
+                    
+                }
             }
         })
         

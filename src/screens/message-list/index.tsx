@@ -17,7 +17,7 @@ type MessageListProps = {
 
 export default function MessageList({ navigation } : MessageListProps) {
     const selectedMessageType = useRef<'all' | MessageType>('all');
-    const pageInfo = useRef({page: 0, totalPage: 1, size: 10});
+    const pageInfo = useRef({page: 0, totalPage: 1, size: 10, lastId: 0});
     const [messageList, setMessageList] = useState<MessageDataType[]>([]);
     
 
@@ -39,26 +39,28 @@ export default function MessageList({ navigation } : MessageListProps) {
         setMessageList(messages.concat(addMessageList));
     }
     const getMessages = async () => {
-        if (pageInfo.current.totalPage>pageInfo.current.page) {
-            try {
-                let data:MessageResType;
-                switch(selectedMessageType.current) {
-                    case 'all':
-                        data = await messageApis.getAllMessages({size: pageInfo.current.size, page: pageInfo.current.page});
-                        break;
-                    default :
-                        data = await messageApis.getMessagesByType({size: pageInfo.current.size, page: pageInfo.current.page, type: selectedMessageType.current as MessageType});                   
-                        break;
-                }
-                pageInfo.current.totalPage = data.totalPages;
-                pageInfo.current.page = pageInfo.current.page+1;
-                setMessages(data.elements);
-
-            } catch (error) {
-                console.log(error);
+        try {
+            let data:MessageResType;
+            switch(selectedMessageType.current) {
+                case 'all':
+                    data = await messageApis.getAllMessages({size: pageInfo.current.size, lastId: pageInfo.current.lastId});
+                    console.log(data);
+                    break;
+                default :
+                    data = await messageApis.getMessagesByType({size: pageInfo.current.size, lastId: pageInfo.current.lastId, type: selectedMessageType.current as MessageType});                   
+                    break;
             }
-            
+            pageInfo.current.totalPage = data.totalPages;
+            pageInfo.current.page = pageInfo.current.page+1;
+            if (data.elements.length){
+                setMessages(data.elements);
+            }
+
+        } catch (error) {
+            console.log('error')
+            console.log(error);
         }
+    
     }
 
     useEffect(()=>{

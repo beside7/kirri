@@ -40,6 +40,7 @@ import { DiaryResType, RecordResType } from "@type-definition/diary"
 import { PushNotification } from "@type-definition/message"
 
 import * as Notifications from "expo-notifications";
+import { initNotifications } from "@utils";
 
 
 export function navigate(name: string, params: any) {
@@ -115,8 +116,13 @@ export default function navigator(): ReactElement {
     const getUserInfo = () => {
         try {
             AsyncStorage.getItem('userKey', async(err, item) => {   
+                if (err) {
+                    setInitailizePage('Login');
+                    setLoading(false);
+                }
                 if (item) {
                     const user = await userApis.userMe();
+                    const notificationToken = await initNotifications();
                     if (user.status === 'ACTIVE') {
                         setLoading(false);
                         setInitailizePage('Home');
