@@ -47,9 +47,9 @@ apiClient.interceptors.response.use(
       await AsyncStorage.setItem('userKey', key||'');
       
     } catch(error) {
-      alert(error)
+      console.log(error)
     }
-    return response
+    return response;
   },
   function (error) {
     return Promise.reject(error);

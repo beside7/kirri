@@ -16,8 +16,11 @@ class UserStore {
             nickname: observable,
             id: observable,
             profileImage: observable,
+            profileImagePath: observable,
             login: action,
-            changeProfileImg: action
+            changeProfileImg: action,
+            setNickname: action,
+            logout: action
         });
     }
 
@@ -26,6 +29,15 @@ class UserStore {
         this.nickname = nickname;
         this.changeProfileImg(profileImagePath);
        
+    }
+
+    logout = () => {
+        this.id = '';
+        this.nickname = '';
+        this.username= '';
+        this.profileImage = undefined;
+        this.status= '';
+        this.profileImagePath = [];
     }
 
     changeProfileImg = (profileImgPath:string) => {

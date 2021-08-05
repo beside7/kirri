@@ -17,6 +17,8 @@ import {UserStore} from '@store';
 import {navigate} from '@config/navigator';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { ProfileImageTypes } from '@utils';
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { updateExpoToken } from "@utils";
 
 
 interface Props {
@@ -29,7 +31,6 @@ interface Props {
 
 export const Nickname = ({accessToken, authorities}: Props) => {
     const [joinProcessLoading, setJoinProcessLoading] = useState(false);
-    // const [nickname, setNickname] = useState('');
     const selectedProfileImage = useRef<ProfileImageTypes>('01');
     const [duplicate, setDuplicate] = useState(false);
     const nickname = useRef<string>('');
@@ -44,12 +45,19 @@ export const Nickname = ({accessToken, authorities}: Props) => {
                 {
                     nickname: nickname.current,
                     autoLogin: true,
-                    profileImagePath:'profile:'+selectedProfileImage,
-                    agreementList:['SERVICE']
+                    profileImagePath:'profile:'+selectedProfileImage.current,
+                    agreementList:["SERVICE", "PRIVACY"]
                 }
             );
-            const user = await userApis.userMe();
-            UserStore.login(user);
+            const expoTokenResult = await updateExpoToken();
+            if(expoTokenResult){
+                userApis.updatePush({
+                    CHEERING: true,
+                    NEW_RECORD: true,
+                    NOTIFICATION: true,
+                    INVITATION: true
+                })
+            }
             setJoinProcessLoading(false);
             navigate('Home', null);
         } catch (error) {
@@ -104,6 +112,7 @@ export const Nickname = ({accessToken, authorities}: Props) => {
                     
                     
                     <SelectProfileImage
+                        selectedImage='01'
                         selecteChanged={(img: ProfileImageTypes)=>{
                             selectedProfileImage.current = img;
                         }}
@@ -115,8 +124,9 @@ export const Nickname = ({accessToken, authorities}: Props) => {
                                 nickname.current = text;
                                 if(!nickname) {
                                     setDuplicate(false);
-                        
+                                    return;
                                 }
+                                setDuplicate(true);
                                 checkDuple();
                             
                             }}

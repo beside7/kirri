@@ -9,7 +9,8 @@ import { SERVER_URL, userApis } from '@apis';
 import {navigate} from '@config/navigator';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Carousel from 'react-native-snap-carousel';
-import { updateExpoToken } from "@utils";
+import { updateExpoToken, initNotifications } from "@utils";
+import { UserStore } from '@store';
 
 
 type LoginProps = {
@@ -24,28 +25,26 @@ export default function Login({ }: LoginProps): ReactElement {
     const [showLoginImage, setShowLoginImage] = useState(false);
 
 
-    const onComplete = async (event: any) => {
+    const onComplete = (event: any) => {
         result.current = JSON.parse(event.nativeEvent.data);
         let success = result.current.accessToken;
         setKakaoLoginOpen(false);
         setAppleLoginOpen(false);
-        AsyncStorage.setItem('userKey', 'Bearer '+success , () => {
-            updateExpoToken().then(res => {
-                if(res){
-                    userApis.updatePush({
-                        CHEERING: true,
-                        NEW_RECORD: true,
-                        NOTIFICATION: true,
-                        INVITATION: true
-                    })
+        AsyncStorage.setItem('userKey', 'Bearer '+success , async () => {
+            if (success && (result.current.status === 'REQUIRED_SIGN_UP')){
+                navigate('Nickname', result.current);
+            } else {
+                try {
+                    const me = await userApis.userMe();
+                    const notificationToken = await initNotifications();
+                    UserStore.login(me);
+                    navigate('Home', null);
+                } catch (error) {
+                    
                 }
-            })
-        });
-        if (success && (result.current.status === 'REQUIRED_SIGN_UP')){
-            navigate('Nickname', result.current);
-        } else {
-            navigate('Home', null);
-        }
+            }
+        })
+        
     }
 
     const renderItems = ({item, index}: {item:any, index:number}) => {
@@ -58,7 +57,9 @@ export default function Login({ }: LoginProps): ReactElement {
     }
 
     useEffect(()=>{
-        setShowLoginImage(true);
+        if (onBoardIndex === (onBoardCnt.current -1) ) {
+            setShowLoginImage(true);
+        }
     }, [onBoardIndex])
     
     return (
@@ -106,7 +107,7 @@ export default function Login({ }: LoginProps): ReactElement {
                         }
                     </View>
                 </View>
-                {(showLoginImage?<><TouchableOpacity
+                {showLoginImage?<><TouchableOpacity
                     style={styles.kakaoButton}
                     onPress={(e: any)=> {
                         setKakaoLoginOpen(true);    
@@ -121,8 +122,8 @@ export default function Login({ }: LoginProps): ReactElement {
                     }}
                 >
                     <Image  style={styles.buttonImage} source={require('@assets/images/login/apple.png')}/>
-                </TouchableOpacity></>:<></>)}
-                {/* <Text style={styles.message}>아직 끼리에 가입하지 않으셨나요?</Text> */}
+                </TouchableOpacity></>:<></>}
+                
             </View>
         </Background>
     )

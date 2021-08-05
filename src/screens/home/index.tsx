@@ -43,6 +43,7 @@ import { RecentRecodeType } from '@type-definition/user';
 import { CreateDiary } from './CreateDiary';
 import {CreateDiaryModal} from './CreateDiaryModal';
 import {navigate} from '@config/navigator';
+import { autorun } from 'mobx';
 
 
 
@@ -51,8 +52,46 @@ type HomeProps = {
 };
 
 
+const Profile =observer(() => {
+    const {nickname, profileImage, profileImagePath } = UserStore;
+    return (
+        <ProfileWarp>
+            <IconWarp>
+                <IconButton
+                    onPress={()=> {                                    
+                        navigate("RecordInput", { diary : null })
+                    }}
+                    style={styles.iconSpace}
+                    icon={require('@assets/images/home_writing_normal.png')}
+                />
+                <IconButton
+                    onPress={() => {
+                        navigate('MassageList', null);
+                    }}
+                    style={styles.iconSpace}
+                    icon={require('@assets/images/home_notice_normal.png')}
+                />
+                <IconButton
+                    onPress={() => {
+                        navigate('Settings', null);
+                    }}
+                    icon={require('@assets/images/home_setting_normal.png')}
+                />
+            </IconWarp>
+            <View>
+                <ProfileImageWarp>
+                    <ProfileImage source={profileImage}></ProfileImage>
+                </ProfileImageWarp>
+            </View>
+            <NicknameContainer>
+                <NicknameWarp>{nickname}</NicknameWarp><View><LogoType source={require('@assets/images/home/home_logotype.png')}/></View>
+            </NicknameContainer>
+        </ProfileWarp>
+    )
+})
 
-const Home = observer(({navigation}:HomeProps)=> {
+
+const Home = ()=> {
     const [userLoading, setUserLoading] = useState(true);
     const [diaryLoading, setDiaryLoading] = useState(true);
     const {nickname, profileImage, profileImagePath } = UserStore;
@@ -63,7 +102,7 @@ const Home = observer(({navigation}:HomeProps)=> {
     const [createDiaryOpen, setCreateDiaryOpen] = useState(false);
     
     const getUser = async () => {
-        if (nickname) {
+        if (nickname!=='') {
             setUserLoading(false);
             return;
         }
@@ -98,9 +137,10 @@ const Home = observer(({navigation}:HomeProps)=> {
 
 
     useEffect(()=>{
-        getUser();
-        getDiaries();
-        getRecentRecord();
+            getUser();
+            getDiaries();
+            getRecentRecord();
+        
     }, []);
 
     if (userLoading || diaryLoading){
@@ -111,38 +151,7 @@ const Home = observer(({navigation}:HomeProps)=> {
         <Fragment>
             <HomeContainer>
                 <ContentWarp>
-                    <ProfileWarp>
-                        <IconWarp>
-                            <IconButton
-                                onPress={()=> {                                    
-                                    navigate("RecordInput", { diary : null })
-                                }}
-                                style={styles.iconSpace}
-                                icon={require('@assets/images/home_writing_normal.png')}
-                            />
-                            <IconButton
-                                onPress={() => {
-                                    navigate('MassageList', null);
-                                }}
-                                style={styles.iconSpace}
-                                icon={require('@assets/images/home_notice_normal.png')}
-                            />
-                            <IconButton
-                                onPress={() => {
-                                    navigate('Settings', null);
-                                }}
-                                icon={require('@assets/images/home_setting_normal.png')}
-                            />
-                        </IconWarp>
-                        <View>
-                            <ProfileImageWarp>
-                                <ProfileImage source={profileImage}></ProfileImage>
-                            </ProfileImageWarp>
-                        </View>
-                        <NicknameContainer>
-                            <NicknameWarp>{nickname}</NicknameWarp><View><LogoType source={require('@assets/images/home/home_logotype.png')}/></View>
-                        </NicknameContainer>
-                    </ProfileWarp>
+                    <Profile></Profile>
                     {
                         diaryList.length?
                             <DiaryListWarp>
@@ -184,11 +193,12 @@ const Home = observer(({navigation}:HomeProps)=> {
                                             diaryList.map((diary: DiaryResType)=>
                                                 <TouchableOpacity
                                                     onPress={() => {
-                                                        navigation.navigate("RecordInfo" , { diary : diary })
+                                                        navigate("RecordInfo" , { diary : diary })
                                                     }}
+                                                    key={diary.uuid}
                                                 >
                                                     <Diary
-                                                        key={diary.uuid}
+                                        
                                                         diaryTitle={diary.title}
                                                         members={diary.members.length}
                                                         coverType={diary.icon.split(':')[0]}
@@ -232,5 +242,5 @@ const Home = observer(({navigation}:HomeProps)=> {
             ></CreateDiaryModal>
         </Fragment>
     )
-})
+}
 export default Home;
