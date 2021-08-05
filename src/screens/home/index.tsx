@@ -103,7 +103,6 @@ const Home = ()=> {
     
     const getUser = async () => {
         if (nickname!=='') {
-            
             setUserLoading(false);
             return;
         }

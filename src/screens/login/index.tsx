@@ -10,6 +10,7 @@ import {navigate} from '@config/navigator';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Carousel from 'react-native-snap-carousel';
 import { updateExpoToken } from "@utils";
+import { UserStore } from '@store';
 
 
 type LoginProps = {
@@ -24,23 +25,21 @@ export default function Login({ }: LoginProps): ReactElement {
     const [showLoginImage, setShowLoginImage] = useState(false);
 
 
-    const onComplete = async (event: any) => {
+    const onComplete = (event: any) => {
         result.current = JSON.parse(event.nativeEvent.data);
         let success = result.current.accessToken;
         setKakaoLoginOpen(false);
         setAppleLoginOpen(false);
-        AsyncStorage.setItem('userKey', 'Bearer '+success , () => {
-            updateExpoToken().then(res => {
-                if(res){
-                    userApis.updatePush({
-                        CHEERING: true,
-                        NEW_RECORD: true,
-                        NOTIFICATION: true,
-                        INVITATION: true
-                    })
-                }
-            })
-        });
+        AsyncStorage.setItem('userKey', 'Bearer '+success , async () => {
+            if (success && (result.current.status === 'REQUIRED_SIGN_UP')){
+                navigate('Nickname', result.current);
+            } else {
+                const me = await userApis.userMe();
+                UserStore.login(me);
+                navigate('Home', null);
+            }
+        })
+        
     }
 
     const renderItems = ({item, index}: {item:any, index:number}) => {
