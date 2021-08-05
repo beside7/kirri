@@ -1,5 +1,7 @@
 import React, { ReactElement, useState, useEffect,useRef } from "react";
-import { NavigationContainer ,NavigationContainerRef, StackActions} from '@react-navigation/native';
+import { NavigationContainer, StackActions, CommonActions} from '@react-navigation/native';
+
+
 import {
     createStackNavigator,
     StackNavigationOptions
@@ -23,6 +25,8 @@ import {
     RecordView,
     Settings,
     DiaryConfig,
+    EditPersonalInfo,
+    TermsWebview
 } from "@screens";
 import { Text } from "react-native";
 
@@ -39,7 +43,7 @@ import * as Notifications from "expo-notifications";
 
 
 export function navigate(name: string, params: any) {
-    navigationRef.current?.navigate(name, params);
+    navigationRef.current?.dispatch(CommonActions.navigate(name, params?params:{}));
   }
 
   export function navigateGoBack() {
@@ -73,6 +77,8 @@ export type StackNavigatorParams = {
     Onboarding: undefined,
     Settings: any;
     DiaryConfig: { diary : DiaryResType | null };
+    EditPersonalInfo: undefined;
+    TermsWebview: undefined;
 };
 
 const Stack = createStackNavigator<StackNavigatorParams>();
@@ -289,6 +295,20 @@ export default function navigator(): ReactElement {
                 <Stack.Screen
                     name="Setting"
                     component={Setting}
+                    options={{
+                        headerShown: false
+                    }}
+                />
+                 <Stack.Screen
+                    name="EditPersonalInfo"
+                    component={EditPersonalInfo}
+                    options={{
+                        headerShown: false
+                    }}
+                />
+                <Stack.Screen
+                    name="TermsWebview"
+                    component={TermsWebview}
                     options={{
                         headerShown: false
                     }}

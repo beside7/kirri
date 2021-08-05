@@ -41,11 +41,6 @@ export default function Login({ }: LoginProps): ReactElement {
                 }
             })
         });
-        if (success && (result.current.status === 'REQUIRED_SIGN_UP')){
-            navigate('Nickname', result.current);
-        } else {
-            navigate('Home', null);
-        }
     }
 
     const renderItems = ({item, index}: {item:any, index:number}) => {
@@ -58,7 +53,9 @@ export default function Login({ }: LoginProps): ReactElement {
     }
 
     useEffect(()=>{
-        setShowLoginImage(true);
+        if (onBoardIndex === (onBoardCnt.current -1) ) {
+            setShowLoginImage(true);
+        }
     }, [onBoardIndex])
     
     return (
@@ -106,7 +103,7 @@ export default function Login({ }: LoginProps): ReactElement {
                         }
                     </View>
                 </View>
-                {(showLoginImage?<><TouchableOpacity
+                {showLoginImage?<><TouchableOpacity
                     style={styles.kakaoButton}
                     onPress={(e: any)=> {
                         setKakaoLoginOpen(true);    
@@ -121,8 +118,8 @@ export default function Login({ }: LoginProps): ReactElement {
                     }}
                 >
                     <Image  style={styles.buttonImage} source={require('@assets/images/login/apple.png')}/>
-                </TouchableOpacity></>:<></>)}
-                {/* <Text style={styles.message}>아직 끼리에 가입하지 않으셨나요?</Text> */}
+                </TouchableOpacity></>:<></>}
+                
             </View>
         </Background>
     )

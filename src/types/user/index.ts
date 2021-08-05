@@ -34,3 +34,9 @@ export interface PushUpdateResType {
     type:string,
     active: boolean
 }
+
+export interface TermsResType {
+    id: number,
+    type: string,
+    url: string
+}
