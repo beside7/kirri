@@ -66,6 +66,27 @@ export const diaryApis = {
     return data;
   },
 
+  /**
+   * 다이러리 멤버 내보내기
+   * @param uuid 
+   * @param userId 
+   * @returns 
+   */
+  async deleteMember(uuid: string , userId: number){
+    const { data } = await apiClient.delete(`/diaries/${uuid}/members/${userId}`);
+    return data;
+  },
+
+  /**
+   * 관리자 지정
+   * @param diaryUuid 
+   * @param memberId 
+   */
+  async setAdministrator( diaryUuid : string, memberId : number, param : { authority : "DIARY_MEMBER" | "DIARY_OWNER" }) {
+    const { data } = await apiClient.patch(`/diaries/${diaryUuid}/members/${memberId}` , param);
+    return data
+  },
+
 };
 
 /**

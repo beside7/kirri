@@ -1,4 +1,23 @@
 import styled from "styled-components/native";
+import { StyleSheet } from "react-native";
+
+export const styles = StyleSheet.create({
+    modalImages: {
+        alignItems: "center",
+        justifyContent: "center",
+    },
+    modalDeleteIcon: {
+        width: 100,
+        height: 100,
+        marginBottom: 24,
+    },
+    modalTitleStyle: {
+        color: "#17171c",
+        fontWeight: "bold",
+        textAlign: "center",
+        fontSize: 14,
+    },
+})
 
 export const TextInput = styled.TextInput({
     borderColor: "#d1d1de",
@@ -68,4 +87,18 @@ export const ExportFriendNickName = styled.Text({
 
 export const ExportFriendListItemRight = styled.View({
     width: "25%", alignItems: "flex-end", justifyContent: "center"
+})
+
+export const DisableButton = styled.View({
+    backgroundColor: "#b4b4b4",
+    width: 52,
+    height: 28,
+    borderRadius: 10,
+    alignItems: "center",
+    justifyContent: "center",
+})
+
+export const DisableMessage = styled.Text({
+    fontSize: 12, color: "#17171c",
+    fontFamily: "SpoqaHanSansNeo-Medium"
 })

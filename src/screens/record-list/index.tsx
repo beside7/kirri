@@ -87,7 +87,14 @@ export const RecordList = observer(({navigation, route} : RecordListProps) => {
                 navigation.replace("Home");
             }
         } catch (error) {
-            console.log(error);
+            /**
+             * 400 번대 에러일경우 메세지 출력
+             */
+            if(error.response && error.response.status === 400 && error.response.data.code){
+                Alert.alert(error.response.data.message)
+            } else {
+                console.log(error.response);
+            }
         }
     }
 

@@ -27,16 +27,16 @@ const Confirm = ({ visible, onClose, onConfirm, content, confirm,close } : PushM
                     </View>
                     <View style={styles.modalFooter}>
                         <Pressable
-                            style={[styles.buttonConfirm]}
-                            onPress={() => onConfirm()}
-                        >
-                            <Text_2 style={styles.titleStyle}>{confirm}</Text_2>
-                        </Pressable>
-                        <Pressable
                             style={[styles.buttonClose]}
                             onPress={() => onClose()}
                         >
                             <Text_2 style={styles.titleStyle}>{close}</Text_2>
+                        </Pressable>
+                        <Pressable
+                            style={[styles.buttonConfirm]}
+                            onPress={() => onConfirm()}
+                        >
+                            <Text_2 style={styles.titleStyle}>{confirm}</Text_2>
                         </Pressable>
                     </View>
                     
@@ -93,7 +93,7 @@ const Confirm = ({ visible, onClose, onConfirm, content, confirm,close } : PushM
         borderTopWidth: 1,
         borderColor: "#e4e4ef",
         borderRightWidth: 1,
-        borderBottomLeftRadius: 20,
+        borderBottomRightRadius: 20,
         justifyContent: "center",
         alignItems: "center",
     },
@@ -101,7 +101,7 @@ const Confirm = ({ visible, onClose, onConfirm, content, confirm,close } : PushM
         width: "50%",
         height: 50,
         backgroundColor: "#ffdd1f",
-        borderBottomRightRadius: 20,
+        borderBottomLeftRadius: 20,
         justifyContent: "center",
         alignItems: "center",
     },

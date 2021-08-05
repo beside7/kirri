@@ -1,12 +1,16 @@
-import React from 'react'
-import { View, SafeAreaView, FlatList, TouchableOpacity, Image } from 'react-native'
-import { Background } from "@components";
+import React , { useEffect, useState }from 'react'
+import { View, SafeAreaView, FlatList, TouchableOpacity, Image,Alert } from 'react-native'
+import { Background, Text_2 } from "@components";
 import { DiaryResType } from "@type-definition/diary";
 import { Menu } from 'react-native-paper';
 import { FontAwesome5 } from "@expo/vector-icons";
+import { diaryApis } from "@apis";
+import { Memeber } from "@type-definition/diary";
 
 import { observer } from 'mobx-react';
 import { UserStore } from '@store';
+
+import { DeleteConfirm , AdministratorConfirm } from "./confirm";
 
 import { 
     EmptyContainer,
@@ -16,7 +20,9 @@ import {
     ExportFriendThumbnailImage,
     ExportFriendListItemCenter,
     ExportFriendListItemRight,
-    ExportFriendNickName
+    ExportFriendNickName,
+    DisableButton,
+    DisableMessage
 } from "./style";
 
 type ExportFriendsProps = {
@@ -26,7 +32,7 @@ type ExportFriendsProps = {
 export const ExportFriends = observer(({ diary } : ExportFriendsProps) => {
 
 
-     /**
+    /**
      * mobx 으로 유저 닉네임 추출
      */
     const { nickname } = UserStore;
@@ -41,15 +47,29 @@ export const ExportFriends = observer(({ diary } : ExportFriendsProps) => {
     /**
      * 출력할 멤버 리스트
      */
-    const members = diary ? [...diary.members] : []
+    const [members, setMembers] = useState<Memeber[]>(diary ? [...diary.members] : [])
 
     /**
      * 유저 우측 메뉴 노출여부
      */
-    const [visible, setVisible] = React.useState<boolean[]>(
-        members.map(_ => false)
-    );
+    const [visible, setVisible] = useState<boolean[]>( members.map(_ => false) );
 
+    /**
+     * 새로고침 여부
+     */
+    const [refreshing, setRefreshing] = useState(false);
+
+    /**
+     * 내보낼 혹은 관리자로 지정할 멤버
+     */
+    const [target, setTarget] = useState<Memeber | null>(null)
+    /**
+     * 내보내기 동의창 생성여부
+     */
+    const [deleteConfirm, setDeleteConfirm] = useState(false)
+    const [adminConfirm, setAdminConfirm] = useState(false)
+
+    
     const closeMenu = (index : number) => {
         const newList = [...visible]
         newList[index] = false;
@@ -61,10 +81,78 @@ export const ExportFriends = observer(({ diary } : ExportFriendsProps) => {
         newList[index] = true;
         setVisible(newList)
     }
+
+    const getDiary = async () => {
+        if(diary){
+            setRefreshing(true);
+            const { uuid } = diary
+            const res = await diaryApis.viewDiary(uuid)
+            // console.log(res);
+            
+            setMembers(res.members);
+            setVisible(res.members.map(_ => false))
+            setRefreshing(false);
+        }
+    }
+
+    const deleteMember  = async (member : number | null | undefined) => {
+        try {
+            if (diary && member) {
+                await diaryApis.deleteMember(diary.uuid , member)
+                Alert.alert("멤버를 다이어리에서 내보냈어요.");
+                getDiary()
+            }
+        } catch (error) {
+            console.log(error.response);
+            
+        }
+    }
+
+    const setAdministrator = async (member : number | null | undefined) => {
+        try {
+            if (diary && member) {
+                await diaryApis.setAdministrator(diary.uuid , member , { authority : "DIARY_OWNER" } )
+                Alert.alert("다른 멤버를 관리자로 지정했어요.");
+                getDiary()
+            }
+        } catch (error) {
+            
+        }
+    }
     
+    useEffect(() => {
+        getDiary()
+    }, [])
     
     return (
         <Background>
+            <DeleteConfirm 
+                visible={deleteConfirm}
+                onClose={() => {
+                    setDeleteConfirm(false)
+                }}
+                onConfirm={() => {
+                    deleteMember(target?.userId);
+                }}
+                confirm="내보낼래요"
+                close="아니에요"
+                nickName={target?.nickname}
+            />
+
+
+
+            <AdministratorConfirm 
+                visible={adminConfirm}
+                onClose={() => {
+                    setAdminConfirm(false)
+                }}
+                onConfirm={() => {
+                    setAdministrator(target?.userId)
+                }}
+                confirm="지정할래요"
+                close="아니에요"
+                nickName={target?.nickname}
+            />
             <ExportFriendContainer>
                 {/* 
                     유저일경우 접근 거부
@@ -89,6 +177,10 @@ export const ExportFriends = observer(({ diary } : ExportFriendsProps) => {
                 { isAdministrator && 
                     <SafeAreaView style={{ flex: 1 }}>
                         <FlatList
+                            refreshing={refreshing}
+                            onRefresh={() => {
+                                getDiary()
+                            }}
                             data={ members }
                             ListEmptyComponent={() => {
                                 return (
@@ -114,24 +206,43 @@ export const ExportFriends = observer(({ diary } : ExportFriendsProps) => {
                                             </ExportFriendNickName>
                                         </ExportFriendListItemCenter>
                                         <ExportFriendListItemRight>
-                                            <Menu
-                                                style={{
-                                                    marginTop: 30
-                                                }}
-                                                visible={visible[index]}
-                                                onDismiss={() => closeMenu(index)}
-                                                anchor={
-                                                    <TouchableOpacity onPress={() => openMenu(index)}>
-                                                        <Image 
-                                                            style={{ width: 24, height: 24 }}
-                                                            source={require("@assets/icons/menu.png")}
-                                                        />
-                                                    </TouchableOpacity>
-                                                }
-                                            >
-                                                <Menu.Item onPress={() => {}} title="관리자로 지정" />
-                                                <Menu.Item onPress={() => {}} title="내보내기" />
-                                            </Menu>
+                                            {
+                                                // 초대완료 상태일경우
+                                                (item.authority === "DIARY_MEMBER" && item.status === "ACTIVE") &&
+                                                <Menu
+                                                    style={{
+                                                        marginTop: 30
+                                                    }}
+                                                    visible={visible[index]}
+                                                    onDismiss={() => closeMenu(index)}
+                                                    anchor={
+                                                        <TouchableOpacity onPress={() => openMenu(index)}>
+                                                            <Image 
+                                                                style={{ width: 24, height: 24 }}
+                                                                source={require("@assets/icons/menu.png")}
+                                                            />
+                                                        </TouchableOpacity>
+                                                    }
+                                                >
+                                                    <Menu.Item onPress={() => {
+                                                        closeMenu(index)
+                                                        setTarget(item)
+                                                        setAdminConfirm(true)
+                                                    }} title="관리자로 지정" />
+                                                    <Menu.Item onPress={() => {
+                                                        closeMenu(index)
+                                                        setTarget(item)
+                                                        setDeleteConfirm(true)
+                                                    }} title="내보내기" />
+                                                </Menu>
+                                            }
+                                            {
+                                                // 초대중인경우
+                                                (item.authority === "DIARY_MEMBER" && item.status === "INVITING") &&
+                                                <DisableButton>
+                                                    <DisableMessage>초대중</DisableMessage>
+                                                </DisableButton>
+                                            }
                                         </ExportFriendListItemRight>
                                     </ExportFriendListItemContainer>
                                 )
