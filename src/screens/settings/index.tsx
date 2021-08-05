@@ -65,18 +65,9 @@ export const Settings = observer(()=> {
         }
     }
 
-    const updateUserInfo = async (payload: UpdateUserMeResType) =>{
-        try{
-            const data = await userApis.updateUserMe(payload);
-            payload.profileImagePath && (UserStore.changeProfileImg(payload.profileImagePath));
-            payload.nickname && (UserStore.setNickname(payload.nickname));
-            
-        }catch(error){
-
-        }
-    }
 
     const logout = () => {
+        UserStore.logout();
         AsyncStorage.removeItem('userKey', ()=>{
             navigate('Login', null);
         });
@@ -84,11 +75,13 @@ export const Settings = observer(()=> {
 
     const handleSignout = async () => {
         try {
-            await userApis.deleteUserMe();
+            const result = await userApis.deleteUserMe();
+            console.log(result);
+            UserStore.logout();
             setLeavKKiriPopupOpen(false);
             logout();
         } catch (error) {
-            
+            console.log(error)
         }
     }
 
@@ -124,9 +117,15 @@ export const Settings = observer(()=> {
                         <SettingContent
                             icon={require('@assets/images/settings/setting_personal_info.png')}
                             title='개인정보 처리 방침'
-
                         >
-                            <SettingIcon source={require('@assets/images/settings/setting_next_normal.png')}/>
+                            <TouchableOpacity
+                                onPress={
+                                    ()=>{
+                                        navigate('TermsWebview', null);
+                                    }
+                                }
+                            >
+                                <SettingIcon source={require('@assets/images/settings/setting_next_normal.png')}/></TouchableOpacity>
                         </SettingContent>
                         <SettingContent
                             icon={require('@assets/images/settings/setting_version.png')}
@@ -138,7 +137,6 @@ export const Settings = observer(()=> {
                         <SettingContent
                             icon={require('@assets/images/settings/setting_logout.png')}
                             title='로그아웃'
-
                         >
                             <TouchableOpacity
                                 onPress={()=>{logout()}}

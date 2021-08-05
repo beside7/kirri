@@ -1,5 +1,5 @@
 import React, { ReactElement, useState, useEffect } from "react";
-import {NavigationContainer } from '@react-navigation/native';
+import {NavigationContainer, CommonActions } from '@react-navigation/native';
 import {
     createStackNavigator,
     StackNavigationOptions
@@ -23,7 +23,8 @@ import {
     RecordView,
     Settings,
     DiaryConfig,
-    EditPersonalInfo
+    EditPersonalInfo,
+    TermsWebview
 } from "@screens";
 import { Text } from "react-native";
 
@@ -37,7 +38,7 @@ import { DiaryResType, RecordResType } from "@type-definition/diary"
 
 
 export function navigate(name: string, params: any) {
-    navigationRef.current?.navigate(name, params);
+    navigationRef.current?.dispatch(CommonActions.navigate(name, params?params:{}));
   }
 
   export function navigateGoBack() {
@@ -72,6 +73,7 @@ export type StackNavigatorParams = {
     Settings: any;
     DiaryConfig: { diary : DiaryResType | null };
     EditPersonalInfo: undefined;
+    TermsWebview: undefined;
 };
 
 const Stack = createStackNavigator<StackNavigatorParams>();
@@ -229,6 +231,13 @@ export default function navigator(): ReactElement {
                  <Stack.Screen
                     name="EditPersonalInfo"
                     component={EditPersonalInfo}
+                    options={{
+                        headerShown: false
+                    }}
+                />
+                <Stack.Screen
+                    name="TermsWebview"
+                    component={TermsWebview}
                     options={{
                         headerShown: false
                     }}

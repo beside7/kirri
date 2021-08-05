@@ -45,11 +45,9 @@ export const Nickname = ({accessToken, authorities}: Props) => {
                     nickname: nickname.current,
                     autoLogin: true,
                     profileImagePath:'profile:'+selectedProfileImage,
-                    agreementList:['SERVICE']
+                    agreementList:["SERVICE", "PRIVACY"]
                 }
             );
-            const user = await userApis.userMe();
-            UserStore.login(user);
             setJoinProcessLoading(false);
             navigate('Home', null);
         } catch (error) {
@@ -104,6 +102,7 @@ export const Nickname = ({accessToken, authorities}: Props) => {
                     
                     
                     <SelectProfileImage
+                        selectedImage='01'
                         selecteChanged={(img: ProfileImageTypes)=>{
                             selectedProfileImage.current = img;
                         }}
@@ -115,8 +114,9 @@ export const Nickname = ({accessToken, authorities}: Props) => {
                                 nickname.current = text;
                                 if(!nickname) {
                                     setDuplicate(false);
-                        
+                                    return;
                                 }
+                                setDuplicate(true);
                                 checkDuple();
                             
                             }}

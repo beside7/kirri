@@ -29,6 +29,7 @@ export default function Login({ }: LoginProps): ReactElement {
         setKakaoLoginOpen(false);
         setAppleLoginOpen(false);
         AsyncStorage.setItem('userKey', 'Bearer '+success);
+        console.log(event.nativeEvent.data)
         if (success && (result.current.status === 'REQUIRED_SIGN_UP')){
             navigate('Nickname', result.current);
         } else {
@@ -46,7 +47,9 @@ export default function Login({ }: LoginProps): ReactElement {
     }
 
     useEffect(()=>{
-        setShowLoginImage(true);
+        if (onBoardIndex === (onBoardCnt.current -1) ) {
+            setShowLoginImage(true);
+        }
     }, [onBoardIndex])
     
     return (
@@ -94,7 +97,7 @@ export default function Login({ }: LoginProps): ReactElement {
                         }
                     </View>
                 </View>
-                {(showLoginImage?<><TouchableOpacity
+                {showLoginImage?<><TouchableOpacity
                     style={styles.kakaoButton}
                     onPress={(e: any)=> {
                         setKakaoLoginOpen(true);    
@@ -109,8 +112,8 @@ export default function Login({ }: LoginProps): ReactElement {
                     }}
                 >
                     <Image  style={styles.buttonImage} source={require('@assets/images/login/apple.png')}/>
-                </TouchableOpacity></>:<></>)}
-                {/* <Text style={styles.message}>아직 끼리에 가입하지 않으셨나요?</Text> */}
+                </TouchableOpacity></>:<></>}
+                
             </View>
         </Background>
     )
