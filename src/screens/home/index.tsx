@@ -102,8 +102,6 @@ const Home = ()=> {
     const [createDiaryOpen, setCreateDiaryOpen] = useState(false);
     
     const getUser = async () => {
-        console.log('nickname: '+nickname)
-        alert('here')
         if (nickname!=='') {
             
             setUserLoading(false);
@@ -140,8 +138,6 @@ const Home = ()=> {
 
 
     useEffect(()=>{
-        
-            alert('test');
             getUser();
             getDiaries();
             getRecentRecord();
