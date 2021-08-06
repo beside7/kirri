@@ -119,9 +119,9 @@ export const RecordList = observer(({navigation, route} : RecordListProps) => {
                 
 
                 let newList = list.concat(elements)
-                if(recordUuid) {
-                    newList = chain(elements).uniqBy(({ id }) => id).value();
-                }
+                // if(recordUuid) {
+                //     newList = chain(elements).uniqBy(({ id }) => id).value();
+                // }
                 const idList = newList.map(({ id }) => id)
                 const last_id = Math.min ( ...idList );
 

@@ -102,7 +102,7 @@ export const recordApis = {
   async getRecords( uuid : string, last_id : number | undefined, count : number = 10 ) : Promise<RecordsResType> {
     const { data } = await apiClient.get(`/diaries/${uuid}/records` , {
       params : {
-        last_id, count
+        "last-id" : last_id, count
       }
     });
     return data;
