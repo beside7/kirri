@@ -55,7 +55,8 @@ export interface RecordResType {
     createdByNickname: string,
     createdBy: number,
     createdDate: string,
-    updatedDate: string
+    updatedDate: string,
+    id: number
 }
 
 /**
