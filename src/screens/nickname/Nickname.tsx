@@ -49,8 +49,7 @@ export const Nickname = ({accessToken, authorities}: Props) => {
                     agreementList:["SERVICE", "PRIVACY"]
                 }
             );
-            const expoTokenResult = await updateExpoToken();
-            if(expoTokenResult){
+            if(result){
                 userApis.updatePush({
                     CHEERING: true,
                     NEW_RECORD: true,
@@ -58,6 +57,8 @@ export const Nickname = ({accessToken, authorities}: Props) => {
                     INVITATION: true
                 })
             }
+            const expoTokenResult = await updateExpoToken();
+            UserStore.login();
             setJoinProcessLoading(false);
             navigate('Home', null);
         } catch (error) {

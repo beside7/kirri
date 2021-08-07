@@ -35,9 +35,8 @@ export default function Login({ }: LoginProps): ReactElement {
                 navigate('Nickname', result.current);
             } else {
                 try {
-                    const me = await userApis.userMe();
+                    UserStore.login();
                     const notificationToken = await initNotifications();
-                    UserStore.login(me);
                     navigate('Home', null);
                 } catch (error) {
                     

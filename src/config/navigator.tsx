@@ -1,5 +1,6 @@
 import React, { ReactElement, useState, useEffect,useRef } from "react";
 import { NavigationContainer, StackActions, CommonActions} from '@react-navigation/native';
+import { NavigationAction } from '@react-navigation/native';
 
 
 import {
@@ -41,15 +42,16 @@ import { PushNotification } from "@type-definition/message"
 
 import * as Notifications from "expo-notifications";
 import { initNotifications } from "@utils";
+import { UserStore } from "@store";
 
 
 export function navigate(name: string, params: any) {
-    navigationRef.current?.dispatch(CommonActions.navigate(name, params?params:{}));
+    navigationRef.current?.dispatch(StackActions.push(name, params?params:{}));
   }
 
-  export function navigateGoBack() {
-    navigationRef.current?.goBack();
-  }
+export function navigateGoBack() {
+navigationRef.current?.goBack();
+}
 
 interface TermsAndConditionsProps {
     accessToken: string,
@@ -120,10 +122,11 @@ export default function navigator(): ReactElement {
                     setInitailizePage('Login');
                     setLoading(false);
                 }
+                
                 if (item) {
-                    const user = await userApis.userMe();
+                    await UserStore.login();
                     const notificationToken = await initNotifications();
-                    if (user.status === 'ACTIVE') {
+                    if (UserStore.status === 'ACTIVE') {
                         setLoading(false);
                         setInitailizePage('Home');
                         return;
@@ -139,6 +142,11 @@ export default function navigator(): ReactElement {
     }
     useEffect(()=>{
         getUserInfo();
+        return () => {
+            if (!UserStore.autoLogin) {
+                AsyncStorage.removeItem('userKey');
+            }
+        }
     }, []);
 
     /**
