@@ -121,12 +121,22 @@ export default function navigator(): ReactElement {
                     setLoading(false);
                 }
                 if (item) {
-                    const user = await userApis.userMe();
-                    const notificationToken = await initNotifications();
-                    if (user.status === 'ACTIVE') {
-                        setLoading(false);
-                        setInitailizePage('Home');
-                        return;
+                    /**
+                     * user key 가 유효하지 않을때 지우고 다시 로그인처리
+                     */
+                    try {
+                        const user = await userApis.userMe();
+                        const notificationToken = await initNotifications();
+                        if (user.status === 'ACTIVE') {
+                            setLoading(false);
+                            setInitailizePage('Home');
+                            return;
+                        }
+                    } catch (error) {
+                        // throw new Error(error)
+                        AsyncStorage.removeItem("userkey", () => {
+                            setInitailizePage('Login');
+                        })
                     }
                 }
                 setInitailizePage('Login');
