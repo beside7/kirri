@@ -29,7 +29,7 @@ import { userApis } from '@apis';
 import { SettingContent } from './SettingContent';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { navigate, navigateGoBack } from '@config/navigator';
+import { navigate, navigateGoBack, navigateWithoutRefresh } from '@config/navigator';
 import { UpdateUserMeResType } from '@type-definition/user';
 import {getProfileImage, ProfileImageTypes} from '@utils';
 
@@ -139,12 +139,38 @@ export const Settings = observer(()=> {
                         </SettingContent>
                         <SettingContent
                             icon={require('@assets/images/settings/setting_personal_info.png')}
+                            title='공지 사항'
+                        >
+                            <TouchableOpacity
+                                onPress={
+                                    ()=>{
+                                        navigateWithoutRefresh('TermsWebview', {type: 'SERVICE', title: '이용 약관'});
+                                    }
+                                }
+                            >
+                                <SettingIcon source={require('@assets/images/settings/setting_next_normal.png')}/></TouchableOpacity>
+                        </SettingContent>
+                        <SettingContent
+                            icon={require('@assets/images/settings/setting_personal_info.png')}
+                            title='이용 약관'
+                        >
+                            <TouchableOpacity
+                                onPress={
+                                    ()=>{
+                                        navigateWithoutRefresh('TermsWebview', {type: 'SERVICE', title: '이용 약관'});
+                                    }
+                                }
+                            >
+                                <SettingIcon source={require('@assets/images/settings/setting_next_normal.png')}/></TouchableOpacity>
+                        </SettingContent>
+                        <SettingContent
+                            icon={require('@assets/images/settings/setting_personal_info.png')}
                             title='개인정보 처리 방침'
                         >
                             <TouchableOpacity
                                 onPress={
                                     ()=>{
-                                        navigate('TermsWebview', null);
+                                        navigateWithoutRefresh('TermsWebview', {type: 'PRIVACY', title: '개인정보 처리 방침'});
                                     }
                                 }
                             >

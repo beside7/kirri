@@ -25,4 +25,4 @@ export {Tabs} from './common/Tabs';
 export {Header} from './common/header';
 export {Dropdown} from './common/dropdown';
 
-export {PushMessageProvider} from './popup/push';
+export {PushMessageProvider, useMessagePopupDispatch} from './popup/push';
