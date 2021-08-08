@@ -61,6 +61,7 @@ const styles = StyleSheet.create({
         width: "100%",
         backgroundColor: "#fff",
         borderRadius: 20,
+        paddingTop: 20
     },
     bottomPopupBarContainer: { 
         alignItems: "center",
