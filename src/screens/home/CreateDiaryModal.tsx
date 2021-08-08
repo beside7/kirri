@@ -60,7 +60,7 @@ export const CreateDiaryModal = ({open, reloadDiary, close}: Props) => {
         const payload: CreateDiaryReqType={ title: '', icon: ''};
         newDiaryName?(payload.title= newDiaryName):'';
         selectedCoverImage && (payload.icon = 'image:'+selectedCoverImage);
-        selectedCoverColor && (payload.icon = 'color:' + selectedCoverImage);
+        selectedCoverColor && (payload.icon = 'color:' + selectedCoverColor);
         try {
             const data = await diaryApis.createDiary(payload);            
             reloadDiary();

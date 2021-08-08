@@ -1,6 +1,6 @@
 import React, { ReactElement, useState, useEffect,useRef } from "react";
-import { NavigationContainer, StackActions, CommonActions} from '@react-navigation/native';
-
+import { NavigationContainer, StackActions} from '@react-navigation/native';
+import {useMessagePopupDispatch} from '@components';
 
 import {
     createStackNavigator,
@@ -28,12 +28,9 @@ import {
     EditPersonalInfo,
     TermsWebview
 } from "@screens";
-import { Text } from "react-native";
 
 export const navigationRef = React.createRef<any>();
-import { View } from 'react-native';
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { userApis } from "@apis";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 import { DiaryResType, RecordResType } from "@type-definition/diary"
@@ -41,15 +38,21 @@ import { PushNotification } from "@type-definition/message"
 
 import * as Notifications from "expo-notifications";
 import { initNotifications } from "@utils";
+import { UserStore } from "@store";
+import { PushMessageProvider } from "@components";
 
 
 export function navigate(name: string, params: any) {
-    navigationRef.current?.dispatch(CommonActions.navigate(name, params?params:{}));
-  }
+    navigationRef.current?.dispatch(StackActions.push(name, params?params:{}));
+}
 
-  export function navigateGoBack() {
+export function navigateWithoutRefresh(name: string, params: any) {
+    navigationRef.current?.navigate(name, params);
+}
+
+export function navigateGoBack() {
     navigationRef.current?.goBack();
-  }
+}
 
 interface TermsAndConditionsProps {
     accessToken: string,
@@ -57,7 +60,6 @@ interface TermsAndConditionsProps {
     authorities: string[],
     status: string
 }
-
 
 export type StackNavigatorParams = {
     Login: undefined;
@@ -79,7 +81,7 @@ export type StackNavigatorParams = {
     Settings: any;
     DiaryConfig: { diary : DiaryResType | null };
     EditPersonalInfo: undefined;
-    TermsWebview: undefined;
+    TermsWebview: {type: string, title: string};
 };
 
 const Stack = createStackNavigator<StackNavigatorParams>();
@@ -113,6 +115,7 @@ export default function navigator(): ReactElement {
     const [loading, setLoading] = useState(true);
     const [initalizePage, setInitailizePage] = useState<InitalizeRoutes>();
     const [isNavigatorReady, setIsNavigatorReady] = useState(false);
+    const messagePopupDispatch = useMessagePopupDispatch();
     const getUserInfo = () => {
         try {
             AsyncStorage.getItem('userKey', async(err, item) => {   
@@ -120,23 +123,14 @@ export default function navigator(): ReactElement {
                     setInitailizePage('Login');
                     setLoading(false);
                 }
+                
                 if (item) {
-                    /**
-                     * user key 가 유효하지 않을때 지우고 다시 로그인처리
-                     */
-                    try {
-                        const user = await userApis.userMe();
-                        const notificationToken = await initNotifications();
-                        if (user.status === 'ACTIVE') {
-                            setLoading(false);
-                            setInitailizePage('Home');
-                            return;
-                        }
-                    } catch (error) {
-                        // throw new Error(error)
-                        AsyncStorage.removeItem("userkey", () => {
-                            setInitailizePage('Login');
-                        })
+                    await UserStore.login();
+                    const notificationToken = await initNotifications();
+                    if (UserStore.status === 'ACTIVE') {
+                        setLoading(false);
+                        setInitailizePage('Home');
+                        return;
                     }
                 }
                 setInitailizePage('Login');
@@ -149,6 +143,11 @@ export default function navigator(): ReactElement {
     }
     useEffect(()=>{
         getUserInfo();
+        return () => {
+            if (!UserStore.autoLogin) {
+                AsyncStorage.removeItem('userKey');
+            }
+        }
     }, []);
 
     /**
@@ -175,9 +174,10 @@ export default function navigator(): ReactElement {
                              * 받는 푸쉬알림이 응원일경우에는 "응원메시지 자세히보기"(pushdetails)
                              */
                             case "CHEERING":
-                                navigationRef.current.dispatch(
-                                    StackActions.replace("CheerupMessage" , { title , body , data })
-                                );
+                                // navigationRef.current.dispatch(
+                                //     StackActions.replace("CheerupMessage" , { title , body , data })
+                                // );
+                                messagePopupDispatch({type: 'ADD_MESSAGE_POPUP', payload: data});
                                 break;
                             /**
                              * 받는 푸쉬알림이 공지push선택 일경우에는 끼리 메인 홈

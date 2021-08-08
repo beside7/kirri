@@ -107,8 +107,7 @@ const Home = ()=> {
             return;
         }
         try {
-            const user = await userApis.userMe();
-            UserStore.login(user);
+            UserStore.login();
             setUserLoading(false);
         } catch (error) {
             navigate('Login', null)

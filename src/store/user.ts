@@ -1,6 +1,7 @@
 import { makeObservable, observable, action } from 'mobx';
-import { LoginReqType } from 'src/types/user';
+import { LoginReqType, PushReqType } from 'src/types/user';
 import { getProfileImage, ProfileImageTypes } from '@utils';
+import { userApis } from '@apis';
 
 
 class UserStore {
@@ -10,6 +11,9 @@ class UserStore {
     profileImage: any = undefined;
     status= '';
     profileImagePath: string[] = [];
+    pushSettings: PushReqType[] = [];
+    pushStatus: boolean = false;
+    autoLogin: boolean=false;
 
     constructor() {
         makeObservable(this, {
@@ -17,18 +21,34 @@ class UserStore {
             id: observable,
             profileImage: observable,
             profileImagePath: observable,
+            pushSettings: observable,
+            pushStatus: observable,
+            autoLogin: observable,
             login: action,
             changeProfileImg: action,
             setNickname: action,
-            logout: action
+            logout: action,
+            setUser: action
         });
     }
 
-    login = ({id, nickname, profileImagePath}: LoginReqType) => {
+    login = async () => {
+        try {
+            const user = await userApis.userMe();
+            this.setUser(user);
+        } catch (error) {
+            throw new Error('Login Fail');
+        }
+    }
+
+    setUser = ({id, nickname, profileImagePath, pushSettings, status, autoLogin}: LoginReqType) => {
         this.id = id;
         this.nickname = nickname;
         this.changeProfileImg(profileImagePath);
-       
+        this.pushSettings= pushSettings;
+        this.pushStatus= pushSettings.reduce<boolean>((prev, curr)=> curr.active, true);
+        this.status = status;
+        this.autoLogin = autoLogin;
     }
 
     logout = () => {

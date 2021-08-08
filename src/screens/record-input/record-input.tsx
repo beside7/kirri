@@ -13,7 +13,7 @@ import {
 } from "react-native";
 import { useHeaderHeight } from "@react-navigation/stack";
 
-import { Background, Text_2, Header } from "@components";
+import { Background, Text_2, Header, SlideDownModal } from "@components";
 import {
   actions,
   RichEditor,
@@ -45,10 +45,11 @@ type RecordInputProps = {
 
 export default function RecordInput({ navigation, route }: RecordInputProps) {
 
+
   /**
-   * 하단 팝업 ref
+   * 다이어리 선택 ref
    */
-  const actionSheetRef = createRef<ActionSheet>();
+  const selectDiaryRef = useRef<any>();
 
 
   /**
@@ -213,7 +214,7 @@ export default function RecordInput({ navigation, route }: RecordInputProps) {
     /**
      * 하단 팝업 열기
      */
-    actionSheetRef.current?.setModalVisible();
+    selectDiaryRef.current?.open();
     const data = await diaryApis.getDiaries();
     const { elements } = data;
     setDiatyList(elements);
@@ -329,11 +330,10 @@ export default function RecordInput({ navigation, route }: RecordInputProps) {
         </View>
         
         {/* 하단 팝업 부분 */}
-        <ActionSheet ref={actionSheetRef}>
+        <SlideDownModal
+          ref={selectDiaryRef}
+        >
           <View style={styles.bottomPopupContainer}>
-            <View style={styles.bottomPopupBarContainer}>
-              <View style={styles.bottomPopupBar} />
-            </View>
             <View style={styles.bottomPopupTitleContainer}>
               <Text_2 style={styles.bottomPopupTitle}>다이어리 선택</Text_2>
             </View>
@@ -384,7 +384,7 @@ export default function RecordInput({ navigation, route }: RecordInputProps) {
                     if(diary){
                       setSelectDiary(null)
                       setDiary( diary )
-                      actionSheetRef.current?.setModalVisible(false)
+                      selectDiaryRef.current?.close();
                     }
                   } 
                 }}
@@ -393,7 +393,8 @@ export default function RecordInput({ navigation, route }: RecordInputProps) {
               </TouchableOpacity>
             </View>
           </View>
-        </ActionSheet>
+        
+        </SlideDownModal>
 
       </KeyboardAvoidingView>
     </Background>

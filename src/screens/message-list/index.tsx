@@ -17,17 +17,17 @@ type MessageListProps = {
 
 export default function MessageList({ navigation } : MessageListProps) {
     const selectedMessageType = useRef<'all' | MessageType>('all');
-    const pageInfo = useRef({page: 0, totalPage: 1, size: 10, lastId: 0});
+    const pageInfo = useRef({totalPage: 1, size: 10, lastId: 0});
     const [messageList, setMessageList] = useState<MessageDataType[]>([]);
-    
+    const [refreshing, setRefresing] = useState(true);
 
     const updateMessageStatus = (message:MessageDataType) => {
         setMessageList(messageList?.map(msg=> msg.id === message.id?message:msg));
     }
 
     const handleChangeSelectedMsgType = async (type: 'all'| MessageType) => {
+        setRefresing(true);
         selectedMessageType.current = type;
-        pageInfo.current.page = 0;
         pageInfo.current.totalPage = 1;
         setMessageList([]);
     }
@@ -36,6 +36,7 @@ export default function MessageList({ navigation } : MessageListProps) {
         if (messageList) {
             messages = [...messageList];
         }
+        
         setMessageList(messages.concat(addMessageList));
     }
     const getMessages = async () => {
@@ -51,11 +52,10 @@ export default function MessageList({ navigation } : MessageListProps) {
                     break;
             }
             pageInfo.current.totalPage = data.totalPages;
-            pageInfo.current.page = pageInfo.current.page+1;
             if (data.elements.length){
                 setMessages(data.elements);
             }
-
+            setRefresing(false);
         } catch (error) {
             console.log('error')
             console.log(error);
@@ -86,21 +86,29 @@ export default function MessageList({ navigation } : MessageListProps) {
                     ></Dropdown>
                 </PickerWrap>
                 <AlarmListWarp>
-                    {messageList.length?
+                    {/* {messageList.length? */}
                         <FlatList
                             data={messageList}
                             renderItem={({item})=> <Message {...item} updateMessageStatus={updateMessageStatus}/>}
                             keyExtractor={(item: MessageDataType)=> item.id.toString()}
                             onEndReached={getMessages}
                             onEndReachedThreshold={1}
+                            onRefresh={()=>{
+                                handleChangeSelectedMsgType(selectedMessageType.current);
+                            }}
+                            refreshing={refreshing}
+                            ListEmptyComponent={
+                                refreshing?<></>:
+                                <EmptyMessage>
+                                    <EmtyMsgImage source={require('@assets/images/alarm/notification_invite_empty.png')}/>
+                                    <EmtyMsgText>받은 알림이 없어요!</EmtyMsgText>
+                                </EmptyMessage>
+                            }
                         />
-                        :
-                        <EmptyMessage>
-                            <EmtyMsgImage source={require('@assets/images/alarm/notification_invite_empty.png')}/>
-                            <EmtyMsgText>받은 알림이 없어요!</EmtyMsgText>
-                        </EmptyMessage>
+                        
+                        
                     
-                    }
+                    {/* } */}
                     
                 </AlarmListWarp>
             </Container>
