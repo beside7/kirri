@@ -199,8 +199,10 @@ export default function RecordInput({ navigation, route }: RecordInputProps) {
             Alert.alert(`글이 ${ type === "modify" ? "수정" : "생성"}되었습니다.`);
             navigation.replace("RecordList", { diary: diary })
         } catch (error) {
-            console.log(error);
-            Alert.alert(`글이 ${ type === "modify" ? "수정" : "생성"} 간 에러가 발생했습니다.`);
+            // console.log(error);
+            // console.log(error.response);
+            
+            Alert.alert(`글이 ${ type === "modify" ? "수정" : "생성"} 간 에러가 발생했습니다.` , error.response.data);
         }
       } else {
         Alert.alert("다이러리를 선택해주세요")
