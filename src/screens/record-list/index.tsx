@@ -177,64 +177,51 @@ export const RecordList = observer(({navigation, route} : RecordListProps) => {
 
                 // 우측 상단 메뉴
                 rightIcon={
-                    // 관리자 일경우
-                    isAdministrator ? 
-                    (
-                        <Menu
-                            style={{
-                                top: 105
-                            }}
-                            visible={visible}
-                            onDismiss={closeMenu}
-                            anchor={
-                                <TouchableOpacity onPress={openMenu}>
-                                    <Image 
-                                        style={{ width: 24, height: 24 }}
-                                        source={require("@assets/icons/menu.png")}
-                                    />
-                                </TouchableOpacity>
-                            }
-                        >
-                            <Menu.Item onPress={() => {}} title="끼리 응원하기" />
-                            <Menu.Item onPress={() => {
+                    <Menu
+                        style={{
+                            top: 105
+                        }}
+                        visible={visible}
+                        onDismiss={closeMenu}
+                        anchor={
+                            <TouchableOpacity onPress={openMenu}>
+                                <Image 
+                                    style={{ width: 24, height: 24 }}
+                                    source={require("@assets/icons/menu.png")}
+                                />
+                            </TouchableOpacity>
+                        }
+                    >
+                        <Menu.Item 
+                            onPress={() => {
+                                closeMenu()
+                                navigation.navigate("Cheerup")
+                            }} 
+                            title="끼리 응원하기" 
+                        />
+                        <Menu.Item
+                            onPress={() => {
                                 closeMenu()
                                 navigation.navigate("FriendMain", { diary : diary })
-                            }} title="끼리 멤버" />
-                            <Menu.Item onPress={() => {
-                                closeMenu()
-                                navigation.navigate("DiaryConfig", { diary : diary })
-                            }} title="다이러리 수정" />
-                            <Menu.Item onPress={() => {
-                                setDeleteConfirm(true)
-                            }} title="다이러리 삭제" />
-                            <Menu.Item onPress={() => {}} title="나가기" />
-                        </Menu>
-                    ) :
-                    // 일반 유저일경우
-                    (
-                        <Menu
-                            style={{
-                                top: 105
-                            }}
-                            visible={visible}
-                            onDismiss={closeMenu}
-                            anchor={
-                                <TouchableOpacity onPress={openMenu}>
-                                    <Image 
-                                        style={{ width: 24, height: 24 }}
-                                        source={require("@assets/icons/menu.png")}
-                                    />
-                                </TouchableOpacity>
-                            }
-                        >
-                            <Menu.Item onPress={() => {}} title="끼리 응원하기" />
-                            <Menu.Item onPress={() => {
-                                closeMenu()
-                                navigation.navigate("FriendMain", { diary : diary })
-                            }} title="끼리 멤버" />
-                            <Menu.Item onPress={() => {}} title="나가기" />
-                        </Menu>
-                    )
+                            }} 
+                            title="끼리 멤버" 
+                        />
+                        {
+                            isAdministrator &&
+                            (
+                                <>
+                                    <Menu.Item onPress={() => {
+                                        closeMenu()
+                                        navigation.navigate("DiaryConfig", { diary : diary })
+                                    }} title="다이러리 수정" />
+                                    <Menu.Item onPress={() => {
+                                        setDeleteConfirm(true)
+                                    }} title="다이러리 삭제" />
+                                </>
+                            )
+                        }
+                        <Menu.Item onPress={() => {}} title="나가기" />
+                    </Menu>
                 }
             />
             {/* 다이러리 삭제창 */}
