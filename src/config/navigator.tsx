@@ -125,7 +125,14 @@ export default function navigator(): ReactElement {
                 }
                 
                 if (item) {
-                    await UserStore.login();
+                    try {
+                        await UserStore.login();
+                    } catch (error) {
+                        AsyncStorage.removeItem('userKey', async(err) => {
+                            setLoading(false);
+                            setInitailizePage('Login');
+                        })                   
+                    }
                     const notificationToken = await initNotifications();
                     if (UserStore.status === 'ACTIVE') {
                         setLoading(false);
