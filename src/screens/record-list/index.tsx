@@ -195,7 +195,7 @@ export const RecordList = observer(({navigation, route} : RecordListProps) => {
                         <Menu.Item 
                             onPress={() => {
                                 closeMenu()
-                                navigation.navigate("Cheerup")
+                                navigation.navigate("Cheerup", { diary : diary })
                             }} 
                             title="끼리 응원하기" 
                         />

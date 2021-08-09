@@ -70,7 +70,7 @@ export type StackNavigatorParams = {
     Home: any;
     TermsAndConditions: undefined;
     MainHome: undefined
-    Cheerup: undefined
+    Cheerup: { diary : DiaryResType | null }
     CheerupMessage: { title: string , body : string , data : PushNotification  }
     Setting: undefined
     RecordInfo: { diary : DiaryResType }
