@@ -10,6 +10,7 @@ import { StackNavigationProp } from "@react-navigation/stack";
 import { RouteProp } from "@react-navigation/native";
 import { observer } from 'mobx-react';
 import { UserStore } from '@store';
+import { ProfileImages , ProfileImageTypes } from '@utils'
 
 import { 
     Container,
@@ -116,6 +117,8 @@ const CheerUp = observer(({ navigation , route } : CheerUpProps) => {
                     keyExtractor={(item, index) => `${index}`}
                     renderItem={(data) => {
                         const item = data.item as Memeber
+                        const type = item.profileImagePath.split(":")[1] as ProfileImageTypes
+                        const profileImagePath = ProfileImages[type]
                         return(
                             <ListItem 
                                 onPress={() => {
@@ -124,7 +127,7 @@ const CheerUp = observer(({ navigation , route } : CheerUpProps) => {
                                 }}
                             >
                                 <ListItemImage 
-                                    source={require("@assets/images/profile/home_profile_01.png")}
+                                    source={profileImagePath}
                                 />
                                 <ListItemTitle>
                                     {item.nickname}

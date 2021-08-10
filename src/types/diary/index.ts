@@ -8,6 +8,7 @@ export interface Memeber {
      */
     status: "INVITING" | "ACTIVE" | null;
     authority: "DIARY_MEMBER" | "DIARY_OWNER" | null;
+    profileImagePath: string;
 }
 
 export interface DiariesResType {
@@ -30,8 +31,6 @@ export interface CreateDiaryReqType{
     title: string,
     icon: string,
 }
-
-
 
 /**
  * 기록 정보

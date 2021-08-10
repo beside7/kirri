@@ -7,7 +7,7 @@ import { StackNavigatorParams } from "@config/navigator";
 import { StackNavigationProp } from "@react-navigation/stack";
 
 import dateFormat from 'dateformat'
-import { stringToDatetime } from '@utils'
+import { stringToDatetime, ProfileImages , ProfileImageTypes } from '@utils'
 
 type RenderProps = {
     item : RecordResType,
@@ -21,13 +21,17 @@ type RenderProps = {
  * @returns 
  */
 export default function RenderItem({ item : { id, uuid , title, body , images, createdDate, createdBy , updatedDate, createdByNickname } , navigation, diary } : RenderProps ) {
+    
+    const type = (diary) ? diary.members.find(({ nickname }) => nickname === createdByNickname )?.profileImagePath.split(":")[1] as ProfileImageTypes : "01"    
+    const profileImage = ProfileImages[type]
+    
     return (
         <View style={styles.listItemContainer}>
             <View style={styles.listItemTop}>
                 <View style={{ flexDirection: "row", alignItems: "center" }}>
                     {/* 유저 썸네일 이미지 */}
                     <Image 
-                        source={require("@assets/images/profile/home_profile_02.png")}
+                        source={profileImage}
                         style={{ width: 36, height: 36, marginRight: 8 }}
                     />
                     {/* 유저 닉네임 */}
@@ -41,7 +45,7 @@ export default function RenderItem({ item : { id, uuid , title, body , images, c
                     (images.length > 0) && 
                         <TouchableOpacity
                             onPress={() => {
-                                navigation.navigate("RecordView" , {  diary: diary , record : { id , uuid , title, body , images, createdDate, createdBy , updatedDate, createdByNickname} })
+                                navigation.navigate("RecordView" , { diaryUuid : null , recordUuid : null , diary: diary , record : { id , uuid , title, body , images, createdDate, createdBy , updatedDate, createdByNickname} })
                             }}
                         >
                             {/* 글쓴이가 업로드한 이미지 */}
@@ -56,7 +60,7 @@ export default function RenderItem({ item : { id, uuid , title, body , images, c
             </View>
             <TouchableOpacity
                 onPress={() => {
-                    navigation.navigate("RecordView" , {  diary: diary , record : { id, uuid , title, body , images, createdDate, createdBy , updatedDate, createdByNickname} })
+                    navigation.navigate("RecordView" , { diaryUuid : null , recordUuid : null , diary: diary , record : { id, uuid , title, body , images, createdDate, createdBy , updatedDate, createdByNickname} })
                 }}
             >
                 {/* 제목 */}

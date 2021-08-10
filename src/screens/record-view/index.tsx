@@ -16,6 +16,7 @@ import { stringToDatetime } from '@utils'
 import { observer } from 'mobx-react';
 import { UserStore } from '@store';
 import styles from "./styles"
+import { ProfileImages , ProfileImageTypes } from '@utils'
 
 const SCREEN_WIDTH = Dimensions.get("screen").width;
 
@@ -44,12 +45,16 @@ export const RecordView = observer(({ route, navigation } : RecordViewProps) => 
     /**
      * 리스트에서 가져오는 부분
      */
-    const { diary , record } = route.params
+    const { diary , record, diaryUuid , recordUuid } = route.params
 
     /**
      * 기록 삭제 동의창 생성부분
      */
     const [modal, setModal] = useState(false);
+
+
+    const type = (diary && record) ? diary.members.find(({ nickname }) => nickname === record.createdByNickname )?.profileImagePath.split(":")[1] as ProfileImageTypes : "01"    
+    const profileImage = ProfileImages[type]
 
 
     /**
@@ -65,7 +70,7 @@ export const RecordView = observer(({ route, navigation } : RecordViewProps) => 
         if(diary && record){
             // console.log({diary, record});
             try {
-                const res = await recordApis.viewRecord( diary.uuid, record.uuid );                
+                const res = await recordApis.viewRecord(  diary.uuid, record.uuid );                
                 setData(res);
             } catch (error) {
                 console.log(error);
@@ -189,7 +194,7 @@ export const RecordView = observer(({ route, navigation } : RecordViewProps) => 
                         <View style={styles.viewWriterContainer}>
                             <View style={{ flexDirection : "row" , alignItems : "center"}}>
                                 <Image 
-                                    source={require("@assets/images/profile/home_profile_02.png")}
+                                    source={profileImage}
                                     style={{ width: 36, height: 36, marginRight: 8}}
                                 />
                                 <Text_2 style={{ fontSize: 12 }}>
