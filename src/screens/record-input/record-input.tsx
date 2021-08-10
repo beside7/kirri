@@ -33,8 +33,8 @@ import { RouteProp } from "@react-navigation/native";
 import { CreateRecordReqType, DiaryResType, DiariesResType } from "@type-definition/diary";
 import { diaryApis } from '@apis';
 
-import ActionSheet from "react-native-actions-sheet";
 import { FlatList } from "react-native-gesture-handler";
+import * as FileSystem from 'expo-file-system';
 
 import { CoverCircleImages , CoverColor} from "@utils";
 
@@ -150,7 +150,21 @@ export default function RecordInput({ navigation, route }: RecordInputProps) {
     // console.log(result);
 
     if (!result.cancelled) {
-      const newImages = images ? images.concat(result.uri) : [result.uri];
+      const newImages = [result.uri];
+
+      /**
+       * 파일 정보 가져오기
+       */
+      const fileInfo = await FileSystem.getInfoAsync(result.uri);
+      
+      /**
+       * 만약 추가한 이미지가 2MB 보다 크면 경고창 출력후 중단
+       */
+      if( fileInfo.size !== undefined && fileInfo.size > 1024 * 1024 * 2 ){
+        Alert.alert("2MB 보다 큰 이미지는 추가할수 없습니다.");
+        return;
+      }
+      
       setImages(newImages);
     }
   };
@@ -200,9 +214,9 @@ export default function RecordInput({ navigation, route }: RecordInputProps) {
             navigation.replace("RecordList", { diary: diary })
         } catch (error) {
             // console.log(error);
-            // console.log(error.response);
+            console.log(error.response);
             
-            Alert.alert(`글이 ${ type === "modify" ? "수정" : "생성"} 간 에러가 발생했습니다.` , error.response.data);
+            Alert.alert(`글이 ${ type === "modify" ? "수정" : "생성"} 간 에러가 발생했습니다.`);
         }
       } else {
         Alert.alert("다이러리를 선택해주세요")
@@ -307,6 +321,7 @@ export default function RecordInput({ navigation, route }: RecordInputProps) {
               initialContentHTML={ (type==="modify" && record) ? record.body : ""}
               initialHeight={ScreenHeight - headerHeight - 200}
               placeholder={`너의 아주 작은 이야기까지 다 들어줄게!`}
+              pasteAsPlainText={true}
             />
           </ScrollView>
           <Image
