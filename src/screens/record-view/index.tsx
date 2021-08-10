@@ -11,7 +11,8 @@ import { RecordResType } from "@type-definition/diary";
 import RenderHtml from 'react-native-render-html';
 import { Menu } from 'react-native-paper';
 import { Confirm } from "@components";
-
+import dateFormat from 'dateformat'
+import { stringToDatetime } from '@utils'
 import { observer } from 'mobx-react';
 import { UserStore } from '@store';
 import styles from "./styles"
@@ -197,7 +198,7 @@ export const RecordView = observer(({ route, navigation } : RecordViewProps) => 
                             </View>
                             <View  style={{ alignItems : "center", justifyContent: "center"}}>
                                 <Text_2 style={{ fontSize: 12, color: "#6f6f7e" }}>
-                                    {createdDate}
+                                    {dateFormat(stringToDatetime(createdDate) , 'yyyy-mm-dd HH:MM:ss')}
                                 </Text_2>
                             </View>
                         </View>
