@@ -9,7 +9,9 @@ import {
   TextInput,
   ScrollView,
   Alert,
-  SafeAreaView
+  SafeAreaView,
+  Modal,
+  Pressable
 } from "react-native";
 import { useHeaderHeight } from "@react-navigation/stack";
 
@@ -37,6 +39,9 @@ import { FlatList } from "react-native-gesture-handler";
 import * as FileSystem from 'expo-file-system';
 
 import { CoverCircleImages , CoverColor} from "@utils";
+import { FontAwesome } from '@expo/vector-icons'; 
+import { RadioButton } from 'react-native-paper';
+
 
 type RecordInputProps = {
   navigation: StackNavigationProp<StackNavigatorParams, "RecordInput">;
@@ -109,6 +114,16 @@ export default function RecordInput({ navigation, route }: RecordInputProps) {
   const [title, setTitle] = useState( (type === "modify" && record) ? record.title : "" );
 
   /**
+   * 모달창 출력여부
+   */
+  const [visible, setVisible] = useState(false)
+
+  /**
+   * 라디오 버튼
+   */
+  const [checked, setChecked] = React.useState(0.5);
+
+  /**
    * 에디터 내부 css 설정
    */
   const fontFace = `@font-face {
@@ -144,7 +159,10 @@ export default function RecordInput({ navigation, route }: RecordInputProps) {
       mediaTypes: ImagePicker.MediaTypeOptions.All,
       allowsEditing: false,
       // aspect: [4, 3],
-      // quality: 1,
+      /**
+       * 1 : 원본 이미지 화질 ~ 0 : 최대 압축
+       */
+      quality: checked,
     });
 
     // console.log(result);
@@ -156,14 +174,15 @@ export default function RecordInput({ navigation, route }: RecordInputProps) {
        * 파일 정보 가져오기
        */
       const fileInfo = await FileSystem.getInfoAsync(result.uri);
+      console.log(fileInfo);
       
       /**
        * 만약 추가한 이미지가 2MB 보다 크면 경고창 출력후 중단
        */
-      if( fileInfo.size !== undefined && fileInfo.size > 1024 * 1024 * 2 ){
-        Alert.alert("2MB 보다 큰 이미지는 추가할수 없습니다.");
-        return;
-      }
+      // if( fileInfo.size !== undefined && fileInfo.size > 1024 * 1024 * 2 ){
+      //   Alert.alert("2MB 보다 큰 이미지는 추가할수 없습니다.");
+      //   return;
+      // }
       
       setImages(newImages);
     }
@@ -276,6 +295,64 @@ export default function RecordInput({ navigation, route }: RecordInputProps) {
         }
         borderBottom={true}
       />
+      <Modal
+        statusBarTranslucent={true}
+        visible={visible}
+        transparent={true}
+      >
+        <View style={styles.centeredView}>
+          <View style={styles.modalView}>
+            <View style={styles.form}>
+              <View style={styles.formGroup}>
+                <Text_2>원본 화질</Text_2>
+                <RadioButton
+                  value="1"
+                  status={ checked === 1 ? 'checked' : 'unchecked' }
+                  onPress={() => setChecked(1)}
+                  />
+              </View>
+              <View style={styles.formGroup}>
+                <Text_2>높은 화질</Text_2>
+                <RadioButton
+                  value="0.75"
+                  status={ checked === 0.75 ? 'checked' : 'unchecked' }
+                  onPress={() => setChecked(0.75)}
+                />
+              </View>
+              <View style={styles.formGroup}>
+                <Text_2>일반 화질</Text_2>
+                <RadioButton
+                  value="0.5"
+                  status={ checked === 0.5 ? 'checked' : 'unchecked' }
+                  onPress={() => setChecked(0.5)}
+                />
+              </View>
+              <View style={styles.formGroup}>
+                <Text_2>낮은 화질</Text_2>
+                <RadioButton
+                  value="0.25"
+                  status={ checked === 0.25 ? 'checked' : 'unchecked' }
+                  onPress={() => setChecked(0.25)}
+                />
+              </View>
+              <View style={styles.formGroup}>
+                <Text_2>저용량</Text_2>
+                <RadioButton
+                  value="0"
+                  status={ checked === 0 ? 'checked' : 'unchecked' }
+                  onPress={() => setChecked(0)}
+                />
+              </View>
+            </View>
+            <Pressable
+              style={[styles.button, styles.buttonClose]}
+              onPress={() => setVisible(!visible)}
+            >
+              <Text_2 style={styles.textStyle}>닫기</Text_2>
+            </Pressable>
+          </View>
+        </View>
+      </Modal>
       <KeyboardAvoidingView
         behavior={Platform.OS == "ios" ? "padding" : "height"}
         keyboardVerticalOffset={headerHeight}
@@ -332,7 +409,7 @@ export default function RecordInput({ navigation, route }: RecordInputProps) {
         <View style={styles.bottomTab}>
           <TouchableOpacity
             onPress={pickImage}
-            style={{ position: "absolute", left: 20 }}
+            // style={{ position: "absolute", left: 20 }}
           >
             <Image
               source={require("@assets/icons/image.png")}
@@ -344,6 +421,9 @@ export default function RecordInput({ navigation, route }: RecordInputProps) {
               ({body.length}/2000)
             </Text_2>
           </View>
+          <TouchableOpacity onPress={() => setVisible(true)}>
+            <FontAwesome name="gear" size={24} color="black" />
+          </TouchableOpacity>
         </View>
         
         {/* 하단 팝업 부분 */}

@@ -23,7 +23,7 @@ const styles = StyleSheet.create({
         paddingVertical: 10,
         flexDirection: "row",
         alignItems: "center",
-        justifyContent: "center",
+        justifyContent: "space-between",
         backgroundColor: "#f4f4f8"
     },
     imageList : {
@@ -128,6 +128,54 @@ const styles = StyleSheet.create({
         alignItems: "center",
         borderRadius: 10,
     },
+
+    centeredView: {
+        flex: 1,
+        justifyContent: "center",
+        alignItems: "center",
+        marginTop: 22
+    },
+    modalView: {
+        margin: 20,
+        backgroundColor: "white",
+        borderRadius: 20,
+        padding: 5,
+        alignItems: "center",
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 2
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 4,
+        elevation: 5
+    },
+    button: {
+        borderRadius: 20,
+        padding: 10,
+        elevation: 2
+    },
+    buttonClose: {
+        backgroundColor: "#ffdd1f",
+    },
+    textStyle: {
+        color: "#17171c",
+        fontWeight: "bold",
+        textAlign: "center"
+    },
+    modalText: {
+        marginBottom: 15,
+        textAlign: "center"
+    },
+    form : {
+        width: 250,
+        paddingHorizontal: 30
+    },
+    formGroup : {
+        flexDirection: "row",
+        alignItems: "center",
+        justifyContent: "space-between"
+    }
 })
 
 
