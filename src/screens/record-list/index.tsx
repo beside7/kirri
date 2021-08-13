@@ -8,7 +8,7 @@ import { RouteProp } from "@react-navigation/native";
 import { recordApis, diaryApis } from "@apis"
 import { RecordResType } from "@type-definition/diary"
 import { Menu } from 'react-native-paper';
-
+import { chain } from "lodash";
 import { observer } from 'mobx-react';
 import { UserStore } from '@store';
 
@@ -51,7 +51,7 @@ export const RecordList = observer(({navigation, route} : RecordListProps) => {
     /**
      * 리스트 맨마직막 아이디
      */
-    const [lastId, setLastId] = useState<string | undefined>()
+    const [lastId, setLastId] = useState<number | undefined>(undefined)
     
     
     /**
@@ -103,7 +103,7 @@ export const RecordList = observer(({navigation, route} : RecordListProps) => {
      * @param uuid 다이러리 아이디
      * @returns 기록목록
      */
-    const getRecordList = async (uuid : string | undefined , recordUuid: string | undefined) => {
+    const getRecordList = async (uuid : string | undefined , recordUuid: number | undefined) => {
         try {
             // console.log(uuid);
             if(uuid){
@@ -115,13 +115,19 @@ export const RecordList = observer(({navigation, route} : RecordListProps) => {
                 const { elements } = getRecordRes
                 // console.log(getRecordRes);
                 // 기존리스트에 추가
-                const newList = list.concat(elements)
-                const lastItem = newList[newList.length - 1];
+
                 
-                const lastUuid = (lastItem !== undefined) ? lastItem.uuid : undefined
-                // console.log(lastUuid);
+
+                let newList = list.concat(elements)
+                // if(recordUuid) {
+                //     newList = chain(elements).uniqBy(({ id }) => id).value();
+                // }
+                const idList = newList.map(({ id }) => id)
+                const last_id = Math.min ( ...idList );
+
+                // console.log(last_id);
                 // // 마직막 아이디 지정
-                setLastId(lastUuid)
+                setLastId(last_id)
                 
                 setList(recordUuid ? newList : elements)
                 setLoading(false)
@@ -171,64 +177,51 @@ export const RecordList = observer(({navigation, route} : RecordListProps) => {
 
                 // 우측 상단 메뉴
                 rightIcon={
-                    // 관리자 일경우
-                    isAdministrator ? 
-                    (
-                        <Menu
-                            style={{
-                                top: 105
-                            }}
-                            visible={visible}
-                            onDismiss={closeMenu}
-                            anchor={
-                                <TouchableOpacity onPress={openMenu}>
-                                    <Image 
-                                        style={{ width: 24, height: 24 }}
-                                        source={require("@assets/icons/menu.png")}
-                                    />
-                                </TouchableOpacity>
-                            }
-                        >
-                            <Menu.Item onPress={() => {}} title="끼리 응원하기" />
-                            <Menu.Item onPress={() => {
+                    <Menu
+                        style={{
+                            top: 105
+                        }}
+                        visible={visible}
+                        onDismiss={closeMenu}
+                        anchor={
+                            <TouchableOpacity onPress={openMenu}>
+                                <Image 
+                                    style={{ width: 24, height: 24 }}
+                                    source={require("@assets/icons/menu.png")}
+                                />
+                            </TouchableOpacity>
+                        }
+                    >
+                        <Menu.Item 
+                            onPress={() => {
+                                closeMenu()
+                                navigation.navigate("Cheerup", { diary : diary })
+                            }} 
+                            title="끼리 응원하기" 
+                        />
+                        <Menu.Item
+                            onPress={() => {
                                 closeMenu()
                                 navigation.navigate("FriendMain", { diary : diary })
-                            }} title="끼리 멤버" />
-                            <Menu.Item onPress={() => {
-                                closeMenu()
-                                navigation.navigate("DiaryConfig", { diary : diary })
-                            }} title="다이러리 수정" />
-                            <Menu.Item onPress={() => {
-                                setDeleteConfirm(true)
-                            }} title="다이러리 삭제" />
-                            <Menu.Item onPress={() => {}} title="나가기" />
-                        </Menu>
-                    ) :
-                    // 일반 유저일경우
-                    (
-                        <Menu
-                            style={{
-                                top: 105
-                            }}
-                            visible={visible}
-                            onDismiss={closeMenu}
-                            anchor={
-                                <TouchableOpacity onPress={openMenu}>
-                                    <Image 
-                                        style={{ width: 24, height: 24 }}
-                                        source={require("@assets/icons/menu.png")}
-                                    />
-                                </TouchableOpacity>
-                            }
-                        >
-                            <Menu.Item onPress={() => {}} title="끼리 응원하기" />
-                            <Menu.Item onPress={() => {
-                                closeMenu()
-                                navigation.navigate("FriendMain", { diary : diary })
-                            }} title="끼리 멤버" />
-                            <Menu.Item onPress={() => {}} title="나가기" />
-                        </Menu>
-                    )
+                            }} 
+                            title="끼리 멤버" 
+                        />
+                        {
+                            isAdministrator &&
+                            (
+                                <>
+                                    <Menu.Item onPress={() => {
+                                        closeMenu()
+                                        navigation.navigate("DiaryConfig", { diary : diary })
+                                    }} title="다이러리 수정" />
+                                    <Menu.Item onPress={() => {
+                                        setDeleteConfirm(true)
+                                    }} title="다이러리 삭제" />
+                                </>
+                            )
+                        }
+                        <Menu.Item onPress={() => {}} title="나가기" />
+                    </Menu>
                 }
             />
             {/* 다이러리 삭제창 */}

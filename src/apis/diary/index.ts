@@ -96,11 +96,15 @@ export const recordApis = {
   /**
    * 기록목록을 가져온다
    * @param uuid 다이러리 기본키
-   * @param recordUuid 기록 마지막기본키
+   * @param last_id 기록 마지막기본키
    * @returns 
    */
-  async getRecords( uuid : string, recordUuid : string | undefined ) : Promise<RecordsResType> {
-    const { data } = await apiClient.get(`/diaries/${uuid}/records/${ recordUuid ? recordUuid : "" }`);
+  async getRecords( uuid : string, last_id : number | undefined, count : number = 10 ) : Promise<RecordsResType> {
+    const { data } = await apiClient.get(`/diaries/${uuid}/records` , {
+      params : {
+        "last-id" : last_id, count
+      }
+    });
     return data;
   },
 

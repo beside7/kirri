@@ -1,5 +1,5 @@
 import { apiClient } from '../clients';
-import {MessageReqType, MessageResType, MessageByTypeReqType} from '@type-definition/message';
+import {MessageReqType, MessageResType, MessageByTypeReqType, SendMessageReq} from '@type-definition/message';
 import {ResType} from '@type-definition/common';
 
 
@@ -19,5 +19,15 @@ export const messageApis = {
         } catch (error) {
             return error;
         }
+    },
+    /**
+     * 메세지 전송
+     * @param diaryUuid 다이러리 uuid 
+     * @param payload 보내는 내용
+     * @returns 
+     */
+    sendMessage : async (diaryUuid : string , payload : SendMessageReq) : Promise<void> => {
+        await apiClient.post(`/diaries/${diaryUuid}/messages`, payload);
+        return;
     },
 };

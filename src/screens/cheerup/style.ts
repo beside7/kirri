@@ -2,133 +2,135 @@ import styled from 'styled-components/native'
 
 export const Container = styled.View``
 
-export const BackgroundImage = styled.Image`
-    width: 100;
-    height: 100;
-    position: absolute;
-    top: 48;
-`
+export const BackgroundImage = styled.Image({
+    width: 100,
+    height: 100,
+    position: "absolute",
+    top: 48,
+})
 
-export const SpeechBubble = styled.Text`
-    width: 152;
-    height: 53;
-    position: absolute;
-    top: 40;
-    left: 100;
-    color: #fff;
-    background-color: #17171c;
-    padding-top: 13;
-    padding-bottom: 12;
-    font-size: 11;
-    padding-left: 12;
-    padding-right: 12;
-    font-family: "SpoqaHanSansNeo-Regular";
-    border-radius: 13;
-`
-export const SpeechBubble2 = styled.View`
-    width: 0;
-    height: 0;
-    background-color: transparent;
-    border-style: solid;
-    border-top-width: 9;
-    border-right-width: 15;
-    border-bottom-width: 9;
-    border-left-width: 0;
-    border-top-color: transparent;
-    border-right-color: #17171c;
-    border-bottom-color: transparent;
-    border-left-color: transparent;
-    position: absolute;
-    top: 60;
-    left: 85;
-`
+export const SpeechBubble = styled.Text({
+    width: 152,
+    height: 53,
+    position: "absolute",
+    top: 40,
+    left: 100,
+    color: "#fff",
+    backgroundColor: "#17171c",
+    paddingTop: 13,
+    paddingBottom: 12,
+    fontSize: 11,
+    paddingLeft: 12,
+    paddingRight: 12,
+    fontFamily: "SpoqaHanSansNeo-Regular",
+    borderRadius: 13,
+});
 
-export const FriendList = styled.FlatList`
-    margin-top: 160;
-    padding-left: 40;
-    padding-right: 40;
-`
+export const SpeechBubble2 = styled.View({
+    width: 0,
+    height: 0,
+    backgroundColor: "transparent",
+    borderStyle: "solid",
+    borderTopWidth: 9,
+    borderRightWidth: 15,
+    borderBottomWidth: 9,
+    borderLeftWidth: 0,
+    borderTopColor: "transparent",
+    borderRightColor: "#17171c",
+    borderBottomColor: "transparent",
+    borderLeftColor: "transparent",
+    position: "absolute",
+    top: 60,
+    left: 85,
+})
 
-export const ListItem = styled.TouchableOpacity`
-    margin-right: 44;
-    margin-top: 44;
-`
+export const FriendList = styled.FlatList({
+    marginTop: 160,
+    paddingLeft: 40,
+    paddingRight: 40,
+})
 
-export const ListItemImage = styled.Image`
-    width: 70;
-    height: 70;
-`
+export const ListItem = styled.TouchableOpacity({
+    marginRight: 44,
+    marginTop: 44,
+})
 
-export const ListItemTitle = styled.Text`
-    margin-top: 8;
-    font-family: "SpoqaHanSansNeo-Regular";
-    text-align: center;
-    font-size: 12;
-    color: #17171c;
-`
+export const ListItemImage = styled.Image({
+    width: 70,
+    height: 70,
+})
 
-export const ActionSheetContainer = styled.View`
-    height: 686;
-    padding-top: 30;
-    padding-left: 34;
-    padding-right: 34;
-`
+export const ListItemTitle = styled.Text({
+    marginTop: 8,
+    fontFamily: "SpoqaHanSansNeo-Regular",
+    textAlign: "center",
+    fontSize: 12,
+    color: "#17171c",
+})
 
-export const ProfileContainer = styled.View`
-    flex-direction: row;
-`
+export const ActionSheetContainer = styled.View({
+    height: 686,
+    paddingTop: 30,
+    paddingLeft: 34,
+    paddingRight: 34,
+})
 
-export const ProfileImage = styled.Image`
-    width: 70;
-    height: 70;
-`
+export const ProfileContainer = styled.View({
+    flexDirection: "row",
+})
 
-export const TitleContainer = styled.View`
-    margin-left: 12;
-`
+export const ProfileImage = styled.Image({
+    width: 70,
+    height: 70,
+})
 
-export const Title = styled.Text`
-    width: 225;
-    font-size: 16;
-    color: #17171c;
-    font-family: 'SpoqaHanSansNeo-Medium';
-`
-export const SubTitle = styled.Text`
-    width: 238;
-    font-size: 12;
-    color: #babacb;
-    margin-top: 4;    
-    font-family: 'SpoqaHanSansNeo-Regular';
-`
+export const TitleContainer = styled.View({
+    marginLeft: 12,
+})
 
-export const ChreerupContainer = styled.View`
-    margin-top: 33;
-    flex-direction: row;
-    flex-wrap: wrap;
-`
+export const Title = styled.Text({
+    width: 225,
+    fontSize: 16,
+    color: "#17171c",
+    fontFamily: 'SpoqaHanSansNeo-Medium',
+})
 
-export const Chreerup = styled.TouchableOpacity`
-    width: 45.5%;
-    height: 160;
-    margin-top: 7;
-    margin-bottom: 7;
-    margin-left: 7;
-    margin-right: 7;
-    align-items: center;
-    justify-content: center;
-    border-width: 1;
-    border-color: #e1e1eb;
-    border-radius: 10;
-`
+export const SubTitle = styled.Text({
+    width: 238,
+    fontSize: 12,
+    color: "#babacb",
+    marginTop: 4,    
+    fontFamily: 'SpoqaHanSansNeo-Regular',
+})
 
-export const ChreerupImage = styled.Image`
-    width: 70;
-    height: 70;
-    margin-bottom: 15;
-`
+export const ChreerupContainer = styled.View({
+    marginTop: 33,
+    flexDirection: "row",
+    flexWrap: "wrap",
+})
 
-export const ChreerupMessage = styled.Text`
-    color: #17171c;
-    font-size: 12;
-    font-family: 'SpoqaHanSansNeo-Regular';
-`
+export const Chreerup = styled.TouchableOpacity({
+    width: "45.5%",
+    height: 160,
+    marginTop: 7,
+    marginBottom: 7,
+    marginLeft: 7,
+    marginRight: 7,
+    alignItems: "center",
+    justifyContent: "center",
+    borderWidth: 1,
+    borderColor: "#e1e1eb",
+    borderRadius: 10,
+})
+
+export const ChreerupImage = styled.Image({
+    width: 70,
+    height: 70,
+    marginBottom: 15,
+})
+
+export const ChreerupMessage = styled.Text({
+    color: "#17171c",
+    fontSize: 12,
+    fontFamily: 'SpoqaHanSansNeo-Regular',
+})

@@ -28,17 +28,23 @@ export interface JoinReqType{
     agreementList: string[]
 }
 
-export interface RecentRecodeType{
-    diaryTitle: string,
-    diaryIcon: string,
-    recordTitle: string,
-    recordCreatedBy: string,
-    recordCreatedDate: string
+/**
+ * 최근 기록 정보
+ */
+ export interface RecentRecordResType {
+    elements : RecentRecordType[]
 }
 
-export interface RecentRecordResType {
-    totalCounts: number,
-    elements: RecentRecodeType[]
+/**
+ * 최근 기록 정보
+ */
+export interface RecentRecordType {
+    id: number,
+    recordUuid: string,
+    recordTitle: string,
+    createdByNickname: string,
+    diaryUuid: string,
+    diaryTitle: string
 }
 
 export interface UpdateUserMeResType {

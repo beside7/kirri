@@ -9,7 +9,9 @@ import {
   TextInput,
   ScrollView,
   Alert,
-  SafeAreaView
+  SafeAreaView,
+  Modal,
+  Pressable
 } from "react-native";
 import { useHeaderHeight } from "@react-navigation/stack";
 
@@ -33,10 +35,14 @@ import { RouteProp } from "@react-navigation/native";
 import { CreateRecordReqType, DiaryResType, DiariesResType } from "@type-definition/diary";
 import { diaryApis } from '@apis';
 
-import ActionSheet from "react-native-actions-sheet";
 import { FlatList } from "react-native-gesture-handler";
+import * as FileSystem from 'expo-file-system';
 
 import { CoverCircleImages , CoverColor} from "@utils";
+import { FontAwesome } from '@expo/vector-icons'; 
+import { RadioButton } from 'react-native-paper';
+
+import ImageQualityModal from './image-quality-modal'
 
 type RecordInputProps = {
   navigation: StackNavigationProp<StackNavigatorParams, "RecordInput">;
@@ -109,6 +115,16 @@ export default function RecordInput({ navigation, route }: RecordInputProps) {
   const [title, setTitle] = useState( (type === "modify" && record) ? record.title : "" );
 
   /**
+   * 모달창 출력여부
+   */
+  const [visible, setVisible] = useState(false)
+
+  /**
+   * 라디오 버튼
+   */
+  const [checked, setChecked] = React.useState(0.5);
+
+  /**
    * 에디터 내부 css 설정
    */
   const fontFace = `@font-face {
@@ -144,13 +160,31 @@ export default function RecordInput({ navigation, route }: RecordInputProps) {
       mediaTypes: ImagePicker.MediaTypeOptions.All,
       allowsEditing: false,
       // aspect: [4, 3],
-      // quality: 1,
+      /**
+       * 1 : 원본 이미지 화질 ~ 0 : 최대 압축
+       */
+      quality: checked,
     });
 
     // console.log(result);
 
     if (!result.cancelled) {
-      const newImages = images ? images.concat(result.uri) : [result.uri];
+      const newImages = [result.uri];
+
+      /**
+       * 파일 정보 가져오기
+       */
+      const fileInfo = await FileSystem.getInfoAsync(result.uri);
+      console.log(fileInfo);
+      
+      /**
+       * 만약 추가한 이미지가 2MB 보다 크면 경고창 출력후 중단
+       */
+      if( fileInfo.size !== undefined && fileInfo.size > 1024 * 1024 * 2 ){
+        Alert.alert("2MB 보다 큰 이미지는 추가할수 없습니다.");
+        return;
+      }
+      
       setImages(newImages);
     }
   };
@@ -199,7 +233,9 @@ export default function RecordInput({ navigation, route }: RecordInputProps) {
             Alert.alert(`글이 ${ type === "modify" ? "수정" : "생성"}되었습니다.`);
             navigation.replace("RecordList", { diary: diary })
         } catch (error) {
-            console.log(error);
+            // console.log(error);
+            console.log(error.response);
+            
             Alert.alert(`글이 ${ type === "modify" ? "수정" : "생성"} 간 에러가 발생했습니다.`);
         }
       } else {
@@ -260,6 +296,12 @@ export default function RecordInput({ navigation, route }: RecordInputProps) {
         }
         borderBottom={true}
       />
+      <ImageQualityModal 
+        visible={visible}
+        checked={checked}
+        close={ () => setVisible(false) }
+        setChecked={setChecked}
+      />
       <KeyboardAvoidingView
         behavior={Platform.OS == "ios" ? "padding" : "height"}
         keyboardVerticalOffset={headerHeight}
@@ -305,6 +347,7 @@ export default function RecordInput({ navigation, route }: RecordInputProps) {
               initialContentHTML={ (type==="modify" && record) ? record.body : ""}
               initialHeight={ScreenHeight - headerHeight - 200}
               placeholder={`너의 아주 작은 이야기까지 다 들어줄게!`}
+              pasteAsPlainText={true}
             />
           </ScrollView>
           <Image
@@ -315,7 +358,7 @@ export default function RecordInput({ navigation, route }: RecordInputProps) {
         <View style={styles.bottomTab}>
           <TouchableOpacity
             onPress={pickImage}
-            style={{ position: "absolute", left: 20 }}
+            // style={{ position: "absolute", left: 20 }}
           >
             <Image
               source={require("@assets/icons/image.png")}
@@ -327,6 +370,9 @@ export default function RecordInput({ navigation, route }: RecordInputProps) {
               ({body.length}/2000)
             </Text_2>
           </View>
+          <TouchableOpacity onPress={() => setVisible(true)}>
+            <FontAwesome name="gear" size={24} color="black" />
+          </TouchableOpacity>
         </View>
         
         {/* 하단 팝업 부분 */}

@@ -8,6 +8,7 @@ export interface Memeber {
      */
     status: "INVITING" | "ACTIVE" | null;
     authority: "DIARY_MEMBER" | "DIARY_OWNER" | null;
+    profileImagePath: string;
 }
 
 export interface DiariesResType {
@@ -31,8 +32,6 @@ export interface CreateDiaryReqType{
     icon: string,
 }
 
-
-
 /**
  * 기록 정보
  */
@@ -55,7 +54,8 @@ export interface RecordResType {
     createdByNickname: string,
     createdBy: number,
     createdDate: string,
-    updatedDate: string
+    updatedDate: string,
+    id: number
 }
 
 /**

@@ -11,6 +11,9 @@ import { RouteProp } from "@react-navigation/native";
 
 import { CoverBigImages, CoverColorTypes, CoverColor } from "@utils";
 
+import dateFormat from 'dateformat'
+import { stringToDatetime } from '@utils'
+
 type RecordInfoProps = {
     navigation: StackNavigationProp<StackNavigatorParams, "RecordInfo">;
     route: RouteProp<StackNavigatorParams, "RecordInfo">;
@@ -24,7 +27,6 @@ export default function RecordInfo({navigation , route} : RecordInfoProps) {
 
 
     const { nickname } = members[0];
-    // console.log(diary);
     
 
     return (
@@ -48,7 +50,7 @@ export default function RecordInfo({navigation , route} : RecordInfoProps) {
                     </Title>
                     <Footer>
                         <Author>{nickname}</Author>
-                        <Author>{createdDate}</Author>
+                        <Author>{dateFormat(stringToDatetime(createdDate) , 'yyyy-mm-dd HH:MM:ss')}</Author>
                     </Footer>
                 </Content>
             </Container>

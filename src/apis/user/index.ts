@@ -1,5 +1,5 @@
 import { apiClient } from '../clients';
-import { LoginReqType, JoinReqType, UpdateUserMeResType, PushUpdateResType, TermsResType } from '@type-definition/user';
+import { LoginReqType, JoinReqType, UpdateUserMeResType, PushUpdateResType, TermsResType, RecentRecordResType } from '@type-definition/user';
 
 export const userApis = {
   async login(payload:LoginReqType) {
@@ -51,15 +51,13 @@ export const userApis = {
       throw new Error("");
     }
   },
-  async recentRecords () {
-    try{
-      const {data} = await apiClient.get('/user/me/recent-records');
-      return data;
-    }catch(error){
-      throw new Error("");
-      
-
-    }
+  /**
+   * 최근 기록을 조회한다.
+   * @returns 
+   */
+   async recentRecords() : Promise<RecentRecordResType> {
+    const { data } = await apiClient.get(`/recent-records`);
+    return data;
   },
   async checkNicknameDupl(nickname: string){
     try{

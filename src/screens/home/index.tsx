@@ -39,11 +39,12 @@ import {userApis, diaryApis} from '@apis';
 
 import {Diary} from './Diary';
 import { DiaryResType } from '@type-definition/diary';
-import { RecentRecodeType } from '@type-definition/user';
+import { RecentRecordType } from '@type-definition/user';
 import { CreateDiary } from './CreateDiary';
 import {CreateDiaryModal} from './CreateDiaryModal';
 import {navigate} from '@config/navigator';
 import { autorun } from 'mobx';
+import Login from '../login';
 
 
 
@@ -98,7 +99,7 @@ const Home = ()=> {
     const [diaryList, setDiaryList] = useState<DiaryResType[]>([]);
     const [pageNum, setPageNum] = useState<any>();
     const pageInfo = useRef<any>();
-    const [recentRecord, setRecentRecord] = useState<RecentRecodeType[]>();
+    const [recentRecord, setRecentRecord] = useState<RecentRecordType[]>();
     const [createDiaryOpen, setCreateDiaryOpen] = useState(false);
     
     const getUser = async () => {
@@ -117,17 +118,20 @@ const Home = ()=> {
     const getDiaries = async () => {
         try {
             const data = await diaryApis.getDiaries();
+            console.log(data);
+            
             pageInfo.current = {totalPages: data.totalPages, totalCounts: data.totalCounts}; 
             setDiaryList(data.elements||[]);
             setDiaryLoading(false);
         } catch (error) {
-            
+            console.log(error);
         }
     }
 
     const getRecentRecord = async () => {
         try {
             const data = await userApis.recentRecords();
+            Login
             setRecentRecord(data.elements);
         } catch (error) {
             
@@ -163,14 +167,17 @@ const Home = ()=> {
                                                 alwaysBounceVertical={true}
                                             >
                                                 {
-                                                    recentRecord? recentRecord.map((recode:RecentRecodeType, index)=>      
-                                                        <RecentContent
-                                                            title={recode.recordTitle}
-                                                            nickname={recode.recordCreatedBy}
-                                                            diaryName={recode.diaryTitle}
-                                                            backgroundColor='purple'
-                                                            key={'recent_recode_'+index}
-                                                        />):
+                                                    recentRecord? recentRecord.map((record:RecentRecordType, index)=>      
+                                                        <TouchableOpacity onPress={() => { navigate("RecordView" , { diaryUuid : record.diaryUuid , recordUuid : record.recordUuid , diary: null , record : null }) }}>
+                                                            <RecentContent
+                                                                title={record.recordTitle}
+                                                                nickname={record.createdByNickname}
+                                                                diaryName={record.diaryTitle}
+                                                                backgroundColor='purple'
+                                                                key={'recent_recode_'+index}
+                                                            />
+                                                        </TouchableOpacity>
+                                                        ):
                                                         <></>
                                                     }
                                             </RecentContentList>

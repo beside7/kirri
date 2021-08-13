@@ -70,13 +70,13 @@ export type StackNavigatorParams = {
     Home: any;
     TermsAndConditions: undefined;
     MainHome: undefined
-    Cheerup: undefined
+    Cheerup: { diary : DiaryResType | null }
     CheerupMessage: { title: string , body : string , data : PushNotification  }
     Setting: undefined
     RecordInfo: { diary : DiaryResType }
     RecordList: { diary : DiaryResType | null }
     RecordInput: { diary : DiaryResType | null , record? : RecordResType }
-    RecordView: { diary : DiaryResType | null , record : RecordResType | null };
+    RecordView: { diaryUuid: string | null , recordUuid: string | null };
     Onboarding: undefined,
     Settings: any;
     DiaryConfig: { diary : DiaryResType | null };
@@ -125,7 +125,14 @@ export default function navigator(): ReactElement {
                 }
                 
                 if (item) {
-                    await UserStore.login();
+                    try {
+                        await UserStore.login();
+                    } catch (error) {
+                        AsyncStorage.removeItem('userKey', async(err) => {
+                            setLoading(false);
+                            setInitailizePage('Login');
+                        })                   
+                    }
                     const notificationToken = await initNotifications();
                     if (UserStore.status === 'ACTIVE') {
                         setLoading(false);

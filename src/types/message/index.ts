@@ -35,3 +35,13 @@ export interface PushNotification {
     messageType : MessageType,
     toUserId: number,
 }
+
+/**
+ * 보내는 메세지 타입
+ */
+export interface SendMessageReq {
+    type : MessageType,
+    toUserId : number,
+    title: string,
+    body: string
+}
