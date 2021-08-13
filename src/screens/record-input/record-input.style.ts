@@ -139,7 +139,7 @@ const styles = StyleSheet.create({
         margin: 20,
         backgroundColor: "white",
         borderRadius: 20,
-        padding: 5,
+        // padding: 5,
         alignItems: "center",
         shadowColor: "#000",
         shadowOffset: {
@@ -151,7 +151,11 @@ const styles = StyleSheet.create({
         elevation: 5
     },
     button: {
-        borderRadius: 20,
+        // marginTop: 10,
+        width: 250,
+        // borderRadius: 20,
+        borderBottomLeftRadius: 20,
+        borderBottomRightRadius: 20,
         padding: 10,
         elevation: 2
     },
@@ -169,7 +173,8 @@ const styles = StyleSheet.create({
     },
     form : {
         width: 250,
-        paddingHorizontal: 30
+        paddingHorizontal: 30,
+        paddingVertical: 20,
     },
     formGroup : {
         flexDirection: "row",

@@ -42,6 +42,7 @@ import { CoverCircleImages , CoverColor} from "@utils";
 import { FontAwesome } from '@expo/vector-icons'; 
 import { RadioButton } from 'react-native-paper';
 
+import ImageQualityModal from './image-quality-modal'
 
 type RecordInputProps = {
   navigation: StackNavigationProp<StackNavigatorParams, "RecordInput">;
@@ -179,10 +180,10 @@ export default function RecordInput({ navigation, route }: RecordInputProps) {
       /**
        * 만약 추가한 이미지가 2MB 보다 크면 경고창 출력후 중단
        */
-      // if( fileInfo.size !== undefined && fileInfo.size > 1024 * 1024 * 2 ){
-      //   Alert.alert("2MB 보다 큰 이미지는 추가할수 없습니다.");
-      //   return;
-      // }
+      if( fileInfo.size !== undefined && fileInfo.size > 1024 * 1024 * 2 ){
+        Alert.alert("2MB 보다 큰 이미지는 추가할수 없습니다.");
+        return;
+      }
       
       setImages(newImages);
     }
@@ -295,64 +296,12 @@ export default function RecordInput({ navigation, route }: RecordInputProps) {
         }
         borderBottom={true}
       />
-      <Modal
-        statusBarTranslucent={true}
+      <ImageQualityModal 
         visible={visible}
-        transparent={true}
-      >
-        <View style={styles.centeredView}>
-          <View style={styles.modalView}>
-            <View style={styles.form}>
-              <View style={styles.formGroup}>
-                <Text_2>원본 화질</Text_2>
-                <RadioButton
-                  value="1"
-                  status={ checked === 1 ? 'checked' : 'unchecked' }
-                  onPress={() => setChecked(1)}
-                  />
-              </View>
-              <View style={styles.formGroup}>
-                <Text_2>높은 화질</Text_2>
-                <RadioButton
-                  value="0.75"
-                  status={ checked === 0.75 ? 'checked' : 'unchecked' }
-                  onPress={() => setChecked(0.75)}
-                />
-              </View>
-              <View style={styles.formGroup}>
-                <Text_2>일반 화질</Text_2>
-                <RadioButton
-                  value="0.5"
-                  status={ checked === 0.5 ? 'checked' : 'unchecked' }
-                  onPress={() => setChecked(0.5)}
-                />
-              </View>
-              <View style={styles.formGroup}>
-                <Text_2>낮은 화질</Text_2>
-                <RadioButton
-                  value="0.25"
-                  status={ checked === 0.25 ? 'checked' : 'unchecked' }
-                  onPress={() => setChecked(0.25)}
-                />
-              </View>
-              <View style={styles.formGroup}>
-                <Text_2>저용량</Text_2>
-                <RadioButton
-                  value="0"
-                  status={ checked === 0 ? 'checked' : 'unchecked' }
-                  onPress={() => setChecked(0)}
-                />
-              </View>
-            </View>
-            <Pressable
-              style={[styles.button, styles.buttonClose]}
-              onPress={() => setVisible(!visible)}
-            >
-              <Text_2 style={styles.textStyle}>닫기</Text_2>
-            </Pressable>
-          </View>
-        </View>
-      </Modal>
+        checked={checked}
+        close={ () => setVisible(false) }
+        setChecked={setChecked}
+      />
       <KeyboardAvoidingView
         behavior={Platform.OS == "ios" ? "padding" : "height"}
         keyboardVerticalOffset={headerHeight}
