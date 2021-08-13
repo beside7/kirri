@@ -23,6 +23,7 @@ type RenderProps = {
 export default function RenderItem({ item : { id, uuid , title, body , images, createdDate, createdBy , updatedDate, createdByNickname } , navigation, diary } : RenderProps ) {
     
     const type = (diary) ? diary.members.find(({ nickname }) => nickname === createdByNickname )?.profileImagePath.split(":")[1] as ProfileImageTypes : "01"    
+    const diaryUuid = (diary) ? diary.uuid : null
     const profileImage = ProfileImages[type]
     
     return (
@@ -45,7 +46,7 @@ export default function RenderItem({ item : { id, uuid , title, body , images, c
                     (images.length > 0) && 
                         <TouchableOpacity
                             onPress={() => {
-                                navigation.navigate("RecordView" , { diaryUuid : null , recordUuid : null , diary: diary , record : { id , uuid , title, body , images, createdDate, createdBy , updatedDate, createdByNickname} })
+                                navigation.navigate("RecordView" , { diaryUuid : diaryUuid , recordUuid : uuid })
                             }}
                         >
                             {/* 글쓴이가 업로드한 이미지 */}
@@ -60,7 +61,7 @@ export default function RenderItem({ item : { id, uuid , title, body , images, c
             </View>
             <TouchableOpacity
                 onPress={() => {
-                    navigation.navigate("RecordView" , { diaryUuid : null , recordUuid : null , diary: diary , record : { id, uuid , title, body , images, createdDate, createdBy , updatedDate, createdByNickname} })
+                    navigation.navigate("RecordView" , { diaryUuid : diaryUuid , recordUuid: uuid })
                 }}
             >
                 {/* 제목 */}

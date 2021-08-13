@@ -6,8 +6,8 @@ import { StackNavigatorParams } from "@config/navigator";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { RouteProp } from "@react-navigation/native";
 
-import { recordApis } from "@apis";
-import { RecordResType } from "@type-definition/diary";
+import { diaryApis, recordApis } from "@apis";
+import { DiaryResType, RecordResType } from "@type-definition/diary";
 import RenderHtml from 'react-native-render-html';
 import { Menu } from 'react-native-paper';
 import { Confirm } from "@components";
@@ -42,10 +42,13 @@ export const RecordView = observer(({ route, navigation } : RecordViewProps) => 
      */
     const [data, setData] = useState<RecordResType | null >(null)
 
+    const [diary, setDiary] = useState<DiaryResType | null >(null)
+    const [record, setRecord] = useState<RecordResType | null >(null)
+
     /**
      * 리스트에서 가져오는 부분
      */
-    const { diary , record, diaryUuid , recordUuid } = route.params
+    const { diaryUuid , recordUuid } = route.params
 
     /**
      * 기록 삭제 동의창 생성부분
@@ -67,11 +70,14 @@ export const RecordView = observer(({ route, navigation } : RecordViewProps) => 
      */
     const getData = async () => {
         setLoading(true)
-        if(diary && record){
+        if(diaryUuid && recordUuid){
             // console.log({diary, record});
             try {
-                const res = await recordApis.viewRecord(  diary.uuid, record.uuid );                
-                setData(res);
+                const record = await recordApis.viewRecord( diaryUuid, recordUuid );                
+                setRecord(record)
+                const diary = await diaryApis.viewDiary(diaryUuid);
+                setDiary(diary);
+                // console.log({ record , diary});
             } catch (error) {
                 console.log(error);
             }
@@ -115,8 +121,8 @@ export const RecordView = observer(({ route, navigation } : RecordViewProps) => 
         getData()
     }, [])
 
-    if(data){
-        const { title, createdDate , body , images } = data
+    if(record){
+        const { title, createdDate , body , images } = record
         return (
             <Background>
                 <Confirm 
@@ -173,7 +179,7 @@ export const RecordView = observer(({ route, navigation } : RecordViewProps) => 
 
                                 <Menu.Item onPress={() => {
                                     closeMenu()
-                                    navigation.navigate("RecordInput" , { diary : diary, record : data })
+                                    navigation.navigate("RecordInput" , { diary : diary, record : record })
                                 }} title="기록 수정" />
                                 <Menu.Item onPress={() => {
                                     closeMenu()
@@ -198,7 +204,7 @@ export const RecordView = observer(({ route, navigation } : RecordViewProps) => 
                                     style={{ width: 36, height: 36, marginRight: 8}}
                                 />
                                 <Text_2 style={{ fontSize: 12 }}>
-                                    {data.createdByNickname}
+                                    {record.createdByNickname}
                                 </Text_2>
                             </View>
                             <View  style={{ alignItems : "center", justifyContent: "center"}}>
