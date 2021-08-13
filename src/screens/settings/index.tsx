@@ -34,15 +34,15 @@ import { UpdateUserMeResType } from '@type-definition/user';
 import {getProfileImage, ProfileImageTypes} from '@utils';
 
 export const Settings = observer(()=> {
-    const {nickname, profileImage} = UserStore;
+    const {nickname, profileImage, pushStatus} = UserStore;
     const [newNickname, setNewNickname] = useState('');
     const [duplicate, setDuplicate] = useState(false);
     const [leavKKiriPopupOpen, setLeavKKiriPopupOpen] = useState(false);
-
+    
     /**
      * 알림설정 여부
      */
-    const [pushNotification, setPushNotification] = useState(false);
+    const [pushNotification, setPushNotification] = useState(pushStatus);
 
     const checkDuple = debounce(() => {
         try {

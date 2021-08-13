@@ -14,6 +14,7 @@ class UserStore {
     pushSettings: PushReqType[] = [];
     pushStatus: boolean = false;
     autoLogin: boolean=false;
+    newPushReceived: boolean=false;
 
     constructor() {
         makeObservable(this, {
