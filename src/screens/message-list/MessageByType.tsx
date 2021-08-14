@@ -1,10 +1,10 @@
 import React, {useCallback, Fragment} from 'react';
-import {Container, ImageWrap, Image, ContentWrap, ContentText, ContentTextBold, InfoWrap, TimeText, ButtonWrap, Button} from './message.style';
+import {Container, ImageWrap, Image, ContentWrap, ContentText, ContentTextBold, InfoWrap, TimeText, ButtonWrap} from './message.style';
 import { MessageDataType, MessageType } from '@type-definition/message';
 import { View } from 'react-native';
 
 import { userApis } from '@apis';
-
+import {Button} from '@components';
 
 const messageImage = require('@assets/images/alarm/various_message.png');
 
@@ -16,7 +16,7 @@ interface Props extends MessageDataType {
 interface ComponenetType extends Props{
     time: (time: string)=>string,
     updateMessageStatus: (message: Props) => void,
-    setConfirmPopup: (uuid: string, type: MessageType) => void
+    setConfirmPopup: (uuid: string, type: MessageType, message?: MessageDataType) => void
 }
 
 
@@ -78,7 +78,7 @@ export const Invitation = ({id, type, fromNickname, title, body, to, diaryUuid, 
 }
 
 
-export const Cheering = ({id, type, fromNickname, title, body, to, updateMessageStatus}:ComponenetType) => {
+export const Cheering = ({id, type, fromNickname, title, body, to, diaryUuid, updateMessageStatus, setConfirmPopup}:ComponenetType) => {
 
     return (
         <Container>
@@ -97,7 +97,9 @@ export const Cheering = ({id, type, fromNickname, title, body, to, updateMessage
                             width={90}
                             color= 'secondary'
                             onPress={
-                                () => {}
+                                () => {
+                                    setConfirmPopup(diaryUuid, 'CHEERING', {id, type, fromNickname, title, body, diaryUuid});
+                                }
                             }
                             type='small'
                         >

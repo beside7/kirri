@@ -1,15 +1,13 @@
-import React, { ReactElement, ReactNode } from "react";
-import { View, SafeAreaView} from "react-native";
-import { StatusBar } from "expo-status-bar";
+import React, { ReactElement } from "react";
+import {SafeAreaView} from "react-native";
 
 type BackgroundProps = {
-    children: ReactNode;
+    children: ReactElement | ReactElement[];
 };
 
-export default function Background({ children }: BackgroundProps): ReactElement {
+export default function Background({ children }: BackgroundProps) {
     return (
         <SafeAreaView style={{ flex: 1 , backgroundColor: "#fff"}}>
-            {/* <StatusBar style="light" /> */}
             {children}
         </SafeAreaView>
     );

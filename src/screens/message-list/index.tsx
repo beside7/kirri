@@ -2,11 +2,11 @@ import React, { useState, useRef, useEffect} from 'react'
 import { Background, Header, Tabs, Dropdown, Popup } from "@components";
 import AppNavigator from "./tab-navigator";
 import { TouchableOpacity, Image, Text, FlatList } from 'react-native';
-import { StackNavigatorParams } from "@config/navigator";
+import { StackNavigatorParams, navigate } from "@config/navigator";
 import { StackNavigationProp } from "@react-navigation/stack";
 import {Container, PickerWrap, AlarmListWarp, EmptyMessage, EmtyMsgImage, EmtyMsgText} from './messageList.style';
 import { MessageDataType, MessageType, MessageResType, MessageReqType } from '@type-definition/message';
-import { messageApis } from '@apis';
+import { messageApis, diaryApis } from '@apis';
 import { Message } from './Message';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { observer } from 'mobx-react';
@@ -14,7 +14,7 @@ import {UserStore} from '@store';
 
 
 type MessageListProps = {
-    navigation: StackNavigationProp<StackNavigatorParams, "MassageList">;
+    navigation: StackNavigationProp<StackNavigatorParams, "MessageList">;
 }
 
 const MessageList= observer(({ navigation } : MessageListProps) => {
@@ -23,9 +23,9 @@ const MessageList= observer(({ navigation } : MessageListProps) => {
     const [messageList, setMessageList] = useState<MessageDataType[]>([]);
     const [refreshing, setRefresing] = useState(true);
     const {nickname} = UserStore;
-    const targetDiary = useRef<string>();
+    const targetDiary = useRef<string>('');
     const [acceptInvitationOpen, setAcceptInvitationOpen] = useState(false);
-    const [cheeringDetailOpen, setcheeringDetailOpenOpen] = useState(false);
+    const [cheeringDetail, setCheeringDetail] = useState<MessageDataType|undefined>(undefined);
     
 
     const updateMessageStatus = (message:MessageDataType) => {
@@ -70,15 +70,24 @@ const MessageList= observer(({ navigation } : MessageListProps) => {
     
     }
 
-    const setConfirmPopup = (uuid: string, type: MessageType) => {
+    const setConfirmPopup = (uuid: string, type: MessageType, message?: MessageDataType) => {
         targetDiary.current = uuid;
         switch(type) {
             case "INVITATION":
                 setAcceptInvitationOpen(true);
+                handleChangeSelectedMsgType(selectedMessageType.current);
                 break;
             case "CHEERING":
+                setCheeringDetail(message);
                 break;
         }
+    }
+
+    const sendToDiary = async ()=>{
+        const diary = await diaryApis.viewDiary(targetDiary.current);
+        setAcceptInvitationOpen(false);
+        setCheeringDetail(undefined);
+        navigate("RecordInfo" , { diary })
     }
 
     useEffect(()=>{
@@ -111,7 +120,6 @@ const MessageList= observer(({ navigation } : MessageListProps) => {
                     ></Dropdown>
                 </PickerWrap>
                 <AlarmListWarp>
-                    
                         <FlatList
                             data={messageList}
                             renderItem={({item})=> <Message {...item} to={nickname} setConfirmPopup={setConfirmPopup} updateMessageStatus={updateMessageStatus}/>}
@@ -130,7 +138,6 @@ const MessageList= observer(({ navigation } : MessageListProps) => {
                                 </EmptyMessage>
                             }
                         />
-                    
                 </AlarmListWarp>
             </Container>
             <Popup
@@ -138,10 +145,22 @@ const MessageList= observer(({ navigation } : MessageListProps) => {
                 open={acceptInvitationOpen}
                 content='다이어리 초대를 수락했어요'
                 confirm='다이어리 보러가기'
-                onConfirm={()=>{}}
+                onConfirm={()=>{sendToDiary()}}
                 cancel='닫기'
                 onCancel={()=>{
                     setAcceptInvitationOpen(false);
+                }}
+
+            />
+            <Popup
+                // width={}
+                open={!!cheeringDetail}
+                content={cheeringDetail?.body}
+                confirm='다이어리 보러가기'
+                onConfirm={()=>{sendToDiary()}}
+                cancel='닫기'
+                onCancel={()=>{
+                    setCheeringDetail(undefined);
                 }}
 
             />

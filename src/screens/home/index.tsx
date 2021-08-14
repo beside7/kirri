@@ -67,7 +67,7 @@ const Profile =observer(() => {
                 />
                 <IconButton
                     onPress={() => {
-                        navigate('MassageList', null);
+                        navigate('MessageList', null);
                     }}
                     style={styles.iconSpace}
                     icon={require('@assets/images/home_notice_normal.png')}

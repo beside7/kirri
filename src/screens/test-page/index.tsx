@@ -41,7 +41,7 @@ export default function TestPage({ navigation }: TestPageProps) {
                 <TouchableOpacity onPress={() => { navigation.navigate("FriendMain") }}>
                     <Text_1>* diary06-1_친구끼리 추가</Text_1>
                 </TouchableOpacity>
-                <TouchableOpacity onPress={() => { navigation.navigate("MassageList") }}>
+                <TouchableOpacity onPress={() => { navigation.navigate("MessageList") }}>
                     <Text_1>* home01_메인 홈 / 알림 / 초대알림</Text_1>
                 </TouchableOpacity>
                 <TouchableOpacity onPress={() => setModal(true)} >

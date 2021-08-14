@@ -16,7 +16,7 @@ const messageByTypes: {[key: string]: any} = {
 
 interface Props extends MessageDataType {
     updateMessageStatus: (message: MessageDataType) => void,
-    setConfirmPopup: (uuid: string, type: MessageType) => void,
+    setConfirmPopup: (uuid: string, type: MessageType, message: MessageDataType) => void,
     to: string
 }
 
