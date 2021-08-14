@@ -32,67 +32,73 @@ let data : DiaryResType[] = [
     {
         uuid: "2",
         title: "기록 제목 노출되는 구 ...",
-        created_date: "2021-07-16",
+        createdDate: "2021-07-16",
         members: [{
-            username: "string",
+            userId: 1,
             nickname: "string",
-            authority: "string",
-            status: "string"
+            authority: null,
+            status: "ACTIVE",
+            profileImagePath: "profile:01"
         }],
         icon: "01"
     },{
         uuid: "2",
         title: "기록 제목 노출되는 구 ...",
-        created_date: "2021-07-16",
+        createdDate: "2021-07-16",
         members: [{
-            username: "string",
+            userId: 2,
             nickname: "string",
-            authority: "string",
-            status: "string"
+            authority: null,
+            status: "ACTIVE",
+            profileImagePath: "profile:01"
         }],
         icon: "01"
     },{
         uuid: "3",
         title: "기록 제목 노출되는 구 ...",
-        created_date: "2021-07-16",
+        createdDate: "2021-07-16",
         members: [{
-            username: "string",
+            userId: 3,
             nickname: "string",
-            authority: "string",
-            status: "string"
+            authority: null,
+            status: "ACTIVE",
+            profileImagePath: "profile:01"
         }],
         icon: "01"
     } ,{
         uuid: "4",
         title: "기록 제목 노출되는 구 ...",
-        created_date: "2021-07-16",
+        createdDate: "2021-07-16",
         members: [{
-            username: "string",
+            userId: 4,
             nickname: "string",
-            authority: "string",
-            status: "string"
+            authority: null,
+            status: "ACTIVE",
+            profileImagePath: "profile:01"
         }],
         icon: "01"
     },{
         uuid: "5",
         title: "기록 제목 노출되는 구 ...",
-        created_date: "2021-07-16",
+        createdDate: "2021-07-16",
         members: [{
-            username: "string",
+            userId: 5,
             nickname: "string",
-            authority: "string",
-            status: "string"
+            authority: null,
+            status: "ACTIVE",
+            profileImagePath: "profile:01"
         }],
         icon: "01"
     },{
         uuid: "6",
         title: "기록 제목 노출되는 구 ...",
-        created_date: "2021-07-16",
+        createdDate: "2021-07-16",
         members: [{
-            username: "string",
+            userId: 6,
             nickname: "string",
-            authority: "string",
-            status: "string"
+            authority: null,
+            status: "ACTIVE",
+            profileImagePath: "profile:01"
         }],
         icon: "01"
     }
@@ -147,7 +153,7 @@ export default function MainHome() {
                                 <LatestList
                                     horizontal
                                     data={data}
-                                    renderItem={({item}) => {
+                                    renderItem={({item}: any) => {
                                         return (<LatestItem>
                                             <LatestListItemNicName>{ item.members[0].username }</LatestListItemNicName>
                                             <LatestListItemTitle>{ item.title }</LatestListItemTitle>
@@ -165,7 +171,7 @@ export default function MainHome() {
                                         data={data}
                                         numColumns={2}
                                         keyExtractor={(item, index) => `${index}` }
-                                        renderItem={({ item }) => {
+                                        renderItem={({ item }:any) => {
                                             return (<DiaryListItem>
                                                 <DiaryListItemHeader>
                                                     <DiaryHeaderImage source={CoverBigImages["01"]} />

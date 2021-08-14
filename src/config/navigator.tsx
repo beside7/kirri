@@ -13,7 +13,7 @@ import {
     Home,
     TestPage,
     FriendMain,
-    MassageList,
+    MessageList,
     MainHome,
     Cheerup,
     CheerupMessage,
@@ -40,6 +40,7 @@ import * as Notifications from "expo-notifications";
 import { initNotifications } from "@utils";
 import { UserStore } from "@store";
 import { PushMessageProvider } from "@components";
+import { JoinProcessing } from "@screens";
 
 
 export function navigate(name: string, params: any) {
@@ -66,7 +67,7 @@ export type StackNavigatorParams = {
     Nickname: any;
     TestPage: undefined;
     FriendMain: { diary : DiaryResType | null };
-    MassageList: undefined;
+    MessageList: undefined;
     Home: any;
     TermsAndConditions: undefined;
     MainHome: undefined
@@ -199,7 +200,7 @@ export default function navigator(): ReactElement {
                              */
                             case "INVITATION": 
                                 navigationRef.current.dispatch(
-                                    StackActions.replace("MassageList")
+                                    StackActions.replace("MessageList")
                                 );
                                 break;
                             default:
@@ -221,7 +222,7 @@ export default function navigator(): ReactElement {
     }, [isNavigatorReady]);
 
     if (loading || !initalizePage) {
-        return (<SafeAreaView></SafeAreaView>)
+        return (<JoinProcessing open={true}/>)
     }
     return (
         <NavigationContainer
@@ -287,8 +288,8 @@ export default function navigator(): ReactElement {
                     }}
                 />
                 <Stack.Screen
-                    name="MassageList"
-                    component={MassageList}
+                    name="MessageList"
+                    component={MessageList}
                     options={{
                         headerShown: false
                     }}

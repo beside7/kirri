@@ -67,6 +67,7 @@ export const ButtonContainer = styled.View({
 
 export const PopupButton = styled.TouchableOpacity((props:{attr: string, theme:any, border: boolean})=>({
     flexGrow: 1,
+    flexBasis: 1,
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',

@@ -16,7 +16,7 @@ interface Props {
 
 
 
-export const LoginWebview:React.FC<Props>= ({source, closeSocialModal, onComplete}) => {
+export const LoginWebview= ({source, closeSocialModal, onComplete}:Props) => {
     return (
         <Modal
         animationType="slide"

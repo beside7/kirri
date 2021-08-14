@@ -55,6 +55,6 @@ export const TimeText = styled.Text((props:{theme:any})=>({
     color: props.theme['104']
 }))
 
-export const Button = styled(CommonButton)({
-    marginLeft: 8
-})
+// export const Button = styled(CommonButton)({
+//     marginLeft: 8
+// })

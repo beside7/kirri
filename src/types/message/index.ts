@@ -9,12 +9,11 @@ export interface MessageActionType {
 
 export interface MessageDataType {
     id: number,
+    diaryUuid: string,
     type: string,
     title: string,
     body: string,
-    from: string,
-    to: string,
-    actionList: MessageActionType[]
+    fromNickname: string,
 } 
 
 export type MessageResType = Paging<MessageDataType>;
@@ -22,7 +21,7 @@ export type MessageResType = Paging<MessageDataType>;
 export interface MessageReqType extends PageReqType{
 }
 
-export interface MessageByTypeReqType extends PageReqType{
+export interface MessageByTypeReqType{
     type: MessageType
 }
 
