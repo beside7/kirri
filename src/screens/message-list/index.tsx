@@ -8,6 +8,7 @@ import {Container, PickerWrap, AlarmListWarp, EmptyMessage, EmtyMsgImage, EmtyMs
 import { MessageDataType, MessageType, MessageResType, MessageReqType } from '@type-definition/message';
 import { messageApis } from '@apis';
 import { Message } from './Message';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 // import {  } from 'react-native-gesture-handler';
 
 
@@ -65,6 +66,7 @@ export default function MessageList({ navigation } : MessageListProps) {
 
     useEffect(()=>{
         getMessages();
+        // AsyncStorage.setItem('checkedAlarmTime', new Date)
     },[])
     
     return (
