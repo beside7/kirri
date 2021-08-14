@@ -43,6 +43,8 @@ apiClient.interceptors.request.use(
 apiClient.interceptors.response.use(
   async function (response){
     const key = response.headers.authorization;
+    console.log(key);
+    
     try {
       await AsyncStorage.setItem('userKey', key||'');
       

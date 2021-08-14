@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect} from 'react'
-import { Background, Header, Tabs, Dropdown } from "@components";
+import { Background, Header, Tabs, Dropdown, Popup } from "@components";
 import AppNavigator from "./tab-navigator";
 import { TouchableOpacity, Image, Text, FlatList } from 'react-native';
 import { StackNavigatorParams } from "@config/navigator";
@@ -9,18 +9,24 @@ import { MessageDataType, MessageType, MessageResType, MessageReqType } from '@t
 import { messageApis } from '@apis';
 import { Message } from './Message';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-// import {  } from 'react-native-gesture-handler';
+import { observer } from 'mobx-react';
+import {UserStore} from '@store';
 
 
 type MessageListProps = {
     navigation: StackNavigationProp<StackNavigatorParams, "MassageList">;
 }
 
-export default function MessageList({ navigation } : MessageListProps) {
+const MessageList= observer(({ navigation } : MessageListProps) => {
     const selectedMessageType = useRef<'all' | MessageType>('all');
     const pageInfo = useRef({totalPage: 1, size: 10, lastId: 0});
     const [messageList, setMessageList] = useState<MessageDataType[]>([]);
     const [refreshing, setRefresing] = useState(true);
+    const {nickname} = UserStore;
+    const targetDiary = useRef<string>();
+    const [acceptInvitationOpen, setAcceptInvitationOpen] = useState(false);
+    const [cheeringDetailOpen, setcheeringDetailOpenOpen] = useState(false);
+    
 
     const updateMessageStatus = (message:MessageDataType) => {
         setMessageList(messageList?.map(msg=> msg.id === message.id?message:msg));
@@ -28,18 +34,19 @@ export default function MessageList({ navigation } : MessageListProps) {
 
     const handleChangeSelectedMsgType = async (type: 'all'| MessageType) => {
         setRefresing(true);
-        selectedMessageType.current = type;
-        pageInfo.current.totalPage = 1;
         setMessageList([]);
+        selectedMessageType.current = type;
+        getMessages();
     }
-    const setMessages = (addMessageList: MessageDataType[]) => {
-        let messages: MessageDataType[] = [];
-        if (messageList) {
-            messages = [...messageList];
-        }
+    // const setMessages = (addMessageList: MessageDataType[]) => {
+    //     let messages: MessageDataType[] = [];
+    //     if (messageList) {
+    //         messages = [...messageList];
+    //     }
         
-        setMessageList(messages.concat(addMessageList));
-    }
+    //     setMessageList(messages.concat(addMessageList));
+    //     setRefresing(false);
+    // }
     const getMessages = async () => {
         try {
             let data:MessageResType;
@@ -49,19 +56,29 @@ export default function MessageList({ navigation } : MessageListProps) {
                     console.log(data);
                     break;
                 default :
-                    data = await messageApis.getMessagesByType({size: pageInfo.current.size, lastId: pageInfo.current.lastId, type: selectedMessageType.current as MessageType});                   
+                    data = await messageApis.getMessagesByType({type: selectedMessageType.current});                   
                     break;
             }
-            pageInfo.current.totalPage = data.totalPages;
+            
             if (data.elements.length){
-                setMessages(data.elements);
+                setMessageList(data.elements);
             }
             setRefresing(false);
         } catch (error) {
-            console.log('error')
             console.log(error);
         }
     
+    }
+
+    const setConfirmPopup = (uuid: string, type: MessageType) => {
+        targetDiary.current = uuid;
+        switch(type) {
+            case "INVITATION":
+                setAcceptInvitationOpen(true);
+                break;
+            case "CHEERING":
+                break;
+        }
     }
 
     useEffect(()=>{
@@ -82,19 +99,25 @@ export default function MessageList({ navigation } : MessageListProps) {
                 
                 <PickerWrap>
                     <Dropdown
-                        items={[{label: '전체', value:'all'},{label: '응원', value:'CHEERING'},{label: '초대', value:'INVITATION'}, {label: '알림', value:'NOTIFICATION'},{label: '새기록', value:'NEW_RECORD'} ]}
+                        items={[
+                            {label: '전체', value:'all'},
+                            {label: '응원', value:'CHEERING'},
+                            {label: '초대', value:'INVITATION'}, 
+                            // {label: '알림', value:'NOTIFICATION'},
+                            // {label: '새기록', value:'NEW_RECORD'} 
+                        ]}
                         value='all'
                         onChangeValue={(val)=>{handleChangeSelectedMsgType(val)}}
                     ></Dropdown>
                 </PickerWrap>
                 <AlarmListWarp>
-                    {/* {messageList.length? */}
+                    
                         <FlatList
                             data={messageList}
-                            renderItem={({item})=> <Message {...item} updateMessageStatus={updateMessageStatus}/>}
+                            renderItem={({item})=> <Message {...item} to={nickname} setConfirmPopup={setConfirmPopup} updateMessageStatus={updateMessageStatus}/>}
                             keyExtractor={(item: MessageDataType)=> item.id.toString()}
-                            onEndReached={getMessages}
-                            onEndReachedThreshold={1}
+                            // onEndReached={getMessages}
+                            // onEndReachedThreshold={1}
                             onRefresh={()=>{
                                 handleChangeSelectedMsgType(selectedMessageType.current);
                             }}
@@ -107,13 +130,23 @@ export default function MessageList({ navigation } : MessageListProps) {
                                 </EmptyMessage>
                             }
                         />
-                        
-                        
-                    
-                    {/* } */}
                     
                 </AlarmListWarp>
             </Container>
+            <Popup
+                // width={}
+                open={acceptInvitationOpen}
+                content='다이어리 초대를 수락했어요'
+                confirm='다이어리 보러가기'
+                onConfirm={()=>{}}
+                cancel='닫기'
+                onCancel={()=>{
+                    setAcceptInvitationOpen(false);
+                }}
+
+            />
         </Background>
     )
-}
+})
+
+export default MessageList;

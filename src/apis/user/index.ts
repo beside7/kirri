@@ -9,7 +9,6 @@ export const userApis = {
     }catch(error){
       throw new Error("");
       
-      
     }
   },
   async signin(payload:JoinReqType) {
@@ -84,19 +83,19 @@ export const userApis = {
       const result = await apiClient.delete(`/user/me/diaries/${uuid}`);
       return result;
     }catch(error){
-      throw new Error("");
+      throw new Error(error);
       
 
     }
   },
   async acceptInvitationDiary (uuid: string) {
     try{
+      console.log(`/user/me/diaries/${uuid}`);
       const result = await apiClient.post(`/user/me/diaries/${uuid}`);
       return result;
     }catch(error){
-      throw new Error("");
+      throw new Error(error);
       
-
     }
   },
   /**

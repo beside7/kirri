@@ -1,6 +1,6 @@
 import React, {useCallback, Fragment} from 'react';
 import {Container, ImageWrap, Image, ContentWrap, ContentText, ContentTextBold, InfoWrap, TimeText, ButtonWrap, Button} from './message.style';
-import { MessageDataType } from '@type-definition/message';
+import { MessageDataType, MessageType } from '@type-definition/message';
 import { View } from 'react-native';
 
 import { userApis } from '@apis';
@@ -10,20 +10,22 @@ const messageImage = require('@assets/images/alarm/various_message.png');
 
 
 interface Props extends MessageDataType {
-    updateMessageStatus: (message: MessageDataType) => void 
+    to:string
 }
 
 interface ComponenetType extends Props{
     time: (time: string)=>string,
+    updateMessageStatus: (message: Props) => void,
+    setConfirmPopup: (uuid: string, type: MessageType) => void
 }
 
 
 
-export const Invitation = ({id, type, from, title, body, to, actionList, updateMessageStatus}:ComponenetType) => {
+export const Invitation = ({id, type, fromNickname, title, body, to, diaryUuid, updateMessageStatus, setConfirmPopup}:ComponenetType) => {
     const refuse = async () => {
         try {
-            const result = await userApis.refuseInvitationDiary(actionList[0].typeId);
-            updateMessageStatus({id, type, from, title, body, to, actionList});
+            const result = await userApis.refuseInvitationDiary(diaryUuid);
+            updateMessageStatus({id, diaryUuid, type, fromNickname, title, body, to});
         } catch (error) {
             
         }
@@ -31,10 +33,11 @@ export const Invitation = ({id, type, from, title, body, to, actionList, updateM
 
     const accept = async () => {
         try {
-            const result = await userApis.acceptInvitationDiary(actionList[0].typeId);
-            updateMessageStatus({id, type, from, title, body, to, actionList});
+            const result = await userApis.acceptInvitationDiary(diaryUuid);
+            setConfirmPopup(diaryUuid, 'INVITATION');
+            updateMessageStatus({id, type, fromNickname, title, body, to, diaryUuid});
         } catch (error) {
-            
+            alert(error)
         }
     }
     return (
@@ -44,7 +47,7 @@ export const Invitation = ({id, type, from, title, body, to, actionList, updateM
             </ImageWrap>
             <ContentWrap>
                 <ContentText>
-                    <ContentTextBold>{from}</ContentTextBold>님이 <ContentTextBold>{to}</ContentTextBold>님과 [{title}]를 함께 쓰고 싶어해요.
+                    <ContentTextBold>{fromNickname}</ContentTextBold>님이 <ContentTextBold>{to}</ContentTextBold>님과 [{title}]를 함께 쓰고 싶어해요.
                 </ContentText>
                 <InfoWrap>
                     <TimeText></TimeText>
@@ -75,7 +78,7 @@ export const Invitation = ({id, type, from, title, body, to, actionList, updateM
 }
 
 
-export const Cheering = ({id, type, from, title, body, to, actionList, updateMessageStatus}:ComponenetType) => {
+export const Cheering = ({id, type, fromNickname, title, body, to, updateMessageStatus}:ComponenetType) => {
 
     return (
         <Container>
@@ -85,7 +88,7 @@ export const Cheering = ({id, type, from, title, body, to, actionList, updateMes
             <ContentWrap>
             <ContentText>
                 [{to}]에게, {body} {'\n'}
-                    from.[{from}]
+                    from.[{fromNickname}]
                 </ContentText>
                 <InfoWrap>
                     <TimeText></TimeText>

@@ -22,11 +22,11 @@ interface Props {
     children: ReactElement | ReactElement[]
 }
 
-const MessageContent = ({to, from, body}:MessageDataType) => {
+const MessageContent = ({fromNickname, body}:MessageDataType) => {
     return(
         <MessageBody>
             <MessageText>{body}</MessageText>
-            <MessageFrom>{from}</MessageFrom>
+            <MessageFrom>{fromNickname}</MessageFrom>
         </MessageBody>
     )
 }

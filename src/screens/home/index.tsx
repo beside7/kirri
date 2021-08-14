@@ -168,13 +168,15 @@ const Home = ()=> {
                                             >
                                                 {
                                                     recentRecord? recentRecord.map((record:RecentRecordType, index)=>      
-                                                        <TouchableOpacity onPress={() => { navigate("RecordView" , { diaryUuid : record.diaryUuid , recordUuid : record.recordUuid , diary: null , record : null }) }}>
+                                                        <TouchableOpacity 
+                                                            onPress={() => { navigate("RecordView" , { diaryUuid : record.diaryUuid , recordUuid : record.recordUuid , diary: null , record : null }) }}
+                                                            key={'recent_recode_'+index}    
+                                                        >
                                                             <RecentContent
                                                                 title={record.recordTitle}
                                                                 nickname={record.createdByNickname}
                                                                 diaryName={record.diaryTitle}
-                                                                backgroundColor='purple'
-                                                                key={'recent_recode_'+index}
+                                                                backgroundColor='purple'  
                                                             />
                                                         </TouchableOpacity>
                                                         ):
