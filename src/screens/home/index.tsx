@@ -27,7 +27,12 @@ import styles, {
     DiaryContainer,
     DiaryListBottom,
     DiaryListBottomImage,
-    DiaryListBottomMention
+    DiaryListBottomMention,
+    SpeechBubbleWrap,
+    SpeechBubbleWrapBg,
+    SpeechBubbleWrapBgTail,
+    EmptyDiaryText,
+    RecommandCreateDiaryWrap
 } from './home.style';
 import {RecentContent} from './RecentContent';
 
@@ -118,10 +123,9 @@ const Home = ()=> {
     const getDiaries = async () => {
         try {
             const data = await diaryApis.getDiaries();
-            console.log(data);
-            
             pageInfo.current = {totalPages: data.totalPages, totalCounts: data.totalCounts}; 
-            setDiaryList(data.elements||[]);
+            // setDiaryList(data.elements||[]);
+            setDiaryList([]);
             setDiaryLoading(false);
         } catch (error) {
             console.log(error);
@@ -230,14 +234,24 @@ const Home = ()=> {
                                 </DiaryListBottom>
                             </DiaryListWarp>
                             :
-                            <RecommandCreateDiary>
-                                <DiaryEmptyImageWarp>
-                                    <DiaryEmptyImage source={require('@assets/images/home/home_diary_add_empty.png')}></DiaryEmptyImage>
-                                </DiaryEmptyImageWarp>
-                                <CreateDiary
-                                    onClick={()=>{setCreateDiaryOpen(true)}}
-                                />
-                            </RecommandCreateDiary>
+                            <RecommandCreateDiaryWrap>
+                                <RecommandCreateDiary>
+                                    <DiaryEmptyImageWarp>
+                                        <DiaryEmptyImage source={require('@assets/images/home/home_diary_add_empty.png')}></DiaryEmptyImage>
+                                    </DiaryEmptyImageWarp>
+                                    <CreateDiary
+                                        onClick={()=>{setCreateDiaryOpen(true)}}
+                                    />
+                                    <SpeechBubbleWrap>
+                                        <SpeechBubbleWrapBg>
+                                            <EmptyDiaryText>
+                                                다이어리를 추가한 다음에 기록을 남길 수 있어요!
+                                            </EmptyDiaryText>
+                                        </SpeechBubbleWrapBg>
+                                        <SpeechBubbleWrapBgTail/>
+                                    </SpeechBubbleWrap>
+                                </RecommandCreateDiary>
+                            </RecommandCreateDiaryWrap>
                     }
                     
                 </ContentWarp>

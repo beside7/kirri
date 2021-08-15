@@ -11,7 +11,11 @@ export const SafeAreaView = styled.SafeAreaView({
 export const Container = styled.View({
     flexGrow: 1,
     paddingHorizontal: 34,
-    backgroundColor: '#fff'
+    backgroundColor: '#fff',
+})
+
+export const SelectProfileImageWrap = styled.View({
+
 })
 
 export const ProfileImageContainer = styled.View({
@@ -23,6 +27,43 @@ export const ProfileImageContainer = styled.View({
     width: '100%',
     marginTop:54
 })
+
+export const ProfileSpeechBubbleWrap = styled.View({
+    position: 'absolute',
+    left: '50%',
+    top: 18
+})
+export const ProfileSpeechBubbleWrapBg = styled.View((props:{theme: any})=>({
+    backgroundColor: props.theme['110'],
+    borderRadius: 10,
+    width:135,
+    height:55,
+    display: "flex",
+    justifyContent: 'center',
+    alignItems: 'center'
+}))
+
+export const ProfileImageText = styled.Text({
+    fontSize: 11,
+    color: '#fff'
+})
+
+export const ProfileSpeechBubbleWrapBgTail = styled.View((props:{theme: any})=>({
+    backgroundColor: "transparent",
+    width:3,
+    height:3,
+    marginLeft:20,
+    borderStyle: "solid",
+    borderTopWidth: 9,
+    borderRightWidth: 4,
+    borderBottomWidth: 0,
+    borderLeftWidth: 4,
+    borderTopColor:props.theme['110'],
+    borderRightColor: "transparent",
+    borderBottomColor: "transparent",
+    borderLeftColor: "transparent",
+
+}))
 
 export const SelectedWarp = styled.View({
     alignItems: 'center'

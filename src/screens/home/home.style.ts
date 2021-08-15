@@ -215,16 +215,23 @@ export const MembersText = styled.Text({
     fontSize: 12
 })
 
-export const RecommandCreateDiary = styled.View({
+export const RecommandCreateDiaryWrap = styled.View({
     display: 'flex',
     justifyContent: 'center',
     alignItems:'center',
     backgroundColor: '#fff',
     flexGrow: 1,
     flexBasis: 1,
-    marginTop: 8
+    marginTop: 8,
 })
 
+export const RecommandCreateDiary = styled.View({
+    position:'relative',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems:'center',
+    marginTop: "-20%",
+})
 
 export const CreateDiaryText = styled.Text({
     color: '#6f6f7e',
@@ -401,3 +408,42 @@ export const DiaryListBottomMention = styled.Text({
     color: '#bebece',
     fontSize: 12
 })
+
+
+export const SpeechBubbleWrap = styled.View({
+    position: 'absolute',
+    left: 70,
+    top:-37
+})
+export const SpeechBubbleWrapBg = styled.View((props:{theme: any})=>({
+    backgroundColor: props.theme['110'],
+    borderRadius: 10,
+    width:114,
+    height:55,
+    display: "flex",
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingHorizontal: 15,
+}))
+
+export const EmptyDiaryText = styled.Text({
+    fontSize: 11,
+    color: '#fff'
+})
+
+export const SpeechBubbleWrapBgTail = styled.View((props:{theme: any})=>({
+    backgroundColor: "transparent",
+    width:3,
+    height:3,
+    marginLeft:20,
+    borderStyle: "solid",
+    borderTopWidth: 9,
+    borderRightWidth: 4,
+    borderBottomWidth: 0,
+    borderLeftWidth: 4,
+    borderTopColor:props.theme['110'],
+    borderRightColor: "transparent",
+    borderBottomColor: "transparent",
+    borderLeftColor: "transparent",
+
+}))
