@@ -4,10 +4,14 @@ import { SelectProfileImage } from './SelectProfileImg';
 import {
     MakeNicknameContianer,
     ButtonContainer,
-    BackIcon,
     MakeNicknameTitle,
     SafeAreaView,
-    Container
+    Container,
+    SelectProfileImageWrap,
+    ProfileSpeechBubbleWrap,
+    ProfileSpeechBubbleWrapBg,
+    ProfileSpeechBubbleWrapBgTail,
+    ProfileImageText
 } from './nickname.style'
 import {JoinProcessing} from './JoinProcessing';
 import {debounce} from 'lodash';
@@ -111,13 +115,23 @@ export const Nickname = ({accessToken, authorities}: Props) => {
                 />
                 <Container>
                     
-                    
-                    <SelectProfileImage
-                        selectedImage='01'
-                        selecteChanged={(img: ProfileImageTypes)=>{
-                            selectedProfileImage.current = img;
-                        }}
-                    ></SelectProfileImage>
+                    <SelectProfileImageWrap>
+                        <SelectProfileImage
+                            selectedImage='01'
+                            selecteChanged={(img: ProfileImageTypes)=>{
+                                selectedProfileImage.current = img;
+                            }}
+                        ></SelectProfileImage>
+                        <ProfileSpeechBubbleWrap>
+                            <ProfileSpeechBubbleWrapBg>
+                                <ProfileImageText>
+                                    나만의 프로필 이미지로 {'\n'}
+                                    바꿔 보자 뿌! :D
+                                </ProfileImageText>
+                            </ProfileSpeechBubbleWrapBg>
+                            <ProfileSpeechBubbleWrapBgTail/>
+                        </ProfileSpeechBubbleWrap>
+                    </SelectProfileImageWrap>
                     <MakeNicknameContianer>
                         <MakeNicknameTitle>한글, 영문, 숫자를 사용해 멋진 닉네임을 만들어주세요</MakeNicknameTitle>
                         <KirriTextInput
