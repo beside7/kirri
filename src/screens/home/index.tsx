@@ -124,8 +124,7 @@ const Home = ()=> {
         try {
             const data = await diaryApis.getDiaries();
             pageInfo.current = {totalPages: data.totalPages, totalCounts: data.totalCounts}; 
-            // setDiaryList(data.elements||[]);
-            setDiaryList([]);
+            setDiaryList(data.elements||[]);
             setDiaryLoading(false);
         } catch (error) {
             console.log(error);
