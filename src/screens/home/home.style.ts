@@ -418,12 +418,12 @@ export const SpeechBubbleWrap = styled.View({
 export const SpeechBubbleWrapBg = styled.View((props:{theme: any})=>({
     backgroundColor: props.theme['110'],
     borderRadius: 10,
-    width:114,
+    width:144,
     height:55,
     display: "flex",
     justifyContent: 'center',
     alignItems: 'center',
-    paddingHorizontal: 15,
+    paddingHorizontal: 13,
 }))
 
 export const EmptyDiaryText = styled.Text({
