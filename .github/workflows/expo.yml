@@ -22,6 +22,5 @@ jobs:
         with:
           expo-version: 4.x
           token: ${{ secrets.EXPO_TOKEN }}
-          owner: 100milliongold
       - run: yarn install
       - run: expo publish
