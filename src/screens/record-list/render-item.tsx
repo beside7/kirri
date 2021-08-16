@@ -65,11 +65,11 @@ export default function RenderItem({ item : { id, uuid , title, body , images, c
                 }}
             >
                 {/* 제목 */}
-                <View style={{ paddingLeft: 64 }}>
+                <View style={{ paddingLeft: 45 }}>
                     <Text_2 style={styles.listItemTitle}>{title}</Text_2>
                 </View>
                 {/* 본문 */}
-                <View style={{ paddingLeft: 64 }}>
+                <View style={{ paddingLeft: 45 }}>
                     <Text_2 style={styles.listItemBody} numberOfLines={3}>
                         {/* html 태크 제거 */}
                         {body.replace(/(<([^>]+)>)/ig, "")}
