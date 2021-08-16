@@ -37,7 +37,7 @@ const styles = StyleSheet.create({
     listItemTop: { flexDirection: "row", justifyContent: "space-between", marginBottom: 17, alignItems: "center" },
     listItemCreatedDate: { fontSize: 12, color: "#6f6f7e" },
     listItemMiddle: {   },
-    listItemThumbnail: { width: 310, height: 200, borderRadius: 10 ,left: 40 },
+    listItemThumbnail: { width: 306, height: 200, borderRadius: 10 ,left: 44 },
     ListEmptyContainer: {
         width: "100%",
         backgroundColor: "#fff",
