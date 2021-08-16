@@ -231,7 +231,7 @@ export const RecordView = observer(({ route, navigation } : RecordViewProps) => 
                                     />
                                 </View>
                             ))}
-                            <View style={{ paddingTop: 20, paddingBottom: 67, paddingHorizontal:20 }}>
+                            <View style={{ paddingTop: 20, paddingBottom: 67, paddingRight: 22 , paddingLeft: 30, alignItems: "flex-end" }}>
                                 {/* <Text_2 bold="Regular" style={{ fontSize: 14, color: "#17171c", lineHeight: 26 }}>
                                 {body}
                                 </Text_2> */}
