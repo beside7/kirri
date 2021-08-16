@@ -30,6 +30,11 @@ function getFromNickName(diary : DiaryResType | null, id : number) {
     return nickname ? nickname : null
 }
 
+/**
+ * 응원하기 자세히 보기
+ * @param param0 
+ * @returns 
+ */
 export default function CheerupMessage({navigation , route} : CheerupMessageProps) {
 
     const [diary, setDiary] = useState<DiaryResType | null>(null);
@@ -73,7 +78,7 @@ export default function CheerupMessage({navigation , route} : CheerupMessageProp
                         <Image style={{ width: 24, height: 24 }} source={require("@assets/icons/x.png")} />
                     </TouchableOpacity>
                 }
-                rightIcon={<Image style={{ width: 24, height: 24 }} source={require("@assets/icons/menu.png")} />}
+                // rightIcon={<Image style={{ width: 24, height: 24 }} source={require("@assets/icons/menu.png")} />}
             />
             <Contanier>
                 <Title>

@@ -157,7 +157,7 @@ export default function RecordInput({ navigation, route }: RecordInputProps) {
    */
   const pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: false,
       // aspect: [4, 3],
       /**
@@ -180,7 +180,7 @@ export default function RecordInput({ navigation, route }: RecordInputProps) {
       /**
        * 만약 추가한 이미지가 2MB 보다 크면 경고창 출력후 중단
        */
-      if( fileInfo.size !== undefined && fileInfo.size > 1024 * 1024 * 2 ){
+      if( fileInfo.size !== undefined && fileInfo.size > 1024 * 1024 * 1.5 ){
         Alert.alert("2MB 보다 큰 이미지는 추가할수 없습니다.");
         return;
       }
@@ -233,7 +233,7 @@ export default function RecordInput({ navigation, route }: RecordInputProps) {
             Alert.alert(`글이 ${ type === "modify" ? "수정" : "생성"}되었습니다.`);
             navigation.replace("RecordList", { diary: diary })
         } catch (error) {
-            // console.log(error);
+            console.log(error);
             console.log(error.response);
             
             Alert.alert(`글이 ${ type === "modify" ? "수정" : "생성"} 간 에러가 발생했습니다.`);
