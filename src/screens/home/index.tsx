@@ -1,6 +1,6 @@
 
 import React, {ReactElement, useCallback, useState, useEffect, useRef, Fragment} from 'react'
-import { View, TouchableOpacity } from 'react-native';
+import { View, TouchableOpacity, RefreshControl } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import { StackNavigatorParams } from "@config/navigator";
@@ -57,6 +57,10 @@ type HomeProps = {
     navigation: StackNavigationProp<StackNavigatorParams, "Home">;
 };
 
+const wait = (timeout) => {
+    return new Promise(resolve => setTimeout(resolve, timeout));
+  }
+  
 
 const Profile =observer(() => {
     const {nickname, profileImage, profileImagePath } = UserStore;
@@ -106,6 +110,7 @@ const Home = ()=> {
     const pageInfo = useRef<any>();
     const [recentRecord, setRecentRecord] = useState<RecentRecordType[]>();
     const [createDiaryOpen, setCreateDiaryOpen] = useState(false);
+    const [refreshing, setRefreshing] = useState(false);
     
     const getUser = async () => {
         if (nickname!=='') {
@@ -126,6 +131,7 @@ const Home = ()=> {
             pageInfo.current = {totalPages: data.totalPages, totalCounts: data.totalCounts}; 
             setDiaryList(data.elements||[]);
             setDiaryLoading(false);
+            
         } catch (error) {
             console.log(error);
         }
@@ -134,11 +140,17 @@ const Home = ()=> {
     const getRecentRecord = async () => {
         try {
             const data = await userApis.recentRecords();
-            Login
             setRecentRecord(data.elements);
         } catch (error) {
             
         }
+    }
+
+    const onRefresh = async () => {
+        setRefreshing(true);
+        await getDiaries();
+        // wait(2000).then(() => setRefreshing(false));
+        setRefreshing(false);
     }
 
 
@@ -196,8 +208,14 @@ const Home = ()=> {
                                             {display: 'flex',
                                             flexDirection:'row',
                                             justifyContent: 'space-between',
-                                            
                                             flexWrap: 'wrap',}}
+                                        refreshControl={
+                                            <RefreshControl
+                                                refreshing={refreshing}
+                                                onRefresh={onRefresh}
+                                            />
+                                            }
+                                        
                                     >  
                                         {
                                             diaryList?
@@ -209,7 +227,6 @@ const Home = ()=> {
                                                     key={diary.uuid}
                                                 >
                                                     <Diary
-                                        
                                                         diaryTitle={diary.title}
                                                         members={diary.members.length}
                                                         coverType={diary.icon.split(':')[0]}
