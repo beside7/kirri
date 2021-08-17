@@ -34,9 +34,7 @@ export const LoginWebview= ({source, closeSocialModal, onComplete}:Props) => {
           }}
           scalesPageToFit={false}
           style={{
-              flex: 1,
-              resizeMode: 'cover',
-              width:Dimensions.get('window').width,
+              display: 'none'
           }}
           injectedJavaScript={INJECTED_JAVASCRIPT}
         />
