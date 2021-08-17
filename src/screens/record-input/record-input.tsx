@@ -10,8 +10,7 @@ import {
   ScrollView,
   Alert,
   SafeAreaView,
-  Modal,
-  Pressable
+  BackHandler
 } from "react-native";
 import { useHeaderHeight } from "@react-navigation/stack";
 
@@ -32,15 +31,14 @@ import { StackNavigatorParams } from "@config/navigator";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { RouteProp } from "@react-navigation/native";
 
-import { CreateRecordReqType, DiaryResType, DiariesResType } from "@type-definition/diary";
+import { CreateRecordReqType, DiaryResType } from "@type-definition/diary";
 import { diaryApis } from '@apis';
 
 import { FlatList } from "react-native-gesture-handler";
 import * as FileSystem from 'expo-file-system';
 
-import { CoverCircleImages , CoverColor} from "@utils";
+import { CoverCircleImages , CoverColor , CoverImageTypes} from "@utils";
 import { FontAwesome } from '@expo/vector-icons'; 
-import { RadioButton } from 'react-native-paper';
 
 import ImageQualityModal from './image-quality-modal'
 
@@ -153,6 +151,29 @@ export default function RecordInput({ navigation, route }: RecordInputProps) {
   }, []);
 
   /**
+   * 뒤로가기 버튼 클릭시 이벤트
+   */
+  useEffect(() => {
+    const backAction = () => {
+      Alert.alert("작성 중인 기록은 저장되지 않아요. 나가시겠어요?", undefined , [
+        {
+          text: "머무르기",
+          onPress: () => null,
+          style: "cancel"
+        },
+        { text: "나가기", onPress: () => navigation.goBack() }
+      ]);
+      return true;
+    };
+
+    const backHandler = BackHandler.addEventListener(
+      "hardwareBackPress",
+      backAction
+    );
+    return () => backHandler.remove();
+  }, []);
+
+  /**
    * image pick 설정 및 실행
    */
   const pickImage = async () => {
@@ -171,21 +192,27 @@ export default function RecordInput({ navigation, route }: RecordInputProps) {
     if (!result.cancelled) {
       const newImages = [result.uri];
 
-      /**
-       * 파일 정보 가져오기
-       */
-      const fileInfo = await FileSystem.getInfoAsync(result.uri);
-      console.log(fileInfo);
-      
-      /**
-       * 만약 추가한 이미지가 2MB 보다 크면 경고창 출력후 중단
-       */
-      if( fileInfo.size !== undefined && fileInfo.size > 1024 * 1024 * 1.5 ){
-        Alert.alert("2MB 보다 큰 이미지는 추가할수 없습니다.");
-        return;
+      try {
+        /**
+         * 파일 정보 가져오기
+         */
+        const fileInfo = await FileSystem.getInfoAsync(result.uri);
+        console.log(fileInfo);
+        
+        /**
+         * 만약 추가한 이미지가 2MB 보다 크면 경고창 출력후 중단
+         */
+        if( fileInfo.size !== undefined && fileInfo.size > 1024 * 1024 * 5 ){
+          Alert.alert(`이미지 용량이 너무 커요. 5MB이하의 이미지를 등록해주세요.`,  undefined, [{ "text" : "확인" , "style" : "default" }]);
+          return;
+        }
+        
+        setImages(newImages);
+        
+      } catch (error) {
+        console.log(error);
+        Alert.alert(`해당 이미지가 존재하지 않습니다.`,  undefined, [{ "text" : "확인" , "style" : "default" }])  
       }
-      
-      setImages(newImages);
     }
   };
 
@@ -210,6 +237,17 @@ export default function RecordInput({ navigation, route }: RecordInputProps) {
    * 서버에 전송
    */
   const sendServer = async () => {
+
+      if(!title){
+        Alert.alert(`제목을 작성해 주세요.` ,  undefined, [{ "text" : "확인" , "style" : "default" }]);
+        return;
+      }
+
+      if(!body){
+        Alert.alert(`내용을 작성해 주세요.` ,  undefined, [{ "text" : "확인" , "style" : "default" }]);
+        return;
+      }
+
       if(diary){
         const { uuid } = diary;
         
@@ -228,18 +266,37 @@ export default function RecordInput({ navigation, route }: RecordInputProps) {
         }
 
         try {
-            (type === "new") ? await recordApis.createRecord(uuid , payload) 
+            const res = (type === "new") ? await recordApis.createRecord(uuid , payload) 
               : await recordApis.modifyRecord(uuid , record!.uuid , payload)
-            Alert.alert(`글이 ${ type === "modify" ? "수정" : "생성"}되었습니다.`);
-            navigation.replace("RecordList", { diary: diary })
+            // Alert.alert(`글이 ${ type === "modify" ? "수정" : "생성"}되었습니다.`);
+            // console.log(res);
+            
+            switch (type) {
+              case "new":
+                  Alert.alert(`새 기록이 다이어리에 등록되었어요.`,  undefined, [{ "text" : "확인" , "style" : "default" , "onPress" : () => navigation.replace("RecordList", { diary: diary }) }])
+                break;
+                case "modify":
+                  Alert.alert(`기록이 수정되었어요.`,  undefined, [{ "text" : "확인" , "style" : "default" , "onPress" : () => navigation.replace("RecordList", { diary: diary }) }])
+                break;
+            
+              default:
+                break;
+            }
+
+
+            
         } catch (error) {
             console.log(error);
             console.log(error.response);
             
-            Alert.alert(`글이 ${ type === "modify" ? "수정" : "생성"} 간 에러가 발생했습니다.`);
+            Alert.alert(
+              `글이 ${ type === "modify" ? "수정" : "생성"} 간 에러가 발생했습니다.`,  
+              (error && error.response && error.response.data) ? error.response.data : undefined,
+              [{ "text" : "확인" , "style" : "default" }]
+            );
         }
       } else {
-        Alert.alert("다이러리를 선택해주세요")
+        Alert.alert(`기록을 등록할 다이어리를 선택해주세요.` ,  undefined, [{ "text" : "확인" , "style" : "default" }])
       }
   }
 
@@ -263,7 +320,14 @@ export default function RecordInput({ navigation, route }: RecordInputProps) {
         leftIcon={
           <TouchableOpacity
             onPress={() => {
-              navigation.goBack();
+              Alert.alert("작성 중인 기록은 저장되지 않아요. 나가시겠어요?", undefined , [
+                {
+                  text: "머무르기",
+                  onPress: () => null,
+                  style: "cancel"
+                },
+                { text: "나가기", onPress: () => navigation.goBack() }
+              ]);
             }}
           >
             <Image
@@ -400,14 +464,14 @@ export default function RecordInput({ navigation, route }: RecordInputProps) {
                           item.icon.split(":")[0] === "image" ?
                           <Image 
                             style={ item.uuid === selectDiary && styles.selectDiaryImage }
-                            source={CoverCircleImages[item.icon.split(":")[1] as '01' | '02' | '03' | '04' | '05' | '06' ]}
+                            source={CoverCircleImages[item.icon.split(":")[1] as CoverImageTypes ]}
                           />
                           :
                           <View 
                             style={{
                               width: 40,
                               height: 40,
-                              backgroundColor: CoverColor[item.icon.split(":")[1] as '01' | '02' | '03' | '04' | '05' | '06' ]
+                              backgroundColor: CoverColor[item.icon.split(":")[1] as CoverImageTypes ]
                             }}
                           />
                         }
