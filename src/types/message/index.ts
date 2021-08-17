@@ -14,6 +14,7 @@ export interface MessageDataType {
     title: string,
     body: string,
     fromNickname: string,
+    createdDate: string
 } 
 
 export type MessageResType = Paging<MessageDataType>;

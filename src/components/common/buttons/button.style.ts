@@ -28,7 +28,7 @@ export const StyledText = styled.Text((props: StyledProps): any => {
         return {
             color:  props.disabled?props.theme['103']:fontColor,
             fontSize: fontSizeOfType[props.type],
-            fontWeight:'bold'
+            fontFamily: 'SpoqaHanSansNeo-Regular'
         }
     }
 )

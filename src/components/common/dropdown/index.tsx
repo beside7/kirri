@@ -26,6 +26,7 @@ export const Dropdown = ({items, onChangeValue, value}:Props)  => {
                onChangeValue(value); 
             }}
             textStyle={{
+                fontFamily: 'SpoqaHanSansNeo-Regular',
                 fontSize: 14,
                 borderWidth:0,
                 height: 18

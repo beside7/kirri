@@ -7,11 +7,13 @@ export const MessageBody = styled.View({
 
 export const MessageText = styled.Text((props: {theme: any}) => ({
     fontSize: 16,
-    color: props.theme['110']
+    color: props.theme['110'],
+    fontFamily: 'SpoqaHanSansNeo-Regular'
 }))
 
 export const MessageFrom = styled.Text((props: {theme: any}) => ({
     fontSize: 12,
     color: props.theme['104'],
-    marginTop: 12
+    marginTop: 12,
+    fontFamily: 'SpoqaHanSansNeo-Regular'
 }))

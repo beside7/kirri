@@ -31,11 +31,13 @@ export const ContentWrap = styled.View({
 export const ContentText = styled.Text((props:{theme:any})=>({
     fontSize: 14,
     marginBottom: 15,
-    color: props.theme['110']
+    color: props.theme['110'],
+    fontFamily: 'SpoqaHanSansNeo-Regular'
 }))
 
 export const ContentTextBold = styled.Text({
     fontWeight: 'bold',
+    fontFamily: 'SpoqaHanSansNeo-Medium'
 })
 
 export const InfoWrap = styled.View({
@@ -52,7 +54,8 @@ export const ButtonWrap = styled.View({
 
 export const TimeText = styled.Text((props:{theme:any})=>({
     fontSize: 12,
-    color: props.theme['104']
+    color: props.theme['104'],
+    fontFamily: 'SpoqaHanSansNeo-Regular'
 }))
 
 // export const Button = styled(CommonButton)({

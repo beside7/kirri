@@ -8,5 +8,6 @@ export const ContentWarp = styled.View({
 
 export const LogoWarp = styled.Text({
   color:  '#6173ff',
-  fontSize: 28
+  fontSize: 28,
+  fontFamily: 'SpoqaHanSansNeo-Regular'
 })

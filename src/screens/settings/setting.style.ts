@@ -46,7 +46,8 @@ export const NicknameWarp = styled.View({
 export const NicknameText = styled.Text({
     fontSize: 24,
     color: '#333333',
-    marginRight: 5
+    marginRight: 5,
+    fontFamily: 'SpoqaHanSansNeo-Regular'
 })
 
 export const EditProfile = styled.TouchableOpacity((props: {theme: any})=>({
@@ -63,7 +64,8 @@ export const NicknameInputWarp = styled.View({
 export const MakeNicknameTitle = styled.Text({
     color: '#17171c',
     fontSize: 12,
-    marginBottom:8
+    marginBottom:8,
+    fontFamily: 'SpoqaHanSansNeo-Regular'
 });
 
 export const SettingListWrap = styled.View({
@@ -89,12 +91,14 @@ export const SettingIcon = styled.Image({
 })
 
 export const SettingTitle = styled.Text({
-    fontSize: 14
+    fontSize: 14,
+    fontFamily: 'SpoqaHanSansNeo-Regular'
 })
 
 export const VersionText = styled.Text((props:{theme: any})=>({
     fontSize: 14,
-    color: props.theme['110']
+    color: props.theme['110'],
+    fontFamily: 'SpoqaHanSansNeo-Regular'
 }))
 
 export const LeaveKKiriWarp = styled.TouchableOpacity({
@@ -105,9 +109,9 @@ export const LeaveKKiriWarp = styled.TouchableOpacity({
 export const LeaveKKiriTitle = styled.Text((props:{theme: any})=>({
     fontSize: 14,
     textDecoration: 'underline',
-    
     color: props.theme['106'],
     textDecorationColor: props.theme['106'],
+    fontFamily: 'SpoqaHanSansNeo-Regular'
 }))
 
 
@@ -128,5 +132,6 @@ export const SignoutImage = styled.Image({
 
 export const SignoutText = styled.Text((props: {theme: any})=>({
     fontSize: 14,
-    color: props.theme['110']
+    color: props.theme['110'],
+    fontFamily: 'SpoqaHanSansNeo-Regular'
 }))

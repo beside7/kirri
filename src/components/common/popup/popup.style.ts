@@ -37,6 +37,7 @@ export const StyledHeaderIcon = styled.Image({
 const StyledText = styled.Text`
     text-align: center;
     color: ${(props:{theme: any}) => props.theme['110']};
+    fontFamily: SpoqaHanSansNeo-Regular
 `;
 
 export const IconWithTitle = styled(StyledText)((props:{theme: any}) => ({
@@ -79,8 +80,10 @@ export const PopupButton = styled.TouchableOpacity((props:{attr: string, theme:a
 
 export const ButtonText = styled.Text({
     fontSize:14,
+    fontFamily: 'SpoqaHanSansNeo-Regular'
 })
 
 export const CancelButtonText = styled(ButtonText)((props:{ theme:any}) => ({
-    color: props.theme['106']
+    color: props.theme['106'],
+    fontFamily: 'SpoqaHanSansNeo-Regular'
 }))

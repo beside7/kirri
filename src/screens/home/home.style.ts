@@ -74,7 +74,8 @@ export const NicknameContainer = styled.View({
 })
 
 export const NicknameWarp = styled.Text({
-    fontSize:24
+    fontSize:24,
+    fontFamily: 'SpoqaHanSansNeo-Regular'
 })
 
 export const DiaryListWarp = styled(warpStyle)({
@@ -111,14 +112,16 @@ export const RecentContentContainer = styled.View({
 
 export const RecentContentWriter = styled.Text({
     fontSize:12,
-    color: '#6f6f7e'
+    color: '#6f6f7e',
+    fontFamily: 'SpoqaHanSansNeo-Regular'
 })
 
 
 export const RecentContentTitle = styled.Text({
     marginTop:2,
     color: '#17171c',
-    fontSize: 12
+    fontSize: 12,
+    fontFamily: 'SpoqaHanSansNeo-Regular'
 })
 
 export const RecentDiaryTitleWarp = styled.View({
@@ -139,14 +142,15 @@ export const RecentDiaryColor = styled.View((props: {background: string}) => ({
 
 export const RecentDiaryTitle = styled.Text({
     fontSize: 12,
-    color: '#babacb'
+    color: '#babacb',
+    fontFamily: 'SpoqaHanSansNeo-Regular'
 
 })
 
 export const DiaryTitle = styled.Text({
     fontSize:14,
     color: '#6f6f7e',
-  
+    fontFamily: 'SpoqaHanSansNeo-Regular'
 })
 
 export const DiaryListContainer = styled.View({
@@ -201,7 +205,8 @@ export const DiaryCover = styled.View((props: {backgroundColor: string, pattern?
 
 export const DiaryDetailTitle = styled.Text({
     fontSize: 16,
-    color: '#17171c'
+    color: '#17171c',
+    fontFamily: 'SpoqaHanSansNeo-Regular'
 });
 
 export const DiaryBottom = styled.View({
@@ -212,7 +217,8 @@ export const DiaryBottom = styled.View({
 
 export const MembersText = styled.Text({
     color: '#696969',
-    fontSize: 12
+    fontSize: 12,
+    fontFamily: 'SpoqaHanSansNeo-Regular'
 })
 
 export const RecommandCreateDiaryWrap = styled.View({
@@ -236,7 +242,8 @@ export const RecommandCreateDiary = styled.View({
 export const CreateDiaryText = styled.Text({
     color: '#6f6f7e',
     fontSize: 14,
-    marginTop: 7
+    marginTop: 7,
+    fontFamily: 'SpoqaHanSansNeo-Regular'
 })
 
 export const CreateDiaryContainer = styled.TouchableOpacity({
@@ -293,7 +300,8 @@ export const CreateDiatyTitleWarp = styled.View({
 
 export const CreateDiaryTitle = styled.Text({
     fontSize:16,
-    color: '#17171c'
+    color: '#17171c',
+    fontFamily: 'SpoqaHanSansNeo-Regular'
 })
 
 export const CreateDiaryInputWarp = styled.View({
@@ -303,7 +311,8 @@ export const CreateDiaryInputWarp = styled.View({
 export const CreateInputTitle = styled.Text({
     fontSize: 12,
     color:'#17171c',
-    marginBottom: 8
+    marginBottom: 8,
+    fontFamily: 'SpoqaHanSansNeo-Regular'
 })
 
 export const CreateDiaryCoverContainer = styled.View((props: {backgroundColor?: string})=>({
@@ -317,6 +326,7 @@ export const CreateDiaryCoverContainer = styled.View((props: {backgroundColor?: 
 export const CreateDiaryCoverTitle = styled.Text({
     fontSize: 12,
     color: '#17171c',
+    fontFamily: 'SpoqaHanSansNeo-Regular'
 })
 
 export const CreateDiaryCoverSelectedWarp = styled.View({
@@ -406,7 +416,8 @@ export const DiaryListBottomImage = styled.Image({
 
 export const DiaryListBottomMention = styled.Text({
     color: '#bebece',
-    fontSize: 12
+    fontSize: 12,
+    fontFamily: 'SpoqaHanSansNeo-Regular'
 })
 
 
@@ -428,7 +439,8 @@ export const SpeechBubbleWrapBg = styled.View((props:{theme: any})=>({
 
 export const EmptyDiaryText = styled.Text({
     fontSize: 11,
-    color: '#fff'
+    color: '#fff',
+    fontFamily: 'SpoqaHanSansNeo-Regular'
 })
 
 export const SpeechBubbleWrapBgTail = styled.View((props:{theme: any})=>({

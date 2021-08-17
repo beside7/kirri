@@ -37,5 +37,6 @@ export const EmtyMsgImage = styled.Image({
 export const EmtyMsgText = styled.Text((props: {theme: any})=>({
     marginTop:24,
     fontSize: 14,
-    color: props.theme['110']
+    color: props.theme['110'],
+    fontFamily: 'SpoqaHanSansNeo-Regular'
 }))

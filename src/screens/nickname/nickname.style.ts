@@ -45,7 +45,8 @@ export const ProfileSpeechBubbleWrapBg = styled.View((props:{theme: any})=>({
 
 export const ProfileImageText = styled.Text({
     fontSize: 11,
-    color: '#fff'
+    color: '#fff',
+    fontFamily: 'SpoqaHanSansNeo-Regular'
 })
 
 export const ProfileSpeechBubbleWrapBgTail = styled.View((props:{theme: any})=>({
@@ -120,7 +121,8 @@ export const MakeNicknameContianer = styled.View({
 export const MakeNicknameTitle = styled.Text({
     color: '#17171c',
     fontSize: 12,
-    marginBottom:8
+    marginBottom:8,
+    fontFamily: 'SpoqaHanSansNeo-Regular'
 });
 
 export const MakeNicknameInput = styled.TextInput({
@@ -129,7 +131,8 @@ export const MakeNicknameInput = styled.TextInput({
     borderRadius: 4,
     height: 40,
     paddingLeft: 12,
-    paddingRight: 30
+    paddingRight: 30,
+    fontFamily: 'SpoqaHanSansNeo-Regular'
 })
 
 export const MakeNicknameInputWarp = styled.View({

@@ -33,7 +33,8 @@ const RightTextWarp = styled.Text({
 const ErrorMsg = styled.Text({
     color: '#eb5858',
     marginTop: 8,
-    fontSize: 12
+    fontSize: 12,
+    fontFamily: 'SpoqaHanSansNeo-Regular'
 })
 
 const StyledTextInput = styled.TextInput({
@@ -41,6 +42,7 @@ const StyledTextInput = styled.TextInput({
     flexGrow:1,
     flexBasis:1,
     marginHorizontal: 8,
+    fontFamily: 'SpoqaHanSansNeo-Regular'
 })
 
 const Non = styled.View({

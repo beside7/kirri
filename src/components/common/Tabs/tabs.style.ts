@@ -14,8 +14,6 @@ export const Container = styled.View(({width, height}:StyleProps)=>({
 export const TabWarp = styled.View(()=>({
     width: '100%',
     height: 50,
-    display: 'flex',
-    flexDirection: 'row'
 }));
 
 export const Blank = styled.View({
@@ -35,14 +33,14 @@ export const Tab = styled.TouchableOpacity({
 
 export const TabTitle = styled.Text((props: {active: boolean, theme: any})=>({
     color: props.active?props.theme['110']:props.theme['106'],
-    fontSize: 18
+    fontSize: 18,
+    fontFamily: 'SpoqaHanSansNeo-Regular'
 }))
 
-export const ActiveBar = styled.View((props)=>({
+export const ActiveBar = styled.View((props:{theme: any})=>({
     position:'absolute',
     bottom: 0,
     width: '100%',
-    
     height: 2,
     backgroundColor: props.theme['110']
 }));
