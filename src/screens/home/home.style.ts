@@ -174,6 +174,13 @@ export const DiaryContainer = styled.View({
     boxShadow:'1.5px 2.5px 5px #0000002b',
 });
 
+export const CreateDiaryWrap = styled.View({
+    display: 'flex',
+    height: 158,
+    marginBottom: 18,
+    width: 159,
+    
+});
 export const DiaryWarp = styled.TouchableOpacity({
     width: 159,
     height: 158,

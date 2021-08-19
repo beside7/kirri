@@ -32,7 +32,8 @@ import styles, {
     SpeechBubbleWrapBg,
     SpeechBubbleWrapBgTail,
     EmptyDiaryText,
-    RecommandCreateDiaryWrap
+    RecommandCreateDiaryWrap,
+    CreateDiaryWrap
 } from './home.style';
 import {RecentContent} from './RecentContent';
 
@@ -235,11 +236,11 @@ const Home = ()=> {
                                                 </TouchableOpacity>
                                             ): <></>
                                         }
-                                        <DiaryContainer>
+                                        <CreateDiaryWrap>
                                             <CreateDiary
                                                 onClick={()=>{setCreateDiaryOpen(true)}}
                                             />
-                                        </DiaryContainer>
+                                        </CreateDiaryWrap>
                                         
                                     </DiaryList>
                                     
