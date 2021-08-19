@@ -137,45 +137,51 @@ export const Settings = observer(()=> {
                                 onValueChange={handleChangeAlarmState}
                             ></Switch>
                         </SettingContent>
+                        <TouchableOpacity
+                                onPress={
+                                    ()=>{
+                                        navigateWithoutRefresh('TermsWebview', {type: 'SERVICE', title: '이용 약관'});
+                                    }
+                                }
+                            >
                         <SettingContent
                             icon={require('@assets/images/settings/setting_personal_info.png')}
                             title='공지 사항'
                         >
-                            <TouchableOpacity
+                            
+                                <SettingIcon source={require('@assets/images/settings/setting_next_normal.png')}/>
+                        </SettingContent>
+                        </TouchableOpacity>
+                        <TouchableOpacity
                                 onPress={
                                     ()=>{
                                         navigateWithoutRefresh('TermsWebview', {type: 'SERVICE', title: '이용 약관'});
                                     }
                                 }
                             >
-                                <SettingIcon source={require('@assets/images/settings/setting_next_normal.png')}/></TouchableOpacity>
-                        </SettingContent>
                         <SettingContent
                             icon={require('@assets/images/settings/setting_personal_info.png')}
                             title='이용 약관'
                         >
-                            <TouchableOpacity
-                                onPress={
-                                    ()=>{
-                                        navigateWithoutRefresh('TermsWebview', {type: 'SERVICE', title: '이용 약관'});
-                                    }
-                                }
-                            >
-                                <SettingIcon source={require('@assets/images/settings/setting_next_normal.png')}/></TouchableOpacity>
+                            
+                                <SettingIcon source={require('@assets/images/settings/setting_next_normal.png')}/>
                         </SettingContent>
-                        <SettingContent
-                            icon={require('@assets/images/settings/setting_personal_info.png')}
-                            title='개인정보 처리 방침'
-                        >
-                            <TouchableOpacity
+                        </TouchableOpacity>
+                        <TouchableOpacity
                                 onPress={
                                     ()=>{
                                         navigateWithoutRefresh('TermsWebview', {type: 'PRIVACY', title: '개인정보 처리 방침'});
                                     }
                                 }
                             >
-                                <SettingIcon source={require('@assets/images/settings/setting_next_normal.png')}/></TouchableOpacity>
+                        <SettingContent
+                            icon={require('@assets/images/settings/setting_personal_info.png')}
+                            title='개인정보 처리 방침'
+                        >
+                            
+                                <SettingIcon source={require('@assets/images/settings/setting_next_normal.png')}/>
                         </SettingContent>
+                        </TouchableOpacity>
                         <SettingContent
                             icon={require('@assets/images/settings/setting_version.png')}
                             title='버전정보'
@@ -183,14 +189,15 @@ export const Settings = observer(()=> {
                         >
                             <VersionText>V1.0.0</VersionText>
                         </SettingContent>
-                        <SettingContent
+                        <TouchableOpacity
+                                onPress={()=>{logout()}}
+                            ><SettingContent
                             icon={require('@assets/images/settings/setting_logout.png')}
                             title='로그아웃'
                         >
-                            <TouchableOpacity
-                                onPress={()=>{logout()}}
-                            ><SettingIcon source={require('@assets/images/settings/setting_next_normal.png')}/></TouchableOpacity>
+                            <SettingIcon source={require('@assets/images/settings/setting_next_normal.png')}/>
                         </SettingContent>
+                        </TouchableOpacity>
 
                     </Content>
                     <LeaveKKiriWarp
