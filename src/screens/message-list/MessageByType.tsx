@@ -1,5 +1,5 @@
 import React, {useCallback, Fragment} from 'react';
-import {Container, ImageWrap, Image, ContentWrap, ContentText, ContentTextBold, InfoWrap, TimeText, ButtonWrap} from './message.style';
+import {Container, ImageWrap, Image, ContentWrap, ContentText, ContentTextBold, InfoWrap, TimeText, ButtonWrap, ButtonPadding} from './message.style';
 import { MessageDataType, MessageType } from '@type-definition/message';
 import { View } from 'react-native';
 
@@ -22,11 +22,11 @@ interface ComponenetType extends Props{
 
 
 
-export const Invitation = ({id, type, fromNickname, title, body, to, diaryUuid, createdDate, updateMessageStatus, setConfirmPopup}:ComponenetType) => {
+export const Invitation = ({id, type, fromNickname, title, body, to, diaryUuid, createdDate,diaryName, updateMessageStatus, setConfirmPopup}:ComponenetType) => {
     const refuse = async () => {
         try {
             const result = await userApis.refuseInvitationDiary(diaryUuid);
-            updateMessageStatus({id, diaryUuid, type, fromNickname, title, body, to, createdDate});
+            updateMessageStatus({id, diaryUuid, type, fromNickname, title, body, to, createdDate, diaryName});
         } catch (error) {
             
         }
@@ -36,7 +36,7 @@ export const Invitation = ({id, type, fromNickname, title, body, to, diaryUuid, 
         try {
             const result = await userApis.acceptInvitationDiary(diaryUuid);
             setConfirmPopup(diaryUuid, 'INVITATION');
-            updateMessageStatus({id, type, fromNickname, title, body, to, diaryUuid, createdDate});
+            updateMessageStatus({id, type, fromNickname, title, body, to, diaryUuid, createdDate, diaryName});
         } catch (error) {
             alert(error)
         }
@@ -48,13 +48,14 @@ export const Invitation = ({id, type, fromNickname, title, body, to, diaryUuid, 
             </ImageWrap>
             <ContentWrap>
                 <ContentText>
-                    <ContentTextBold>{fromNickname}</ContentTextBold>님이 <ContentTextBold>{to}</ContentTextBold>님과 [{title}]를 함께 쓰고 싶어해요.
+                    <ContentTextBold>{fromNickname}</ContentTextBold>님이 <ContentTextBold>{to}</ContentTextBold>님과 [{diaryName}]를 함께 쓰고 싶어해요.
                 </ContentText>
                 <InfoWrap>
                     {/* <Timezone
                         time={createdDate}
                         // element={TimeText}
                     ></Timezone> */}
+                    <View></View>
                     <ButtonWrap>
                         <Button
                             color= 'secondary'
@@ -63,8 +64,9 @@ export const Invitation = ({id, type, fromNickname, title, body, to, diaryUuid, 
                             }
                             type='small'
                         >
-                            거부
+                            거절
                         </Button>
+                        <ButtonPadding/>
                         <Button
                             color= 'primary'
                             onPress={
@@ -82,7 +84,7 @@ export const Invitation = ({id, type, fromNickname, title, body, to, diaryUuid, 
 }
 
 
-export const Cheering = ({id, type, fromNickname, title, body, to, diaryUuid, createdDate, updateMessageStatus, setConfirmPopup}:ComponenetType) => {
+export const Cheering = ({id, type, fromNickname, title, body, to, diaryUuid, createdDate, diaryName, updateMessageStatus, setConfirmPopup}:ComponenetType) => {
 
     return (
         <Container>
@@ -102,7 +104,7 @@ export const Cheering = ({id, type, fromNickname, title, body, to, diaryUuid, cr
                             color= 'secondary'
                             onPress={
                                 () => {
-                                    setConfirmPopup(diaryUuid, 'CHEERING', {id, type, fromNickname, title, body, diaryUuid, createdDate});
+                                    setConfirmPopup(diaryUuid, 'CHEERING', {id, type, fromNickname, title, body, diaryUuid, createdDate, diaryName});
                                 }
                             }
                             type='small'

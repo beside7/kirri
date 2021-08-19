@@ -61,3 +61,7 @@ export const TimeText = styled.Text((props:{theme:any})=>({
 // export const Button = styled(CommonButton)({
 //     marginLeft: 8
 // })
+
+export const ButtonPadding = styled.View({
+    width: 8
+})

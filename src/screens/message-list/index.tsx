@@ -59,7 +59,16 @@ const MessageList= observer(({ navigation } : MessageListProps) => {
                     data = await messageApis.getMessagesByType({type: selectedMessageType.current});                   
                     break;
             }
-            
+            setMessageList([{
+                id: 1,
+                    diaryUuid: 'string',
+                    type: 'INVITATION',
+                    title: 'string',
+                    body: 'string',
+                    fromNickname: 'string',
+                    createdDate: 'string',
+                    diaryName: 'test'
+            }]);
             if (data.elements.length){
                 setMessageList(data.elements);
             }
