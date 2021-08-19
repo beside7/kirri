@@ -5,7 +5,7 @@ import { View } from 'react-native';
 
 import { userApis } from '@apis';
 import {Button} from '@components';
-import { Timezone } from '@components';
+// import { Timezone } from '@components';
 
 const messageImage = require('@assets/images/alarm/various_message.png');
 
@@ -51,10 +51,10 @@ export const Invitation = ({id, type, fromNickname, title, body, to, diaryUuid, 
                     <ContentTextBold>{fromNickname}</ContentTextBold>님이 <ContentTextBold>{to}</ContentTextBold>님과 [{title}]를 함께 쓰고 싶어해요.
                 </ContentText>
                 <InfoWrap>
-                    <Timezone
+                    {/* <Timezone
                         time={createdDate}
                         // element={TimeText}
-                    ></Timezone>
+                    ></Timezone> */}
                     <ButtonWrap>
                         <Button
                             color= 'secondary'
