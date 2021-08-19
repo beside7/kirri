@@ -48,7 +48,7 @@ export const Invitation = ({id, type, fromNickname, title, body, to, diaryUuid, 
             </ImageWrap>
             <ContentWrap>
                 <ContentText>
-                    <ContentTextBold>{fromNickname}</ContentTextBold>님이 <ContentTextBold>{to}</ContentTextBold>님과 [{diaryName}]를 함께 쓰고 싶어해요.
+                    <ContentTextBold>{fromNickname}</ContentTextBold>님이 <ContentTextBold>{diaryName}</ContentTextBold> 다이어리에 초대했어요.
                 </ContentText>
                 <InfoWrap>
                     {/* <Timezone
