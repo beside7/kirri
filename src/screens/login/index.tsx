@@ -6,7 +6,7 @@ import styles from './login.style'
 import { Background } from "@components";
 import {LoginWebview} from '@components';
 import { SERVER_URL, userApis } from '@apis';
-import {navigate} from '@config/navigator';
+import {navigate, navigateWithReset} from '@config/navigator';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Carousel from 'react-native-snap-carousel';
 import { updateExpoToken, initNotifications } from "@utils";
@@ -27,17 +27,18 @@ export default function Login({imgIndex}: LoginProps): ReactElement {
 
     const onComplete = (event: any) => {
         result.current = JSON.parse(event.nativeEvent.data);
+        console.log(result.current)
         let success = result.current.accessToken;
         setKakaoLoginOpen(false);
         setAppleLoginOpen(false);
         AsyncStorage.setItem('userKey', 'Bearer '+success , async () => {
             if (success && (result.current.status === 'REQUIRED_SIGN_UP')){
                 navigate('Nickname', result.current);
-            } else {
+            } else if (result.current.status ==='ACTIVE'){
                 try {
                     UserStore.login();
                     const notificationToken = await initNotifications();
-                    navigate('Home', null);
+                    navigateWithReset('Home', null);
                 } catch (error) {
                     
                 }

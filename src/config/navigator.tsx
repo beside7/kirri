@@ -1,5 +1,6 @@
 import React, { ReactElement, useState, useEffect,useRef } from "react";
-import { NavigationContainer, StackActions} from '@react-navigation/native';
+import { NavigationContainer, StackActions, CommonActions} from '@react-navigation/native';
+
 import {useMessagePopupDispatch} from '@components';
 
 import {
@@ -42,6 +43,13 @@ import { UserStore } from "@store";
 import { PushMessageProvider } from "@components";
 import { JoinProcessing } from "@screens";
 
+export function navigateWithReset(name: string, params: any) {
+    const resetAction = CommonActions.reset({
+        index: 0,
+        routes: [{name, params}],
+      });
+      navigationRef.current?.dispatch(resetAction);
+}
 
 export function navigate(name: string, params: any) {
     navigationRef.current?.dispatch(StackActions.push(name, params?params:{}));
