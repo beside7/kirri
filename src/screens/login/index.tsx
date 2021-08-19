@@ -14,15 +14,15 @@ import { UserStore } from '@store';
 
 
 type LoginProps = {
+    imgIndex?: number
 };
 
-export default function Login({ }: LoginProps): ReactElement {
+export default function Login({imgIndex}: LoginProps): ReactElement {
     const [kakaoLoginOpen, setKakaoLoginOpen] = useState(false);
     const [appleLoginOpen, setAppleLoginOpen] = useState(false);
     const result = React.useRef<any>({});
     const onBoardCnt = useRef(4);
-    const [onBoardIndex, setOnBoardIndex] = useState(0);
-    const [showLoginImage, setShowLoginImage] = useState(false);
+    const [onBoardIndex, setOnBoardIndex] = useState(imgIndex!==undefined?imgIndex: 0);
 
 
     const onComplete = (event: any) => {
@@ -55,11 +55,6 @@ export default function Login({ }: LoginProps): ReactElement {
 
     }
 
-    useEffect(()=>{
-        if (onBoardIndex === (onBoardCnt.current -1) ) {
-            setShowLoginImage(true);
-        }
-    }, [onBoardIndex])
     
     return (
         <Background>
@@ -106,7 +101,7 @@ export default function Login({ }: LoginProps): ReactElement {
                         }
                     </View>
                 </View>
-                {showLoginImage?<><TouchableOpacity
+                {onBoardIndex === onBoardCnt.current-1?<><TouchableOpacity
                     style={styles.kakaoButton}
                     onPress={(e: any)=> {
                         setKakaoLoginOpen(true);    
