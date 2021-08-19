@@ -18,7 +18,7 @@ import {debounce} from 'lodash';
 import { KirriTextInput } from '@components';
 import { userApis } from '@apis';
 import {UserStore} from '@store';
-import {navigate} from '@config/navigator';
+import {navigate, navigateGoBack} from '@config/navigator';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { ProfileImageTypes } from '@utils';
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -37,17 +37,18 @@ export const Nickname = ({accessToken, authorities}: Props) => {
     const [joinProcessLoading, setJoinProcessLoading] = useState(false);
     const selectedProfileImage = useRef<ProfileImageTypes>('01');
     const [duplicate, setDuplicate] = useState(false);
-    const nickname = useRef<string>('');
+    const [nickname, setNickname] = useState<string>();
+    const currentNickname = useRef<string>('');
     
     const joinKirri = async () =>{
-        if (!nickname.current || duplicate) {
+        if (!nickname || duplicate) {
             return;
         }
         setJoinProcessLoading(true);
         try {
             const result = await userApis.signin(
                 {
-                    nickname: nickname.current,
+                    nickname: currentNickname.current,
                     autoLogin: true,
                     profileImagePath:'profile:'+selectedProfileImage.current,
                     agreementList:["SERVICE", "PRIVACY"]
@@ -73,7 +74,7 @@ export const Nickname = ({accessToken, authorities}: Props) => {
 
     const checkDuple = debounce(() => {
         try {
-            userApis.checkNicknameDupl(nickname.current).then((result: any)=>{
+            userApis.checkNicknameDupl(currentNickname.current).then((result: any)=>{
                 if (result.exists) {
                     setDuplicate(true);
                     
@@ -100,7 +101,7 @@ export const Nickname = ({accessToken, authorities}: Props) => {
 
 
     const handleGoBack = () => {
-        navigate('Login', null);
+        navigateGoBack();
     }
 
     return (
@@ -136,12 +137,8 @@ export const Nickname = ({accessToken, authorities}: Props) => {
                         <MakeNicknameTitle>한글, 영문, 숫자를 사용해 멋진 닉네임을 만들어주세요</MakeNicknameTitle>
                         <KirriTextInput
                             onChange={(text)=>{
-                                nickname.current = text;
-                                if(!nickname) {
-                                    setDuplicate(false);
-                                    return;
-                                }
-                                setDuplicate(true);
+                                currentNickname.current = text;
+                                setNickname(text);
                                 checkDuple();
                             
                             }}
