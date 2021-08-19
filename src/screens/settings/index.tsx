@@ -1,5 +1,5 @@
 import React, { useState, Fragment, useEffect } from 'react';
-import {View, StatusBar} from 'react-native';
+import {View, StatusBar, Image} from 'react-native';
 import { Header, KirriTextInput, Switch, Popup } from '@components';
 import {
     SafeAreaViewTop,
@@ -123,7 +123,7 @@ export const Settings = observer(()=> {
                 <ContentContainer>
                     <Profile>
                         <ProfileImage source={profileImage}/>
-                        <NicknameWarp><NicknameText>{nickname}</NicknameText><EditProfile onPress={()=>{navigate('EditPersonalInfo', null)}}></EditProfile></NicknameWarp>
+                        <NicknameWarp><NicknameText>{nickname}</NicknameText><EditProfile onPress={()=>{navigate('EditPersonalInfo', null)}}><Image style={{width:18, height:18, resizeMode:'contain'}} source={(require('@assets/images/settings/setting_edit_name_normal.png'))}></Image></EditProfile></NicknameWarp>
                     </Profile>
                     <Content>
                                 
