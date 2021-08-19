@@ -110,9 +110,11 @@ export const Settings = observer(()=> {
 
     return (
         <Fragment>
-            {/* <SafeAreaViewTop>
+            <SafeAreaViewTop
                 
-            </SafeAreaViewTop> */}
+            >
+                
+            </SafeAreaViewTop>
             {/* <StatusBar barStyle="light-content" /> */}
             <SafeAreaViewBottom>
                 <Header
