@@ -146,7 +146,7 @@ export const Settings = observer(()=> {
                             >
                         <SettingContent
                             icon={require('@assets/images/settings/setting_personal_info.png')}
-                            title='공지 사항'
+                            title='공지사항'
                         >
                             
                                 <SettingIcon source={require('@assets/images/settings/setting_next_normal.png')}/>
@@ -161,7 +161,7 @@ export const Settings = observer(()=> {
                             >
                         <SettingContent
                             icon={require('@assets/images/settings/setting_personal_info.png')}
-                            title='이용 약관'
+                            title='이용약관'
                         >
                             
                                 <SettingIcon source={require('@assets/images/settings/setting_next_normal.png')}/>
