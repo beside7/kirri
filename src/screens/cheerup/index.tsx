@@ -109,7 +109,7 @@ const CheerUp = observer(({ navigation , route } : CheerUpProps) => {
                 // rightIcon={null}
             />
             <Container>
-                {members.length === 1 && 
+                {members.length === 0 && 
                     <EmptyContaner>
                         <EmptyImage
                             source={require("@assets/images/notification_cheerup_empty.png")}
@@ -126,7 +126,7 @@ const CheerUp = observer(({ navigation , route } : CheerUpProps) => {
                     </EmptyContaner>
                 }
                 {/* 멤버가 2명 이상일때 */}
-                {members.length > 1 && 
+                {members.length > 0 && 
                     <>
                         <BackgroundImage 
                             source={require("@assets/images/diary/diary_cheerup_bgimg.png")}
