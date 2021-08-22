@@ -134,3 +134,40 @@ export const ChreerupMessage = styled.Text({
     fontSize: 12,
     fontFamily: 'SpoqaHanSansNeo-Regular',
 })
+
+
+export const EmptyContaner = styled.View({
+    paddingTop: 100,
+    paddingLeft: 78,
+    paddingRight: 78,
+    justifyContent: "center",
+    alignItems: "center"
+})
+
+export const EmptyImage = styled.Image({
+    width: 125,
+    height: 125,
+    marginBottom: 24,
+})
+
+export const EmptyMessage = styled.Text({
+    color: "#17171c",
+    fontSize: 14,
+    fontFamily: 'SpoqaHanSansNeo-Regular',
+    lineHeight: 20,
+})
+
+export const Button = styled.TouchableOpacity({
+    width: 219,
+    height: 50,
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "#ffdd1f",
+    borderRadius: 10,
+    marginTop: 60,
+})
+
+export const ButtonText = styled.Text({
+    fontFamily: "SpoqaHanSansNeo-Medium",
+    fontSize: 14,
+})

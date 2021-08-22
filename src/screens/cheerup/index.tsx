@@ -30,7 +30,12 @@ import {
     ChreerupContainer,
     Chreerup,
     ChreerupImage,
-    ChreerupMessage
+    ChreerupMessage,
+    EmptyImage,
+    EmptyMessage,
+    EmptyContaner,
+    Button,
+    ButtonText
 } from "./style";
 
 
@@ -104,38 +109,61 @@ const CheerUp = observer(({ navigation , route } : CheerUpProps) => {
                 // rightIcon={null}
             />
             <Container>
-                <BackgroundImage 
-                    source={require("@assets/images/diary/diary_cheerup_bgimg.png")}
-                />
-                <SpeechBubble>
-                    끼리 멤버들에게 ’기록작성’을 응원해보자 뿌!:)
-                </SpeechBubble>
-                <SpeechBubble2 />
-                <FriendList 
-                    data={members}
-                    numColumns={3}
-                    keyExtractor={(item, index) => `${index}`}
-                    renderItem={(data) => {
-                        const item = data.item as Memeber
-                        const type = item.profileImagePath.split(":")[1] as ProfileImageTypes
-                        const profileImagePath = ProfileImages[type]
-                        return(
-                            <ListItem 
-                                onPress={() => {
-                                    setTarget(item)
-                                    actionSheetRef.current?.setModalVisible();
-                                }}
-                            >
-                                <ListItemImage 
-                                    source={profileImagePath}
-                                />
-                                <ListItemTitle>
-                                    {item.nickname}
-                                </ListItemTitle>
-                            </ListItem>
-                        )
-                    }}
-                />
+                {members.length === 1 && 
+                    <EmptyContaner>
+                        <EmptyImage
+                            source={require("@assets/images/notification_cheerup_empty.png")}
+                        />
+                        <EmptyMessage>
+                            등록된 끼리가 없어요.
+                        </EmptyMessage>
+                        <EmptyMessage>
+                            끼리 멤버를 추가해주세요. 
+                        </EmptyMessage>
+                        <Button onPress={() => { navigation.navigate("FriendMain", { diary }) }}>
+                            <ButtonText>끼리 멤버 추가하기</ButtonText>
+                        </Button>
+                    </EmptyContaner>
+                }
+                {/* 멤버가 2명 이상일때 */}
+                {members.length > 1 && 
+                    <>
+                        <BackgroundImage 
+                            source={require("@assets/images/diary/diary_cheerup_bgimg.png")}
+                        />
+                        <SpeechBubble>
+                            끼리 멤버들에게 ’기록작성’을 응원해보자 뿌!:)
+                        </SpeechBubble>
+                        <SpeechBubble2 />
+                        <FriendList 
+                            data={members}
+                            numColumns={3}
+                            keyExtractor={(item, index) => `${index}`}
+                            renderItem={(data) => {
+                                const item = data.item as Memeber
+                                const type = item.profileImagePath.split(":")[1] as ProfileImageTypes
+                                const profileImagePath = ProfileImages[type]
+                                return(
+                                    <ListItem 
+                                        onPress={() => {
+                                            setTarget(item)
+                                            actionSheetRef.current?.setModalVisible();
+                                        }}
+                                    >
+                                        <ListItemImage 
+                                            source={profileImagePath}
+                                        />
+                                        <ListItemTitle>
+                                            {item.nickname}
+                                        </ListItemTitle>
+                                    </ListItem>
+                                )
+                            }}
+                        />
+                    </>
+                }
+
+                
                 
                 
                 
