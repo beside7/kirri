@@ -109,11 +109,10 @@ const MessageList= observer(({ navigation } : MessageListProps) => {
                 <PickerWrap>
                     <Dropdown
                         items={[
-                            {label: '전체', value:'all'},
-                            {label: '응원', value:'CHEERING'},
-                            {label: '초대', value:'INVITATION'}, 
-                            // {label: '알림', value:'NOTIFICATION'},
-                            // {label: '새기록', value:'NEW_RECORD'} 
+                            {label: '최근 기록순', value: 'all'},
+                            {label: '오래된 기록순', value: 'all'},
+                            {label: '멤버 오름차순', value: 'all'},
+                            {label: '멤버 내림차순', value: 'all'},
                         ]}
                         value='all'
                         onChangeValue={(val)=>{handleChangeSelectedMsgType(val)}}
