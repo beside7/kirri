@@ -241,9 +241,12 @@ export const RecordView = observer(({ route, navigation } : RecordViewProps) => 
                                 />
                             </View>
                         </View>
-                        
                     </View>
                 </ScrollView>
+                <Image 
+                    style={styles.diaryBottomIllust}
+                    source={require("@assets/images/diary/diary_bottom_illust.png")}
+                />
             </Background>
         )
     } else {
