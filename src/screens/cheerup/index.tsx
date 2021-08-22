@@ -51,11 +51,6 @@ const CheerUp = observer(({ navigation , route } : CheerUpProps) => {
     const diary = route.params.diary;
 
     /**
-     * 다이러리 멤버
-     */
-    const [members, setMembers] = useState((diary) ? diary.members.filter((item) => item.status === "ACTIVE") : [])
-
-    /**
      * 메세지 보낼 대상 지정
      */
     const [target, setTarget] = useState<Memeber | null>(null)
@@ -64,6 +59,11 @@ const CheerUp = observer(({ navigation , route } : CheerUpProps) => {
      * mobx 으로 유저 닉네임 추출
      */
     const { nickname } = UserStore;
+    
+    /**
+     * 다이러리 멤버 -> ACTIVE 멤버이면서 자기자신을 제외
+     */
+    const [members, setMembers] = useState((diary) ? diary.members.filter((item) => item.status === "ACTIVE").filter((item) => item.nickname !== nickname ) : [])
 
     /**
      * 응원 메세지 보내기
