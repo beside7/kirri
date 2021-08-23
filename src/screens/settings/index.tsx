@@ -29,7 +29,7 @@ import { userApis } from '@apis';
 import { SettingContent } from './SettingContent';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { navigate, navigateGoBack, navigateWithoutRefresh } from '@config/navigator';
+import { navigate, navigateGoBack, navigateWithoutRefresh, navigateWithReset } from '@config/navigator';
 import { UpdateUserMeResType } from '@type-definition/user';
 import {getProfileImage, ProfileImageTypes} from '@utils';
 
@@ -86,7 +86,7 @@ export const Settings = observer(()=> {
     const logout = () => {
         UserStore.logout();
         AsyncStorage.removeItem('userKey', ()=>{
-            navigate('Login', null);
+            navigateWithReset('Login', null);
         });
     }
 
