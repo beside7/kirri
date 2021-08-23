@@ -5,7 +5,7 @@ import { WebView } from 'react-native-webview';
 
 
 const INJECTED_JAVASCRIPT =
-'(function() {if(window.document.getElementsByTagName("pre").length>0){window.ReactNativeWebView.postMessage((window.document.getElementsByTagName("pre")[0].innerHTML));}})();';
+'(function() {if(window.document.getElementsByTagName("pre").length>0){window.document.getElementsByTagName("pre")[0].style.display="none";window.ReactNativeWebView.postMessage((window.document.getElementsByTagName("pre")[0].innerHTML));}})();';
 
 
 interface Props {
@@ -28,12 +28,18 @@ export const LoginWebview= ({source, closeSocialModal, onComplete}:Props) => {
         style={styles.modalView}
         >
           <WebView
-            source={{uri:source}}
-            onMessage={(event) => {
-              onComplete(event);
-            }}
-            scalesPageToFit={false}
-            injectedJavaScript={INJECTED_JAVASCRIPT}
+          source={{uri:source}}
+          onMessage={(event) => {
+            onComplete(event);
+          }}
+          scalesPageToFit={false}
+          style={{
+              flex: 1,
+              resizeMode: 'cover',
+              width:Dimensions.get('window').width,
+
+          }}
+          injectedJavaScript={INJECTED_JAVASCRIPT}
         />
         </SafeAreaView>
       </Modal>
