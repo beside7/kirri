@@ -88,7 +88,7 @@ export const KirriTextInput = ({width, height, onError, rightText, icon, text, o
                         // keyboardType='decimal-pad'
                         
                     />
-                    {val?<TouchableOpacity onPress={()=>{setVal('')}}><Image source={require('@assets/images/search_bar_cancel_normal.png')}/></TouchableOpacity>: <Non></Non>}
+                    {val?<TouchableOpacity onPress={()=>{setVal('')}}><Image style={{width:24, height:24, resizeMode:'contain'}} source={require('@assets/images/search_bar_cancel_normal.png')}/></TouchableOpacity>: <Non></Non>}
                     {rightText?<RightTextWarp>{rightText}</RightTextWarp>:<Non></Non>}
                 </InputWarp>
             </InputContainer>
