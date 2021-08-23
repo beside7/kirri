@@ -5,6 +5,14 @@ const SCREEN_HEIGHT = Dimensions.get("screen").height;
 const HEADER_HEIGHT = 174
 
 const styles = StyleSheet.create({
+    dropdown : {
+        width: 100,
+        paddingLeft:16,
+        overflow: 'visible',
+        marginTop: 18,
+        marginBottom: 8,
+        zIndex: 10
+    },
     loading : {
         flex: 1,
         justifyContent: "center",
@@ -32,12 +40,13 @@ const styles = StyleSheet.create({
         paddingHorizontal: 20,
         paddingBottom: 20,
         backgroundColor: "#ffffff",
-        marginVertical: 4,
+        // marginVertical: 4,
+        marginBottom: 4
     },
     listItemTop: { flexDirection: "row", justifyContent: "space-between", marginBottom: 17, alignItems: "center" },
     listItemCreatedDate: { fontSize: 12, color: "#6f6f7e" },
     listItemMiddle: {   },
-    listItemThumbnail: { width: 306, height: 200, borderRadius: 10 ,left: 44 },
+    listItemThumbnail: { width: "90%", height: 200, borderRadius: 10 ,left: 44 },
     ListEmptyContainer: {
         width: "100%",
         backgroundColor: "#fff",

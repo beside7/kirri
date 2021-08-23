@@ -60,9 +60,10 @@ type Props = {
     errorMessage?: string,
     diabled?: boolean,
     placeholder?: string,
-    maxLength?: number
+    maxLength?: number,
+    onBlur?: ()=>void
 };
-export const KirriTextInput = ({width, height, onError, rightText, icon, text, onChange, errorMessage, diabled, placeholder, maxLength}:Props) => {
+export const KirriTextInput = ({width, height, onError, rightText, icon, text, onChange, errorMessage, diabled, placeholder, maxLength, onBlur=()=>{}}:Props) => {
     const [onFocus, setOnFocus] = useState(false);
     const [val, setVal] = useState(text);
     useEffect(()=>{
@@ -79,11 +80,12 @@ export const KirriTextInput = ({width, height, onError, rightText, icon, text, o
                     <StyledTextInput
                         onChangeText={(text:string)=> setVal(text)}
                         onFocus={()=> {setOnFocus(true)}}
-                        onBlur={()=> {setOnFocus(false)}}
+                        onBlur={()=> {setOnFocus(false); onBlur();}}
                         editable={diabled===true?false:true}
                         placeholder={placeholder}
                         defaultValue={val}
-                        maxLength={maxLength?maxLength:10000}
+                        maxLength={maxLength?maxLength:3000}
+                        // keyboardType='decimal-pad'
                         
                     />
                     {val?<TouchableOpacity onPress={()=>{setVal('')}}><Image source={require('@assets/images/search_bar_cancel_normal.png')}/></TouchableOpacity>: <Non></Non>}

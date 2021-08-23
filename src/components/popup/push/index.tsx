@@ -58,7 +58,8 @@ export const PushMessageProvider = ({children}: Props) => {
 export function useMessagePopupDispatch() {
     const dispatch = useContext(MessageDispatchContext);
     if (!dispatch) {
-      throw new Error('Cannot find MessageProvider');
+    //   throw new Error('Cannot find MessageProvider');
+    return null;
     }
     return dispatch;
 }

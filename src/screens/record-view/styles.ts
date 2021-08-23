@@ -31,6 +31,13 @@ export const styles = StyleSheet.create({
         textAlign: "center",
         fontSize: 14,
     },
+    diaryBottomIllust : {
+        width: 156,
+        height: 86,
+        position: "absolute",
+        bottom: 40,
+        right: 20
+    }
 })
 
 export default styles;

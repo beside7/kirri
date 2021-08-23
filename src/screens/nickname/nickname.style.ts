@@ -12,6 +12,7 @@ export const Container = styled.View({
     flexGrow: 1,
     paddingHorizontal: 34,
     backgroundColor: '#fff',
+    paddingBottom: 38
 })
 
 export const SelectProfileImageWrap = styled.View({

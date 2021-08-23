@@ -377,6 +377,7 @@ export default function RecordInput({ navigation, route }: RecordInputProps) {
             placeholderTextColor="#d1d1de"
             placeholder={"어떤 제목의 기록을 남겨볼까?"}
             value={title}
+            maxLength={20}
             onChangeText={(value) => {
               setTitle(value);
             }}

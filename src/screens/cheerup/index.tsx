@@ -30,7 +30,12 @@ import {
     ChreerupContainer,
     Chreerup,
     ChreerupImage,
-    ChreerupMessage
+    ChreerupMessage,
+    EmptyImage,
+    EmptyMessage,
+    EmptyContaner,
+    Button,
+    ButtonText
 } from "./style";
 
 
@@ -46,11 +51,6 @@ const CheerUp = observer(({ navigation , route } : CheerUpProps) => {
     const diary = route.params.diary;
 
     /**
-     * 다이러리 멤버
-     */
-    const [members, setMembers] = useState((diary) ? diary.members.filter((item) => item.status === "ACTIVE") : [])
-
-    /**
      * 메세지 보낼 대상 지정
      */
     const [target, setTarget] = useState<Memeber | null>(null)
@@ -59,6 +59,11 @@ const CheerUp = observer(({ navigation , route } : CheerUpProps) => {
      * mobx 으로 유저 닉네임 추출
      */
     const { nickname } = UserStore;
+    
+    /**
+     * 다이러리 멤버 -> ACTIVE 멤버이면서 자기자신을 제외
+     */
+    const [members, setMembers] = useState((diary) ? diary.members.filter((item) => item.status === "ACTIVE").filter((item) => item.nickname !== nickname ) : [])
 
     /**
      * 응원 메세지 보내기
@@ -104,38 +109,61 @@ const CheerUp = observer(({ navigation , route } : CheerUpProps) => {
                 // rightIcon={null}
             />
             <Container>
-                <BackgroundImage 
-                    source={require("@assets/images/diary/diary_cheerup_bgimg.png")}
-                />
-                <SpeechBubble>
-                    끼리 멤버들에게 ’기록작성’을 응원해보자 뿌!:)
-                </SpeechBubble>
-                <SpeechBubble2 />
-                <FriendList 
-                    data={members}
-                    numColumns={3}
-                    keyExtractor={(item, index) => `${index}`}
-                    renderItem={(data) => {
-                        const item = data.item as Memeber
-                        const type = item.profileImagePath.split(":")[1] as ProfileImageTypes
-                        const profileImagePath = ProfileImages[type]
-                        return(
-                            <ListItem 
-                                onPress={() => {
-                                    setTarget(item)
-                                    actionSheetRef.current?.setModalVisible();
-                                }}
-                            >
-                                <ListItemImage 
-                                    source={profileImagePath}
-                                />
-                                <ListItemTitle>
-                                    {item.nickname}
-                                </ListItemTitle>
-                            </ListItem>
-                        )
-                    }}
-                />
+                {members.length === 0 && 
+                    <EmptyContaner>
+                        <EmptyImage
+                            source={require("@assets/images/notification_cheerup_empty.png")}
+                        />
+                        <EmptyMessage>
+                            등록된 끼리가 없어요.
+                        </EmptyMessage>
+                        <EmptyMessage>
+                            끼리 멤버를 추가해주세요. 
+                        </EmptyMessage>
+                        <Button onPress={() => { navigation.navigate("FriendMain", { diary }) }}>
+                            <ButtonText>끼리 멤버 추가하기</ButtonText>
+                        </Button>
+                    </EmptyContaner>
+                }
+                {/* 멤버가 2명 이상일때 */}
+                {members.length > 0 && 
+                    <>
+                        <BackgroundImage 
+                            source={require("@assets/images/diary/diary_cheerup_bgimg.png")}
+                        />
+                        <SpeechBubble>
+                            끼리 멤버들에게 ’기록작성’을 응원해보자 뿌!:)
+                        </SpeechBubble>
+                        <SpeechBubble2 />
+                        <FriendList 
+                            data={members}
+                            numColumns={3}
+                            keyExtractor={(item, index) => `${index}`}
+                            renderItem={(data) => {
+                                const item = data.item as Memeber
+                                const type = item.profileImagePath.split(":")[1] as ProfileImageTypes
+                                const profileImagePath = ProfileImages[type]
+                                return(
+                                    <ListItem 
+                                        onPress={() => {
+                                            setTarget(item)
+                                            actionSheetRef.current?.setModalVisible();
+                                        }}
+                                    >
+                                        <ListItemImage 
+                                            source={profileImagePath}
+                                        />
+                                        <ListItemTitle>
+                                            {item.nickname}
+                                        </ListItemTitle>
+                                    </ListItem>
+                                )
+                            }}
+                        />
+                    </>
+                }
+
+                
                 
                 
                 

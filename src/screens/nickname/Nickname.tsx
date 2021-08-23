@@ -74,6 +74,10 @@ export const Nickname = ({accessToken, authorities}: Props) => {
 
     const checkDuple = debounce(() => {
         try {
+            if (!currentNickname.current) {
+                setDuplicate(false);
+                return;
+            }
             userApis.checkNicknameDupl(currentNickname.current).then((result: any)=>{
                 if (result.exists) {
                     setDuplicate(true);
@@ -147,6 +151,8 @@ export const Nickname = ({accessToken, authorities}: Props) => {
                             rightText='끼리'
                             onError={duplicate}
                             errorMessage='사용할 수 없는 닉네임이예요'
+                            maxLength={12}
+                            onBlur={()=>{}}
                         />
                         
                     </MakeNicknameContianer>

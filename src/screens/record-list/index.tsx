@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { View, FlatList , TouchableOpacity, Image, SafeAreaView, Dimensions, Alert } from 'react-native'
-import { Background, Text_2, Header  } from "@components";
+import { Background, Text_2, Header, Dropdown } from "@components";
 import styles from './style'
 import { StackNavigatorParams } from "@config/navigator";
 import { StackNavigationProp } from "@react-navigation/stack";
@@ -234,6 +234,19 @@ export const RecordList = observer(({navigation, route} : RecordListProps) => {
             />
             {/* 리스트 */}
             <SafeAreaView style={{flex: 1}}>
+                <View style={styles.dropdown}>
+                    <Dropdown
+                        items={[
+                            {label: '전체', value:'all'},
+                            {label: '응원', value:'CHEERING'},
+                            {label: '초대', value:'INVITATION'}, 
+                            // {label: '알림', value:'NOTIFICATION'},
+                            // {label: '새기록', value:'NEW_RECORD'} 
+                        ]}
+                        value='all'
+                        onChangeValue={(val)=>{console.log(val)}}
+                    />
+                </View>
                 <FlatList 
                     contentContainerStyle={{ backgroundColor: "#f4f4f8" }}
                     data={list} 
