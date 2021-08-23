@@ -17,7 +17,7 @@ interface Props extends MessageDataType {
 interface ComponenetType extends Props{
     time: (time: string)=>string,
     updateMessageStatus: (message: Props) => void,
-    setConfirmPopup: (uuid: string, type: MessageType, message?: MessageDataType) => void
+    setConfirmPopup: (uuid: string, type: MessageType|"REFUSE_INVITATION", message?: MessageDataType) => void
 }
 
 
@@ -26,7 +26,7 @@ export const Invitation = ({id, type, fromNickname, title, body, to, diaryUuid, 
     const refuse = async () => {
         try {
             const result = await userApis.refuseInvitationDiary(diaryUuid);
-            updateMessageStatus({id, diaryUuid, type, fromNickname, title, body, to, createdDate, diaryName});
+            setConfirmPopup(diaryUuid, 'REFUSE_INVITATION');
         } catch (error) {
             
         }

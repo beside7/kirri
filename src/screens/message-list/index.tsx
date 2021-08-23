@@ -11,6 +11,7 @@ import { Message } from './Message';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { observer } from 'mobx-react';
 import {UserStore} from '@store';
+import { Snackbar } from 'react-native-paper';
 
 
 type MessageListProps = {
@@ -26,27 +27,18 @@ const MessageList= observer(({ navigation } : MessageListProps) => {
     const targetDiary = useRef<string>('');
     const [acceptInvitationOpen, setAcceptInvitationOpen] = useState(false);
     const [cheeringDetail, setCheeringDetail] = useState<MessageDataType|undefined>(undefined);
-    
+    const [refuseInviteSnackVisible, setrefuseInviteSnackVisible] = useState(false);
 
     const updateMessageStatus = (message:MessageDataType) => {
-        setMessageList(messageList?.map(msg=> msg.id === message.id?message:msg));
+        getMessages();
     }
 
     const handleChangeSelectedMsgType = async (type: 'all'| MessageType) => {
         setRefresing(true);
         setMessageList([]);
         selectedMessageType.current = type;
-        getMessages();
     }
-    // const setMessages = (addMessageList: MessageDataType[]) => {
-    //     let messages: MessageDataType[] = [];
-    //     if (messageList) {
-    //         messages = [...messageList];
-    //     }
-        
-    //     setMessageList(messages.concat(addMessageList));
-    //     setRefresing(false);
-    // }
+
     const getMessages = async () => {
         try {
             let data:MessageResType;
@@ -59,16 +51,6 @@ const MessageList= observer(({ navigation } : MessageListProps) => {
                     data = await messageApis.getMessagesByType({type: selectedMessageType.current});                   
                     break;
             }
-            setMessageList([{
-                id: 1,
-                    diaryUuid: 'string',
-                    type: 'INVITATION',
-                    title: 'string',
-                    body: 'string',
-                    fromNickname: 'string',
-                    createdDate: 'string',
-                    diaryName: 'test'
-            }]);
             if (data.elements.length){
                 setMessageList(data.elements);
             }
@@ -79,7 +61,7 @@ const MessageList= observer(({ navigation } : MessageListProps) => {
     
     }
 
-    const setConfirmPopup = (uuid: string, type: MessageType, message?: MessageDataType) => {
+    const setConfirmPopup = (uuid: string, type: MessageType|"REFUSE_INVITATION", message?: MessageDataType) => {
         targetDiary.current = uuid;
         switch(type) {
             case "INVITATION":
@@ -89,6 +71,11 @@ const MessageList= observer(({ navigation } : MessageListProps) => {
             case "CHEERING":
                 setCheeringDetail(message);
                 break;
+            case "REFUSE_INVITATION":
+                setrefuseInviteSnackVisible(true);
+                getMessages();
+                break;
+                    
         }
     }
 
@@ -171,8 +158,17 @@ const MessageList= observer(({ navigation } : MessageListProps) => {
                 onCancel={()=>{
                     setCheeringDetail(undefined);
                 }}
-
             />
+            <Snackbar
+                visible={refuseInviteSnackVisible}
+                onDismiss={()=>{
+                    setrefuseInviteSnackVisible(false);
+                }}
+                duration={3000}
+
+            >
+                다이어리 초대를 거절했어요.
+            </Snackbar>
         </Background>
     )
 })

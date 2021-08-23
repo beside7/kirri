@@ -28,15 +28,12 @@ export const LoginWebview= ({source, closeSocialModal, onComplete}:Props) => {
         style={styles.modalView}
         >
           <WebView
-          source={{uri:source}}
-          onMessage={(event) => {
-            onComplete(event);
-          }}
-          scalesPageToFit={false}
-          style={{
-              display: 'none'
-          }}
-          injectedJavaScript={INJECTED_JAVASCRIPT}
+            source={{uri:source}}
+            onMessage={(event) => {
+              onComplete(event);
+            }}
+            scalesPageToFit={false}
+            injectedJavaScript={INJECTED_JAVASCRIPT}
         />
         </SafeAreaView>
       </Modal>

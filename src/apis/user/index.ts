@@ -17,7 +17,7 @@ export const userApis = {
       return data;
     }catch(error){
       throw new Error("");
-      
+  
       console.log(error)
     }
   },
@@ -46,7 +46,6 @@ export const userApis = {
       const result = await apiClient.delete('/user/me');
       return result;
     }catch(error){
-      console.log(error);
       throw new Error("");
     }
   },
@@ -63,7 +62,7 @@ export const userApis = {
       const {data} = await apiClient.get(`/exists/users/${nickname}`);
       return data;
     }catch(error){
-      throw new Error("");
+      throw new Error(error);
       
 
     }
