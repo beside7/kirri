@@ -22,6 +22,8 @@ export const TermsWebview = ({route}: Props) => {
     const getTermList = async () => {
         try {
             const data = await userApis.getTerms();
+            console.log(data);
+            
             setTermList(data?data:[]);
             return data;
         } catch (error) {
