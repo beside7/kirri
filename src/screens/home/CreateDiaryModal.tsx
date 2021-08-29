@@ -78,7 +78,11 @@ export const CreateDiaryModal = ({open, reloadDiary, close}: Props) => {
     return (
         <SlideDownModal
             ref={createDiaryModal}
-            onClosed={()=>{close();}}
+            onClosed={()=>{
+                setSelectedCoverImage('01');
+                setSelectedCoverColor(undefined);
+                close();
+            }}
         >
 
             <CreateDiary>

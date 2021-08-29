@@ -90,7 +90,7 @@ export type StackNavigatorParams = {
     Settings: any;
     DiaryConfig: { diary : DiaryResType | null };
     EditPersonalInfo: undefined;
-    TermsWebview: {type: string, title: string};
+    TermsWebview: {type?: string, title: string, url?: string};
 };
 
 const Stack = createStackNavigator<StackNavigatorParams>();

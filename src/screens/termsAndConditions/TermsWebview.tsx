@@ -16,14 +16,13 @@ interface Props{
 export const TermsWebview = ({route}: Props) => {
     const [termList, setTermList] = useState<TermsResType[]>([]);
     const [term, setTerm] = useState<TermsResType>();
-    const [type, setType] = useState<string>(route.params.type);
+    const [type, setType] = useState<string | undefined>(route.params.type);
     const [title, setTitle] = useState<string>(route.params.title);
+    const [url, setUrl] = useState<string | undefined>(route.params.url);
 
     const getTermList = async () => {
         try {
             const data = await userApis.getTerms();
-            console.log(data);
-            
             setTermList(data?data:[]);
             return data;
         } catch (error) {
@@ -40,8 +39,10 @@ export const TermsWebview = ({route}: Props) => {
         setTerm(terms?.find(data=>data.type===type));
     }
     useEffect(()=>{
-        setWebview();
-    },[type])
+        if (url) {
+            setWebview();
+        }
+    },[type, url])
     
     return (
         <SafeAreaView
@@ -54,6 +55,17 @@ export const TermsWebview = ({route}: Props) => {
             />
                 
             <WebviewContainer>
+                {
+                    url?<WebView
+                    source={{uri: url}}
+                    scalesPageToFit={true}
+                    style={{
+                        flex: 1,
+                        resizeMode: 'cover',
+                        width:'100%',
+                        
+                    }}/>:<></>
+                }
                 {term?<WebView
                     source={{uri: term.url}}
                     scalesPageToFit={true}

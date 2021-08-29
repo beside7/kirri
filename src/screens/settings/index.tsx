@@ -93,7 +93,6 @@ export const Settings = observer(()=> {
     const handleSignout = async () => {
         try {
             const result = await userApis.deleteUserMe();
-            console.log(result);
             UserStore.logout();
             setLeavKKiriPopupOpen(false);
             logout();
@@ -142,7 +141,7 @@ export const Settings = observer(()=> {
                         <TouchableOpacity
                                 onPress={
                                     ()=>{
-                                        navigateWithoutRefresh('TermsWebview', {type: 'SERVICE', title: '이용 약관'});
+                                        navigateWithoutRefresh('TermsWebview', {title: '공지 사항', url:"https://sponge-anger-3ef.notion.site/857070a7a9a7405aa7beb9e7b923622a"});
                                     }
                                 }
                             >
