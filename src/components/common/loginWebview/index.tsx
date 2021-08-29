@@ -1,5 +1,5 @@
 import React, {ReactElement, useCallback, useState, useRef} from 'react'
-import { Modal, Alert, Dimensions, View, SafeAreaView } from 'react-native'
+import { Modal, Alert, Dimensions, View, SafeAreaView, } from 'react-native'
 import { StyleSheet } from 'react-native';
 import { WebView } from 'react-native-webview';
 
@@ -14,7 +14,8 @@ interface Props {
     onComplete: Function
 }
 
-
+const WIDTH = Dimensions.get("screen").width;
+const HEIGHT = Dimensions.get("screen").height
 
 export const LoginWebview= ({source, closeSocialModal, onComplete}:Props) => {
     return (
@@ -28,7 +29,11 @@ export const LoginWebview= ({source, closeSocialModal, onComplete}:Props) => {
         style={styles.modalView}
         >
           <WebView
-            source={{uri:source}}
+              style={{
+                  width: WIDTH,
+                  height: HEIGHT
+              }}
+            source={{uri: source}}
             onMessage={(event) => {
               onComplete(event);
             }}
