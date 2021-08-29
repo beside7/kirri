@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState, createRef } from "react";
+import React, { useRef, useEffect, useState, } from "react";
 import {
   View,
   KeyboardAvoidingView,
@@ -16,9 +16,9 @@ import { useHeaderHeight } from "@react-navigation/stack";
 
 import { Background, Text_2, Header, SlideDownModal } from "@components";
 import {
-  actions,
+  // actions,
   RichEditor,
-  RichToolbar,
+  // RichToolbar,
 } from "react-native-pell-rich-editor";
 
 import styles from "./record-input.style";
@@ -123,6 +123,11 @@ export default function RecordInput({ navigation, route }: RecordInputProps) {
   const [checked, setChecked] = React.useState(0.5);
 
   /**
+   * 로딩 표시 여부
+   */
+  const [loading, setLoading] = useState(false);
+
+  /**
    * 에디터 내부 css 설정
    */
   const fontFace = `@font-face {
@@ -177,6 +182,7 @@ export default function RecordInput({ navigation, route }: RecordInputProps) {
    * image pick 설정 및 실행
    */
   const pickImage = async () => {
+    setLoading(true)
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: false,
@@ -214,6 +220,7 @@ export default function RecordInput({ navigation, route }: RecordInputProps) {
         Alert.alert(`해당 이미지가 존재하지 않습니다.`,  undefined, [{ "text" : "확인" , "style" : "default" }])  
       }
     }
+    setLoading(false)
   };
 
   /**
@@ -237,6 +244,11 @@ export default function RecordInput({ navigation, route }: RecordInputProps) {
    * 서버에 전송
    */
   const sendServer = async () => {
+
+    /**
+     * 로딩 표시
+     */
+    setLoading(true);
 
       if(!title){
         Alert.alert(`제목을 작성해 주세요.` ,  undefined, [{ "text" : "확인" , "style" : "default" }]);
@@ -298,6 +310,8 @@ export default function RecordInput({ navigation, route }: RecordInputProps) {
       } else {
         Alert.alert(`기록을 등록할 다이어리를 선택해주세요.` ,  undefined, [{ "text" : "확인" , "style" : "default" }])
       }
+
+      setLoading(false);
   }
 
   /**
@@ -337,14 +351,21 @@ export default function RecordInput({ navigation, route }: RecordInputProps) {
           </TouchableOpacity>
         }
         rightIcon={
-            <TouchableOpacity onPress={sendServer}>
-                <Text_2>
+            <TouchableOpacity
+                onPress={sendServer}
+                disabled={loading}
+            >
+                <Text_2
+                    style={{
+                      color: loading ? "#a0a0a0" : "#000000"
+                    }}
+                >
                   { type === "new" ? "등록" : "수정" } 
                 </Text_2>
             </TouchableOpacity>
         }
         title={
-          (diary !== null) ? 
+          (diary !== null) ?
             diary.title
             :
             <TouchableOpacity
@@ -451,7 +472,7 @@ export default function RecordInput({ navigation, route }: RecordInputProps) {
             <SafeAreaView style={{ height: 300 }}>
               <FlatList 
                 data={diatyList}
-                keyExtractor={(item, index) => item.uuid}
+                keyExtractor={(item, _) => item.uuid}
                 renderItem={({ item }) => {
                   return(
                     <TouchableOpacity 
