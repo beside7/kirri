@@ -368,20 +368,24 @@ export const CreateDiaryCoverContent = styled.TouchableOpacity((props:{color?: s
     borderRadius: 20,
     // overflow: 'hidden',
     backgroundColor: props.color || '#fff',
-    borderWidth: props.selected?1.5:0,
-    borderColor: '#ffdd1f'
+    
 }))
 
-export const SelectedCheck = styled.View({
+export const SelectedCheck = styled.View((props : {theme:any}): any => ({
     position: 'absolute',
     display: 'flex',
     justifyContent:'center',
     alignItems:'center',
-    width: 159,
-    height: 158,
+    width: 40,
+    height: 40,
     top:0,
-    left: 0
-})
+    left: 0,
+    zIndex: 10,
+    borderRadius:26,
+    borderColor: props.theme['201'],
+    borderWidth: 1.5,
+    backgroundColor:'#8017171c'
+}))
 
 export const DiaryEmptyImageWarp = styled.View({
     position: 'relative'

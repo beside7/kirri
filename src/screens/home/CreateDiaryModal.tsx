@@ -118,7 +118,7 @@ export const CreateDiaryModal = ({open, reloadDiary, close}: Props) => {
                                 >
                                     <Image source={CoverCircleImages[key as CoverCircleImageTypes]}></Image>
                                     {
-                                        selectedCoverImage === CoverCircleImages[key as CoverCircleImageTypes] ? <SelectedCheck><Image source={SelecedCheckImage} /></SelectedCheck> : <></>
+                                        selectedCoverImage === key ? <SelectedCheck><Image style={{width:30, height: 30}} source={SelecedCheckImage} /></SelectedCheck> : <></>
                                     }
                                 </CreateDiaryCoverContent>
                             )
@@ -134,7 +134,7 @@ export const CreateDiaryModal = ({open, reloadDiary, close}: Props) => {
                                         onPress={() => { selectCover('color', key as CoverColorTypes) }}
                                     >
                                         {
-                                            selectedCoverColor === CoverColor[key as CoverColorTypes]? <SelectedCheck><Image source={SelecedCheckImage} /></SelectedCheck> : <></>
+                                            selectedCoverColor === key? <SelectedCheck><Image style={{width:30, height: 30}} source={SelecedCheckImage} /></SelectedCheck> : <></>
                                         }
                                     </CreateDiaryCoverContent>
                                 )
