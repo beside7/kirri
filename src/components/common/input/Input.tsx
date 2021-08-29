@@ -1,7 +1,8 @@
 import React, { ReactElement, useState, useEffect } from 'react';
-import {Image} from 'react-native';
+import {Image, Text} from 'react-native';
 import styled from 'styled-components/native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
+import { Divider } from 'react-native-paper';
 
 interface StyleProps {
     width?: string | number,
@@ -25,6 +26,13 @@ const InputWarp = styled.View({
     height: 40,
     alignItems:'center'
 });
+
+const DivisionLine = styled.View({
+    width: 1,
+    backgroundColor: "#e1e1eb",
+    marginHorizontal: 8,
+    height: 24,
+})
 
 const RightTextWarp = styled.Text({
     color:'#6f6f7e'
@@ -89,6 +97,7 @@ export const KirriTextInput = ({width, height, onError, rightText, icon, text, o
                         
                     />
                     {val?<TouchableOpacity onPress={()=>{setVal('')}}><Image style={{width:24, height:24, resizeMode:'contain'}} source={require('@assets/images/search_bar_cancel_normal.png')}/></TouchableOpacity>: <Non></Non>}
+                    {(val && rightText )? <DivisionLine><Text></Text></DivisionLine> :<></>}
                     {rightText?<RightTextWarp>{rightText}</RightTextWarp>:<Non></Non>}
                 </InputWarp>
             </InputContainer>
