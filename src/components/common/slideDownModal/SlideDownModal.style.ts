@@ -1,7 +1,8 @@
 import styled from 'styled-components/native';
 
 export const  Container = styled.View({
-    position: 'relative'
+    position: 'relative',
+    backgroundColor: 'rgba(0,0,0,0)'
 })
 
 export const Background = styled.SafeAreaView({

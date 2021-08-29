@@ -56,6 +56,8 @@ export const SlideDownModal = forwardRef(({children, onClosed=()=>{}}: Props, re
     return (
         <Modal
             visible={open}
+            transparent={true}
+            
         >
             <Container
 
