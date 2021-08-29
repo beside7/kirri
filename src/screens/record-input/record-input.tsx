@@ -353,11 +353,11 @@ export default function RecordInput({ navigation, route }: RecordInputProps) {
         rightIcon={
             <TouchableOpacity
                 onPress={sendServer}
-                disabled={loading}
+                disabled={loading || (title.trim() === "")}
             >
                 <Text_2
                     style={{
-                      color: loading ? "#a0a0a0" : "#000000"
+                      color: (loading || (title.trim() === "") )? "#a0a0a0" : "#000000"
                     }}
                 >
                   { type === "new" ? "등록" : "수정" } 
