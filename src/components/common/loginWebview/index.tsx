@@ -1,5 +1,5 @@
 import React, {ReactElement, useCallback, useState, useRef} from 'react'
-import { Modal, Alert, Dimensions, View, SafeAreaView } from 'react-native'
+import { Modal, Alert, Dimensions, View, SafeAreaView, } from 'react-native'
 import { StyleSheet } from 'react-native';
 import { WebView } from 'react-native-webview';
 
@@ -14,7 +14,8 @@ interface Props {
     onComplete: Function
 }
 
-
+const WIDTH = Dimensions.get("screen").width;
+const HEIGHT = Dimensions.get("screen").height
 
 export const LoginWebview= ({source, closeSocialModal, onComplete}:Props) => {
     return (
@@ -35,8 +36,8 @@ export const LoginWebview= ({source, closeSocialModal, onComplete}:Props) => {
           scalesPageToFit={false}
           style={{
               flex: 1,
-              resizeMode: 'cover',
-              width:Dimensions.get('window').width,
+              width: WIDTH,
+              height: HEIGHT
 
           }}
           injectedJavaScript={INJECTED_JAVASCRIPT}
