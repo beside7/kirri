@@ -55,7 +55,7 @@ export const Nickname = ({accessToken, authorities}: Props) => {
                 }
             );
             if(result){
-                userApis.updatePush({
+                await userApis.updatePush({
                     CHEERING: true,
                     NEW_RECORD: true,
                     NOTIFICATION: true,
