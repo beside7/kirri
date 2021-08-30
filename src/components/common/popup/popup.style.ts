@@ -37,7 +37,7 @@ export const StyledHeaderIcon = styled.Image({
 const StyledText = styled.Text`
     text-align: center;
     color: ${(props:{theme: any}) => props.theme['110']};
-    fontFamily: SpoqaHanSansNeo-Regular
+    font-family: SpoqaHanSansNeo-Regular
 `;
 
 export const IconWithTitle = styled(StyledText)((props:{theme: any}) => ({

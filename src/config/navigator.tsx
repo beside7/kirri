@@ -187,6 +187,14 @@ export default function navigator(): ReactElement {
 
                         switch (messageType) {
                             /**
+                             * 초대push 선택 일경우에는 알림(push-01)
+                             */
+                            case "INVITATION":
+                                navigationRef.current.dispatch(
+                                    StackActions.replace("MessageList")
+                                );
+                                break;
+                            /**
                              * 받는 푸쉬알림이 응원일경우에는 "응원메시지 자세히보기"(pushdetails)
                              */
                             case "CHEERING":
@@ -203,14 +211,7 @@ export default function navigator(): ReactElement {
                                     StackActions.replace("Home")
                                 );
                                 break;
-                            /**
-                             * 초대push 선택 일경우에는 알림(push-01)
-                             */
-                            case "INVITATION": 
-                                navigationRef.current.dispatch(
-                                    StackActions.replace("MessageList")
-                                );
-                                break;
+
                             default:
                                 break;
                         }
