@@ -68,7 +68,7 @@ export const Settings = observer(()=> {
     const handleChangeAlarmState = async (value : boolean) =>{
         try{
             setPushNotification(value);
-            AsyncStorage.setItem('pushNotification', JSON.stringify(value));
+            await AsyncStorage.setItem('pushNotification', JSON.stringify(value));
             userApis.updatePush({
                 CHEERING: value,
                 NEW_RECORD: value,

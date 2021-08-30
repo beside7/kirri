@@ -61,6 +61,10 @@ export const Nickname = ({accessToken, authorities}: Props) => {
                     NOTIFICATION: true,
                     INVITATION: true
                 })
+                /**
+                 * config 설정 : 활성화
+                 */
+                await AsyncStorage.setItem('pushNotification', JSON.stringify(true));
             }
             const expoTokenResult = await updateExpoToken();
             UserStore.login();
