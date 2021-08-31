@@ -1,8 +1,7 @@
 import React, { createRef, useState } from 'react'
-import { Image, TouchableOpacity, Alert } from 'react-native'
+import {Image, TouchableOpacity, Alert, ScrollView} from 'react-native'
 import { Background, Header } from "@components";
 import { messageApis } from "@apis";
-// import ActionSheet
 import ActionSheet from "react-native-actions-sheet";
 import { Memeber } from "@type-definition/diary";
 import { StackNavigatorParams } from "@config/navigator";
@@ -167,7 +166,9 @@ const CheerUp = observer(({ navigation , route } : CheerUpProps) => {
                 
                 
                 
-                <ActionSheet ref={actionSheetRef}>
+                <ActionSheet
+                    ref={actionSheetRef}
+                >
                     <ActionSheetContainer>
                         <ProfileContainer>
                             <ProfileImage 
@@ -179,74 +180,78 @@ const CheerUp = observer(({ navigation , route } : CheerUpProps) => {
                                 <SubTitle>from. {nickname} [{diary?.title}]</SubTitle>
                             </TitleContainer>
                         </ProfileContainer>
-                        <ChreerupContainer>
-                            <Chreerup onPress={() => sendMessage('꾸준함은 배신하지 않아')}>
-                                <ChreerupImage 
-                                    source={require("@assets/images/diary/diary_cheerup_bgimg_01.png")}
-                                />
-                                <ChreerupMessage>
-                                    꾸준함은
-                                </ChreerupMessage>
-                                <ChreerupMessage>
-                                    배신하지 않아
-                                </ChreerupMessage>
-                            </Chreerup>
-                            <Chreerup onPress={() => sendMessage('오늘 너의 기록에 반함')}>
-                                <ChreerupImage 
-                                    source={require("@assets/images/diary/diary_cheerup_bgimg_02.png")}
-                                />
-                                <ChreerupMessage>
-                                    오늘
-                                </ChreerupMessage>
-                                <ChreerupMessage>
-                                    너의 기록에 반함
-                                </ChreerupMessage>
-                            </Chreerup>
-                            <Chreerup onPress={() => sendMessage('난 언제나 너의 편')}>
-                                <ChreerupImage 
-                                    source={require("@assets/images/diary/diary_cheerup_bgimg_03.png")}
-                                />
-                                <ChreerupMessage>
-                                    난 언제나
-                                </ChreerupMessage>
-                                <ChreerupMessage>
-                                    너의 편
-                                </ChreerupMessage>
-                            </Chreerup>
-                            <Chreerup onPress={() => sendMessage('아프지 말고, 아프지 말고')}>
-                                <ChreerupImage 
-                                    source={require("@assets/images/diary/diary_cheerup_bgimg_04.png")}
-                                />
-                                <ChreerupMessage>
-                                    아프지 말고,
-                                </ChreerupMessage>
-                                <ChreerupMessage>
-                                    아프지 말고
-                                </ChreerupMessage>
-                            </Chreerup>
-                            <Chreerup onPress={() => sendMessage('대충 살아도 괜찮아')}>
-                                <ChreerupImage 
-                                    source={require("@assets/images/diary/diary_cheerup_bgimg_05.png")}
-                                />
-                                <ChreerupMessage>
-                                    대충 살아도
-                                </ChreerupMessage>
-                                <ChreerupMessage>
-                                    괜찮아
-                                </ChreerupMessage>
-                            </Chreerup>
-                            <Chreerup onPress={() => sendMessage('넌 지금도 충분히 잘 하는 중')}>
-                                <ChreerupImage 
-                                    source={require("@assets/images/diary/diary_cheerup_bgimg_06.png")}
-                                />
-                                <ChreerupMessage>
-                                    넌 지금도
-                                </ChreerupMessage>
-                                <ChreerupMessage>
-                                    충분히 잘 하는 중
-                                </ChreerupMessage>
-                            </Chreerup>
-                        </ChreerupContainer>
+                        <ScrollView
+                            style={{ marginBottom: 30, height: 321 }}
+                        >
+                            <ChreerupContainer>
+                                <Chreerup onPress={() => sendMessage('꾸준함은 배신하지 않아')}>
+                                    <ChreerupImage
+                                        source={require("@assets/images/diary/diary_cheerup_bgimg_01.png")}
+                                    />
+                                    <ChreerupMessage>
+                                        꾸준함은
+                                    </ChreerupMessage>
+                                    <ChreerupMessage>
+                                        배신하지 않아
+                                    </ChreerupMessage>
+                                </Chreerup>
+                                <Chreerup onPress={() => sendMessage('오늘 너의 기록에 반함')}>
+                                    <ChreerupImage
+                                        source={require("@assets/images/diary/diary_cheerup_bgimg_02.png")}
+                                    />
+                                    <ChreerupMessage>
+                                        오늘
+                                    </ChreerupMessage>
+                                    <ChreerupMessage>
+                                        너의 기록에 반함
+                                    </ChreerupMessage>
+                                </Chreerup>
+                                <Chreerup onPress={() => sendMessage('난 언제나 너의 편')}>
+                                    <ChreerupImage
+                                        source={require("@assets/images/diary/diary_cheerup_bgimg_03.png")}
+                                    />
+                                    <ChreerupMessage>
+                                        난 언제나
+                                    </ChreerupMessage>
+                                    <ChreerupMessage>
+                                        너의 편
+                                    </ChreerupMessage>
+                                </Chreerup>
+                                <Chreerup onPress={() => sendMessage('아프지 말고, 아프지 말고')}>
+                                    <ChreerupImage
+                                        source={require("@assets/images/diary/diary_cheerup_bgimg_04.png")}
+                                    />
+                                    <ChreerupMessage>
+                                        아프지 말고,
+                                    </ChreerupMessage>
+                                    <ChreerupMessage>
+                                        아프지 말고
+                                    </ChreerupMessage>
+                                </Chreerup>
+                                <Chreerup onPress={() => sendMessage('대충 살아도 괜찮아')}>
+                                    <ChreerupImage
+                                        source={require("@assets/images/diary/diary_cheerup_bgimg_05.png")}
+                                    />
+                                    <ChreerupMessage>
+                                        대충 살아도
+                                    </ChreerupMessage>
+                                    <ChreerupMessage>
+                                        괜찮아
+                                    </ChreerupMessage>
+                                </Chreerup>
+                                <Chreerup onPress={() => sendMessage('넌 지금도 충분히 잘 하는 중')}>
+                                    <ChreerupImage
+                                        source={require("@assets/images/diary/diary_cheerup_bgimg_06.png")}
+                                    />
+                                    <ChreerupMessage>
+                                        넌 지금도
+                                    </ChreerupMessage>
+                                    <ChreerupMessage>
+                                        충분히 잘 하는 중
+                                    </ChreerupMessage>
+                                </Chreerup>
+                            </ChreerupContainer>
+                        </ScrollView>
                     </ActionSheetContainer>
                 </ActionSheet>
             </Container>
