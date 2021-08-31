@@ -69,7 +69,6 @@ export const ListItemTitle = styled.Text({
 })
 
 export const ActionSheetContainer = styled.View({
-    height: 686,
     paddingTop: 30,
     paddingLeft: 34,
     paddingRight: 34,
