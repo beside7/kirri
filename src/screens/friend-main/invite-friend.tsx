@@ -94,10 +94,11 @@ export default function InviteFriend({ diary }: InviteFriendProps) {
               if (data.code === "4001") {
                 setMembers([
                   {
-                    userId: null,
                     nickname: nickname,
+                    userId: null,
                     status: null,
                     authority: null,
+                    profileImagePath : ""
                   },
                 ]);
               }
@@ -154,6 +155,7 @@ export default function InviteFriend({ diary }: InviteFriendProps) {
             onChangeText={(value) => {
               setNickname(value);
             }}
+            onSubmitEditing={findNickname}
           />
           <Button onPress={findNickname}>
             <Icon source={require("@assets/icons/search.png")} />
