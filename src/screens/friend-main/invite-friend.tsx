@@ -127,7 +127,7 @@ export default function InviteFriend({ diary }: InviteFriendProps) {
         const { uuid } = diary;
         try {
             const res = await diaryApis.addMember(uuid , nickname);
-            Alert.alert("초대 되었습니다.");
+            Alert.alert("" , `${nickname} 님을 초대헀어요.`);
             findNickname()
             setLoading(false)
             console.log(res);
