@@ -164,9 +164,15 @@ export default function InviteFriend({ diary }: InviteFriendProps) {
         <View
           style={{ height: 77, alignItems: "center", justifyContent: "center" }}
         >
-          <Text_2 style={{ fontSize: 12, color: "#6f6f7e" }}>
-            앗, 친구가 아직 끼리에 가입하지 않았나요?
-          </Text_2>
+          <TouchableOpacity
+            onPress={() => {
+              Alert.alert("" ,"끼리 앱 다운로드 링크가 복사되었어요!")
+            }}
+          >
+            <Text_2 style={{ fontSize: 12, color: "#6f6f7e", textDecorationLine: "underline" }}>
+              앗, 친구가 아직 끼리에 가입하지 않았나요?
+            </Text_2>
+          </TouchableOpacity>
         </View>
         <SafeAreaView style={{ flex: 1 }}>
           <FlatList
