@@ -372,7 +372,7 @@ export default function RecordInput({ navigation, route }: RecordInputProps) {
               onPress={onPressTitle}
               style={{ flexDirection: "row" }}
               >
-              <Text_2>처음 우리들의 끼리 다이러리</Text_2>
+              <Text_2>다이어리 선택</Text_2>
               <Image 
                 style={{ width: 24 , height: 24 }}
                 source={require("@assets/images/various_collapse_on_normal.png")}
