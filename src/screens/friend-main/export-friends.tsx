@@ -154,27 +154,7 @@ export const ExportFriends = observer(({ diary } : ExportFriendsProps) => {
                 nickName={target?.nickname}
             />
             <ExportFriendContainer>
-                {/* 
-                    유저일경우 접근 거부
-                */}
-                { !isAdministrator && 
-                    <EmptyContainer>
-                        <Image 
-                            style={{
-                                width: 125,
-                                height: 125
-                            }}
-                            source={require("@assets/images/diary/diary_export_empty.png")}
-                        />
-                        <EmptyText>
-                            관리자만 친구를 다이어리에서 내보낼 수 있어요.
-                        </EmptyText>
-                    </EmptyContainer>
-                }
-                {/* 
-                    관리자일경우 리스트 출력
-                */}
-                { isAdministrator && 
+                {
                     <SafeAreaView style={{ flex: 1 }}>
                         <FlatList
                             refreshing={refreshing}
@@ -208,7 +188,7 @@ export const ExportFriends = observer(({ diary } : ExportFriendsProps) => {
                                         <ExportFriendListItemRight>
                                             {
                                                 // 초대완료 상태일경우
-                                                (item.authority === "DIARY_MEMBER" && item.status === "ACTIVE") &&
+                                                (isAdministrator && item.authority === "DIARY_MEMBER" && item.status === "ACTIVE") &&
                                                 <Menu
                                                     style={{
                                                         marginTop: 30
