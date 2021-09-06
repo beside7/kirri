@@ -43,7 +43,7 @@ const styles = StyleSheet.create({
         // marginVertical: 4,
         marginBottom: 4
     },
-    listItemTop: { flexDirection: "row", justifyContent: "space-between", marginBottom: 17, alignItems: "center" },
+    listItemTop: { flexDirection: "row", justifyContent: "space-between", alignItems: "center" },
     listItemCreatedDate: { fontSize: 12, color: "#6f6f7e" },
     listItemMiddle: {   },
     listItemThumbnail: { width: "90%", height: 200, borderRadius: 10 ,left: 44 },
