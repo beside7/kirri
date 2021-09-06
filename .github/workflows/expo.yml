@@ -5,9 +5,9 @@ name: Expo Publish
 
 on:
   push:
-    branches: [ develop ]
+    branches: [develop]
   pull_request:
-    branches: [ develop ]
+    branches: [develop]
 
 jobs:
   publish:
@@ -15,17 +15,22 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - uses: actions/setup-node@v1
+      - name: Set up Node 14
+        uses: actions/setup-node@v1
         with:
           node-version: 14.x
-      - uses: expo/expo-github-action@v6
+      - name: Expo Login
+        uses: expo/expo-github-action@v6
         with:
           expo-version: 4.x
           username: ${{ secrets.EXPO_CLI_USERNAME }}
           password: ${{ secrets.EXPO_CLI_PASSWORD }}
-      - run: yarn install
-      - run: expo publish
-      - uses: 8398a7/action-slack@v3
+      - name: Yarn Install
+        run: yarn install
+      - name: Expo publish
+        run: expo publish
+      - name: action-slack
+        uses: 8398a7/action-slack@v3
         with:
           status: ${{ job.status }}
           fields: repo,message,commit,author,action,eventName,ref,workflow,job,took # selectable (default: repo,message)
