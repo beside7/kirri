@@ -157,8 +157,10 @@ export default function InviteFriend({ diary }: InviteFriendProps) {
             }}
             onSubmitEditing={findNickname}
           />
-          <Button onPress={findNickname}>
-            <Icon source={require("@assets/icons/search.png")} />
+          <Button onPress={() => {
+            setNickname("");
+          }}>
+            <Icon source={require("@assets/icons/x.png")} />
           </Button>
         </View>
         <View
