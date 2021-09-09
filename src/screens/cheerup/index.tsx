@@ -1,5 +1,5 @@
 import React, { createRef, useState } from 'react'
-import {Image, TouchableOpacity, Alert, ScrollView} from 'react-native'
+import {Image, TouchableOpacity, Alert, ScrollView, View} from 'react-native'
 import { Background, Header } from "@components";
 import { messageApis } from "@apis";
 import ActionSheet from "react-native-actions-sheet";
@@ -162,12 +162,11 @@ const CheerUp = observer(({ navigation , route } : CheerUpProps) => {
                     </>
                 }
 
-                
-                
-                
-                
                 <ActionSheet
                     ref={actionSheetRef}
+                    bounceOnOpen={true}
+                    headerAlwaysVisible={true}
+                    gestureEnabled={true}
                 >
                     <ActionSheetContainer>
                         <ProfileContainer>
