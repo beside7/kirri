@@ -1,5 +1,5 @@
 import React, {ReactElement, ReactNode, useState} from 'react'
-import {View, Animated, PanResponder, Image,Dimensions} from 'react-native'
+import {View, Animated, PanResponder, Image, Dimensions, TouchableOpacity} from 'react-native'
 import Color from './color'
 
 import { Container, HeaderImage, Title, Content, Footer,Author , Button, Icon , ButtonText, ScrollDownButton } from "./style";
@@ -9,9 +9,8 @@ import { StackNavigationProp } from "@react-navigation/stack";
 import { RouteProp } from "@react-navigation/native";
 
 import { CoverBigImages, CoverColorTypes, CoverColor } from "@utils";
+import { FontAwesome5 } from "@expo/vector-icons";
 
-import dateFormat from 'dateformat'
-import { stringToDatetime } from '@utils'
 import Constants from "expo-constants";
 
 type RecordInfoProps = {
@@ -32,6 +31,7 @@ export default function RecordInfo({navigation , route} : RecordInfoProps) {
     const { nickname } = members[0];
     const [pan, setPan] = useState(new Animated.ValueXY());
 
+    
     /**
      * 애니메이션 이벤트 및 핸들링
      */
@@ -40,7 +40,9 @@ export default function RecordInfo({navigation , route} : RecordInfoProps) {
         onPanResponderMove: Animated.event([null,{
             // dx  : pan.x,
             dy  : pan.y
-        }]),
+        }], {
+            useNativeDriver: false
+        }),
         onPanResponderRelease: (e, gesture) => {
             /**
              * 화면 이동후 제자리로 돌아감
@@ -82,8 +84,8 @@ export default function RecordInfo({navigation , route} : RecordInfoProps) {
                 <Image
                     source={require("@assets/images/record/diary_overview_bgimg_color_01.png")}
                     style={{
-                        width: "100%",
-                        height: "100%",
+                        width: Dimensions.get("screen").width,
+                        height: Dimensions.get("screen").height,
                         position: "absolute",
                         left: 0,
                         right: 0,
@@ -91,6 +93,25 @@ export default function RecordInfo({navigation , route} : RecordInfoProps) {
                         bottom: 0
                     }}
                 />
+                <TouchableOpacity
+                    onPress={()=>{
+                        navigation.goBack();
+                    }}
+                    style={{
+                        top: 60,
+                        left: 20,
+                        position: "absolute"
+                    }}
+                >
+                    <Image
+                        source={require("@assets/icons/back.png")}
+                        style={{
+                            width: 24,
+                            height: 24,
+
+                        }}
+                    />
+                </TouchableOpacity>
                 {children}
             </Animated.View>
         )
@@ -116,8 +137,18 @@ export default function RecordInfo({navigation , route} : RecordInfoProps) {
                         {title}
                     </Title>
                     <Footer>
-                        <Author>{nickname}</Author>
-                        <Author>{dateFormat(stringToDatetime(createdDate) , 'yyyy-mm-dd HH:MM:ss')}</Author>
+                        <View
+                            style={{
+                                flexDirection: "row"
+                            }}
+                        >
+                            <Author>
+                                {nickname}
+                            </Author>
+                            <FontAwesome5 name="crown" size={11} color="#6173ff" style={{ marginLeft: 10, lineHeight: 15 }}/>
+                        </View>
+
+                        <Author>{`${members.length} 끼리`}</Author>
                     </Footer>
                 </Content>
             </Container>
