@@ -1,5 +1,5 @@
-import React, { createRef, useState } from 'react'
-import {Image, TouchableOpacity, Alert, ScrollView, View} from 'react-native'
+import React, { useRef, useState } from 'react'
+import {Image, TouchableOpacity, Alert, ScrollView, View, Platform} from 'react-native'
 import { Background, Header } from "@components";
 import { messageApis } from "@apis";
 import ActionSheet from "react-native-actions-sheet";
@@ -38,7 +38,6 @@ import {
 } from "./style";
 
 
-const actionSheetRef = createRef<ActionSheet>();
 
 type CheerUpProps = {
     navigation: StackNavigationProp<StackNavigatorParams, "RecordList">;
@@ -48,6 +47,9 @@ type CheerUpProps = {
 const CheerUp = observer(({ navigation , route } : CheerUpProps) => {
 
     const diary = route.params.diary;
+
+    const actionSheetRef = useRef<ActionSheet>(null);
+    const scrollViewRef = useRef<ScrollView>(null);
 
     /**
      * 메세지 보낼 대상 지정
@@ -87,6 +89,8 @@ const CheerUp = observer(({ navigation , route } : CheerUpProps) => {
             }
         }
     }
+
+
 
     return (
         <Background>
@@ -181,6 +185,17 @@ const CheerUp = observer(({ navigation , route } : CheerUpProps) => {
                         </ProfileContainer>
                         <ScrollView
                             style={{ marginBottom: 30, height: 321 }}
+                            ref={scrollViewRef}
+                            nestedScrollEnabled={true}
+                            onScrollEndDrag={() =>
+                                actionSheetRef.current?.handleChildScrollEnd()
+                            }
+                            onScrollAnimationEnd={() =>
+                                actionSheetRef.current?.handleChildScrollEnd()
+                            }
+                            onMomentumScrollEnd={() =>
+                                actionSheetRef.current?.handleChildScrollEnd()
+                            }
                         >
                             <ChreerupContainer>
                                 <Chreerup onPress={() => sendMessage('꾸준함은 배신하지 않아')}>
