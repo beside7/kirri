@@ -10,6 +10,7 @@ import { RouteProp } from "@react-navigation/native";
 import { observer } from 'mobx-react';
 import { UserStore } from '@store';
 import { ProfileImages , ProfileImageTypes } from '@utils'
+import { Snackbar } from 'react-native-paper';
 
 import { 
     Container,
@@ -48,8 +49,29 @@ const CheerUp = observer(({ navigation , route } : CheerUpProps) => {
 
     const diary = route.params.diary;
 
+    /**
+     * 하단 메뉴 설정
+     */
     const actionSheetRef = useRef<ActionSheet>(null);
+    /**
+     * 하단 메뉴 스크롤
+     */
     const scrollViewRef = useRef<ScrollView>(null);
+    /**
+     * 스낵메세지 노출여부
+     */
+    const [visible, setVisible] = React.useState(false);
+
+    /**
+     * 메세지내용
+     */
+    const [message, setMessage] = useState("");
+
+
+    /**
+     * 스낵메세지 가리기
+     */
+    const onDismissSnackBar = () => setVisible(false);
 
     /**
      * 메세지 보낼 대상 지정
@@ -73,14 +95,16 @@ const CheerUp = observer(({ navigation , route } : CheerUpProps) => {
     const sendMessage = async (message : string) => {
         try {
             if(diary && target?.userId){
+                actionSheetRef.current?.setModalVisible();
                 await messageApis.sendMessage(diary.uuid , {
                     type: "CHEERING",
                     toUserId: target.userId,
                     title: "응원 메세지",
                     body: message
                 })
-                Alert.alert("응원 메세지를 보냈습니다.");
-                actionSheetRef.current?.setModalVisible();
+                // Alert.alert("응원 메세지를 보냈습니다.");
+                setMessage("응원 메세지를 보냈습니다.");
+                setVisible(true);
             }
         } catch (error) {
             if(error.response){
@@ -165,6 +189,8 @@ const CheerUp = observer(({ navigation , route } : CheerUpProps) => {
                         />
                     </>
                 }
+
+
 
                 <ActionSheet
                     ref={actionSheetRef}
@@ -269,6 +295,18 @@ const CheerUp = observer(({ navigation , route } : CheerUpProps) => {
                     </ActionSheetContainer>
                 </ActionSheet>
             </Container>
+            {/* 메세지 */}
+            <Snackbar
+                visible={visible}
+                onDismiss={onDismissSnackBar}
+                action={{
+                    label: '확인',
+                    onPress: () => {
+                        onDismissSnackBar()
+                    },
+                }}>
+                {message}
+            </Snackbar>
         </Background>
     )
 })
