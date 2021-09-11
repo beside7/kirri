@@ -58,9 +58,9 @@ type HomeProps = {
     navigation: StackNavigationProp<StackNavigatorParams, "Home">;
 };
 
-const wait = (timeout) => {
+const wait = (timeout: number) => {
     return new Promise(resolve => setTimeout(resolve, timeout));
-  }
+}
   
 
 const Profile =observer(() => {

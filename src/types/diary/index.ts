@@ -9,6 +9,7 @@ export interface Memeber {
     status: "INVITING" | "ACTIVE" | null;
     authority: "DIARY_MEMBER" | "DIARY_OWNER" | null;
     profileImagePath: string;
+    memberId: number | null;
 }
 
 export interface DiariesResType {

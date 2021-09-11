@@ -105,7 +105,7 @@ export const ExportFriends = observer(({ diary } : ExportFriendsProps) => {
                 setDeleteConfirm(false)
                 await getDiary()
             }
-        } catch (error) {
+        } catch (error: any) {
             console.log(error.response);
             
         }
@@ -119,7 +119,7 @@ export const ExportFriends = observer(({ diary } : ExportFriendsProps) => {
                 setAdminConfirm(false)
                 await getDiary()
             }
-        } catch (error) {
+        } catch (error: any) {
             console.log(error.response)
         }
     }
