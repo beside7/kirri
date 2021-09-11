@@ -1,6 +1,6 @@
 import React , { useEffect, useState }from 'react'
 import { View, SafeAreaView, FlatList, TouchableOpacity, Image,Alert } from 'react-native'
-import { Background, Text_2 } from "@components";
+import { Background,  } from "@components";
 import { DiaryResType } from "@type-definition/diary";
 import { Menu } from 'react-native-paper';
 import { FontAwesome5 } from "@expo/vector-icons";
@@ -13,8 +13,8 @@ import { UserStore } from '@store';
 import { DeleteConfirm , AdministratorConfirm } from "./confirm";
 
 import { 
-    EmptyContainer,
-    EmptyText,
+    // EmptyContainer,
+    // EmptyText,
     ExportFriendContainer,
     ExportFriendListItemContainer,
     ExportFriendThumbnailImage,
@@ -31,6 +31,7 @@ type ExportFriendsProps = {
 
 export const ExportFriends = observer(({ diary } : ExportFriendsProps) => {
 
+    const [resDiary, setResDiary] = useState<DiaryResType | null>(diary);
 
     /**
      * mobx 으로 유저 닉네임 추출
@@ -41,13 +42,13 @@ export const ExportFriends = observer(({ diary } : ExportFriendsProps) => {
      * 현재 로그인한 사용자가 해당 다이러리에서 관리자인지 판별하는 부분 
      * -> true : 관리자 , false : 일반 유저
      */
-    const isAdministrator = diary?.members.find((item) => item.nickname === nickname )?.authority === "DIARY_OWNER"
+    const isAdministrator = resDiary?.members.find((item) => item.nickname === nickname )?.authority === "DIARY_OWNER"
     // const isAdministrator = false
 
     /**
      * 출력할 멤버 리스트
      */
-    const [members, setMembers] = useState<Memeber[]>(diary ? [...diary.members] : [])
+    const [members, setMembers] = useState<Memeber[]>(resDiary ? [...resDiary.members] : [])
 
     /**
      * 유저 우측 메뉴 노출여부
@@ -87,6 +88,7 @@ export const ExportFriends = observer(({ diary } : ExportFriendsProps) => {
             setRefreshing(true);
             const { uuid } = diary
             const res = await diaryApis.viewDiary(uuid)
+            setResDiary(res)
             // console.log(res);
             
             setMembers(res.members);
@@ -97,10 +99,11 @@ export const ExportFriends = observer(({ diary } : ExportFriendsProps) => {
 
     const deleteMember  = async (member : number | null | undefined) => {
         try {
-            if (diary && member) {
-                await diaryApis.deleteMember(diary.uuid , member)
-                Alert.alert("멤버를 다이어리에서 내보냈어요.");
-                getDiary()
+            if (resDiary && member) {
+                await diaryApis.deleteMember(resDiary.uuid , member)
+                Alert.alert("","멤버를 다이어리에서 내보냈어요.");
+                setDeleteConfirm(false)
+                await getDiary()
             }
         } catch (error) {
             console.log(error.response);
@@ -110,18 +113,19 @@ export const ExportFriends = observer(({ diary } : ExportFriendsProps) => {
 
     const setAdministrator = async (member : number | null | undefined) => {
         try {
-            if (diary && member) {
-                await diaryApis.setAdministrator(diary.uuid , member , { authority : "DIARY_OWNER" } )
-                Alert.alert("다른 멤버를 관리자로 지정했어요.");
-                getDiary()
+            if (resDiary && member) {
+                await diaryApis.setAdministrator(resDiary.uuid , member , { authority : "DIARY_OWNER" } )
+                Alert.alert("","다른 멤버를 관리자로 지정했어요.");
+                setAdminConfirm(false)
+                await getDiary()
             }
         } catch (error) {
-            
+            console.log(error.response)
         }
     }
     
-    useEffect(() => {
-        getDiary()
+    useEffect( () => {
+        getDiary().then(_ => {})
     }, [])
     
     return (
@@ -131,8 +135,8 @@ export const ExportFriends = observer(({ diary } : ExportFriendsProps) => {
                 onClose={() => {
                     setDeleteConfirm(false)
                 }}
-                onConfirm={() => {
-                    deleteMember(target?.userId);
+                onConfirm={async () => {
+                    await deleteMember(target?.memberId);
                 }}
                 confirm="내보낼래요"
                 close="아니에요"
@@ -146,40 +150,20 @@ export const ExportFriends = observer(({ diary } : ExportFriendsProps) => {
                 onClose={() => {
                     setAdminConfirm(false)
                 }}
-                onConfirm={() => {
-                    setAdministrator(target?.userId)
+                onConfirm={async () => {
+                    await setAdministrator(target?.memberId)
                 }}
                 confirm="지정할래요"
                 close="아니에요"
                 nickName={target?.nickname}
             />
             <ExportFriendContainer>
-                {/* 
-                    유저일경우 접근 거부
-                */}
-                { !isAdministrator && 
-                    <EmptyContainer>
-                        <Image 
-                            style={{
-                                width: 125,
-                                height: 125
-                            }}
-                            source={require("@assets/images/diary/diary_export_empty.png")}
-                        />
-                        <EmptyText>
-                            관리자만 친구를 다이어리에서 내보낼 수 있어요.
-                        </EmptyText>
-                    </EmptyContainer>
-                }
-                {/* 
-                    관리자일경우 리스트 출력
-                */}
-                { isAdministrator && 
+                {
                     <SafeAreaView style={{ flex: 1 }}>
                         <FlatList
                             refreshing={refreshing}
-                            onRefresh={() => {
-                                getDiary()
+                            onRefresh={async () => {
+                                await getDiary()
                             }}
                             data={ members }
                             ListEmptyComponent={() => {
@@ -191,7 +175,7 @@ export const ExportFriends = observer(({ diary } : ExportFriendsProps) => {
                                     </View>
                                 )
                             }}
-                            keyExtractor={(item, index) => `${item.userId}`}
+                            keyExtractor={(item, _) => `${item.userId}`}
                             renderItem={({ item, index }) => {
                                 return (
                                     <ExportFriendListItemContainer>
@@ -208,7 +192,8 @@ export const ExportFriends = observer(({ diary } : ExportFriendsProps) => {
                                         <ExportFriendListItemRight>
                                             {
                                                 // 초대완료 상태일경우
-                                                (item.authority === "DIARY_MEMBER" && item.status === "ACTIVE") &&
+                                                (isAdministrator
+                                                    && item.authority === "DIARY_MEMBER" && item.status === "ACTIVE") &&
                                                 <Menu
                                                     style={{
                                                         marginTop: 30

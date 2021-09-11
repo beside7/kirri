@@ -58,7 +58,7 @@ export function AdministratorConfirm(props : AdministratorConfirmProps) {
                 <>
                     <View style={styles.modalImages}>
                         <Image 
-                            source={require("@assets/images/popup_diary_delete_bgimg.png")}
+                            source={require("@assets/images/popup_diary_edit_bgimg.png")}
                             style={styles.modalDeleteIcon}
                         />
                         <Text_2 style={styles.modalTitleStyle}>{props.nickName} 님을 관리자로 지정할까요?</Text_2>
