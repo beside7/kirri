@@ -4,6 +4,7 @@ import { Dimensions, } from 'react-native'
 const SCREEN_HEIGHT = Dimensions.get("screen").height;
 const HEADER_HEIGHT = 174
 
+
 const styles = StyleSheet.create({
     dropdown : {
         width: 100,

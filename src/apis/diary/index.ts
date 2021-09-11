@@ -87,6 +87,14 @@ export const diaryApis = {
     return data
   },
 
+  /**
+   * 다이러리 나가기
+   * @param uuid
+   */
+  async leaveDiary(uuid: string) : Promise<void> {
+    await apiClient.delete(`/diaries/${uuid}`);
+  }
+
 };
 
 /**

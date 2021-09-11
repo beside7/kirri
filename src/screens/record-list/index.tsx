@@ -12,6 +12,8 @@ import { chain } from "lodash";
 import { observer } from 'mobx-react';
 import { UserStore } from '@store';
 
+import { LeaveConfirm } from './leave-confirm'
+
 import DeleteConfirm from './delete-confirm'
 
 import RenderItem from './render-item'
@@ -75,6 +77,10 @@ export const RecordList = observer(({navigation, route} : RecordListProps) => {
      */
     const [deleteConfirm, setDeleteConfirm] = useState(false)
 
+    /**
+     * 떠나기 동의창 여부
+     */
+    const [leaveConfirm, setLeaveConfirm] = useState(false);
 
     /**
      * 다이러리 삭제
@@ -158,6 +164,23 @@ export const RecordList = observer(({navigation, route} : RecordListProps) => {
         }
     }, [])
 
+    /**
+     * 다이러리 떠나기
+     */
+    const leaveDiary = async () => {
+        if(diary){
+            const { uuid } = diary
+            try {
+                await diaryApis.leaveDiary(uuid);
+                setLeaveConfirm(false);
+                navigation.replace("Home")
+            } catch ( error : any) {
+                console.log(error.response)
+            }
+        }
+
+    }
+
     return (
         <Background>
             <Header
@@ -220,9 +243,32 @@ export const RecordList = observer(({navigation, route} : RecordListProps) => {
                                 </>
                             )
                         }
-                        <Menu.Item onPress={() => {}} title="나가기" />
+                        <Menu.Item
+                            onPress={() => {
+                                closeMenu()
+                                if(isAdministrator){
+                                    Alert.alert("" , "다른 멤버에게 관리자 권한을 넘긴 후 다이어리를 떠나주세요." , [{
+                                        text : "확인"
+                                    }]);
+                                    return;
+                                }
+                                setLeaveConfirm(true)
+                            }}
+                            title="나가기"
+                        />
                     </Menu>
                 }
+            />
+            <LeaveConfirm
+                visible={leaveConfirm}
+                onClose={() => {
+                    setLeaveConfirm(false)
+                }}
+                onConfirm={async ()=>{
+                    await leaveDiary()
+                }}
+                confirm="떠나기"
+                close="머무르기"
             />
             {/* 다이러리 삭제창 */}
             <DeleteConfirm 

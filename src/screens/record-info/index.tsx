@@ -1,4 +1,4 @@
-import React, {ReactElement, ReactNode, useState} from 'react'
+import React, {ReactElement, ReactNode, useState, useEffect} from 'react'
 import {View, Animated, PanResponder, Image, Dimensions, TouchableOpacity} from 'react-native'
 import Color from './color'
 
@@ -13,6 +13,9 @@ import { FontAwesome5 } from "@expo/vector-icons";
 
 import Constants from "expo-constants";
 
+import { diaryApis } from "@apis"
+import {DiaryResType} from "@type-definition/diary";
+
 type RecordInfoProps = {
     navigation: StackNavigationProp<StackNavigatorParams, "RecordInfo">;
     route: RouteProp<StackNavigatorParams, "RecordInfo">;
@@ -23,15 +26,36 @@ type BackgroundProps = {
 };
 
 export default function RecordInfo({navigation , route} : RecordInfoProps) {
-    const diary = route.params.diary;
+
+
+
+    const tmpDiary = route.params.diary;
+
+    /**
+     * 서버에서 가져올 다이러리 정보
+     */
+    const [diary, setDiary] = useState<DiaryResType>(tmpDiary);
+
+
     const { title , createdDate , members, icon, uuid } = diary
+
     const [ coverType , coverId ] = icon.split(":")
 
 
     const { nickname } = members[0];
     const [pan, setPan] = useState(new Animated.ValueXY());
 
-    
+    /**
+     * 최초 로딩시 다시 서버에서 다이러리정보 가져오기
+     */
+    useEffect(() => {
+        return () => {
+            diaryApis.viewDiary(tmpDiary.uuid).then(diary => setDiary(diary))
+        };
+    }, []);
+
+
+
     /**
      * 애니메이션 이벤트 및 핸들링
      */
