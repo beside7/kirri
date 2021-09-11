@@ -98,7 +98,8 @@ export default function InviteFriend({ diary }: InviteFriendProps) {
                     userId: null,
                     status: null,
                     authority: null,
-                    profileImagePath : ""
+                    profileImagePath : "",
+                    memberId: null
                   },
                 ]);
               }
@@ -128,7 +129,7 @@ export default function InviteFriend({ diary }: InviteFriendProps) {
         try {
             const res = await diaryApis.addMember(uuid , nickname);
             Alert.alert("" , `${nickname} 님을 초대헀어요.`);
-            findNickname()
+            await findNickname()
             setLoading(false)
             console.log(res);
             return res

@@ -31,6 +31,7 @@ type ExportFriendsProps = {
 
 export const ExportFriends = observer(({ diary } : ExportFriendsProps) => {
 
+    const [resDiary, setResDiary] = useState<DiaryResType | null>(diary);
 
     /**
      * mobx 으로 유저 닉네임 추출
@@ -41,13 +42,13 @@ export const ExportFriends = observer(({ diary } : ExportFriendsProps) => {
      * 현재 로그인한 사용자가 해당 다이러리에서 관리자인지 판별하는 부분 
      * -> true : 관리자 , false : 일반 유저
      */
-    const isAdministrator = diary?.members.find((item) => item.nickname === nickname )?.authority === "DIARY_OWNER"
+    const isAdministrator = resDiary?.members.find((item) => item.nickname === nickname )?.authority === "DIARY_OWNER"
     // const isAdministrator = false
 
     /**
      * 출력할 멤버 리스트
      */
-    const [members, setMembers] = useState<Memeber[]>(diary ? [...diary.members] : [])
+    const [members, setMembers] = useState<Memeber[]>(resDiary ? [...resDiary.members] : [])
 
     /**
      * 유저 우측 메뉴 노출여부
@@ -87,6 +88,7 @@ export const ExportFriends = observer(({ diary } : ExportFriendsProps) => {
             setRefreshing(true);
             const { uuid } = diary
             const res = await diaryApis.viewDiary(uuid)
+            setResDiary(res)
             // console.log(res);
             
             setMembers(res.members);
@@ -97,8 +99,8 @@ export const ExportFriends = observer(({ diary } : ExportFriendsProps) => {
 
     const deleteMember  = async (member : number | null | undefined) => {
         try {
-            if (diary && member) {
-                await diaryApis.deleteMember(diary.uuid , member)
+            if (resDiary && member) {
+                await diaryApis.deleteMember(resDiary.uuid , member)
                 Alert.alert("멤버를 다이어리에서 내보냈어요.");
                 getDiary()
             }
@@ -110,13 +112,14 @@ export const ExportFriends = observer(({ diary } : ExportFriendsProps) => {
 
     const setAdministrator = async (member : number | null | undefined) => {
         try {
-            if (diary && member) {
-                await diaryApis.setAdministrator(diary.uuid , member , { authority : "DIARY_OWNER" } )
+            if (resDiary && member) {
+                await diaryApis.setAdministrator(resDiary.uuid , member , { authority : "DIARY_OWNER" } )
                 Alert.alert("다른 멤버를 관리자로 지정했어요.");
+                setAdminConfirm(false)
                 getDiary()
             }
         } catch (error) {
-            
+            console.log(error.response)
         }
     }
     
@@ -147,7 +150,7 @@ export const ExportFriends = observer(({ diary } : ExportFriendsProps) => {
                     setAdminConfirm(false)
                 }}
                 onConfirm={() => {
-                    setAdministrator(target?.userId)
+                    setAdministrator(target?.memberId)
                 }}
                 confirm="지정할래요"
                 close="아니에요"
@@ -188,7 +191,8 @@ export const ExportFriends = observer(({ diary } : ExportFriendsProps) => {
                                         <ExportFriendListItemRight>
                                             {
                                                 // 초대완료 상태일경우
-                                                (isAdministrator && item.authority === "DIARY_MEMBER" && item.status === "ACTIVE") &&
+                                                (isAdministrator
+                                                    && item.authority === "DIARY_MEMBER" && item.status === "ACTIVE") &&
                                                 <Menu
                                                     style={{
                                                         marginTop: 30
