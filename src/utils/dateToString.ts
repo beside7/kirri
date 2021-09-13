@@ -26,20 +26,20 @@ export const dateToString = (time: Date) : string => {
      * 1시간 이전
      */
     if(timeDifference < ONE_HOUR){
-        return dateFormat(new Date(timeDifference) , "M분 전")
+        return  `${Math.round(timeDifference / ONE_MINUTE)} 분 전`
     }
     /**
      * 1시간~24시간:  HH시간 전
      */
     else if(ONE_HOUR <= timeDifference && timeDifference <= ONE_DAY){
-        return dateFormat(new Date(timeDifference) , "H분 전")
+        return `${Math.round(timeDifference / ONE_HOUR)} 시간 전`
     }
 
     /**
      * 25시간~7일: DD일 전
      */
     else if(ONE_DAY < timeDifference && timeDifference <= ONE_DAY * 7){
-        return dateFormat(new Date(timeDifference) , "d일 전")
+        return `${Math.round(timeDifference / ONE_DAY)} 일 전`
     }
 
     /**
