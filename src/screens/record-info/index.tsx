@@ -49,8 +49,9 @@ export default function RecordInfo({navigation , route} : RecordInfoProps) {
      * 최초 로딩시 다시 서버에서 다이러리정보 가져오기
      */
     useEffect(() => {
+        diaryApis.viewDiary(tmpDiary.uuid).then(diary => setDiary(diary))
         return () => {
-            diaryApis.viewDiary(tmpDiary.uuid).then(diary => setDiary(diary))
+
         };
     }, []);
 

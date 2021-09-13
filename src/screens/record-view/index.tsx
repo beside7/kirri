@@ -78,6 +78,8 @@ export const RecordView = observer(({ route, navigation } : RecordViewProps) => 
                 const diary = await diaryApis.viewDiary(diaryUuid);
                 setDiary(diary);
                 // console.log({ record , diary});
+                setIsAdministrator(diary?.members.find((item) => item.nickname === nickname )?.authority === "DIARY_OWNER")
+                setIsCreateUser(nickname === record?.createdByNickname)
             } catch (error) {
                 console.log(error);
             }
@@ -107,12 +109,13 @@ export const RecordView = observer(({ route, navigation } : RecordViewProps) => 
      * 현재 로그인한 사용자가 해당 다이러리에서 관리자인지 판별하는 부분 
      * -> true : 관리자 , false : 일반 유저
      */
-    const isAdministrator = diary?.members.find((item) => item.nickname === nickname )?.authority === "DIARY_OWNER"
+    const [isAdministrator , setIsAdministrator] = useState(diary?.members.find((item) => item.nickname === nickname )?.authority === "DIARY_OWNER")
 
     /**
      * 현재 로그인 사용자가 해당 기록을 작성했는지 체크
      */
-    const isCreateUser = nickname === data?.createdByNickname
+    const [isCreateUser , setIsCreateUser] = useState(nickname === data?.createdByNickname)
+    // const isCreateUser = nickname === data?.createdByNickname
 
     /**
      * 컨포넌트 최초 마운트시 이벤트
@@ -176,11 +179,12 @@ export const RecordView = observer(({ route, navigation } : RecordViewProps) => 
                                     </TouchableOpacity>
                                 }
                             >
-
-                                <Menu.Item onPress={() => {
-                                    closeMenu()
-                                    navigation.navigate("RecordInput" , { diary : diary, record : record })
-                                }} title="기록 수정" />
+                                {isCreateUser &&
+                                    <Menu.Item onPress={() => {
+                                        closeMenu()
+                                        navigation.navigate("RecordInput", {diary: diary, record: record})
+                                    }} title="기록 수정"/>
+                                }
                                 <Menu.Item onPress={() => {
                                     closeMenu()
                                     setModal(true)
