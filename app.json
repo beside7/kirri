@@ -5,7 +5,7 @@
     "version": "1.0.0",
     "owner": "100milliongold",
     "orientation": "portrait",
-    "icon": "./assets/images/icon.png",
+    "icon": "./assets/images/ic_launcher.png",
     "scheme": "kirri",
     "userInterfaceStyle": "automatic",
     "splash": {
