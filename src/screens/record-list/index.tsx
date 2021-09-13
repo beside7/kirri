@@ -170,6 +170,7 @@ export const RecordList = observer(({navigation, route} : RecordListProps) => {
     const leaveDiary = async () => {
         if(diary){
             const { uuid } = diary
+            // console.log(diary)
             try {
                 await diaryApis.leaveDiary(uuid);
                 setLeaveConfirm(false);
