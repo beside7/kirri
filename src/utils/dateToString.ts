@@ -46,7 +46,7 @@ export const dateToString = (time: Date) : string => {
      * 8일~올해: MM월 DD일
      */
     else if(ONE_DAY * 7 < timeDifference && timeDifference <= ONE_YEAR){
-        return dateFormat(new Date(timeDifference) , "m월 d일")
+        return dateFormat(new Date(time) , "m월 d일")
     }
 
     /**
