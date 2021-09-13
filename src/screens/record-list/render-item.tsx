@@ -6,8 +6,7 @@ import styles from './style'
 import { StackNavigatorParams } from "@config/navigator";
 import { StackNavigationProp } from "@react-navigation/stack";
 
-import dateFormat from 'dateformat'
-import { stringToDatetime, ProfileImages , ProfileImageTypes } from '@utils'
+import { stringToDatetime, ProfileImages , ProfileImageTypes, dateToString } from '@utils'
 
 type RenderProps = {
     item : RecordResType,
@@ -39,7 +38,8 @@ export default function RenderItem({ item : { id, uuid , title, body , images, c
                     <Text_2 style={{fontSize: 12, color: "#24242e"}} >{createdByNickname}</Text_2>
                 </View>
                 {/* 생성일자 */}
-                <Text_2 style={styles.listItemCreatedDate}>{dateFormat(stringToDatetime(createdDate) , 'yyyy-mm-dd HH:MM:ss')}</Text_2>
+                {/*<Text_2 style={styles.listItemCreatedDate}>{dateFormat(stringToDatetime(createdDate) , 'yyyy-mm-dd HH:MM:ss')}</Text_2>*/}
+                <Text_2 style={styles.listItemCreatedDate}>{dateToString(stringToDatetime(createdDate))}</Text_2>
             </View>
             <View style={styles.listItemMiddle}>
                 {
