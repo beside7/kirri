@@ -41,7 +41,7 @@ export const Input = styled.TextInput({
 })
 
 export const CoverConteiner = styled.View({
-    marginTop: 40
+    marginTop: 40,
 })
 export const BigCoverImageConteiner = styled.View({
     marginTop: 12,
@@ -69,11 +69,13 @@ export const BigCoverImageLine = styled.View({
 
 export const CircleCoverImageConteiner = styled.View({
     flexDirection: "row",
-    flexWrap: "wrap"
+    flexWrap: "wrap",
+    justifyContent: "center"
 })
 
 export const CircleCoverImage = styled.Image({
-    marginRight: 14,
+    marginRight: 7,
+    marginLeft: 7
 })
 
 export const CircleCoverColor = styled.TouchableOpacity(( { color } : StyledProps): any => ({
@@ -81,9 +83,26 @@ export const CircleCoverColor = styled.TouchableOpacity(( { color } : StyledProp
     width: 40,
     height: 40,
     borderRadius: 100,
-    marginRight: 14,
+    marginLeft: 7,
+    marginRight: 7,
     marginTop: 18
 }))
+
+export const SelectImage = styled.Image({
+    width:30,
+    height: 30,
+    position: "absolute",
+    top: 4,
+    left: 10
+})
+
+export const SelectColor = styled.Image({
+    width:30,
+    height: 30,
+    position: "absolute",
+    top: 2,
+    left: 2
+})
 
 type StyledProps = {
     color : string,

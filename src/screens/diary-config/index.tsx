@@ -11,6 +11,8 @@ import { diaryApis } from "@apis";
 
 import { CoverImages, CoverColor , CoverCircleImageTypes } from "@utils";
 
+const SelecedCheckImage = require('@assets/images/diary/writing_select_diary_check_box_checked.png');
+
 
 import { 
     Container,
@@ -26,7 +28,9 @@ import {
     BigCoverColor,
     CircleCoverImageConteiner,
     CircleCoverImage,
-    CircleCoverColor
+    CircleCoverColor,
+    SelectImage,
+    SelectColor
 } from "./style";
 
 
@@ -156,18 +160,18 @@ export default function DiaryConfig({ navigation, route } : DiaryConfigProps) {
                         </BigCoverImageLine>
                     </BigCoverImageConteiner>
                     <CircleCoverImageConteiner>
-                        <TouchableOpacity onPress={() => { setIcon({ type: "image" , index: "01" }) }} ><CircleCoverImage style={{ borderWidth: (icon?.type==="image" && icon.index === "01") ? 2 : 0, borderColor: "#ffdd1f", borderRadius: 100 }} source={require("@assets/images/diary/diary_circleimg_01.png")} /></TouchableOpacity>
-                        <TouchableOpacity onPress={() => { setIcon({ type: "image" , index: "02" }) }} ><CircleCoverImage style={{ borderWidth: (icon?.type==="image" && icon.index === "02") ? 2 : 0, borderColor: "#ffdd1f", borderRadius: 100 }} source={require("@assets/images/diary/diary_circleimg_02.png")} /></TouchableOpacity>
-                        <TouchableOpacity onPress={() => { setIcon({ type: "image" , index: "03" }) }} ><CircleCoverImage style={{ borderWidth: (icon?.type==="image" && icon.index === "03") ? 2 : 0, borderColor: "#ffdd1f", borderRadius: 100 }} source={require("@assets/images/diary/diary_circleimg_03.png")} /></TouchableOpacity>
-                        <TouchableOpacity onPress={() => { setIcon({ type: "image" , index: "04" }) }} ><CircleCoverImage style={{ borderWidth: (icon?.type==="image" && icon.index === "04") ? 2 : 0, borderColor: "#ffdd1f", borderRadius: 100 }} source={require("@assets/images/diary/diary_circleimg_04.png")} /></TouchableOpacity>
-                        <TouchableOpacity onPress={() => { setIcon({ type: "image" , index: "05" }) }} ><CircleCoverImage style={{ borderWidth: (icon?.type==="image" && icon.index === "05") ? 2 : 0, borderColor: "#ffdd1f", borderRadius: 100 }} source={require("@assets/images/diary/diary_circleimg_05.png")} /></TouchableOpacity>
-                        <TouchableOpacity onPress={() => { setIcon({ type: "image" , index: "06" }) }} ><CircleCoverImage style={{ borderWidth: (icon?.type==="image" && icon.index === "06") ? 2 : 0, borderColor: "#ffdd1f", borderRadius: 100 }} source={require("@assets/images/diary/diary_circleimg_06.png")} /></TouchableOpacity>
-                        <CircleCoverColor style={{ borderWidth: (icon?.type==="color" && icon.index === "01") ? 2 : 0, borderColor: "#ffdd1f" }} onPress={() => { setIcon({ type: "color" , index: "01" }) }} color="#6173ff" />
-                        <CircleCoverColor style={{ borderWidth: (icon?.type==="color" && icon.index === "02") ? 2 : 0, borderColor: "#ffdd1f" }} onPress={() => { setIcon({ type: "color" , index: "02" }) }} color="#e49ffd" />
-                        <CircleCoverColor style={{ borderWidth: (icon?.type==="color" && icon.index === "03") ? 2 : 0, borderColor: "#ffdd1f" }} onPress={() => { setIcon({ type: "color" , index: "03" }) }} color="#4fbcd0" />
-                        <CircleCoverColor style={{ borderWidth: (icon?.type==="color" && icon.index === "04") ? 2 : 0, borderColor: "#ffdd1f" }} onPress={() => { setIcon({ type: "color" , index: "04" }) }} color="#b59aff" />
-                        <CircleCoverColor style={{ borderWidth: (icon?.type==="color" && icon.index === "05") ? 2 : 0, borderColor: "#ffdd1f" }} onPress={() => { setIcon({ type: "color" , index: "05" }) }} color="#fdae43" />
-                        <CircleCoverColor style={{ borderWidth: (icon?.type==="color" && icon.index === "06") ? 2 : 0, borderColor: "#ffdd1f" }} onPress={() => { setIcon({ type: "color" , index: "06" }) }} color="#1ad0ff" />
+                        <TouchableOpacity onPress={() => { setIcon({ type: "image" , index: "01" }) }} ><CircleCoverImage style={{ borderWidth: (icon?.type==="image" && icon.index === "01") ? 2 : 0, borderColor: "#ffdd1f", borderRadius: 100 }} source={require("@assets/images/diary/diary_circleimg_01.png")}></CircleCoverImage>{(icon?.type==="image" && icon.index === "01") && <SelectImage source={SelecedCheckImage}/>}</TouchableOpacity>
+                        <TouchableOpacity onPress={() => { setIcon({ type: "image" , index: "02" }) }} ><CircleCoverImage style={{ borderWidth: (icon?.type==="image" && icon.index === "02") ? 2 : 0, borderColor: "#ffdd1f", borderRadius: 100 }} source={require("@assets/images/diary/diary_circleimg_02.png")}></CircleCoverImage>{(icon?.type==="image" && icon.index === "02") && <SelectImage source={SelecedCheckImage}/>}</TouchableOpacity>
+                        <TouchableOpacity onPress={() => { setIcon({ type: "image" , index: "03" }) }} ><CircleCoverImage style={{ borderWidth: (icon?.type==="image" && icon.index === "03") ? 2 : 0, borderColor: "#ffdd1f", borderRadius: 100 }} source={require("@assets/images/diary/diary_circleimg_03.png")}></CircleCoverImage>{(icon?.type==="image" && icon.index === "03") && <SelectImage source={SelecedCheckImage}/>}</TouchableOpacity>
+                        <TouchableOpacity onPress={() => { setIcon({ type: "image" , index: "04" }) }} ><CircleCoverImage style={{ borderWidth: (icon?.type==="image" && icon.index === "04") ? 2 : 0, borderColor: "#ffdd1f", borderRadius: 100 }} source={require("@assets/images/diary/diary_circleimg_04.png")}></CircleCoverImage>{(icon?.type==="image" && icon.index === "04") && <SelectImage source={SelecedCheckImage}/>}</TouchableOpacity>
+                        <TouchableOpacity onPress={() => { setIcon({ type: "image" , index: "05" }) }} ><CircleCoverImage style={{ borderWidth: (icon?.type==="image" && icon.index === "05") ? 2 : 0, borderColor: "#ffdd1f", borderRadius: 100 }} source={require("@assets/images/diary/diary_circleimg_05.png")}></CircleCoverImage>{(icon?.type==="image" && icon.index === "05") && <SelectImage source={SelecedCheckImage}/>}</TouchableOpacity>
+                        <TouchableOpacity onPress={() => { setIcon({ type: "image" , index: "06" }) }} ><CircleCoverImage style={{ borderWidth: (icon?.type==="image" && icon.index === "06") ? 2 : 0, borderColor: "#ffdd1f", borderRadius: 100 }} source={require("@assets/images/diary/diary_circleimg_06.png")}></CircleCoverImage>{(icon?.type==="image" && icon.index === "06") && <SelectImage source={SelecedCheckImage}/>}</TouchableOpacity>
+                        <CircleCoverColor style={{ borderWidth: (icon?.type==="color" && icon.index === "01") ? 2 : 0, borderColor: "#ffdd1f" }} onPress={() => { setIcon({ type: "color" , index: "01" }) }} color="#6173ff">{(icon?.type==="color" && icon.index === "01") && <SelectColor source={SelecedCheckImage}/>}</CircleCoverColor>
+                        <CircleCoverColor style={{ borderWidth: (icon?.type==="color" && icon.index === "02") ? 2 : 0, borderColor: "#ffdd1f" }} onPress={() => { setIcon({ type: "color" , index: "02" }) }} color="#e49ffd">{(icon?.type==="color" && icon.index === "02") && <SelectColor source={SelecedCheckImage}/>}</CircleCoverColor>
+                        <CircleCoverColor style={{ borderWidth: (icon?.type==="color" && icon.index === "03") ? 2 : 0, borderColor: "#ffdd1f" }} onPress={() => { setIcon({ type: "color" , index: "03" }) }} color="#4fbcd0">{(icon?.type==="color" && icon.index === "03") && <SelectColor source={SelecedCheckImage}/>}</CircleCoverColor>
+                        <CircleCoverColor style={{ borderWidth: (icon?.type==="color" && icon.index === "04") ? 2 : 0, borderColor: "#ffdd1f" }} onPress={() => { setIcon({ type: "color" , index: "04" }) }} color="#b59aff">{(icon?.type==="color" && icon.index === "04") && <SelectColor source={SelecedCheckImage}/>}</CircleCoverColor>
+                        <CircleCoverColor style={{ borderWidth: (icon?.type==="color" && icon.index === "05") ? 2 : 0, borderColor: "#ffdd1f" }} onPress={() => { setIcon({ type: "color" , index: "05" }) }} color="#fdae43">{(icon?.type==="color" && icon.index === "05") && <SelectColor source={SelecedCheckImage}/>}</CircleCoverColor>
+                        <CircleCoverColor style={{ borderWidth: (icon?.type==="color" && icon.index === "06") ? 2 : 0, borderColor: "#ffdd1f" }} onPress={() => { setIcon({ type: "color" , index: "06" }) }} color="#1ad0ff">{(icon?.type==="color" && icon.index === "06") && <SelectColor source={SelecedCheckImage}/>}</CircleCoverColor>
                     </CircleCoverImageConteiner>
                 </CoverConteiner>
             </Container>

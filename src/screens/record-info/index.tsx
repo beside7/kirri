@@ -25,6 +25,20 @@ type BackgroundProps = {
     children: ReactNode;
 };
 
+const background = {
+    image_0: require("@assets/images/record/diary_overview_bgimg_color_01.png"),
+    image_1: require("@assets/images/record/diary_overview_bgimg_color_02.png"),
+    image_2: require("@assets/images/record/diary_overview_bgimg_color_03.png"),
+    image_3: require("@assets/images/record/diary_overview_bgimg_color_04.png"),
+    color_0: require("@assets/images/record/diary_overview_bgimg_white_01.png"),
+    color_1: require("@assets/images/record/diary_overview_bgimg_white_02.png"),
+    color_2: require("@assets/images/record/diary_overview_bgimg_white_03.png"),
+}
+
+type backgroundKey = keyof (typeof background)
+
+
+
 export default function RecordInfo({navigation , route} : RecordInfoProps) {
 
 
@@ -107,7 +121,8 @@ export default function RecordInfo({navigation , route} : RecordInfoProps) {
                 }
             >
                 <Image
-                    source={require("@assets/images/record/diary_overview_bgimg_color_01.png")}
+                    // source={require("@assets/images/record/diary_overview_bgimg_color_01.png")}
+                    source={background[`${coverType}_${(coverType === 'image') ? parseInt(coverId)%4 :  parseInt(coverId)%3}` as backgroundKey]}
                     style={{
                         width: Dimensions.get("screen").width,
                         height: Dimensions.get("screen").height,
