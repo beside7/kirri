@@ -98,7 +98,7 @@ export const RecordView = observer(({ route, navigation } : RecordViewProps) => 
                 Alert.alert("삭제되었습니다.")
                 navigation.replace("RecordList", { diary : diary })
             } catch (error) {
-                console.log(error);
+                console.log(error.response);
                 Alert.alert("삭제중 에러발생")
             }
         }
@@ -162,7 +162,7 @@ export const RecordView = observer(({ route, navigation } : RecordViewProps) => 
                     }
                     rightIcon={
                         // 만약 다이러리 관리자 이거나 해당글을 생성한 유저일경우에는 수정 및 삭제 활성화
-                        (isAdministrator || isCreateUser ) &&
+                        ( isCreateUser ) &&
                             // 우측 상단 메뉴
                             <Menu
                                 style={{
@@ -179,12 +179,10 @@ export const RecordView = observer(({ route, navigation } : RecordViewProps) => 
                                     </TouchableOpacity>
                                 }
                             >
-                                {isCreateUser &&
-                                    <Menu.Item onPress={() => {
-                                        closeMenu()
-                                        navigation.navigate("RecordInput", {diary: diary, record: record})
-                                    }} title="기록 수정"/>
-                                }
+                                <Menu.Item onPress={() => {
+                                    closeMenu()
+                                    navigation.navigate("RecordInput", {diary: diary, record: record})
+                                }} title="기록 수정"/>
                                 <Menu.Item onPress={() => {
                                     closeMenu()
                                     setModal(true)
