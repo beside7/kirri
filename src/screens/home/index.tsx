@@ -1,7 +1,9 @@
 
 import React, {ReactElement, useCallback, useState, useEffect, useRef, Fragment} from 'react'
+
 import { View, TouchableOpacity, RefreshControl } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useIsFocused } from '@react-navigation/native';
 
 import { StackNavigatorParams } from "@config/navigator";
 import { StackNavigationProp } from "@react-navigation/stack";
@@ -112,6 +114,9 @@ const Home = ()=> {
     const [recentRecord, setRecentRecord] = useState<RecentRecordType[]>();
     const [createDiaryOpen, setCreateDiaryOpen] = useState(false);
     const [refreshing, setRefreshing] = useState(false);
+
+    // check if screen is focused
+    const isFocused = useIsFocused();
     
     const getUser = async () => {
         if (nickname!=='') {
@@ -150,6 +155,7 @@ const Home = ()=> {
     const onRefresh = async () => {
         setRefreshing(true);
         await getDiaries();
+        await getRecentRecord();
         // wait(2000).then(() => setRefreshing(false));
         setRefreshing(false);
     }
@@ -161,6 +167,12 @@ const Home = ()=> {
             getRecentRecord();
         
     }, []);
+
+    useEffect(() => {
+        getUser();
+        getDiaries();
+        getRecentRecord();
+    },[isFocused]);
 
     if (userLoading || diaryLoading){
         return <></>;
