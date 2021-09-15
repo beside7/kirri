@@ -18,6 +18,9 @@ import { UserStore } from '@store';
 import styles from "./styles"
 import { ProfileImages , ProfileImageTypes } from '@utils'
 
+import { useIsFocused } from '@react-navigation/native';
+
+
 const SCREEN_WIDTH = Dimensions.get("screen").width;
 
 type RecordViewProps = {
@@ -44,6 +47,9 @@ export const RecordView = observer(({ route, navigation } : RecordViewProps) => 
 
     const [diary, setDiary] = useState<DiaryResType | null >(null)
     const [record, setRecord] = useState<RecordResType | null >(null)
+
+    // check if screen is focused
+    const isFocused = useIsFocused();
 
     /**
      * 리스트에서 가져오는 부분
@@ -129,6 +135,10 @@ export const RecordView = observer(({ route, navigation } : RecordViewProps) => 
     useEffect(() => {
         getData()
     }, [])
+    
+    useEffect(() => {
+        getData()
+    },[isFocused]);
 
     if(record){
         const { title, createdDate , body , images } = record
