@@ -17,6 +17,7 @@ import { LeaveConfirm } from './leave-confirm'
 import DeleteConfirm from './delete-confirm'
 
 import RenderItem from './render-item'
+import { useIsFocused } from '@react-navigation/native';
 
 
 
@@ -82,6 +83,9 @@ export const RecordList = observer(({navigation, route} : RecordListProps) => {
      */
     const [leaveConfirm, setLeaveConfirm] = useState(false);
 
+    // check if screen is focused
+    const isFocused = useIsFocused();
+
     /**
      * 다이러리 삭제
      */
@@ -92,7 +96,7 @@ export const RecordList = observer(({navigation, route} : RecordListProps) => {
                 Alert.alert("삭제되었습니다.");
                 navigation.replace("Home");
             }
-        } catch (error) {
+        } catch (error: any) {
             /**
              * 400 번대 에러일경우 메세지 출력
              */
@@ -163,6 +167,13 @@ export const RecordList = observer(({navigation, route} : RecordListProps) => {
             
         }
     }, [])
+
+    useEffect(() => {
+        if(diary){
+            const { uuid } = diary
+            getRecordList(uuid, undefined)
+        }
+    },[isFocused]);
 
     /**
      * 다이러리 떠나기

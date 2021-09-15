@@ -80,8 +80,14 @@ export const RecordView = observer(({ route, navigation } : RecordViewProps) => 
                 // console.log({ record , diary});
                 setIsAdministrator(diary?.members.find((item) => item.nickname === nickname )?.authority === "DIARY_OWNER")
                 setIsCreateUser(nickname === record?.createdByNickname)
-            } catch (error) {
-                console.log(error);
+            } catch (error: any) {
+                console.log(error.response);
+                Alert.alert("" ,"기록을 열람할 권한이 없습니다." , [
+                    {
+                        "text" : "확인",
+                        "onPress" : () => navigation.replace("Home")
+                    }
+                ])
             }
         }
         setLoading(false)
@@ -97,7 +103,7 @@ export const RecordView = observer(({ route, navigation } : RecordViewProps) => 
                 await recordApis.deleteRecord( diary.uuid, record.uuid );
                 Alert.alert("삭제되었습니다.")
                 navigation.replace("RecordList", { diary : diary })
-            } catch (error) {
+            } catch (error: any) {
                 console.log(error.response);
                 Alert.alert("삭제중 에러발생")
             }
