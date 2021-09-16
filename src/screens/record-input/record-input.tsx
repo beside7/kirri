@@ -14,7 +14,7 @@ import {
 } from "react-native";
 import { useHeaderHeight } from "@react-navigation/stack";
 
-import { Background, Text_2, Header, SlideDownModal } from "@components";
+import { Background, Text_2, Header } from "@components";
 import {
   // actions,
   RichEditor,
@@ -42,19 +42,16 @@ import { FontAwesome } from '@expo/vector-icons';
 
 import ImageQualityModal from './image-quality-modal'
 
+import ActionSheet from "react-native-actions-sheet";
+
+
 type RecordInputProps = {
   navigation: StackNavigationProp<StackNavigatorParams, "RecordInput">;
   route: RouteProp<StackNavigatorParams, "RecordInput">;
 };
+const SelecedCheckImage = require('@assets/images/diary/writing_select_diary_check_box_checked.png');
 
 export default function RecordInput({ navigation, route }: RecordInputProps) {
-
-
-  /**
-   * 다이어리 선택 ref
-   */
-  const selectDiaryRef = useRef<any>();
-
 
   /**
    * 다이러리 정보
@@ -126,6 +123,12 @@ export default function RecordInput({ navigation, route }: RecordInputProps) {
    * 로딩 표시 여부
    */
   const [loading, setLoading] = useState(false);
+  
+  /**
+   * 하단 메뉴 설정
+   */
+  const actionSheetRef = useRef<ActionSheet>(null);
+  const scrollViewRef = useRef<ScrollView>(null);
 
   /**
    * 에디터 내부 css 설정
@@ -297,7 +300,7 @@ export default function RecordInput({ navigation, route }: RecordInputProps) {
 
 
             
-        } catch (error) {
+        } catch (error: any) {
             console.log(error);
             console.log(error.response);
             
@@ -321,7 +324,7 @@ export default function RecordInput({ navigation, route }: RecordInputProps) {
     /**
      * 하단 팝업 열기
      */
-    selectDiaryRef.current?.open();
+    actionSheetRef.current?.setModalVisible();
     const data = await diaryApis.getDiaries();
     const { elements } = data;
     setDiatyList(elements);
@@ -462,51 +465,74 @@ export default function RecordInput({ navigation, route }: RecordInputProps) {
         </View>
         
         {/* 하단 팝업 부분 */}
-        <SlideDownModal
-          ref={selectDiaryRef}
+
+        <ActionSheet
+          ref={actionSheetRef}
+          bounceOnOpen={true}
+          headerAlwaysVisible={true}
+          gestureEnabled={true}
+          overlayColor="#17171c"
+          defaultOverlayOpacity={0.3}
         >
           <View style={styles.bottomPopupContainer}>
             <View style={styles.bottomPopupTitleContainer}>
               <Text_2 style={styles.bottomPopupTitle}>다이어리 선택</Text_2>
             </View>
-            <SafeAreaView style={{ height: 300 }}>
-              <FlatList 
-                data={diatyList}
-                keyExtractor={(item, _) => item.uuid}
-                renderItem={({ item }) => {
-                  return(
-                    <TouchableOpacity 
-                      style={styles.diatyListItemContainer}
-                      onPress={() => {
-                        item.uuid !== selectDiary ? setSelectDiary(item.uuid) : setSelectDiary(null)
-                      }}
-                    >
-                      <View style={styles.diatyListItemThumbnailContainer}>
-                        {
-                          item.icon.split(":")[0] === "image" ?
-                          <Image 
-                            style={ item.uuid === selectDiary && styles.selectDiaryImage }
-                            source={CoverCircleImages[item.icon.split(":")[1] as CoverImageTypes ]}
-                          />
-                          :
-                          <View 
-                            style={{
-                              width: 40,
-                              height: 40,
-                              backgroundColor: CoverColor[item.icon.split(":")[1] as CoverImageTypes ]
-                            }}
-                          />
-                        }
-                      </View>
+            <ScrollView 
+              style={{ height: 200 }}
+              ref={scrollViewRef}
+              nestedScrollEnabled={true}
+              onScrollEndDrag={() =>
+                  actionSheetRef.current?.handleChildScrollEnd()
+              }
+              onScrollAnimationEnd={() =>
+                  actionSheetRef.current?.handleChildScrollEnd()
+              }
+              onMomentumScrollEnd={() =>
+                  actionSheetRef.current?.handleChildScrollEnd()
+              }
+            >
+              {diatyList.map((item, key) => (
+                <TouchableOpacity 
+                  key={key}
+                  style={styles.diatyListItemContainer}
+                  onPress={() => {
+                    item.uuid !== selectDiary ? setSelectDiary(item.uuid) : setSelectDiary(null)
+                  }}
+                >
+                  <View style={styles.diatyListItemThumbnailContainer}>
+                    {
+                      item.icon.split(":")[0] === "image" ?
                       <View>
-                        <Text_2 style={styles.diatyListItemTitle}>{item.title}</Text_2>
-                        <Text_2 style={styles.diatyListItemCount}>{item.members.length} 끼리</Text_2>
+                        <Image 
+                          style={ item.uuid === selectDiary && styles.selectDiaryImage }
+                          source={CoverCircleImages[item.icon.split(":")[1] as CoverImageTypes ]}
+                        />
+                        {item.uuid === selectDiary && <Image style={styles.selectImage} source={SelecedCheckImage}/>}
                       </View>
-                    </TouchableOpacity>
-                  )
-                }}
-              />
-            </SafeAreaView>
+                      :
+                      <View 
+                        style={[
+                          {
+                            width: 40,
+                            height: 40,
+                            borderRadius: 40,
+                            backgroundColor: CoverColor[item.icon.split(":")[1] as CoverImageTypes ]
+                          },
+                          item.uuid === selectDiary && styles.selectDiaryImage
+                        ]}
+                      >
+                        {item.uuid === selectDiary && <Image style={styles.selectColor} source={SelecedCheckImage}/>}
+                      </View>
+                    }
+                  </View>
+                  <View>
+                    <Text_2 style={styles.diatyListItemTitle}>{item.title}</Text_2>
+                    <Text_2 style={styles.diatyListItemCount}>{item.members.length} 끼리</Text_2>
+                  </View>
+                </TouchableOpacity>
+              ))}
+            </ScrollView>
             <View style={styles.bottomPopupButtonContainer}>
               <TouchableOpacity 
                 style={selectDiary === null ? styles.bottomPopupDisableButton : styles.bottomPopupEnableButton}
@@ -516,7 +542,7 @@ export default function RecordInput({ navigation, route }: RecordInputProps) {
                     if(diary){
                       setSelectDiary(null)
                       setDiary( diary )
-                      selectDiaryRef.current?.close();
+                      actionSheetRef.current?.setModalVisible(false);
                     }
                   } 
                 }}
@@ -525,9 +551,7 @@ export default function RecordInput({ navigation, route }: RecordInputProps) {
               </TouchableOpacity>
             </View>
           </View>
-        
-        </SlideDownModal>
-
+        </ActionSheet>
       </KeyboardAvoidingView>
     </Background>
   );

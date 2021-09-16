@@ -57,7 +57,7 @@ const styles = StyleSheet.create({
         opacity: 0.5,
     },
     bottomPopupContainer:{
-        height: 550,
+        height: 350,
         width: "100%",
         backgroundColor: "#fff",
         borderRadius: 20,
@@ -110,7 +110,8 @@ const styles = StyleSheet.create({
     bottomPopupButtonContainer: {
         alignItems: "center",
         justifyContent: "center",
-        marginTop: 60
+        marginTop: 60,
+        marginBottom: 30
     },
     bottomPopupDisableButton: {
         width: 307,
@@ -180,6 +181,20 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         alignItems: "center",
         justifyContent: "space-between"
+    },
+    selectImage: {
+        width: 30,
+        height: 30,
+        position: "absolute",
+        top: 4,
+        left: 5
+    },
+    selectColor: {
+        width: 30,
+        height: 30,
+        position: "absolute",
+        top: 1,
+        left: 2
     }
 })
 

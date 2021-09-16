@@ -94,7 +94,7 @@ export default function DiaryConfig({ navigation, route } : DiaryConfigProps) {
                 });
                 Alert.alert("수정되었습니다.");
                 navigation.replace("Home")
-            } catch (error) {
+            } catch (error: any) {
                 if (error.response) {
                     const { data } = error.response;
                     console.log(data);

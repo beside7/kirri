@@ -106,7 +106,7 @@ const CheerUp = observer(({ navigation , route } : CheerUpProps) => {
                 setMessage("응원 메세지를 보냈습니다.");
                 setVisible(true);
             }
-        } catch (error) {
+        } catch (error: any) {
             if(error.response){
                 console.log("sendMessage error",error.response);
                 Alert.alert(error.response.data.message)
