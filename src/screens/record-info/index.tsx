@@ -1,5 +1,5 @@
 import React, {ReactElement, ReactNode, useState, useEffect} from 'react'
-import {View, Animated, PanResponder, Image, Dimensions, TouchableOpacity} from 'react-native'
+import {View, Animated, PanResponder, Image, Dimensions, TouchableOpacity, BackHandler} from 'react-native'
 import Color from './color'
 
 import { Container, HeaderImage, Title, Content, Footer,Author , Button, Icon , ButtonText, ScrollDownButton } from "./style";
@@ -69,6 +69,22 @@ export default function RecordInfo({navigation , route} : RecordInfoProps) {
         };
     }, []);
 
+    /**
+   * 뒤로가기 버튼 클릭시 이벤트
+   */
+  useEffect(() => {
+    const backAction = () => {
+      navigation.replace("Home")
+      return true;
+    };
+
+    const backHandler = BackHandler.addEventListener(
+      "hardwareBackPress",
+      backAction
+    );
+    return () => backHandler.remove();
+  }, []);
+
 
 
     /**
@@ -135,7 +151,7 @@ export default function RecordInfo({navigation , route} : RecordInfoProps) {
                 />
                 <TouchableOpacity
                     onPress={()=>{
-                        navigation.goBack();
+                        navigation.replace("Home")
                     }}
                     style={{
                         top: 60,
