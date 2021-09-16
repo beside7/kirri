@@ -1,4 +1,4 @@
-import React, { ReactElement, useState, useEffect,useRef } from "react";
+import React, { ReactElement, useState, useEffect } from "react";
 import { NavigationContainer, StackActions, CommonActions} from '@react-navigation/native';
 
 import {useMessagePopupDispatch} from '@components';
@@ -15,11 +15,8 @@ import {
     TestPage,
     FriendMain,
     MessageList,
-    MainHome,
     Cheerup,
     CheerupMessage,
-    Setting,
-    Onboarding,
     RecordInfo,
     RecordList,
     RecordInput,
@@ -78,16 +75,13 @@ export type StackNavigatorParams = {
     MessageList: undefined;
     Home: any;
     TermsAndConditions: undefined;
-    MainHome: undefined
     Cheerup: { diary : DiaryResType | null }
     CheerupMessage: { title: string , body : string , data : PushNotification  }
-    Setting: undefined
+    Settings: any;
     RecordInfo: { diary : DiaryResType }
-    RecordList: { diary : DiaryResType | null }
+    RecordList: { diary : DiaryResType | null, snack: string | null }
     RecordInput: { diary : DiaryResType | null , record? : RecordResType }
     RecordView: { diaryUuid: string | null , recordUuid: string | null };
-    Onboarding: undefined,
-    Settings: any;
     DiaryConfig: { diary : DiaryResType | null };
     EditPersonalInfo: undefined;
     TermsWebview: {type?: string, title: string, url?: string};
@@ -304,13 +298,6 @@ export default function navigator(): ReactElement {
                     }}
                 />
                 <Stack.Screen
-                    name="MainHome"
-                    component={MainHome}
-                    options={{
-                        headerShown: false
-                    }}
-                />
-                <Stack.Screen
                     name="Cheerup"
                     component={Cheerup}
                     options={{
@@ -325,13 +312,7 @@ export default function navigator(): ReactElement {
                     }}
                 />
                 
-                <Stack.Screen
-                    name="Setting"
-                    component={Setting}
-                    options={{
-                        headerShown: false
-                    }}
-                />
+
                  <Stack.Screen
                     name="EditPersonalInfo"
                     component={EditPersonalInfo}
@@ -346,13 +327,7 @@ export default function navigator(): ReactElement {
                         headerShown: false
                     }}
                 />
-                <Stack.Screen
-                    name="Onboarding"
-                    component={Onboarding}
-                    options={{
-                        headerShown: false
-                    }}
-                />
+                
                 
                 <Stack.Screen
                     name="RecordInfo"

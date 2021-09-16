@@ -45,8 +45,9 @@ export default function RenderItem({ item : { id, uuid , title, body , images, c
                 {
                     (images.length > 0) && 
                         <TouchableOpacity
-                            onPress={() => {
-                                navigation.navigate("RecordView" , { diaryUuid : diaryUuid , recordUuid : uuid })
+                            onPress={(e) => {
+                                e.preventDefault()
+                                navigation.replace("RecordView" , { diaryUuid : diaryUuid , recordUuid : uuid })
                             }}
                         >
                             {/* 글쓴이가 업로드한 이미지 */}
@@ -61,7 +62,7 @@ export default function RenderItem({ item : { id, uuid , title, body , images, c
             </View>
             <TouchableOpacity
                 onPress={() => {
-                    navigation.navigate("RecordView" , { diaryUuid : diaryUuid , recordUuid: uuid })
+                    navigation.replace("RecordView" , { diaryUuid : diaryUuid , recordUuid: uuid })
                 }}
             >
                 {/* 제목 */}

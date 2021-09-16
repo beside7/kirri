@@ -6,11 +6,8 @@ export * from './nickname';
 export { default as TestPage } from "./test-page";
 export { default as FriendMain } from "./friend-main";
 export { default as MessageList } from "./message-list";
-export { default as MainHome } from "./main-home";
 export { default as Cheerup } from "./cheerup";
 export { default as CheerupMessage } from "./cheerup-message";
-export { default as Setting } from "./setting"
-export { default as Onboarding } from "./onboarding"
 export { Settings } from './settings';
 
 export { default as RecordInfo } from "./record-info"

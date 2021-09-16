@@ -20,29 +20,22 @@ import {
   RichEditor,
   // RichToolbar,
 } from "react-native-pell-rich-editor";
-
 import styles from "./record-input.style";
 import { AntDesign } from "@expo/vector-icons";
 import * as ImagePicker from "expo-image-picker";
-
 import { recordApis } from "@apis";
-
 import { StackNavigatorParams } from "@config/navigator";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { RouteProp } from "@react-navigation/native";
-
 import { CreateRecordReqType, DiaryResType } from "@type-definition/diary";
 import { diaryApis } from '@apis';
-
 import { FlatList } from "react-native-gesture-handler";
 import * as FileSystem from 'expo-file-system';
-
 import { CoverCircleImages , CoverColor , CoverImageTypes} from "@utils";
 import { FontAwesome } from '@expo/vector-icons'; 
-
 import ImageQualityModal from './image-quality-modal'
-
 import ActionSheet from "react-native-actions-sheet";
+import { Snackbar } from 'react-native-paper';
 
 
 type RecordInputProps = {
@@ -163,7 +156,7 @@ export default function RecordInput({ navigation, route }: RecordInputProps) {
    */
   useEffect(() => {
     const backAction = () => {
-      Alert.alert("작성 중인 기록은 저장되지 않아요. 나가시겠어요?", undefined , [
+      Alert.alert("", "작성 중인 기록은 저장되지 않아요. 나가시겠어요?" , [
         {
           text: "머무르기",
           onPress: () => null,
@@ -212,7 +205,7 @@ export default function RecordInput({ navigation, route }: RecordInputProps) {
          * 만약 추가한 이미지가 2MB 보다 크면 경고창 출력후 중단
          */
         if( fileInfo.size !== undefined && fileInfo.size > 1024 * 1024 * 5 ){
-          Alert.alert(`이미지 용량이 너무 커요. 5MB이하의 이미지를 등록해주세요.`,  undefined, [{ "text" : "확인" , "style" : "default" }]);
+          Alert.alert("", `이미지 용량이 너무 커요. 5MB이하의 이미지를 등록해주세요.`, [{ "text" : "확인" , "style" : "default" }]);
           return;
         }
         
@@ -220,7 +213,7 @@ export default function RecordInput({ navigation, route }: RecordInputProps) {
         
       } catch (error) {
         console.log(error);
-        Alert.alert(`해당 이미지가 존재하지 않습니다.`,  undefined, [{ "text" : "확인" , "style" : "default" }])  
+        Alert.alert("", `해당 이미지가 존재하지 않습니다.`, [{ "text" : "확인" , "style" : "default" }])  
       }
     }
     setLoading(false)
@@ -254,12 +247,12 @@ export default function RecordInput({ navigation, route }: RecordInputProps) {
     setLoading(true);
 
       if(!title){
-        Alert.alert(`제목을 작성해 주세요.` ,  undefined, [{ "text" : "확인" , "style" : "default" }]);
+        Alert.alert("", `제목을 작성해 주세요.` , [{ "text" : "확인" , "style" : "default" }]);
         return;
       }
 
       if(!body){
-        Alert.alert(`내용을 작성해 주세요.` ,  undefined, [{ "text" : "확인" , "style" : "default" }]);
+        Alert.alert("", `내용을 작성해 주세요.` , [{ "text" : "확인" , "style" : "default" }]);
         return;
       }
 
@@ -288,10 +281,12 @@ export default function RecordInput({ navigation, route }: RecordInputProps) {
             
             switch (type) {
               case "new":
-                  Alert.alert(`새 기록이 다이어리에 등록되었어요.`,  undefined, [{ "text" : "확인" , "style" : "default" , "onPress" : () => navigation.replace("RecordList", { diary: diary }) }])
+                  // Alert.alert("", `새 기록이 다이어리에 등록되었어요.`, [{ "text" : "확인" , "style" : "default" , "onPress" : () => navigation.replace("RecordList", { diary: diary, snack : null }) }])
+                  navigation.replace("RecordList", { diary: diary, snack : `새 기록이 다이어리에 등록되었어요.` })
                 break;
                 case "modify":
-                  Alert.alert(`기록이 수정되었어요.`,  undefined, [{ "text" : "확인" , "style" : "default" , "onPress" : () => navigation.replace("RecordList", { diary: diary }) }])
+                  // Alert.alert("", `기록이 수정되었어요.`, [{ "text" : "확인" , "style" : "default" , "onPress" : () => navigation.replace("RecordList", { diary: diary, snack : null }) }])
+                  navigation.replace("RecordList", { diary: diary, snack : `기록이 수정되었어요.` })
                 break;
             
               default:
@@ -311,7 +306,7 @@ export default function RecordInput({ navigation, route }: RecordInputProps) {
             );
         }
       } else {
-        Alert.alert(`기록을 등록할 다이어리를 선택해주세요.` ,  undefined, [{ "text" : "확인" , "style" : "default" }])
+        Alert.alert("", `기록을 등록할 다이어리를 선택해주세요.` , [{ "text" : "확인" , "style" : "default" }])
       }
 
       setLoading(false);
@@ -337,7 +332,7 @@ export default function RecordInput({ navigation, route }: RecordInputProps) {
         leftIcon={
           <TouchableOpacity
             onPress={() => {
-              Alert.alert("작성 중인 기록은 저장되지 않아요. 나가시겠어요?", undefined , [
+              Alert.alert("","작성 중인 기록은 저장되지 않아요. 나가시겠어요?" , [
                 {
                   text: "머무르기",
                   onPress: () => null,

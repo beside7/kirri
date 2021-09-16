@@ -110,7 +110,7 @@ export default function RecordInfo({navigation , route} : RecordInfoProps) {
              * 만약 하단으로 화면 드래그시 리스트 화면으로 넘어감
              */
             if(gesture.dy < 0){
-                navigation.navigate("RecordList", { diary: diary })
+                navigation.navigate("RecordList", { diary: diary, snack: null })
             }
         }
     })

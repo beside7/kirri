@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { ReactElement, useEffect, useState } from 'react'
 import { View, FlatList , TouchableOpacity, Image, SafeAreaView, Dimensions, Alert } from 'react-native'
 import { Background, Text_2, Header, Dropdown } from "@components";
 import styles from './style'
@@ -19,6 +19,7 @@ import DeleteConfirm from './delete-confirm'
 import RenderItem from './render-item'
 import { useIsFocused } from '@react-navigation/native';
 
+import { Snackbar } from 'react-native-paper';
 
 
 type RecordListProps = {
@@ -61,6 +62,15 @@ export const RecordList = observer(({navigation, route} : RecordListProps) => {
      * info 에서 넘겨받은 다이러리 정보
      */
     const diary = route.params.diary;
+
+
+    
+    /**
+     * snack bar
+     */
+    const snack : string | null = route.params.snack
+    const [snackVisible, setSnackVisible] = useState(snack !== null);
+    const onDismissSnackBar = () => setSnackVisible(false);
 
     /**
      * 현재 로그인한 사용자가 해당 다이러리에서 관리자인지 판별하는 부분 
@@ -389,6 +399,21 @@ export const RecordList = observer(({navigation, route} : RecordListProps) => {
                         </TouchableOpacity>
                     </View>
                 )
+            }
+            
+
+            {
+                (snack !== null) &&
+                <Snackbar
+                    visible={snackVisible}
+                    onDismiss={onDismissSnackBar}
+                    action={{
+                    label: '확인',
+                    onPress: () => {
+                    },
+                    }}>
+                    {snack}
+                </Snackbar>
             }
         </Background>
     )

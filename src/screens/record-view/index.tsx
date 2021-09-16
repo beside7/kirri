@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { View, ScrollView, Image, TouchableOpacity, Alert, Dimensions, ActivityIndicator } from 'react-native'
+import { View, ScrollView, Image, TouchableOpacity, Alert, Dimensions, ActivityIndicator, RefreshControl } from 'react-native'
 import { Background, Text_2, Header  } from "@components";
 
 import { StackNavigatorParams } from "@config/navigator";
@@ -17,9 +17,6 @@ import { observer } from 'mobx-react';
 import { UserStore } from '@store';
 import styles from "./styles"
 import { ProfileImages , ProfileImageTypes } from '@utils'
-
-import { useIsFocused } from '@react-navigation/native';
-
 
 const SCREEN_WIDTH = Dimensions.get("screen").width;
 
@@ -48,9 +45,7 @@ export const RecordView = observer(({ route, navigation } : RecordViewProps) => 
     const [diary, setDiary] = useState<DiaryResType | null >(null)
     const [record, setRecord] = useState<RecordResType | null >(null)
 
-    // check if screen is focused
-    const isFocused = useIsFocused();
-
+    const [refreshing, setRefreshing] = useState(false);
     /**
      * 리스트에서 가져오는 부분
      */
@@ -107,14 +102,25 @@ export const RecordView = observer(({ route, navigation } : RecordViewProps) => 
         if(diary && record){
             try {
                 await recordApis.deleteRecord( diary.uuid, record.uuid );
-                Alert.alert("삭제되었습니다.")
-                navigation.replace("RecordList", { diary : diary })
+                Alert.alert("","삭제되었습니다." , [
+                    {
+                        text : "확인",
+                        onPress : () => navigation.replace("RecordList", { diary : diary, snack : null })
+                    }
+                ])
             } catch (error: any) {
                 console.log(error.response);
                 Alert.alert("삭제중 에러발생")
             }
         }
         setLoading(false)
+    }
+
+    const onRefresh = async () => {
+        setRefreshing(true);
+        await getData();
+        // wait(2000).then(() => setRefreshing(false));
+        setRefreshing(false);
     }
 
     /**
@@ -136,9 +142,6 @@ export const RecordView = observer(({ route, navigation } : RecordViewProps) => 
         getData()
     }, [])
     
-    useEffect(() => {
-        getData()
-    },[isFocused]);
 
     if(record){
         const { title, createdDate , body , images } = record
@@ -207,7 +210,15 @@ export const RecordView = observer(({ route, navigation } : RecordViewProps) => 
                     }
                     title="기록 보기"     
                 />
-                <ScrollView style={{flex: 1}}>
+                <ScrollView 
+                    style={{flex: 1}}
+                    refreshControl={
+                    <RefreshControl
+                        refreshing={refreshing}
+                        onRefresh={onRefresh}
+                    />
+                    }
+                >
                     {/* 제목 */}
                     <View style={styles.viewTitle}>
                         <Text_2 style={{ fontSize : 20}}>{title}</Text_2>
