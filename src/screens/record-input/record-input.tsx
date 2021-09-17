@@ -44,6 +44,11 @@ type RecordInputProps = {
 };
 const SelecedCheckImage = require('@assets/images/diary/writing_select_diary_check_box_checked.png');
 
+/**
+ * HTML 태그 제거
+ */
+const remoteHTML = (string : string) => string.replace(/(<([^>]+)>)/gi, "").split("&nbsp;").join(" ")
+
 export default function RecordInput({ navigation, route }: RecordInputProps) {
 
   /**
@@ -451,7 +456,7 @@ export default function RecordInput({ navigation, route }: RecordInputProps) {
           </TouchableOpacity>
           <View>
             <Text_2 bold="Regular" style={{ color: "#6f6f7e" }}>
-              ({body.length}/2000)
+              ({remoteHTML(body).length}/2000)
             </Text_2>
           </View>
           <TouchableOpacity onPress={() => setVisible(true)}>
