@@ -8,7 +8,7 @@ const styles = StyleSheet.create({
         paddingTop: 34
     },
     editorWrap : {
-        height: SCREEN_HEIGHT - 300,
+        // height: SCREEN_HEIGHT - 300,
     },
     editor : {
         height: SCREEN_HEIGHT - 300,

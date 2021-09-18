@@ -36,6 +36,7 @@ import { FontAwesome } from '@expo/vector-icons';
 import ImageQualityModal from './image-quality-modal'
 import ActionSheet from "react-native-actions-sheet";
 import { Snackbar } from 'react-native-paper';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 
 
 type RecordInputProps = {
@@ -43,6 +44,7 @@ type RecordInputProps = {
   route: RouteProp<StackNavigatorParams, "RecordInput">;
 };
 const SelecedCheckImage = require('@assets/images/diary/writing_select_diary_check_box_checked.png');
+const SCREEN_HEIGHT = Dimensions.get("screen").height;
 
 /**
  * HTML 태그 제거
@@ -126,7 +128,13 @@ export default function RecordInput({ navigation, route }: RecordInputProps) {
    * 하단 메뉴 설정
    */
   const actionSheetRef = useRef<ActionSheet>(null);
+  /**
+   * 다이러리 선택쪽 스크롤 뷰
+   */
   const scrollViewRef = useRef<ScrollView>(null);
+
+  const editorScrollViewRef = useRef<KeyboardAwareScrollView>(null);
+
 
   /**
    * 에디터 내부 css 설정
@@ -395,63 +403,75 @@ export default function RecordInput({ navigation, route }: RecordInputProps) {
         keyboardVerticalOffset={headerHeight}
         style={{ flex: 1 }}
       >
-        <View style={styles.container}>
-          <TextInput
-            style={styles.title}
-            placeholderTextColor="#d1d1de"
-            placeholder={"어떤 제목의 기록을 남겨볼까?"}
-            value={title}
-            maxLength={20}
-            onChangeText={(value) => {
-              setTitle(value);
-            }}
-          />
-          {images && (
-            <View style={styles.imageList}>
-              {images.map((image, index) => (
-                <View style={styles.imageWrap} key={index}>
-                  <Image
-                    source={{ uri: image }}
-                    style={styles.insertImages}
-                  />
-                  <TouchableOpacity
-                    style={styles.closeIcon}
-                    onPress={(e) => removeImage(index)}
-                  >
-                    <AntDesign name="closecircle" size={20} color="black" />
-                  </TouchableOpacity>
-                </View>
-              ))}
-            </View>
-          )}
-          <ScrollView style={[styles.editorWrap, { marginTop: 5 }]}>
-            <RichEditor
-              ref={richText}
-              editorStyle={{
-                cssText: fontFace,
-                contentCSSText: `font-family: SpoqaHanSansNeo-Regular; font-size: 14px; `,
-              }}
-              style={[styles.editor, {}]}
-              onChange={onKeyUp}
-              initialContentHTML={ (type==="modify" && record) ? record.body : ""}
-              initialHeight={ScreenHeight - headerHeight - 200}
-              placeholder={`너의 아주 작은 이야기까지 다 들어줄게!`}
-              pasteAsPlainText={true}
+        <KeyboardAwareScrollView
+            ref={editorScrollViewRef}
+        >
+          <View style={styles.container}>
+            <TextInput
+                style={styles.title}
+                placeholderTextColor="#d1d1de"
+                placeholder={"어떤 제목의 기록을 남겨볼까?"}
+                value={title}
+                maxLength={20}
+                onChangeText={(value) => {
+                  setTitle(value);
+                }}
             />
-          </ScrollView>
-          <Image
-            style={styles.backgroudImage}
-            source={require("@assets/images/diary/diary_bottom_illust.png")}
-          />
-        </View>
+            {images && (
+                <View style={styles.imageList}>
+                  {images.map((image, index) => (
+                      <View style={styles.imageWrap} key={index}>
+                        <Image
+                            source={{ uri: image }}
+                            style={styles.insertImages}
+                        />
+                        <TouchableOpacity
+                            style={styles.closeIcon}
+                            onPress={(e) => removeImage(index)}
+                        >
+                          <AntDesign name="closecircle" size={20} color="black" />
+                        </TouchableOpacity>
+                      </View>
+                  ))}
+                </View>
+            )}
+            <ScrollView
+                // ref={editorScrollViewRef}
+                // nestedScrollEnabled={true}
+                style={[styles.editorWrap, { marginTop: 5, marginBottom: 25 }]}
+                onContentSizeChange={() => {
+                  editorScrollViewRef.current?.scrollToEnd(false)
+                  // console.log("test")
+                }}
+            >
+              <RichEditor
+                  ref={richText}
+                  editorStyle={{
+                    cssText: fontFace,
+                    contentCSSText: `font-family: SpoqaHanSansNeo-Regular; font-size: 14px; `,
+                  }}
+                  style={[styles.editor, {}]}
+                  onChange={onKeyUp}
+                  initialContentHTML={ (type==="modify" && record) ? record.body : ""}
+                  initialHeight={ScreenHeight - headerHeight - 200}
+                  placeholder={`너의 아주 작은 이야기까지 다 들어줄게!`}
+                  pasteAsPlainText={true}
+              />
+            </ScrollView>
+            <Image
+                style={styles.backgroudImage}
+                source={require("@assets/images/diary/diary_bottom_illust.png")}
+            />
+          </View>
+        </KeyboardAwareScrollView>
         <View style={styles.bottomTab}>
           <TouchableOpacity
-            onPress={pickImage}
-            // style={{ position: "absolute", left: 20 }}
+              onPress={pickImage}
+              // style={{ position: "absolute", left: 20 }}
           >
             <Image
-              source={require("@assets/icons/image.png")}
-              style={{ width: 24, height: 24 }}
+                source={require("@assets/icons/image.png")}
+                style={{ width: 24, height: 24 }}
             />
           </TouchableOpacity>
           <View>
@@ -463,7 +483,6 @@ export default function RecordInput({ navigation, route }: RecordInputProps) {
             <FontAwesome name="gear" size={24} color="black" />
           </TouchableOpacity>
         </View>
-        
         {/* 하단 팝업 부분 */}
 
         <ActionSheet

@@ -140,6 +140,7 @@ export const RecordView = observer(({ route, navigation } : RecordViewProps) => 
      */
     useEffect(() => {
         getData()
+        return () => setLoading(true)
     }, [])
     
 
