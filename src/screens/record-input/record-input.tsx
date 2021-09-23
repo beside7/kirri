@@ -438,7 +438,7 @@ export default function RecordInput({ navigation, route }: RecordInputProps) {
             <ScrollView
                 // ref={editorScrollViewRef}
                 // nestedScrollEnabled={true}
-                style={[styles.editorWrap, { marginTop: 5, marginBottom: 25 }]}
+                style={[styles.editorWrap, { marginTop: 5, marginBottom: 50 }]}
                 onContentSizeChange={() => {
                   editorScrollViewRef.current?.scrollToEnd(false)
                   // console.log("test")
