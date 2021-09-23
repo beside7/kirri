@@ -50,7 +50,7 @@ const styles = StyleSheet.create({
     },
     backgroudImage : {
         position: "absolute",
-        top: 490,
+        bottom: 100,
         right: 0,
         width: 150,
         height: 86,

@@ -458,12 +458,14 @@ export default function RecordInput({ navigation, route }: RecordInputProps) {
                   pasteAsPlainText={true}
               />
             </ScrollView>
-            <Image
-                style={styles.backgroudImage}
-                source={require("@assets/images/diary/diary_bottom_illust.png")}
-            />
           </View>
         </KeyboardAwareScrollView>
+        <KeyboardAvoidingView>
+          <Image
+            style={styles.backgroudImage}
+            source={require("@assets/images/diary/diary_bottom_illust.png")}
+          />
+        </KeyboardAvoidingView>
         <View style={styles.bottomTab}>
           <TouchableOpacity
               onPress={pickImage}
