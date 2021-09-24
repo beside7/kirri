@@ -1,6 +1,8 @@
 {
   "expo": {
     "name": "Kirri",
+    "title": "끼리",
+    "description" : "함께라서 더욱 즐거운 우리, 우리 끼리의 소소한 일상을 기록하세요.",
     "slug": "kirri",
     "version": "1.0.0",
     "owner": "100milliongold",
