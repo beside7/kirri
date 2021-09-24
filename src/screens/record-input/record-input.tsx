@@ -474,6 +474,9 @@ export default function RecordInput({ navigation, route }: RecordInputProps) {
                   initialHeight={ScreenHeight - headerHeight - 200}
                   placeholder={`너의 아주 작은 이야기까지 다 들어줄게!`}
                   pasteAsPlainText={true}
+                  onFocus={() => {
+                    richText.current?.focusContentEditor()
+                  }}
                   // initialFocus={true} 
               />
             </ScrollView>
