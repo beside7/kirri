@@ -7746,10 +7746,10 @@ react-native-paper@^4.9.2:
     color "^3.1.2"
     react-native-iphone-x-helper "^1.3.1"
 
-react-native-pell-rich-editor@^1.8.3:
-  version "1.8.5"
-  resolved "https://registry.yarnpkg.com/react-native-pell-rich-editor/-/react-native-pell-rich-editor-1.8.5.tgz#41a01127f39184007d5f6cddccc1bdaaecc74097"
-  integrity sha512-8sks6ah/ffafC0m5PVJ4ZHPg8hT3EwTNkL6qaKELOPKWbnrR9tu72yLZiFqO5n3u8lkHhY79FQ4g7wdXt6F7iw==
+react-native-pell-rich-editor@^1.8.6:
+  version "1.8.6"
+  resolved "https://registry.yarnpkg.com/react-native-pell-rich-editor/-/react-native-pell-rich-editor-1.8.6.tgz#fdd8e0430dfea015198ff8aa1e08769fd0efb375"
+  integrity sha512-FCoLnBlsu/CfgDMUfAb+rb0QSZOB/X0S2Ph98PHWuDoS4FKzGozzyXLVeeLMROrzD5V7q18EIs19LQhZLxOqnw==
 
 react-native-reanimated@~2.1.0:
   version "2.1.0"

@@ -84,6 +84,8 @@ export default function RecordInput({ navigation, route }: RecordInputProps) {
    */
   const richText = React.createRef<RichEditor>() || useRef<RichEditor>();
 
+  const inputRef = useRef<TextInput | null>(null);
+
   /**
    * 헤더 높이
    */
@@ -150,6 +152,13 @@ export default function RecordInput({ navigation, route }: RecordInputProps) {
    * 최초 로드시 이벤트
    */
   useEffect(() => {
+
+    setTimeout(() => {
+      if(inputRef.current){
+        inputRef.current.focus()
+      }
+    }, 1000);
+    
     /**
      * 이미지 사용권한 요청
      */
@@ -164,10 +173,13 @@ export default function RecordInput({ navigation, route }: RecordInputProps) {
     })();
   }, []);
 
+
+  
   /**
    * 뒤로가기 버튼 클릭시 이벤트
    */
   useEffect(() => {
+    
     const backAction = () => {
       Alert.alert("", "작성 중인 기록은 저장되지 않아요. 나가시겠어요?" , [
         {
@@ -184,6 +196,7 @@ export default function RecordInput({ navigation, route }: RecordInputProps) {
       "hardwareBackPress",
       backAction
     );
+
     return () => backHandler.remove();
   }, []);
 
@@ -416,6 +429,11 @@ export default function RecordInput({ navigation, route }: RecordInputProps) {
                 onChangeText={(value) => {
                   setTitle(value);
                 }}
+                autoFocus={true}
+                ref={(input) => inputRef.current = input}
+                onSubmitEditing={() => {
+                  richText.current?.focusContentEditor()
+                }}
             />
             {images && (
                 <View style={styles.imageList}>
@@ -456,6 +474,7 @@ export default function RecordInput({ navigation, route }: RecordInputProps) {
                   initialHeight={ScreenHeight - headerHeight - 200}
                   placeholder={`너의 아주 작은 이야기까지 다 들어줄게!`}
                   pasteAsPlainText={true}
+                  // initialFocus={true} 
               />
             </ScrollView>
           </View>
