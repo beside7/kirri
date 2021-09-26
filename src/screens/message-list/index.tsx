@@ -12,11 +12,18 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { observer } from 'mobx-react';
 import {UserStore} from '@store';
 import { Snackbar } from 'react-native-paper';
+import { CheerUpPopup } from './CheerUpPopup';
 
+type CheerUpType = {
+    text: string,
+    from: string,
+    diaryName: string,
+    diaryId: string
+};
 
 type MessageListProps = {
     navigation: StackNavigationProp<StackNavigatorParams, "MessageList">;
-}
+};
 
 const MessageList= observer(({ navigation } : MessageListProps) => {
     const selectedMessageType = useRef<'all' | MessageType>('all');
@@ -28,6 +35,7 @@ const MessageList= observer(({ navigation } : MessageListProps) => {
     const [acceptInvitationOpen, setAcceptInvitationOpen] = useState(false);
     const [cheeringDetail, setCheeringDetail] = useState<MessageDataType|undefined>(undefined);
     const [refuseInviteSnackVisible, setrefuseInviteSnackVisible] = useState(false);
+    const [cheerUpMessageInfo, setCheerUpMessageInfo] = useState<CheerUpType>();
 
     const updateMessageStatus = (message:MessageDataType) => {
         getMessages();
@@ -45,7 +53,6 @@ const MessageList= observer(({ navigation } : MessageListProps) => {
             switch(selectedMessageType.current) {
                 case 'all':
                     data = await messageApis.getAllMessages({size: pageInfo.current.size, lastId: pageInfo.current.lastId});
-                    console.log(data);
                     break;
                 default :
                     data = await messageApis.getMessagesByType({type: selectedMessageType.current});                   
@@ -66,14 +73,14 @@ const MessageList= observer(({ navigation } : MessageListProps) => {
         switch(type) {
             case "INVITATION":
                 setAcceptInvitationOpen(true);
-                handleChangeSelectedMsgType(selectedMessageType.current);
                 break;
             case "CHEERING":
-                setCheeringDetail(message);
+                // setCheeringDetail(message);
+                const {body, diaryUuid, fromNickname, diaryName} = message || {}; 
+                setCheerUpMessageInfo({text: body || "", diaryId: diaryUuid || "", from: fromNickname || "", diaryName: diaryName || ""});
                 break;
             case "REFUSE_INVITATION":
                 setrefuseInviteSnackVisible(true);
-                getMessages();
                 break;
                     
         }
@@ -82,7 +89,8 @@ const MessageList= observer(({ navigation } : MessageListProps) => {
     const sendToDiary = async ()=>{
         const diary = await diaryApis.viewDiary(targetDiary.current);
         setAcceptInvitationOpen(false);
-        setCheeringDetail(undefined);
+        // setCheeringDetail(undefined);
+        setCheerUpMessageInfo(undefined);
         navigate("RecordInfo" , { diary })
     }
 
@@ -148,7 +156,7 @@ const MessageList= observer(({ navigation } : MessageListProps) => {
                 }}
 
             />
-            <Popup
+            {/* <Popup
                 // width={}
                 open={!!cheeringDetail}
                 content={cheeringDetail?.body}
@@ -158,8 +166,19 @@ const MessageList= observer(({ navigation } : MessageListProps) => {
                 onCancel={()=>{
                     setCheeringDetail(undefined);
                 }}
+            /> */}
+            <CheerUpPopup
+                open={!!cheerUpMessageInfo}
+                text={cheerUpMessageInfo?.text}
+                from={cheerUpMessageInfo?.from}
+                diaryId={cheerUpMessageInfo?.diaryId}
+                diaryName={cheerUpMessageInfo?.diaryName}
+                onClose={()=>{
+                    setCheerUpMessageInfo(undefined);
+                }}
             />
             <Snackbar
+                style={{bottom: 20}}
                 visible={refuseInviteSnackVisible}
                 onDismiss={()=>{
                     setrefuseInviteSnackVisible(false);

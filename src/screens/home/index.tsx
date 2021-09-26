@@ -137,6 +137,8 @@ const Home = ()=> {
             pageInfo.current = {totalPages: data.totalPages, totalCounts: data.totalCounts}; 
             setDiaryList(data.elements||[]);
             setDiaryLoading(false);
+            console.log(data.elements);
+            
             
         } catch (error) {
             console.log(error);
