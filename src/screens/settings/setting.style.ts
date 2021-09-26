@@ -121,17 +121,19 @@ export const LeaveKirriPopupContent = styled.View({
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
+    paddingHorizontal: 24
 })
 
 export const SignoutImage = styled.Image({
     width: 100,
     height: 100,
     resizeMode: 'contain',
-    marginBottom: 24
+    marginBottom: 24,
 })
 
 export const SignoutText = styled.Text((props: {theme: any})=>({
     fontSize: 14,
     color: props.theme['110'],
-    fontFamily: 'SpoqaHanSansNeo-Regular'
+    fontFamily: 'SpoqaHanSansNeo-Regular',
+    textAlign: "center"
 }))
