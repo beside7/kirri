@@ -16,7 +16,7 @@ import { stringToDatetime } from '@utils'
 import { observer } from 'mobx-react';
 import { UserStore } from '@store';
 import styles from "./styles"
-import { ProfileImages , ProfileImageTypes } from '@utils'
+import { ProfileImages , ProfileImageTypes, dateToString } from '@utils'
 
 const SCREEN_WIDTH = Dimensions.get("screen").width;
 
@@ -258,7 +258,8 @@ export const RecordView = observer(({ route, navigation } : RecordViewProps) => 
                             </View>
                             <View  style={{ alignItems : "center", justifyContent: "center"}}>
                                 <Text_2 style={{ fontSize: 12, color: "#6f6f7e" }}>
-                                    {dateFormat(stringToDatetime(createdDate) , 'yyyy-mm-dd HH:MM:ss')}
+                                    {/*{dateFormat(stringToDatetime(createdDate) , 'yyyy-mm-dd HH:MM:ss')}*/}
+                                    {dateToString(stringToDatetime(createdDate))}
                                 </Text_2>
                             </View>
                         </View>
