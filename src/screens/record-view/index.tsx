@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { View, ScrollView, Image, TouchableOpacity, Alert, Dimensions, ActivityIndicator, RefreshControl } from 'react-native'
+import { View, ScrollView, Image, TouchableOpacity, Alert, Dimensions, ActivityIndicator, RefreshControl, BackHandler } from 'react-native'
 import { Background, Text_2, Header  } from "@components";
 
 import { StackNavigatorParams } from "@config/navigator";
@@ -142,6 +142,24 @@ export const RecordView = observer(({ route, navigation } : RecordViewProps) => 
         getData()
         return () => setLoading(true)
     }, [])
+
+    /**
+   * 뒤로가기 버튼 클릭시 이벤트
+   */
+  useEffect(() => {
+    
+    const backAction = () => {
+      navigation.replace("RecordList" , { diary : diary, snack: null })
+      return true;
+    };
+
+    const backHandler = BackHandler.addEventListener(
+      "hardwareBackPress",
+      backAction
+    );
+
+    return () => backHandler.remove();
+  }, []);
     
 
     if(record){
@@ -171,7 +189,8 @@ export const RecordView = observer(({ route, navigation } : RecordViewProps) => 
                     leftIcon={
                         <TouchableOpacity
                             onPress={() => {
-                                navigation.goBack()
+                                // navigation.goBack()
+                                navigation.replace("RecordList" , { diary : diary, snack: null })
                             }}
                         >
                             <Image 
