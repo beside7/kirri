@@ -159,7 +159,7 @@ export const RecordView = observer(({ route, navigation } : RecordViewProps) => 
     );
 
     return () => backHandler.remove();
-  }, []);
+  }, [diary]);
     
 
     if(record){
