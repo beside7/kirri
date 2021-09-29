@@ -60,6 +60,12 @@ export const ListItemImage = styled.Image({
     height: 70,
 })
 
+export const ListItemDisabledImage = styled.Image({
+    width: 70,
+    height: 70,
+    opacity: 0.5
+})
+
 export const ListItemTitle = styled.Text({
     marginTop: 8,
     fontFamily: "SpoqaHanSansNeo-Regular",
@@ -67,6 +73,17 @@ export const ListItemTitle = styled.Text({
     fontSize: 12,
     color: "#17171c",
 })
+
+
+export const ListItemDisabledTitle = styled.Text({
+    marginTop: 8,
+    fontFamily: "SpoqaHanSansNeo-Regular",
+    textAlign: "center",
+    fontSize: 12,
+    color: "#a0a0a0",
+})
+
+
 
 export const ActionSheetContainer = styled.View({
     paddingTop: 30,

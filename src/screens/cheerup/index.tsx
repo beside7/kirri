@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react'
+import React, { useRef, useState, useEffect } from 'react'
 import {Image, TouchableOpacity, Alert, ScrollView, View, Platform} from 'react-native'
 import { Background, Header } from "@components";
 import { messageApis } from "@apis";
@@ -12,6 +12,9 @@ import { UserStore } from '@store';
 import { ProfileImages , ProfileImageTypes } from '@utils'
 import { Snackbar } from 'react-native-paper';
 
+import { diaryApis } from "@apis";
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 import { 
     Container,
     BackgroundImage,
@@ -20,7 +23,9 @@ import {
     FriendList,
     ListItem,
     ListItemImage,
+    ListItemDisabledImage,
     ListItemTitle,
+    ListItemDisabledTitle,
     ActionSheetContainer,
     ProfileContainer,
     ProfileImage,
@@ -87,6 +92,37 @@ const CheerUp = observer(({ navigation , route } : CheerUpProps) => {
      * 다이러리 멤버 -> ACTIVE 멤버이면서 자기자신을 제외
      */
     const [members, setMembers] = useState((diary) ? diary.members.filter((item) => item.status === "ACTIVE").filter((item) => item.nickname !== nickname ) : [])
+    const [cheeupData, setCheeupData] = useState<any>({})
+
+    const getDiary = async () => {
+        const uuid = diary?.uuid;
+        if(uuid){
+            return await diaryApis.viewDiary(uuid)
+        } else {
+            return null
+        }
+    }
+
+
+    useEffect(() => {
+        const index = window.setInterval(() => {
+            getDiary().then(diary => {
+                if(diary){
+                    setMembers(diary.members.filter((item) => item.status === "ACTIVE").filter((item) => item.nickname !== nickname ))
+                }
+            })
+
+            AsyncStorage.getItem('cheerup-data').then(chreerup => {
+                const json = (chreerup) ? JSON.parse(chreerup) : {}
+                setCheeupData(json)
+            })
+        } , 3000)
+        
+        return () => {
+            clearInterval(index)
+        }
+    }, [])
+
 
     /**
      * 응원 메세지 보내기
@@ -94,7 +130,7 @@ const CheerUp = observer(({ navigation , route } : CheerUpProps) => {
      */
     const sendMessage = async (message : string) => {
         try {
-            if(diary && target?.userId){
+            if(diary && target?.userId && target?.nickname){
                 actionSheetRef.current?.setModalVisible();
                 await messageApis.sendMessage(diary.uuid , {
                     type: "CHEERING",
@@ -102,6 +138,13 @@ const CheerUp = observer(({ navigation , route } : CheerUpProps) => {
                     title: "응원 메세지",
                     body: message
                 })
+                
+
+                const chreerup = await AsyncStorage.getItem('cheerup-data')
+                const json = (chreerup) ? JSON.parse(chreerup) : {}
+                json[target.nickname] = new Date().getTime();
+                await AsyncStorage.setItem('cheerup-data', JSON.stringify(json))
+
                 // Alert.alert("응원 메세지를 보냈습니다.");
                 setMessage("응원 메세지를 보냈습니다.");
                 setVisible(true);
@@ -170,8 +213,26 @@ const CheerUp = observer(({ navigation , route } : CheerUpProps) => {
                                 const item = data.item as Memeber
                                 const type = item.profileImagePath.split(":")[1] as ProfileImageTypes
                                 const profileImagePath = ProfileImages[type]
+                                
+                                const time = (item.nickname) ? cheeupData[item.nickname] : 0
+                                const isdisabled = (new Date().getTime() - time) < 1000 * 60 * 3                                
+                                
                                 return(
-                                    <ListItem 
+                                    (isdisabled) ?
+                                    <ListItem
+                                        onPress={() => {
+                                            Alert.alert("" , "응원을 보내고 3분동안은 다시 보낼수 없습니다.")
+                                        }}
+                                    >
+                                        <ListItemDisabledImage 
+                                            source={profileImagePath}
+                                        />
+                                        <ListItemDisabledTitle>
+                                            {item.nickname}
+                                        </ListItemDisabledTitle>
+                                    </ListItem>
+                                    :
+                                    <ListItem
                                         onPress={() => {
                                             setTarget(item)
                                             actionSheetRef.current?.setModalVisible();
