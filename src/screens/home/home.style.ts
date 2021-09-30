@@ -104,10 +104,20 @@ export const RecentContentContainer = styled.View({
     width: 150,
     height: 80,
     borderRadius: 10,
-    boxShadow:'1.5px 2.5px 5px #0000002b',
+    // boxShadow:'1.5px 2.5px 5px #0000002b',
+    shadowColor: 'rgb(0, 0, 0)',
+    shadowOffset: {
+        width: 1,
+        height: 3,
+    },
+    shadowOpacity: 0.5,
+    shadowRadius: 10,
+    elevation: 5,
     backgroundColor: '#fff',
     padding: 10,
-    marginRight: 12
+    marginRight: 12,
+    marginTop: 2,
+    marginLeft: 2,
 })
 
 export const RecentContentWriter = styled.Text({
@@ -170,8 +180,19 @@ export const DiaryContainer = styled.View({
     display: 'flex',
     height: 158,
     marginBottom: 18,
+    marginLeft: 2,
+    marginRight: 2,
     width: 159,
-    boxShadow:'1.5px 2.5px 5px #0000002b',
+    // boxShadow:'1.5px 2.5px 5px #0000002b',
+    shadowColor: 'rgb(0, 0, 0)',
+    shadowOffset: {
+        width: 1,
+        height: 3,
+    },
+    shadowOpacity: 0.5,
+    shadowRadius: 10,
+    borderRadius: 10,
+    elevation: 5
 });
 
 export const CreateDiaryWrap = styled.View({
