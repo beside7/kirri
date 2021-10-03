@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect} from 'react'
 import { Background, Header, Tabs, Dropdown, Popup } from "@components";
 import AppNavigator from "./tab-navigator";
-import { TouchableOpacity, Image, Text, FlatList } from 'react-native';
+import { TouchableOpacity, Image, Text, FlatList, Alert } from 'react-native';
 import { StackNavigatorParams, navigate } from "@config/navigator";
 import { StackNavigationProp } from "@react-navigation/stack";
 import {Container, PickerWrap, AlarmListWarp, EmptyMessage, EmtyMsgImage, EmtyMsgText} from './messageList.style';
@@ -80,7 +80,10 @@ const MessageList= observer(({ navigation } : MessageListProps) => {
                 setCheerUpMessageInfo({text: body || "", diaryId: diaryUuid || "", from: fromNickname || "", diaryName: diaryName || ""});
                 break;
             case "REFUSE_INVITATION":
-                setrefuseInviteSnackVisible(true);
+                // setrefuseInviteSnackVisible(true);
+                Alert.alert("다이어리 초대를 거절했어요.");
+                setRefresing(true);
+                handleChangeSelectedMsgType(selectedMessageType.current);
                 break;
                     
         }

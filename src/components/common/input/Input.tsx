@@ -64,7 +64,7 @@ const ConfirmMsg = styled.Text({
 type Props = {
     width?: string | number,
     height?: string | number,
-    onError: boolean | undefined,
+    onError?: boolean | undefined,
     rightText?: string,
     icon?:ReactElement,
     text: string,

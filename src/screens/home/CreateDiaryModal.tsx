@@ -97,6 +97,7 @@ export const CreateDiaryModal = ({open, reloadDiary, close}: Props) => {
                             setCreateButtonDisable(!text);
                         }}
                         text=''
+                        maxLength={12}
                         placeholder='한글, 영문, 숫자 관계 없이 최대 12자'
                     ></KirriTextInput>
                 </CreateDiaryInputWarp>
