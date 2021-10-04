@@ -15,7 +15,7 @@ const Image_06 = require('@assets/images/diary/diary_cheerup_bgimg_06.png');
 interface Props {
     open: boolean,
     onClose: () => void,
-    text: string | undefined,
+    body: string | undefined,
     from: string | undefined,
     diaryName: string | undefined,
     diaryId: string | undefined
@@ -50,14 +50,19 @@ const ImageList = {
 
 type CheerType =keyof (typeof CheerupImage);
 
-export const CheerUpPopup = ({open, onClose, text, from, diaryName, diaryId}:Props) => {
-    const [cheerUpImg, setCheerUpImg] = useState("01");
+export const CheerUpPopup = ({open, onClose, body, from, diaryName, diaryId}:Props) => {
+    const [cheerUpImg, setCheerUpImg] = useState<CheerType>("01");
 
     useEffect(() => {
-        const index = Object.keys(CheerupImage).find((key)=> CheerupImage[key as CheerType] === text) || "01";
+        console.log("test")
+        const index = Object.keys(CheerupImage).find((key)=> CheerupImage[key as CheerType] === body) || "01";
         setCheerUpImg(index as CheerType);
-    }, [text]);
-
+    }, [body]);
+    useEffect(()=>{
+        console.log(cheerUpImg);
+        
+    },[cheerUpImg])
+    console.log("test")
     return (
         <Modal
             visible={open}
@@ -78,8 +83,8 @@ export const CheerUpPopup = ({open, onClose, text, from, diaryName, diaryId}:Pro
                     </CheerUpText>
                     <CheerUpImageCover>
                         <Image
-                            source={ImageList[cheerUpImg as CheerType]}
-                            style={{resizeMode: "cover", width:100, height:100}}
+                            source={Image_02}
+                            
                         />
                     </CheerUpImageCover>
                     <FromText>from.{from} [{diaryName}]</FromText>

@@ -1,7 +1,7 @@
-import React, { useState, useRef, useEffect, useCallback} from 'react'
+import React, { useState, useRef, useEffect} from 'react'
 import { Background, Header, Tabs, Dropdown, Popup } from "@components";
 import AppNavigator from "./tab-navigator";
-import { TouchableOpacity, Image, Text, FlatList, Alert } from 'react-native';
+import { TouchableOpacity, Image, Text, FlatList } from 'react-native';
 import { StackNavigatorParams, navigate } from "@config/navigator";
 import { StackNavigationProp } from "@react-navigation/stack";
 import {Container, PickerWrap, AlarmListWarp, EmptyMessage, EmtyMsgImage, EmtyMsgText} from './messageList.style';
@@ -12,13 +12,18 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { observer } from 'mobx-react';
 import {UserStore} from '@store';
 import { Snackbar } from 'react-native-paper';
-import moment from 'moment';
-import { getAllScheduledNotificationsAsync } from 'expo-notifications';
+import { CheerUpPopup } from './CheerUpPopup';
 
+type CheerUpType = {
+    body: string | undefined,
+    from: string,
+    diaryName: string,
+    diaryId: string
+};
 
 type MessageListProps = {
     navigation: StackNavigationProp<StackNavigatorParams, "MessageList">;
-}
+};
 
 const MessageList= observer(({ navigation } : MessageListProps) => {
     const selectedMessageType = useRef<'all' | MessageType>('all');
@@ -30,6 +35,7 @@ const MessageList= observer(({ navigation } : MessageListProps) => {
     const [acceptInvitationOpen, setAcceptInvitationOpen] = useState(false);
     const [cheeringDetail, setCheeringDetail] = useState<MessageDataType|undefined>(undefined);
     const [refuseInviteSnackVisible, setrefuseInviteSnackVisible] = useState(false);
+    const [cheerUpMessageInfo, setCheerUpMessageInfo] = useState<CheerUpType>();
 
     const updateMessageStatus = (message:MessageDataType) => {
         getMessages();
@@ -38,8 +44,7 @@ const MessageList= observer(({ navigation } : MessageListProps) => {
     const handleChangeSelectedMsgType = async (type: 'all'| MessageType) => {
         setRefresing(true);
         setMessageList([]);
-        selectedMessageType.current = type; 
-        getMessages();
+        selectedMessageType.current = type;
     }
 
     const getMessages = async () => {
@@ -48,7 +53,6 @@ const MessageList= observer(({ navigation } : MessageListProps) => {
             switch(selectedMessageType.current) {
                 case 'all':
                     data = await messageApis.getAllMessages({size: pageInfo.current.size, lastId: pageInfo.current.lastId});
-                    console.log(data);
                     break;
                 default :
                     data = await messageApis.getMessagesByType({type: selectedMessageType.current});                   
@@ -56,14 +60,14 @@ const MessageList= observer(({ navigation } : MessageListProps) => {
             }
             if (data.elements.length){
                 setMessageList([...data.elements, {
-                    "body": "",
+                    "body": "오늘 너의 기록에 반함",
                     "createdDate": "2021-10-02 09:08:25",
                     "diaryTitle": "테스트",
                     "diaryUuid": "bf9fa343-5351-41a2-8ec8-4e4fe41894fa",
                     "fromNickname": "Taeck2",
                     "id": 98,
                     "title": "초대 알림",
-                    "type": "INVITATION",
+                    "type": "CHEERING",
                     "updatedDate": "2021-10-04 09:08:25",
                   },]);
             }
@@ -79,16 +83,14 @@ const MessageList= observer(({ navigation } : MessageListProps) => {
         switch(type) {
             case "INVITATION":
                 setAcceptInvitationOpen(true);
-                handleChangeSelectedMsgType(selectedMessageType.current);
                 break;
             case "CHEERING":
-                setCheeringDetail(message);
+                // setCheeringDetail(message);
+                const {body, diaryUuid, fromNickname, diaryTitle} = message || {}; 
+                setCheerUpMessageInfo({body, diaryId: diaryUuid || "", from: fromNickname || "", diaryName: diaryTitle || ""});
                 break;
             case "REFUSE_INVITATION":
-                Alert.alert("다이어리 초대를 거절했어요.");
-                setRefresing(true);
-                handleChangeSelectedMsgType(selectedMessageType.current);
-
+                setrefuseInviteSnackVisible(true);
                 break;
                     
         }
@@ -97,43 +99,15 @@ const MessageList= observer(({ navigation } : MessageListProps) => {
     const sendToDiary = async ()=>{
         const diary = await diaryApis.viewDiary(targetDiary.current);
         setAcceptInvitationOpen(false);
-        setCheeringDetail(undefined);
+        // setCheeringDetail(undefined);
+        setCheerUpMessageInfo(undefined);
         navigate("RecordInfo" , { diary })
     }
 
     useEffect(()=>{
         getMessages();
-        AsyncStorage.setItem("checkedAlarmTime", moment().format("YYYY-MM-DD HH:mm:ss"));
-        UserStore.setNewMessage(false);
-    },[]);
-
-    const getTime = useCallback(
-        (time: string) => {
-            const now = moment();
-            const created = moment(time, "YYYY-MM-DD HH:mm:ss");
-            const diff = now.diff(created);
-            if (diff<60*60*1000) {
-                return moment(diff).format("mm분 전");
-            }
-            if (diff<24*60*60*1000) {
-                console.log(diff);
-                console.log(moment(diff).format("HH시간 전"))
-                const time = Math.floor(diff/(60*60*1000));
-                return time+"시간 전";
-            }
-
-            if (diff<24*60*60*1000*8) {
-                const days = Math.floor(diff/(24*60*60*1000));
-                return days+"일 전";
-            }
-
-            if (now.format('YYYY') === created.format('YYYY')) {
-                return created.format("M월 DD일")
-            }
-            return created.format("YYYY년 M월 D일")
-
-        },[]
-    )
+        // AsyncStorage.setItem('checkedAlarmTime', new Date)
+    },[])
     
     return (
         <Background>
@@ -162,7 +136,7 @@ const MessageList= observer(({ navigation } : MessageListProps) => {
                 <AlarmListWarp>
                         <FlatList
                             data={messageList}
-                            renderItem={({item})=> <Message {...item} to={nickname} setConfirmPopup={setConfirmPopup} updateMessageStatus={updateMessageStatus} createdTimeForamt={getTime(item.createdDate)}/>}
+                            renderItem={({item})=> <Message {...item} to={nickname} setConfirmPopup={setConfirmPopup} updateMessageStatus={updateMessageStatus}/>}
                             keyExtractor={(item: MessageDataType)=> item.id.toString()}
                             // onEndReached={getMessages}
                             // onEndReachedThreshold={1}
@@ -192,18 +166,15 @@ const MessageList= observer(({ navigation } : MessageListProps) => {
                 }}
 
             />
-            <Popup
-                // width={}
-                open={!!cheeringDetail}
-                content={cheeringDetail?.body}
-                confirm='다이어리 보러가기'
-                onConfirm={()=>{sendToDiary()}}
-                cancel='닫기'
-                onCancel={()=>{
-                    setCheeringDetail(undefined);
+            <CheerUpPopup
+                open={!!cheerUpMessageInfo}
+                {...cheerUpMessageInfo}
+                onClose={()=>{
+                    setCheerUpMessageInfo(undefined);
                 }}
             />
             <Snackbar
+                style={{bottom: 20}}
                 visible={refuseInviteSnackVisible}
                 onDismiss={()=>{
                     setrefuseInviteSnackVisible(false);

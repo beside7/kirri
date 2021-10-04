@@ -29,7 +29,7 @@ export const Invitation = ({id, type, fromNickname, title, diaryTitle, body, to,
         try {
             const result = await userApis.refuseInvitationDiary(diaryUuid);
             setConfirmPopup(diaryUuid, 'REFUSE_INVITATION');
-            updateMessageStatus({id, type, fromNickname, title, body, to, diaryUuid, createdDate, diaryName});
+            updateMessageStatus({id, type, fromNickname, title, body, to, diaryUuid, createdDate, diaryTitle, updatedDate});
         } catch (error) {
             
         }
