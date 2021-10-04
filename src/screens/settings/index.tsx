@@ -35,31 +35,14 @@ import {getProfileImage, ProfileImageTypes} from '@utils';
 
 export const Settings = observer(()=> {
     const {nickname, profileImage, pushStatus} = UserStore;
-    const [newNickname, setNewNickname] = useState('');
-    const [duplicate, setDuplicate] = useState(false);
     const [leavKKiriPopupOpen, setLeavKKiriPopupOpen] = useState(false);
+    const [leavePopupOpen, setLeavePopupOpen] = useState(false);
+    const [logoutPopupOpen, setLogoutPopupOpen] = useState(false);
     
     /**
      * 알림설정 여부
      */
     const [pushNotification, setPushNotification] = useState(pushStatus);
-
-    const checkDuple = debounce(() => {
-        try {
-            userApis.checkNicknameDupl(nickname).then((result: any)=>{
-                if (result.exists) {
-                    setDuplicate(true);
-                    
-                }else {
-                    setDuplicate(false);
-                }
-                
-            })
-            
-        } catch (error) {
-            
-        }
-    }, 1000);
 
     /**
      * 알림설정 토글시 이벤트
@@ -84,6 +67,7 @@ export const Settings = observer(()=> {
 
 
     const logout = () => {
+        setLogoutPopupOpen(false);
         UserStore.logout();
         AsyncStorage.removeItem('userKey', ()=>{
             navigateWithReset('Login', null);
@@ -95,10 +79,15 @@ export const Settings = observer(()=> {
             const result = await userApis.deleteUserMe();
             UserStore.logout();
             setLeavKKiriPopupOpen(false);
-            logout();
+            setLeavePopupOpen(true);
         } catch (error) {
             console.log(error)
         }
+    }
+
+    const leave = () => {
+        setLeavePopupOpen(false);
+        logout();
     }
 
     useEffect(() => {
@@ -191,7 +180,7 @@ export const Settings = observer(()=> {
                             <VersionText>V1.0.0</VersionText>
                         </SettingContent>
                         <TouchableOpacity
-                                onPress={()=>{logout()}}
+                                onPress={()=>{setLogoutPopupOpen(true)}}
                             ><SettingContent
                             icon={require('@assets/images/settings/setting_logout.png')}
                             title='로그아웃'
@@ -218,7 +207,33 @@ export const Settings = observer(()=> {
                 content={
                     <LeaveKirriPopupContent>
                         <SignoutImage source={require('@assets/images/settings/popup_setting_account_delete_bgimg.png')}></SignoutImage>
-                        <SignoutText>정말 탈퇴하는거에요?</SignoutText>
+                        <SignoutText>정말 끼리를 떠나시나요?{"\n"}모든 다이어리와 기록이{"\n"}삭제되고 복구할 수 없어요.</SignoutText>
+                    </LeaveKirriPopupContent>
+                }
+            />
+            <Popup
+                open={leavePopupOpen}
+                confirm='꼭 돌아올게요'
+                onConfirm={()=>{leave()}}
+                width={300}
+                handelOpen={(key: boolean)=>{}}
+                content={
+                    <LeaveKirriPopupContent>
+                        <SignoutText>끼리와 함께한 시간이 행복했길 바랄게요.{"\n"}언제든 다시 돌아오세요!</SignoutText>
+                    </LeaveKirriPopupContent>
+                }
+            />
+            <Popup
+                open={logoutPopupOpen}
+                cancel="로그아웃"
+                confirm='취소'
+                onCancel={()=>{logout()}}
+                onConfirm={()=>{setLogoutPopupOpen(false)}}
+                width={300}
+                handelOpen={(key: boolean)=>{}}
+                content={
+                    <LeaveKirriPopupContent>
+                        <SignoutText>로그아웃 하시겠어요? {"\n"}친구들의 응원 메시지와 새 알림을 받지 못해요.</SignoutText>
                     </LeaveKirriPopupContent>
                 }
             />

@@ -24,9 +24,10 @@ export const EditPersonalInfo = observer(()=> {
     const {nickname, profileImagePath} = UserStore;
     const [changeProcessLoading, setChangeProcessLoading] = useState(false);
     const [selectedProfileImage, setSelectedProfileImage] = useState<ProfileImageTypes>(profileImagePath[1] as ProfileImageTypes);
-    const [duplicate, setDuplicate] = useState(false);
+    const [duplicate, setDuplicate] = useState<undefined|boolean>();
     const [changeNickname, setChangeNickname] = useState<string>('');
     const changeNicknameRef = useRef<string>('');
+    const [errorMessage, setErrorMessage] = useState("");
     
     const changePersonalInfo = async () =>{
         if (!changeNickname || duplicate) {
@@ -46,26 +47,57 @@ export const EditPersonalInfo = observer(()=> {
     }
 
 
+    // const checkDuple = debounce(() => {
+    //     try {
+    //         userApis.checkNicknameDupl(changeNicknameRef.current).then((result: any)=>{
+    //             if (result.exists) {
+    //                 if (nickname === changeNicknameRef.current) {
+    //                     setDuplicate(false);
+    //                     return;
+    //                 }
+    //                 setDuplicate(true);
+                    
+    //             }else {
+    //                 setDuplicate(false);
+    //             }
+                
+    //         })
+            
+    //     } catch (error) {
+            
+    //     }
+    // }, 500);
+
     const checkDuple = debounce(() => {
         try {
+            if (!changeNicknameRef.current) {
+                setDuplicate(undefined);
+                return;
+            }
+            const pattern = /[^가-힣ㄱ-ㅎㅏ-ㅣa-zA-Z0-9]/gi;
+        
+            if (changeNicknameRef.current.replace(pattern, "")!==changeNicknameRef.current){
+                setDuplicate(true);
+                setErrorMessage("영문, 숫자, 한글만을 이용해, 닉네임을 만들 수 있어요.");
+                return;
+            }
             userApis.checkNicknameDupl(changeNicknameRef.current).then((result: any)=>{
                 if (result.exists) {
-                    if (nickname === changeNicknameRef.current) {
-                        setDuplicate(false);
-                        return;
-                    }
+                    setErrorMessage("앗 이미 등록된 닉네임이에요.");
                     setDuplicate(true);
-                    
                 }else {
                     setDuplicate(false);
-                }
+                    setErrorMessage("");
+                }g
                 
             })
             
         } catch (error) {
             
         }
-    }, 500);
+    }, 700);
+
+    
 
     const checkSubmitPayload = useCallback(()=>{
         if (profileImagePath[1]===selectedProfileImage && nickname === changeNickname) {
@@ -110,8 +142,12 @@ export const EditPersonalInfo = observer(()=> {
                                 setChangeNickname(text);
                                 changeNicknameRef.current = text;
                                 if(!text) {
-                                    setDuplicate(false);
+                                    setDuplicate(undefined);
                         
+                                }
+                                if (text === nickname) {
+                                    setDuplicate(undefined);
+                                    return;
                                 }
                                 checkDuple();
                             
@@ -120,7 +156,10 @@ export const EditPersonalInfo = observer(()=> {
                             text={nickname}
                             rightText='끼리'
                             onError={duplicate}
-                            errorMessage='사용할 수 없는 닉네임이예요'
+                            errorMessage={errorMessage}
+                            maxLength={12}
+                            onBlur={()=>{}}
+                            confirmMessage="사용할 수 있는 닉네임이에요."
                         />
                         
                     </MakeNicknameContianer>

@@ -57,10 +57,14 @@ const Non = styled.View({
     display: 'none'
 })
 
+const ConfirmMsg = styled.Text({
+    color: "#6173ff"
+})
+
 type Props = {
     width?: string | number,
     height?: string | number,
-    onError?: boolean,
+    onError?: boolean | undefined,
     rightText?: string,
     icon?:ReactElement,
     text: string,
@@ -69,9 +73,10 @@ type Props = {
     diabled?: boolean,
     placeholder?: string,
     maxLength?: number,
-    onBlur?: ()=>void
+    onBlur?: ()=>void,
+    confirmMessage?: string
 };
-export const KirriTextInput = ({width, height, onError, rightText, icon, text, onChange, errorMessage, diabled, placeholder, maxLength, onBlur=()=>{}}:Props) => {
+export const KirriTextInput = ({width, height, onError, rightText, icon, text, onChange, errorMessage, diabled, placeholder, maxLength, onBlur=()=>{}, confirmMessage}:Props) => {
     const [onFocus, setOnFocus] = useState(false);
     const [val, setVal] = useState(text);
     useEffect(()=>{
@@ -101,7 +106,8 @@ export const KirriTextInput = ({width, height, onError, rightText, icon, text, o
                     {rightText?<RightTextWarp>{rightText}</RightTextWarp>:<Non></Non>}
                 </InputWarp>
             </InputContainer>
-            {onError && errorMessage? <ErrorMsg>{errorMessage}</ErrorMsg>: <Non></Non>}
+            {onError === true && errorMessage? <ErrorMsg>{errorMessage}</ErrorMsg>: <Non></Non>}
+            {onError === false && confirmMessage? <ConfirmMsg>{confirmMessage}</ConfirmMsg>: <Non></Non>}
         </>
     )
 }

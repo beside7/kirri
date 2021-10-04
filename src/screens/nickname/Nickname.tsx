@@ -36,9 +36,10 @@ interface Props {
 export const Nickname = ({accessToken, authorities}: Props) => {
     const [joinProcessLoading, setJoinProcessLoading] = useState(false);
     const selectedProfileImage = useRef<ProfileImageTypes>('01');
-    const [duplicate, setDuplicate] = useState(false);
+    const [duplicate, setDuplicate] = useState<undefined|boolean>(undefined);
     const [nickname, setNickname] = useState<string>();
     const currentNickname = useRef<string>('');
+    const [errorMessage, setErrorMessage] = useState("");
     
     const joinKirri = async () =>{
         if (!nickname || duplicate) {
@@ -79,13 +80,19 @@ export const Nickname = ({accessToken, authorities}: Props) => {
     const checkDuple = debounce(() => {
         try {
             if (!currentNickname.current) {
-                setDuplicate(false);
+                setDuplicate(undefined);
+                return;
+            }
+            const pattern = /[^가-힣ㄱ-ㅎㅏ-ㅣa-zA-Z0-9]/gi;
+            if (currentNickname.current.replace(pattern, "")!==currentNickname.current){
+                setDuplicate(true);
+                setErrorMessage("영문, 숫자, 한글만을 이용해, 닉네임을 만들 수 있어요.");
                 return;
             }
             userApis.checkNicknameDupl(currentNickname.current).then((result: any)=>{
                 if (result.exists) {
+                    setErrorMessage("앗 이미 등록된 닉네임이에요.");
                     setDuplicate(true);
-                    
                 }else {
                     setDuplicate(false);
                 }
@@ -154,9 +161,10 @@ export const Nickname = ({accessToken, authorities}: Props) => {
                             text=''
                             rightText='끼리'
                             onError={duplicate}
-                            errorMessage='사용할 수 없는 닉네임이예요'
+                            errorMessage={errorMessage}
                             maxLength={12}
                             onBlur={()=>{}}
+                            confirmMessage="사용할 수 있는 닉네임이에요."
                         />
                         
                     </MakeNicknameContianer>

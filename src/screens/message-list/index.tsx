@@ -56,7 +56,7 @@ const MessageList= observer(({ navigation } : MessageListProps) => {
             }
             if (data.elements.length){
                 setMessageList([...data.elements, {
-                    "body": "[Taeck2]님이 [테스트] 다이어리에 초대했어요.",
+                    "body": "",
                     "createdDate": "2021-10-02 09:08:25",
                     "diaryTitle": "테스트",
                     "diaryUuid": "bf9fa343-5351-41a2-8ec8-4e4fe41894fa",
