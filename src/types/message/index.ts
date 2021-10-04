@@ -11,11 +11,12 @@ export interface MessageDataType {
     id: number,
     diaryUuid: string,
     type: string,
-    title: string,
+    diaryTitle: string,
     body: string,
     fromNickname: string,
     createdDate: string,
-    diaryName: string
+    title: string,
+    updatedDate: string
 } 
 
 export type MessageResType = Paging<MessageDataType>;

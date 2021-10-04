@@ -2,11 +2,12 @@ import styled from 'styled-components/native';
 import {Button as CommonButton} from '@components';
 
 export const Container = styled.View({
-    height: 100,
+    minHeight: 80,
     paddingTop: 8,
     paddingBottom: 10,
     display: 'flex',
     flexDirection:'row',
+    marginBottom:20
 });
 
 export const ImageWrap = styled.View({

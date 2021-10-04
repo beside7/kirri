@@ -5,13 +5,15 @@ import { View } from 'react-native';
 
 import { userApis } from '@apis';
 import {Button} from '@components';
+import { StringIterator } from 'lodash';
 // import { Timezone } from '@components';
 
 const messageImage = require('@assets/images/alarm/various_message.png');
 
 
 interface Props extends MessageDataType {
-    to:string
+    to:string,
+    createdTimeForamt?: string
 }
 
 interface ComponenetType extends Props{
@@ -22,7 +24,7 @@ interface ComponenetType extends Props{
 
 
 
-export const Invitation = ({id, type, fromNickname, title, body, to, diaryUuid, createdDate,diaryName, updateMessageStatus, setConfirmPopup}:ComponenetType) => {
+export const Invitation = ({id, type, fromNickname, title, diaryTitle, body, to, diaryUuid, createdDate, updatedDate,updateMessageStatus, setConfirmPopup, createdTimeForamt}:ComponenetType) => {
     const refuse = async () => {
         try {
             const result = await userApis.refuseInvitationDiary(diaryUuid);
@@ -36,7 +38,7 @@ export const Invitation = ({id, type, fromNickname, title, body, to, diaryUuid, 
         try {
             const result = await userApis.acceptInvitationDiary(diaryUuid);
             setConfirmPopup(diaryUuid, 'INVITATION');
-            updateMessageStatus({id, type, fromNickname, title, body, to, diaryUuid, createdDate, diaryName});
+            updateMessageStatus({id, type, fromNickname, title, diaryTitle, body, to, diaryUuid, createdDate, updatedDate});
         } catch (error) {
             alert(error)
         }
@@ -48,14 +50,11 @@ export const Invitation = ({id, type, fromNickname, title, body, to, diaryUuid, 
             </ImageWrap>
             <ContentWrap>
                 <ContentText>
-                    <ContentTextBold>{fromNickname}</ContentTextBold>님이 <ContentTextBold>{diaryName}</ContentTextBold> 다이어리에 초대했어요.
+                    <ContentTextBold>{fromNickname}</ContentTextBold>님이 <ContentTextBold>{diaryTitle}</ContentTextBold> 다이어리에 초대했어요.
                 </ContentText>
                 <InfoWrap>
-                    {/* <Timezone
-                        time={createdDate}
-                        // element={TimeText}
-                    ></Timezone> */}
-                    <View></View>
+                    
+                    <TimeText>{createdTimeForamt}</TimeText>
                     <ButtonWrap>
                         <Button
                             color= 'secondary'
@@ -84,7 +83,7 @@ export const Invitation = ({id, type, fromNickname, title, body, to, diaryUuid, 
 }
 
 
-export const Cheering = ({id, type, fromNickname, title, body, to, diaryUuid, createdDate, diaryName, updateMessageStatus, setConfirmPopup}:ComponenetType) => {
+export const Cheering = ({id, type, fromNickname, title, diaryTitle, body, to, diaryUuid, createdDate,updatedDate, updateMessageStatus, setConfirmPopup, createdTimeForamt}:ComponenetType) => {
 
     return (
         <Container>
@@ -97,14 +96,14 @@ export const Cheering = ({id, type, fromNickname, title, body, to, diaryUuid, cr
                     from.[{fromNickname}]
                 </ContentText>
                 <InfoWrap>
-                    <TimeText></TimeText>
+                    <TimeText>{createdTimeForamt}</TimeText>
                     <View>
                         <Button
                             width={90}
                             color= 'secondary'
                             onPress={
                                 () => {
-                                    setConfirmPopup(diaryUuid, 'CHEERING', {id, type, fromNickname, title, body, diaryUuid, createdDate, diaryName});
+                                    setConfirmPopup(diaryUuid, 'CHEERING', {id, type, fromNickname, title, diaryTitle, body, diaryUuid, createdDate, updatedDate});
                                 }
                             }
                             type='small'
