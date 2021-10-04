@@ -15,6 +15,7 @@ class UserStore {
     pushStatus: boolean = false;
     autoLogin: boolean=false;
     newPushReceived: boolean=false;
+    newMessage: boolean = false;
 
     constructor() {
         makeObservable(this, {
@@ -25,11 +26,13 @@ class UserStore {
             pushSettings: observable,
             pushStatus: observable,
             autoLogin: observable,
+            newMessage: observable,
             login: action,
             changeProfileImg: action,
             setNickname: action,
             logout: action,
-            setUser: action
+            setUser: action,
+            setNewMessage: action
         });
     }
 
@@ -69,6 +72,10 @@ class UserStore {
 
     setNickname = (nickname: string) => {
         this.nickname = nickname;
+    }
+
+    setNewMessage = (checked: boolean) => {
+        this.newMessage = checked;
     }
 }
 

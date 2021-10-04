@@ -5,7 +5,7 @@ import * as Font from 'expo-font';
 import { Provider as PaperProvider } from 'react-native-paper';
 import { ThemeProvider } from "styled-components/native";
 import { theme } from "./utils/styleTheme";
-
+import * as SplashScreen from 'expo-splash-screen';
 /**
  * 기본
  * @param param0 
@@ -14,6 +14,9 @@ import { theme } from "./utils/styleTheme";
 
 
  export default function App(): ReactElement {
+    useEffect(() => {
+        setTimeout(() => SplashScreen.hideAsync(), 2000);
+      }, []);
     return (
         <PaperProvider>
             <AppBootstrap>

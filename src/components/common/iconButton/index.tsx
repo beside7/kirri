@@ -30,6 +30,9 @@ export const IconButton = ({children, icon, style, ...props}: Props) => {
             {
                 icon?<Image source={icon}></Image>:{children}
             }
+            {
+                children
+            }
         </Button>
     )
 }

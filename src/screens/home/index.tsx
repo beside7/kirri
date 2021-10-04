@@ -35,7 +35,8 @@ import styles, {
     SpeechBubbleWrapBgTail,
     EmptyDiaryText,
     RecommandCreateDiaryWrap,
-    CreateDiaryWrap
+    CreateDiaryWrap,
+    NewAlarm
 } from './home.style';
 import {RecentContent} from './RecentContent';
 
@@ -52,7 +53,10 @@ import { CreateDiary } from './CreateDiary';
 import {CreateDiaryModal} from './CreateDiaryModal';
 import {navigate} from '@config/navigator';
 import { autorun } from 'mobx';
-import Login from '../login';
+import { messageApis } from '@apis';
+import moment from 'moment';
+import {MessageResType} from '@type-definition/message';
+import { useFocusEffect } from '@react-navigation/native';
 
 
 
@@ -66,7 +70,33 @@ const wait = (timeout: number) => {
   
 
 const Profile =observer(() => {
-    const {nickname, profileImage, profileImagePath } = UserStore;
+    const {nickname, profileImage, profileImagePath, newMessage } = UserStore;
+
+
+    const getAlarm = async () => {
+        const data: MessageResType = await messageApis.getAllMessages({size: 10, lastId: 0});
+        const checkedAlarmTime = await AsyncStorage.getItem("checkedAlarmTime");
+        if (!data.elements.length) {
+            return;
+        }
+        if (!checkedAlarmTime) {
+            UserStore.setNewMessage(true);
+            return;
+        }
+        const checkedTime = moment(checkedAlarmTime);
+        if (data.elements.some(({createdDate})=> moment(createdDate).diff(checkedTime)>0)) {
+            UserStore.setNewMessage(true);
+        }
+
+    }
+    useFocusEffect(
+        React.useCallback(()=>{
+            getAlarm();
+        },[])
+    );
+    
+
+
     return (
         <ProfileWarp>
             <IconWarp>
@@ -83,7 +113,10 @@ const Profile =observer(() => {
                     }}
                     style={styles.iconSpace}
                     icon={require('@assets/images/home_notice_normal.png')}
-                />
+                >
+                    {newMessage?<NewAlarm/>:<></>}
+                </IconButton>
+                
                 <IconButton
                     onPress={() => {
                         navigate('Settings', null);
@@ -114,6 +147,7 @@ const Home = ()=> {
     const [recentRecord, setRecentRecord] = useState<RecentRecordType[]>();
     const [createDiaryOpen, setCreateDiaryOpen] = useState(false);
     const [refreshing, setRefreshing] = useState(false);
+    
 
     // check if screen is focused
     const isFocused = useIsFocused();
@@ -160,6 +194,7 @@ const Home = ()=> {
         setRefreshing(false);
     }
 
+   
 
     useEffect(()=>{
             getUser();

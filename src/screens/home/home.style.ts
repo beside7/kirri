@@ -491,3 +491,12 @@ export const SpeechBubbleWrapBgTail = styled.View((props:{theme: any})=>({
     borderLeftColor: "transparent",
 
 }))
+
+export const NewAlarm = styled.View((props:{theme: any})=>({
+    width: 5,
+    height:5,
+    borderRadius: 3,
+    backgroundColor: props.theme['401'],
+    position: "absolute",
+    right: 0
+}))

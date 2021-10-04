@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect} from 'react'
 import { Background, Header, Tabs, Dropdown, Popup } from "@components";
 import AppNavigator from "./tab-navigator";
-import { TouchableOpacity, Image, Text, FlatList } from 'react-native';
+import { TouchableOpacity, Image, Text, FlatList, Alert } from 'react-native';
 import { StackNavigatorParams, navigate } from "@config/navigator";
 import { StackNavigationProp } from "@react-navigation/stack";
 import {Container, PickerWrap, AlarmListWarp, EmptyMessage, EmtyMsgImage, EmtyMsgText} from './messageList.style';
@@ -12,6 +12,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { observer } from 'mobx-react';
 import {UserStore} from '@store';
 import { Snackbar } from 'react-native-paper';
+import moment from 'moment';
 
 
 type MessageListProps = {
@@ -36,7 +37,8 @@ const MessageList= observer(({ navigation } : MessageListProps) => {
     const handleChangeSelectedMsgType = async (type: 'all'| MessageType) => {
         setRefresing(true);
         setMessageList([]);
-        selectedMessageType.current = type;
+        selectedMessageType.current = type; 
+        getMessages();
     }
 
     const getMessages = async () => {
@@ -72,8 +74,10 @@ const MessageList= observer(({ navigation } : MessageListProps) => {
                 setCheeringDetail(message);
                 break;
             case "REFUSE_INVITATION":
-                setrefuseInviteSnackVisible(true);
-                getMessages();
+                Alert.alert("다이어리 초대를 거절했어요.");
+                setRefresing(true);
+                handleChangeSelectedMsgType(selectedMessageType.current);
+
                 break;
                     
         }
@@ -88,7 +92,8 @@ const MessageList= observer(({ navigation } : MessageListProps) => {
 
     useEffect(()=>{
         getMessages();
-        // AsyncStorage.setItem('checkedAlarmTime', new Date)
+        AsyncStorage.setItem("checkedAlarmTime", moment().format("YYYY-MM-DD HH:mm:ss"));
+        UserStore.setNewMessage(false);
     },[])
     
     return (

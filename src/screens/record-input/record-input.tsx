@@ -10,7 +10,7 @@ import {
   ScrollView,
   Alert,
   SafeAreaView,
-  BackHandler
+  BackHandler,
 } from "react-native";
 import { useHeaderHeight } from "@react-navigation/stack";
 
