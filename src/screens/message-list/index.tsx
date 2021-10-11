@@ -1,7 +1,7 @@
-import React, { useState, useRef, useEffect} from 'react'
+import React, { useState, useRef, useEffect, useCallback} from 'react'
 import { Background, Header, Tabs, Dropdown, Popup } from "@components";
 import AppNavigator from "./tab-navigator";
-import { TouchableOpacity, Image, Text, FlatList } from 'react-native';
+import { TouchableOpacity, Image, Text, FlatList, Alert } from 'react-native';
 import { StackNavigatorParams, navigate } from "@config/navigator";
 import { StackNavigationProp } from "@react-navigation/stack";
 import {Container, PickerWrap, AlarmListWarp, EmptyMessage, EmtyMsgImage, EmtyMsgText} from './messageList.style';
@@ -12,18 +12,13 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { observer } from 'mobx-react';
 import {UserStore} from '@store';
 import { Snackbar } from 'react-native-paper';
-import { CheerUpPopup } from './CheerUpPopup';
+import moment from 'moment';
+import { getAllScheduledNotificationsAsync } from 'expo-notifications';
 
-type CheerUpType = {
-    body: string | undefined,
-    from: string,
-    diaryName: string,
-    diaryId: string
-};
 
 type MessageListProps = {
     navigation: StackNavigationProp<StackNavigatorParams, "MessageList">;
-};
+}
 
 const MessageList= observer(({ navigation } : MessageListProps) => {
     const selectedMessageType = useRef<'all' | MessageType>('all');
@@ -35,7 +30,6 @@ const MessageList= observer(({ navigation } : MessageListProps) => {
     const [acceptInvitationOpen, setAcceptInvitationOpen] = useState(false);
     const [cheeringDetail, setCheeringDetail] = useState<MessageDataType|undefined>(undefined);
     const [refuseInviteSnackVisible, setrefuseInviteSnackVisible] = useState(false);
-    const [cheerUpMessageInfo, setCheerUpMessageInfo] = useState<CheerUpType>();
 
     const updateMessageStatus = (message:MessageDataType) => {
         getMessages();
@@ -44,7 +38,8 @@ const MessageList= observer(({ navigation } : MessageListProps) => {
     const handleChangeSelectedMsgType = async (type: 'all'| MessageType) => {
         setRefresing(true);
         setMessageList([]);
-        selectedMessageType.current = type;
+        selectedMessageType.current = type; 
+        getMessages();
     }
 
     const getMessages = async () => {
@@ -53,6 +48,7 @@ const MessageList= observer(({ navigation } : MessageListProps) => {
             switch(selectedMessageType.current) {
                 case 'all':
                     data = await messageApis.getAllMessages({size: pageInfo.current.size, lastId: pageInfo.current.lastId});
+                    console.log(data);
                     break;
                 default :
                     data = await messageApis.getMessagesByType({type: selectedMessageType.current});                   
@@ -73,14 +69,16 @@ const MessageList= observer(({ navigation } : MessageListProps) => {
         switch(type) {
             case "INVITATION":
                 setAcceptInvitationOpen(true);
+                handleChangeSelectedMsgType(selectedMessageType.current);
                 break;
             case "CHEERING":
-                // setCheeringDetail(message);
-                const {body, diaryUuid, fromNickname, diaryTitle} = message || {}; 
-                setCheerUpMessageInfo({body, diaryId: diaryUuid || "", from: fromNickname || "", diaryName: diaryTitle || ""});
+                setCheeringDetail(message);
                 break;
             case "REFUSE_INVITATION":
-                setrefuseInviteSnackVisible(true);
+                Alert.alert("다이어리 초대를 거절했어요.");
+                setRefresing(true);
+                handleChangeSelectedMsgType(selectedMessageType.current);
+
                 break;
                     
         }
@@ -89,15 +87,43 @@ const MessageList= observer(({ navigation } : MessageListProps) => {
     const sendToDiary = async ()=>{
         const diary = await diaryApis.viewDiary(targetDiary.current);
         setAcceptInvitationOpen(false);
-        // setCheeringDetail(undefined);
-        setCheerUpMessageInfo(undefined);
+        setCheeringDetail(undefined);
         navigate("RecordInfo" , { diary })
     }
 
     useEffect(()=>{
         getMessages();
-        // AsyncStorage.setItem('checkedAlarmTime', new Date)
-    },[])
+        AsyncStorage.setItem("checkedAlarmTime", moment().format("YYYY-MM-DD HH:mm:ss"));
+        UserStore.setNewMessage(false);
+    },[]);
+
+    const getTime = useCallback(
+        (time: string) => {
+            const now = moment();
+            const created = moment(time, "YYYY-MM-DD HH:mm:ss");
+            const diff = now.diff(created);
+            if (diff<60*60*1000) {
+                return moment(diff).format("mm분 전");
+            }
+            if (diff<24*60*60*1000) {
+                console.log(diff);
+                console.log(moment(diff).format("HH시간 전"))
+                const time = Math.floor(diff/(60*60*1000));
+                return time+"시간 전";
+            }
+
+            if (diff<24*60*60*1000*8) {
+                const days = Math.floor(diff/(24*60*60*1000));
+                return days+"일 전";
+            }
+
+            if (now.format('YYYY') === created.format('YYYY')) {
+                return created.format("M월 DD일")
+            }
+            return created.format("YYYY년 M월 D일")
+
+        },[]
+    )
     
     return (
         <Background>
@@ -126,7 +152,7 @@ const MessageList= observer(({ navigation } : MessageListProps) => {
                 <AlarmListWarp>
                         <FlatList
                             data={messageList}
-                            renderItem={({item})=> <Message {...item} to={nickname} setConfirmPopup={setConfirmPopup} updateMessageStatus={updateMessageStatus}/>}
+                            renderItem={({item})=> <Message {...item} to={nickname} setConfirmPopup={setConfirmPopup} updateMessageStatus={updateMessageStatus} createdTimeForamt={getTime(item.createdDate)}/>}
                             keyExtractor={(item: MessageDataType)=> item.id.toString()}
                             // onEndReached={getMessages}
                             // onEndReachedThreshold={1}
@@ -156,18 +182,18 @@ const MessageList= observer(({ navigation } : MessageListProps) => {
                 }}
 
             />
-            <CheerUpPopup
-                open={!!cheerUpMessageInfo}
-                body={cheerUpMessageInfo?.body}
-                from={cheerUpMessageInfo?.from}
-                diaryId={cheerUpMessageInfo?.diaryId || ""}
-                diaryName={cheerUpMessageInfo?.diaryName}
-                onClose={()=>{
-                    setCheerUpMessageInfo(undefined);
+            <Popup
+                // width={}
+                open={!!cheeringDetail}
+                content={cheeringDetail?.body}
+                confirm='다이어리 보러가기'
+                onConfirm={()=>{sendToDiary()}}
+                cancel='닫기'
+                onCancel={()=>{
+                    setCheeringDetail(undefined);
                 }}
             />
             <Snackbar
-                style={{bottom: 20}}
                 visible={refuseInviteSnackVisible}
                 onDismiss={()=>{
                     setrefuseInviteSnackVisible(false);
