@@ -1,9 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import {Modal, Image} from 'react-native';
 import { SafeAreaView } from '../nickname/nickname.style';
 import { Header, Button } from '@components';
 import {ContentWrap, CheerUpText, CheerUpImageCover, FromText} from './CheerUpPopup.style';
 import { navigate } from '@config/navigator';
+import { DiaryResType } from '@type-definition/diary';
+import {diaryApis} from "@apis";
 
 const Image_01 = require('@assets/images/diary/diary_cheerup_bgimg_01.png');
 const Image_02 = require('@assets/images/diary/diary_cheerup_bgimg_02.png');
@@ -18,7 +20,7 @@ interface Props {
     body: string | undefined,
     from: string | undefined,
     diaryName: string | undefined,
-    diaryId: string | undefined
+    diaryId: string
 }
 
 const CheerupImage = {
@@ -53,16 +55,24 @@ type CheerType =keyof (typeof CheerupImage);
 export const CheerUpPopup = ({open, onClose, body, from, diaryName, diaryId}:Props) => {
     const [cheerUpImg, setCheerUpImg] = useState<CheerType>("01");
 
-    useEffect(() => {
-        console.log("test")
-        const index = Object.keys(CheerupImage).find((key)=> CheerupImage[key as CheerType] === body) || "01";
-        setCheerUpImg(index as CheerType);
-    }, [body]);
-    useEffect(()=>{
-        console.log(cheerUpImg);
+    const diary = useRef<DiaryResType>();
+
+    const getDiaryInfo = async (uuid: string) => {
+        const data = await diaryApis.viewDiary(uuid);
+        diary.current = data;
+        console.log('diary.current');
+        console.log(diary.current);
         
-    },[cheerUpImg])
-    console.log("test")
+      }
+
+    useEffect(() => {
+        if (open) {
+            const index = Object.keys(CheerupImage).find((key)=> CheerupImage[key as CheerType] === body) || "01";
+            setCheerUpImg(index as CheerType);
+            getDiaryInfo(diaryId);
+        }
+        
+    }, [open]);
     return (
         <Modal
             visible={open}
@@ -91,8 +101,10 @@ export const CheerUpPopup = ({open, onClose, body, from, diaryName, diaryId}:Pro
                     <Button
                         type="medium"
                         onPress={()=>{
+                              
+                            // const data = await diaryApis.viewDiary(diaryId);
                             onClose();
-                            navigate("RecordInput",{diaryUuid: diaryId});
+                            navigate("RecordInput",{diary: diary.current});
                         }}
                     >
                         기록 작성하러 가기

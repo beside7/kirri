@@ -10,7 +10,7 @@ import {
   ScrollView,
   Alert,
   SafeAreaView,
-  BackHandler,
+  BackHandler
 } from "react-native";
 import { useHeaderHeight } from "@react-navigation/stack";
 
@@ -56,7 +56,7 @@ export default function RecordInput({ navigation, route }: RecordInputProps) {
   /**
    * 다이러리 정보
    */
-  const [diary, setDiary] = useState<DiaryResType | null>(route.params.diary||null);
+  const [diary, setDiary] = useState<DiaryResType | null>(route.params.diary);
 
   /**
    * 선택한 다이러리 정보 - uuid
@@ -148,35 +148,21 @@ export default function RecordInput({ navigation, route }: RecordInputProps) {
         font-style: normal;
     }`;
 
-
-  /**
-   * 알람에서 응원 자세이보기 -> 기록 작성
-   * diary 정보 요청
-   */
-  
-  const getDiaryInfo = async (uuid: string) => {
-    const data = await diaryApis.viewDiary(uuid);
     console.log("test")
     console.log(data);
-    setDiary(data);
-  }
-
   /**
    * 최초 로드시 이벤트
    */
   useEffect(() => {
-
+    console.log('diary');
+    console.log(diary);
+    
     setTimeout(() => {
       if(inputRef.current){
         inputRef.current.focus()
       }
     }, 1000);
     
-    if(route.params.diaryUuid) {
-      
-      getDiaryInfo(route.params.diaryUuid);
-    }
-
     /**
      * 이미지 사용권한 요청
      */

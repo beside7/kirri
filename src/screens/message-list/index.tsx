@@ -59,17 +59,7 @@ const MessageList= observer(({ navigation } : MessageListProps) => {
                     break;
             }
             if (data.elements.length){
-                setMessageList([...data.elements, {
-                    "body": "오늘 너의 기록에 반함",
-                    "createdDate": "2021-10-02 09:08:25",
-                    "diaryTitle": "테스트",
-                    "diaryUuid": "bf9fa343-5351-41a2-8ec8-4e4fe41894fa",
-                    "fromNickname": "Taeck2",
-                    "id": 98,
-                    "title": "초대 알림",
-                    "type": "CHEERING",
-                    "updatedDate": "2021-10-04 09:08:25",
-                  },]);
+                setMessageList([...data.elements]);
             }
             setRefresing(false);
         } catch (error) {
@@ -168,7 +158,10 @@ const MessageList= observer(({ navigation } : MessageListProps) => {
             />
             <CheerUpPopup
                 open={!!cheerUpMessageInfo}
-                {...cheerUpMessageInfo}
+                body={cheerUpMessageInfo?.body}
+                from={cheerUpMessageInfo?.from}
+                diaryId={cheerUpMessageInfo?.diaryId || ""}
+                diaryName={cheerUpMessageInfo?.diaryName}
                 onClose={()=>{
                     setCheerUpMessageInfo(undefined);
                 }}
