@@ -1,5 +1,5 @@
 import React, {ReactElement, useState, useCallback, useRef, useEffect} from 'react'
-import { View, Image, TouchableOpacity, Text } from 'react-native'
+import {View, Image, TouchableOpacity, Text, BackHandler} from 'react-native'
 
 import styles from './login.style'
 
@@ -11,6 +11,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import Carousel from 'react-native-snap-carousel';
 import { updateExpoToken, initNotifications } from "@utils";
 import { UserStore } from '@store';
+import {Snackbar} from "react-native-paper";
 
 
 type LoginProps = {
@@ -23,6 +24,51 @@ export default function Login({imgIndex}: LoginProps): ReactElement {
     const result = React.useRef<any>({});
     const onBoardCnt = useRef(4);
     const [onBoardIndex, setOnBoardIndex] = useState(imgIndex!==undefined?imgIndex: 0);
+
+    /**
+     * 뒤로가기를 눌렸을때 출력되는 메세지
+     */
+    const [snackVisible, setSnackVisible] = useState(false);
+    /**
+     * 메세지 닫기
+     */
+    const onDismissSnackBar = () => setSnackVisible(false);
+
+    /**
+     * 뒤로가기 버튼 입력횟수
+     */
+    const [exitApp, setExitApp] = useState(0);
+
+    /**
+     * 뒤로가기 버튼 클릭시 동작되는 이벤트 처리
+     */
+    const backAction = () => {
+        setTimeout(() => {
+            setExitApp(0);
+        }, 2000); // 2 seconds to tap second-time
+
+        if (exitApp === 0) {
+            setExitApp(exitApp + 1);
+            setSnackVisible(true);
+            setTimeout(() => {
+                setSnackVisible(false);
+            }, 2000); // 2 seconds to tap second-time
+
+        } else if (exitApp === 1) {
+            BackHandler.exitApp();
+        }
+        return true;
+    };
+    /**
+     * 뒤로가기 클릭시 이벤트 등록
+     */
+    useEffect(() => {
+        const backHandler = BackHandler.addEventListener(
+            'hardwareBackPress',
+            backAction,
+        );
+        return () => backHandler.remove();
+    });
 
 
     const onComplete = (event: any) => {
@@ -120,6 +166,12 @@ export default function Login({imgIndex}: LoginProps): ReactElement {
                 </TouchableOpacity></>:<></>}
                 
             </View>
+            <Snackbar
+                visible={snackVisible}
+                onDismiss={onDismissSnackBar}
+            >
+                {`한번더 뒤로가기를 누르면 종료됩니다.`}
+            </Snackbar>
         </Background>
     )
 }
