@@ -148,8 +148,8 @@ export default function RecordInput({ navigation, route }: RecordInputProps) {
         font-style: normal;
     }`;
 
-    console.log("test")
-    console.log(data);
+    // console.log("test")
+    // console.log(data);
   /**
    * 최초 로드시 이벤트
    */
