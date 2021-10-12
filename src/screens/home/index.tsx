@@ -1,7 +1,7 @@
 
 import React, {ReactElement, useCallback, useState, useEffect, useRef, Fragment} from 'react'
 
-import { View, TouchableOpacity, RefreshControl } from 'react-native';
+import {View, TouchableOpacity, RefreshControl, BackHandler} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useIsFocused } from '@react-navigation/native';
 
@@ -57,6 +57,7 @@ import { messageApis } from '@apis';
 import moment from 'moment';
 import {MessageResType} from '@type-definition/message';
 import { useFocusEffect } from '@react-navigation/native';
+import { Snackbar } from 'react-native-paper';
 
 
 
@@ -147,6 +148,51 @@ const Home = ()=> {
     const [recentRecord, setRecentRecord] = useState<RecentRecordType[]>();
     const [createDiaryOpen, setCreateDiaryOpen] = useState(false);
     const [refreshing, setRefreshing] = useState(false);
+
+    /**
+     * 뒤로가기를 눌렸을때 출력되는 메세지
+     */
+    const [snackVisible, setSnackVisible] = useState(false);
+    /**
+     * 메세지 닫기
+     */
+    const onDismissSnackBar = () => setSnackVisible(false);
+
+    /**
+     * 뒤로가기 버튼 입력횟수
+     */
+    const [exitApp, setExitApp] = useState(0);
+
+    /**
+     * 뒤로가기 버튼 클릭시 동작되는 이벤트 처리
+     */
+    const backAction = () => {
+        setTimeout(() => {
+            setExitApp(0);
+        }, 2000); // 2 seconds to tap second-time
+
+        if (exitApp === 0) {
+            setExitApp(exitApp + 1);
+            setSnackVisible(true);
+            setTimeout(() => {
+                setSnackVisible(false);
+            }, 2000); // 2 seconds to tap second-time
+
+        } else if (exitApp === 1) {
+            BackHandler.exitApp();
+        }
+        return true;
+    };
+    /**
+     * 뒤로가기 클릭시 이벤트 등록
+     */
+    useEffect(() => {
+        const backHandler = BackHandler.addEventListener(
+            'hardwareBackPress',
+            backAction,
+        );
+        return () => backHandler.remove();
+    });
     
 
     // check if screen is focused
@@ -214,6 +260,7 @@ const Home = ()=> {
     if (userLoading || diaryLoading){
         return <></>;
     }
+
 
     return (
         <Fragment>
@@ -328,6 +375,12 @@ const Home = ()=> {
                 reloadDiary={getDiaries}
                 close={()=>{setCreateDiaryOpen(false)}}
             ></CreateDiaryModal>
+            <Snackbar
+                visible={snackVisible}
+                onDismiss={onDismissSnackBar}
+            >
+                {`한번더 뒤로가기를 누르면 종료됩니다.`}
+            </Snackbar>
         </Fragment>
     )
 }
