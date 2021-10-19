@@ -385,7 +385,8 @@ export default function RecordInput({ navigation, route }: RecordInputProps) {
             >
                 <Text_2
                     style={{
-                      color: (loading || (title.trim() === "") )? "#a0a0a0" : "#000000"
+                      color: (loading || (title.trim() === "") )? "#a0a0a0" : "#000000",
+                      fontSize: 18
                     }}
                 >
                   { type === "new" ? "등록" : "수정" } 
@@ -400,7 +401,13 @@ export default function RecordInput({ navigation, route }: RecordInputProps) {
               onPress={onPressTitle}
               style={{ flexDirection: "row" }}
               >
-              <Text_2>다이어리 선택</Text_2>
+              <Text_2
+                style={{
+                  fontSize: 18
+                }}
+              >
+                다이어리 선택
+              </Text_2>
               <Image 
                 style={{ width: 24 , height: 24 }}
                 source={require("@assets/images/various_collapse_on_normal.png")}
