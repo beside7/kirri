@@ -18,7 +18,7 @@ import {
     SelectedCheck
 } from './home.style';
 
-import { View, Image, Modal, Text } from 'react-native';
+import { View, Image, Modal, Text, Alert } from 'react-native';
 import { KirriTextInput, Button, SlideDownModal } from '@components';
 import { CoverImages, CoverCircleImages, CoverColor, CoverCircleImageTypes, CoverColorTypes, CoverImageTypes } from '@utils';
 import { CreateDiaryReqType } from '@type-definition/diary';
@@ -56,6 +56,10 @@ export const CreateDiaryModal = ({open, reloadDiary, close}: Props) => {
         }
     }
     const createNewDiary = async () => {
+        if(!newDiaryName || newDiaryName?.trim() === ""){
+            Alert.alert("" , "다이러리 명을 입력해주세요");
+            return false;
+        }
         setCreateButtonDisable(true);
         const payload: CreateDiaryReqType={ title: '', icon: ''};
         newDiaryName?(payload.title= newDiaryName):'';
