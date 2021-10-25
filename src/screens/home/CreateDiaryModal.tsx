@@ -26,6 +26,7 @@ import { diaryApis } from '@apis';
 import { navigate } from '@config/navigator';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { create } from 'lodash';
+import ActionSheet from "react-native-actions-sheet";
 
 
 
@@ -68,7 +69,7 @@ export const CreateDiaryModal = ({open, reloadDiary, close}: Props) => {
         try {
             const data = await diaryApis.createDiary(payload);            
             reloadDiary();
-            createDiaryModal.current.close();
+            createDiaryModal.current?.setModalVisible();
             close();
         } catch (error) {
             console.log(error);
@@ -76,13 +77,16 @@ export const CreateDiaryModal = ({open, reloadDiary, close}: Props) => {
     }
     useEffect(() => {
         if (open) {
-            createDiaryModal.current.open();
+            createDiaryModal.current?.setModalVisible();
         }
     }, [open]);
     return (
-        <SlideDownModal
+        <ActionSheet
             ref={createDiaryModal}
-            onClosed={()=>{
+            bounceOnOpen={true}
+            headerAlwaysVisible={true}
+            gestureEnabled={true}
+            onClose={()=>{
                 setSelectedCoverImage('01');
                 setSelectedCoverColor(undefined);
                 close();
@@ -160,6 +164,6 @@ export const CreateDiaryModal = ({open, reloadDiary, close}: Props) => {
                     </View>
                 
             </CreateDiary>
-        </SlideDownModal>
+        </ActionSheet>
     )
 }
