@@ -173,7 +173,6 @@ const Home = ()=> {
         setTimeout(() => {
             setExitApp(0);
         }, 2000); // 2 seconds to tap second-time
-
         if (exitApp === 0) {
             setExitApp(exitApp + 1);
             setSnackVisible(true);
@@ -195,7 +194,7 @@ const Home = ()=> {
             backAction,
         );
         return () => backHandler.remove();
-    }, []);
+    }, [exitApp]);
     
 
     // check if screen is focused

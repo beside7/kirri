@@ -68,7 +68,7 @@ export default function Login({imgIndex}: LoginProps): ReactElement {
             backAction,
         );
         return () => backHandler.remove();
-    }, []);
+    }, [exitApp]);
 
 
     const onComplete = (event: any) => {
