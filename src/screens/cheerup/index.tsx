@@ -136,7 +136,7 @@ const CheerUp = observer(({ navigation , route } : CheerUpProps) => {
                     type: "CHEERING",
                     toUserId: target.userId,
                     title: "응원 메세지",
-                    body: message
+                    body: `${message} from. [${nickname}]`
                 })
                 
 
