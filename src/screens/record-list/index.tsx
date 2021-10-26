@@ -1,5 +1,5 @@
 import React, { ReactElement, useEffect, useState } from 'react'
-import { View, FlatList , TouchableOpacity, Image, SafeAreaView, Dimensions, Alert } from 'react-native'
+import { View, FlatList , TouchableOpacity, Image, SafeAreaView, Dimensions, Alert, BackHandler } from 'react-native'
 import { Background, Text_2, Header, Dropdown } from "@components";
 import styles from './style'
 import { StackNavigatorParams } from "@config/navigator";
@@ -202,6 +202,19 @@ export const RecordList = observer(({navigation, route} : RecordListProps) => {
         }
 
     }
+
+    useEffect(() => {
+        const backAction = () => {
+        navigation.replace("Home")
+        return true;
+        };
+
+        const backHandler = BackHandler.addEventListener(
+        "hardwareBackPress",
+        backAction
+        );
+        return () => backHandler.remove();
+    }, []);
 
     return (
         <Background>

@@ -58,6 +58,7 @@ import moment from 'moment';
 import {MessageResType} from '@type-definition/message';
 import { useFocusEffect } from '@react-navigation/native';
 import { Snackbar } from 'react-native-paper';
+import { useRoute } from '@react-navigation/native';
 
 
 
@@ -148,6 +149,8 @@ const Home = ()=> {
     const [recentRecord, setRecentRecord] = useState<RecentRecordType[]>();
     const [createDiaryOpen, setCreateDiaryOpen] = useState(false);
     const [refreshing, setRefreshing] = useState(false);
+    const route = useRoute();
+
 
     /**
      * 뒤로가기를 눌렸을때 출력되는 메세지
@@ -192,7 +195,7 @@ const Home = ()=> {
             backAction,
         );
         return () => backHandler.remove();
-    });
+    }, []);
     
 
     // check if screen is focused
@@ -337,13 +340,13 @@ const Home = ()=> {
                                                     </TouchableOpacity>
                                                 ): <></>
                                             }
-                                        </View>
-                                        
-                                        <CreateDiaryWrap>
                                             <CreateDiary
                                                 onClick={()=>{setCreateDiaryOpen(true)}}
                                             />
-                                        </CreateDiaryWrap>
+                                        </View>
+                                        {/* <CreateDiaryWrap>
+                                            
+                                        </CreateDiaryWrap> */}
                                         <DiaryListBottom>
                                             <DiaryListBottomMention>오늘의 너를 기억할게 :D</DiaryListBottomMention>
                                             <DiaryListBottomImage source={require('@assets/images/home/home_bottom_illust.png')}/>
