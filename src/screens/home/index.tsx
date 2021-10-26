@@ -75,7 +75,7 @@ const Profile =observer(() => {
 
 
     const getAlarm = async () => {
-        const data: MessageResType = await messageApis.getAllMessages({size: 10, lastId: 0});
+        const data: MessageResType = await messageApis.getAllMessages({size: 10, lastId: 0}) as MessageResType;
         const checkedAlarmTime = await AsyncStorage.getItem("checkedAlarmTime");
         if (!data.elements.length) {
             return;
@@ -270,81 +270,88 @@ const Home = ()=> {
                     {
                         diaryList.length?
                             <DiaryListWarp>
-                                {
-                                    recentRecord?
-                                        <RecentContentWarp>
-                                            <DiaryTitle>최근 작성된 기록</DiaryTitle>
-                                            <RecentContentList
-                                                horizontal={true}
-                                                alwaysBounceVertical={true}
-                                            >
-                                                {
-                                                    recentRecord? recentRecord.map((record:RecentRecordType, index)=>      
-                                                        <TouchableOpacity 
-                                                            onPress={() => { navigate("RecordView" , { diaryUuid : record.diaryUuid , recordUuid : record.recordUuid , diary: null , record : null }) }}
-                                                            key={'recent_recode_'+index}    
-                                                        >
-                                                            <RecentContent
-                                                                title={record.recordTitle}
-                                                                nickname={record.createdByNickname}
-                                                                diaryName={record.diaryTitle}
-                                                                backgroundColor='purple'  
-                                                            />
-                                                        </TouchableOpacity>
-                                                        ):
-                                                        <></>
-                                                    }
-                                            </RecentContentList>
-                                        </RecentContentWarp>:<></>
-                                }
+                                
                                 
                                 <DiaryListContainer>
-                                    <DiaryTitle>다이어리 목록</DiaryTitle>
+                                    
                                     <DiaryList
-                                        contentContainerStyle={
-                                            {display: 'flex',
-                                            flexDirection:'row',
-                                            justifyContent: 'space-between',
-                                            flexWrap: 'wrap',}}
                                         refreshControl={
                                             <RefreshControl
                                                 refreshing={refreshing}
                                                 onRefresh={onRefresh}
                                             />
                                             }
-                                        
-                                    >  
+                                    >
                                         {
-                                            diaryList?
-                                            diaryList.map((diary: DiaryResType)=>
-                                                <TouchableOpacity
-                                                    onPress={() => {
-                                                        navigate("RecordInfo" , { diary : diary })
-                                                    }}
-                                                    key={diary.uuid}
-                                                >
-                                                    <Diary
-                                                        diaryTitle={diary.title}
-                                                        members={diary.members.length}
-                                                        coverType={diary.icon.split(':')[0]}
-                                                        coverId={diary.icon.split(':')[1]}
-                                                    />
-                                                </TouchableOpacity>
-                                            ): <></>
+                                            recentRecord?
+                                                <RecentContentWarp>
+                                                    <DiaryTitle>최근 작성된 기록</DiaryTitle>
+                                                    <RecentContentList
+                                                        horizontal={true}
+                                                        alwaysBounceVertical={true}
+                                                    >
+                                                        {
+                                                            recentRecord? recentRecord.map((record:RecentRecordType, index)=>      
+                                                                <TouchableOpacity 
+                                                                    onPress={() => { navigate("RecordView" , { diaryUuid : record.diaryUuid , recordUuid : record.recordUuid , diary: null , record : null }) }}
+                                                                    key={'recent_recode_'+index}    
+                                                                >
+                                                                    <RecentContent
+                                                                        title={record.recordTitle}
+                                                                        nickname={record.createdByNickname}
+                                                                        diaryName={record.diaryTitle}
+                                                                        backgroundColor='purple'  
+                                                                    />
+                                                                </TouchableOpacity>
+                                                                ):
+                                                                <></>
+                                                            }
+                                                    </RecentContentList>
+                                                </RecentContentWarp>:<></>
                                         }
+                                        <DiaryTitle>다이어리 목록</DiaryTitle>
+                                        <View 
+                                            style={{
+                                                marginTop: 8,
+                                                display: 'flex',
+                                                flexDirection:'row',
+                                                justifyContent: 'space-between',
+                                                flexWrap: 'wrap',
+                                            }}
+                                        >
+                                            {
+                                                diaryList?
+                                                diaryList.map((diary: DiaryResType)=>
+                                                    <TouchableOpacity
+                                                        onPress={() => {
+                                                            navigate("RecordInfo" , { diary : diary })
+                                                        }}
+                                                        key={diary.uuid}
+                                                    >
+                                                        <Diary
+                                                            diaryTitle={diary.title}
+                                                            members={diary.members.length}
+                                                            coverType={diary.icon.split(':')[0]}
+                                                            coverId={diary.icon.split(':')[1]}
+                                                        />
+                                                    </TouchableOpacity>
+                                                ): <></>
+                                            }
+                                        </View>
+                                        
                                         <CreateDiaryWrap>
                                             <CreateDiary
                                                 onClick={()=>{setCreateDiaryOpen(true)}}
                                             />
                                         </CreateDiaryWrap>
-                                        
+                                        <DiaryListBottom>
+                                            <DiaryListBottomMention>오늘의 너를 기억할게 :D</DiaryListBottomMention>
+                                            <DiaryListBottomImage source={require('@assets/images/home/home_bottom_illust.png')}/>
+                                        </DiaryListBottom>
                                     </DiaryList>
                                     
                                 </DiaryListContainer>
-                                <DiaryListBottom>
-                                    <DiaryListBottomMention>오늘의 너를 기억할게 :D</DiaryListBottomMention>
-                                    <DiaryListBottomImage source={require('@assets/images/home/home_bottom_illust.png')}/>
-                                </DiaryListBottom>
+                                
                             </DiaryListWarp>
                             :
                             <RecommandCreateDiaryWrap>

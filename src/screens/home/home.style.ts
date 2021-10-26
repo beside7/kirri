@@ -158,20 +158,21 @@ export const RecentDiaryTitle = styled.Text({
 })
 
 export const DiaryTitle = styled.Text({
+    marginBottom: 8,
     fontSize:14,
     color: '#6f6f7e',
     fontFamily: 'SpoqaHanSansNeo-Regular'
 })
 
 export const DiaryListContainer = styled.View({
-    paddingTop:20,
+    // paddingTop:20,
     flexGrow: 1,
     flexBasis: 1,
     overflow: 'visible'
 })
 
 export const DiaryList = styled.ScrollView({
-    paddingTop: 8,
+    // paddingTop: 8,
     marginHorizontal: -20,
     paddingHorizontal: 20
 })
