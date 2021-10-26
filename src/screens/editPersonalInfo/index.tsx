@@ -17,6 +17,7 @@ import { userApis } from '@apis';
 import {navigateGoBack} from '@config/navigator';
 import { ProfileImageTypes } from '@utils';
 import { UpdateUserMeResType } from '@type-definition/user';
+import { KeyboardAvoidingView, Platform } from 'react-native';
 
 
 
@@ -88,7 +89,7 @@ export const EditPersonalInfo = observer(()=> {
                 }else {
                     setDuplicate(false);
                     setErrorMessage("");
-                }g
+                }
                 
             })
             
@@ -163,7 +164,9 @@ export const EditPersonalInfo = observer(()=> {
                         />
                         
                     </MakeNicknameContianer>
-                    <ButtonContainer>
+                    <ButtonContainer
+                        behavior={Platform.OS === "ios" ? "padding" : "height"}
+                    >
                         <Button
                             type='large'
                             onPress={()=>{

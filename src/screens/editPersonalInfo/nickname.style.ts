@@ -1,17 +1,21 @@
 import styled from 'styled-components/native'
+import { Dimensions } from 'react-native';
 
 
 export const SafeAreaView = styled.SafeAreaView({
     display: 'flex',
     backgroundColor: '#fff',
     flexDirection:'column',
-    height: '100%'
+    // height: '100%'
+    flex: 1
 })
 
 export const Container = styled.View({
     flexGrow: 1,
     paddingHorizontal: 34,
-    backgroundColor: '#fff'
+    paddingBottom: 38,
+    backgroundColor: '#fff',
+    height: Dimensions.get("window").height - 75,
 })
 
 export const ProfileImageContainer = styled.View({
@@ -109,7 +113,7 @@ export const InputAddedText = styled.View({
   
 });
 
-export const ButtonContainer = styled.View({
+export const ButtonContainer = styled.KeyboardAvoidingView({
     height: 50
 
 })
