@@ -14,6 +14,7 @@ import {UserStore} from '@store';
 import { Snackbar } from 'react-native-paper';
 import moment from 'moment';
 import { getAllScheduledNotificationsAsync } from 'expo-notifications';
+import { dateToString, stringToDatetime } from "@utils";
 
 
 type MessageListProps = {
@@ -47,11 +48,11 @@ const MessageList= observer(({ navigation } : MessageListProps) => {
             let data:MessageResType;
             switch(selectedMessageType.current) {
                 case 'all':
-                    data = await messageApis.getAllMessages({size: pageInfo.current.size, lastId: pageInfo.current.lastId});
+                    data = await messageApis.getAllMessages({size: pageInfo.current.size, lastId: pageInfo.current.lastId}) as MessageResType;
                     console.log(data);
                     break;
                 default :
-                    data = await messageApis.getMessagesByType({type: selectedMessageType.current});                   
+                    data = await messageApis.getMessagesByType({type: selectedMessageType.current}) as MessageResType;                   
                     break;
             }
             if (data.elements.length){
@@ -97,33 +98,7 @@ const MessageList= observer(({ navigation } : MessageListProps) => {
         UserStore.setNewMessage(false);
     },[]);
 
-    const getTime = useCallback(
-        (time: string) => {
-            const now = moment();
-            const created = moment(time, "YYYY-MM-DD HH:mm:ss");
-            const diff = now.diff(created);
-            if (diff<60*60*1000) {
-                return moment(diff).format("mm분 전");
-            }
-            if (diff<24*60*60*1000) {
-                console.log(diff);
-                console.log(moment(diff).format("HH시간 전"))
-                const time = Math.floor(diff/(60*60*1000));
-                return time+"시간 전";
-            }
-
-            if (diff<24*60*60*1000*8) {
-                const days = Math.floor(diff/(24*60*60*1000));
-                return days+"일 전";
-            }
-
-            if (now.format('YYYY') === created.format('YYYY')) {
-                return created.format("M월 DD일")
-            }
-            return created.format("YYYY년 M월 D일")
-
-        },[]
-    )
+    
     
     return (
         <Background>
@@ -152,7 +127,7 @@ const MessageList= observer(({ navigation } : MessageListProps) => {
                 <AlarmListWarp>
                         <FlatList
                             data={messageList}
-                            renderItem={({item})=> <Message {...item} to={nickname} setConfirmPopup={setConfirmPopup} updateMessageStatus={updateMessageStatus} createdTimeForamt={getTime(item.createdDate)}/>}
+                            renderItem={({item})=> <Message {...item} to={nickname} setConfirmPopup={setConfirmPopup} updateMessageStatus={updateMessageStatus} createdTimeForamt={dateToString(stringToDatetime(item.createdDate))}/>}
                             keyExtractor={(item: MessageDataType)=> item.id.toString()}
                             // onEndReached={getMessages}
                             // onEndReachedThreshold={1}

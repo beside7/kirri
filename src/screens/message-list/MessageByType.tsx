@@ -92,7 +92,7 @@ export const Cheering = ({id, type, fromNickname, title, diaryTitle, body, to, d
             </ImageWrap>
             <ContentWrap>
             <ContentText>
-                {body} from. {fromNickname}
+                {body}
                 </ContentText>
                 <InfoWrap>
                     <TimeText>{createdTimeForamt}</TimeText>
