@@ -385,7 +385,7 @@ export const RecordList = observer(({navigation, route} : RecordListProps) => {
                 />
             </SafeAreaView>
             {
-                (loading !== false) ?
+                !loading && 
                 (
                     <View style={styles.editButton}>
                         {
@@ -409,10 +409,10 @@ export const RecordList = observer(({navigation, route} : RecordListProps) => {
                             />
                         </TouchableOpacity>
                     </View>
-                ) : <></>
+                )
             }
             {
-                (snack !== null) ?
+                (snack !== null) && 
                 <Snackbar
                     visible={snackVisible}
                     onDismiss={onDismissSnackBar}
@@ -423,7 +423,6 @@ export const RecordList = observer(({navigation, route} : RecordListProps) => {
                     }}>
                     {snack}
                 </Snackbar>
-                : <></>
             }
         </Background>
     )
