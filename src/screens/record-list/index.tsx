@@ -50,7 +50,7 @@ export const RecordList = observer(({navigation, route} : RecordListProps) => {
     /**
      * 로딩
      */
-    const [loading, setLoading] = useState(false)
+    const [loading, setLoading] = useState<boolean>(false)
     const [refreshing, setRefreshing] = useState(false);
     /**
      * 리스트 맨마직막 아이디
@@ -318,13 +318,11 @@ export const RecordList = observer(({navigation, route} : RecordListProps) => {
                 <View style={styles.dropdown}>
                     <Dropdown
                         items={[
-                            {label: '전체', value:'all'},
-                            {label: '응원', value:'CHEERING'},
-                            {label: '초대', value:'INVITATION'}, 
-                            // {label: '알림', value:'NOTIFICATION'},
-                            // {label: '새기록', value:'NEW_RECORD'} 
+                            {label: '생성일자', value:'CREATE_DATE'},
+                            {label: '작성자', value:'WRITER'},
+                            {label: '제목', value:'TITLE'},
                         ]}
-                        value='all'
+                        value='CREATE_DATE'
                         onChangeValue={(val)=>{console.log(val)}}
                     />
                 </View>
@@ -387,7 +385,7 @@ export const RecordList = observer(({navigation, route} : RecordListProps) => {
                 />
             </SafeAreaView>
             {
-                !loading &&
+                (loading !== false) ?
                 (
                     <View style={styles.editButton}>
                         {
@@ -411,12 +409,10 @@ export const RecordList = observer(({navigation, route} : RecordListProps) => {
                             />
                         </TouchableOpacity>
                     </View>
-                )
+                ) : <></>
             }
-            
-
             {
-                (snack !== null) &&
+                (snack !== null) ?
                 <Snackbar
                     visible={snackVisible}
                     onDismiss={onDismissSnackBar}
@@ -427,6 +423,7 @@ export const RecordList = observer(({navigation, route} : RecordListProps) => {
                     }}>
                     {snack}
                 </Snackbar>
+                : <></>
             }
         </Background>
     )
