@@ -1,5 +1,12 @@
 import styled from 'styled-components/native'
 
+export const NickNameCount = styled.Text({
+    color: '#d1d1de',
+    fontSize: 12,
+    fontFamily: 'SpoqaHanSansNeo-Bold',
+    fontWeight: 'bold',
+    marginLeft: 8
+})
 
 export const SafeAreaView = styled.SafeAreaView({
     display: 'flex',
@@ -123,7 +130,7 @@ export const MakeNicknameTitle = styled.Text({
     color: '#17171c',
     fontSize: 12,
     marginBottom:8,
-    fontFamily: 'SpoqaHanSansNeo-Regular',
+    fontFamily: 'SpoqaHanSansNeo-Bold',
     fontWeight: 'bold',
 });
 
