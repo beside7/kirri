@@ -2,11 +2,10 @@ import styled from 'styled-components/native';
 
 export const Background = styled.Modal({
     backgroundColor: '#fff',
-    opacity: 0.3
 })
 
 export const BackgroundArea = styled.SafeAreaView({
-    backgroundColor: '#17171c30',
+    backgroundColor: 'rgba(23, 23, 28, 0.7)',
     display: 'flex',
     justifyContent:'center',
     alignItems:'center',
@@ -21,10 +20,23 @@ export const Container = styled.View((props:{theme: any, width: string|number|un
     maxHeight: '90%',
     paddingTop: 40,
     backgroundColor: props.theme['100'],
-    boxShadow:'1.5px 2.5px 5px #0000002b',
+    // boxShadow:'1.5px 2.5px 5px #0000002b',
     display: 'flex',
     width: props.width?props.width:300,
     height: props.height?props.height:'auto',
+
+    // borderWidth: 1,
+    // borderColor: 'red',
+
+    shadowColor: "#4d4d4d",
+    shadowOffset: {
+        width: 0,
+        height: 8,
+    },
+    shadowOpacity: 0.46,
+    shadowRadius: 11.14,
+
+    elevation: 20,
 }))
 
 export const HeaderWarp = styled.View({
