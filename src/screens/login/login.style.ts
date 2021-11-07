@@ -74,7 +74,7 @@ const styles = StyleSheet.create({
     appleButton: {
         width: 335,
         height: 56,
-        marginBottom: 38
+        marginBottom: 100
     },
     
 });
