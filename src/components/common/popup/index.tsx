@@ -8,6 +8,7 @@ export const Popup = ({open, width, height, headerIcon, title, content, discript
     return (
         <Background
             visible={open}
+            transparent={true}
         >
             <BackgroundArea>
                 <Container
@@ -34,7 +35,7 @@ export const Popup = ({open, width, height, headerIcon, title, content, discript
                                 :
                                 <>{content}</>
                         }
-                        
+
                     </Content>
                     <ButtonContainer>
                         {cancel?

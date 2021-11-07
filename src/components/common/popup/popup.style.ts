@@ -1,7 +1,8 @@
 import styled from 'styled-components/native';
 
 export const Background = styled.Modal({
-    backgroundColor: '#fff'
+    backgroundColor: '#fff',
+    opacity: 0.3
 })
 
 export const BackgroundArea = styled.SafeAreaView({
