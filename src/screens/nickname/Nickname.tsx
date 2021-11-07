@@ -149,7 +149,7 @@ export const Nickname = ({accessToken, authorities}: Props) => {
                         </ProfileSpeechBubbleWrap>
                     </SelectProfileImageWrap>
                     <MakeNicknameContianer>
-                        <MakeNicknameTitle>한글, 영문, 숫자를 사용해 멋진 닉네임을 만들어주세요</MakeNicknameTitle>
+                        <MakeNicknameTitle>한글, 영문, 숫자를 사용해 멋진 닉네임을 만들어주세요!</MakeNicknameTitle>
                         <KirriTextInput
                             onChange={(text)=>{
                                 currentNickname.current = text;

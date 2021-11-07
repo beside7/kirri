@@ -123,7 +123,8 @@ export const MakeNicknameTitle = styled.Text({
     color: '#17171c',
     fontSize: 12,
     marginBottom:8,
-    fontFamily: 'SpoqaHanSansNeo-Regular'
+    fontFamily: 'SpoqaHanSansNeo-Regular',
+    fontWeight: 'bold',
 });
 
 export const MakeNicknameInput = styled.TextInput({

@@ -33,5 +33,6 @@ export const Icon = styled.Image({
 
 export const Title = styled.Text({
     fontSize: 18,
-    fontFamily: 'SpoqaHanSansNeo-Regular'
+    fontFamily: 'SpoqaHanSansNeo-Regular',
+    fontWeight: 'bold'
 })
