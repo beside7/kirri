@@ -291,6 +291,7 @@ const Home = ()=> {
                                                     <RecentContentList
                                                         horizontal={true}
                                                         alwaysBounceVertical={true}
+                                                        showsHorizontalScrollIndicator={false}
                                                     >
                                                         {
                                                             recentRecord? recentRecord.map((record:RecentRecordType, index)=>      
