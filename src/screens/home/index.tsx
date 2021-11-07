@@ -1,7 +1,7 @@
 
 import React, {ReactElement, useCallback, useState, useEffect, useRef, Fragment} from 'react'
 
-import {View, TouchableOpacity, RefreshControl, BackHandler} from 'react-native';
+import {View, TouchableOpacity, RefreshControl, BackHandler, Alert} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useIsFocused } from '@react-navigation/native';
 
@@ -69,9 +69,12 @@ type HomeProps = {
 const wait = (timeout: number) => {
     return new Promise(resolve => setTimeout(resolve, timeout));
 }
-  
 
-const Profile =observer(() => {
+type ProfileProps = {
+    count : number
+}
+
+const Profile =observer(({ count } : ProfileProps) => {
     const {nickname, profileImage, profileImagePath, newMessage } = UserStore;
 
 
@@ -103,8 +106,16 @@ const Profile =observer(() => {
         <ProfileWarp>
             <IconWarp>
                 <IconButton
-                    onPress={()=> {                                    
-                        navigate("RecordInput", { diary : null })
+                    onPress={()=> {
+                        if(count === 0){
+                            Alert.alert("" ,"다이어리를 먼저 생성해주세요." , [
+                                {
+                                    text: '확인'
+                                }
+                            ])
+                        } else {
+                            navigate("RecordInput", { diary : null })
+                        }
                     }}
                     style={styles.iconSpace}
                     icon={require('@assets/images/home_writing_normal.png')}
@@ -268,7 +279,9 @@ const Home = ()=> {
         <Fragment>
             <HomeContainer>
                 <ContentWarp>
-                    <Profile></Profile>
+                    <Profile
+                        count={diaryList.length}
+                    />
                     {
                         diaryList.length?
                             <DiaryListWarp>

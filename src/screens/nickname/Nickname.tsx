@@ -158,9 +158,7 @@ export const Nickname = ({accessToken, authorities}: Props) => {
                         <KirriTextInput
                             onChange={(text)=>{
                                 currentNickname.current = text;
-                                if(nickNameCount >= 12){
-                                    setNickname(text);
-                                }
+                                setNickname(text);
                                 checkDuple();
                                 setNickNameCount(text.length);
                             }}
