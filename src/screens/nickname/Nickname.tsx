@@ -124,7 +124,7 @@ export const Nickname = ({accessToken, authorities}: Props) => {
             <JoinProcessing  open={joinProcessLoading}/>
             <SafeAreaView>
                 <Header
-                    title='닉네임만들기'
+                    title='닉네임 만들기'
                     leftIcon={require('@assets/images/various_back_normal.png')}
                     onLeftClick={handleGoBack}
                     borderBottom={false}

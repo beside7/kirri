@@ -65,16 +65,17 @@ const styles = StyleSheet.create({
     kakaoButton: {
         marginBottom: 8,
         width: 335,
-        height: 56
+        height: 56,
     },
     buttonImage:{
         width: 335,
+        height: 56,
         resizeMode: 'contain',
     },
     appleButton: {
         width: 335,
         height: 56,
-        marginBottom: 100
+        marginBottom: 38,
     },
     
 });
