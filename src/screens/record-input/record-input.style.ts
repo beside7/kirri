@@ -7,16 +7,16 @@ const styles = StyleSheet.create({
         paddingHorizontal: 20,
         paddingTop: 34
     },
-    editorWrap : {
+    editorWrap: {
         // height: SCREEN_HEIGHT - 300,
     },
-    editor : {
-        height: SCREEN_HEIGHT - 300,
+    editor: {
+        height: SCREEN_HEIGHT - 300
     },
-    bottomTab : {
+    bottomTab: {
         bottom: 0,
         position: "absolute",
-   
+
         width: "100%",
         height: 48,
         paddingHorizontal: 20,
@@ -26,59 +26,59 @@ const styles = StyleSheet.create({
         justifyContent: "space-between",
         backgroundColor: "#f4f4f8"
     },
-    imageList : {
+    imageList: {
         display: "flex",
         flexDirection: "row",
         marginTop: 15,
-        width: "100%",
+        width: "100%"
     },
     imageWrap: {
-        width: 102, 
+        width: 102,
         height: 102,
         padding: 12,
-        marginRight: 5,
+        marginRight: 5
     },
-    insertImages : { width: 80, height: 80 },
+    insertImages: { width: 80, height: 80 },
     closeIcon: {
         position: "absolute",
         top: 0,
         right: 0
     },
-    title : {
+    title: {
         fontSize: 20,
-        fontFamily: "SpoqaHanSansNeo-Medium",
+        fontFamily: "SpoqaHanSansNeo-Medium"
     },
-    backgroudImage : {
+    backgroudImage: {
         position: "absolute",
         bottom: 100,
         right: 0,
         width: 150,
         height: 86,
-        opacity: 0.5,
+        opacity: 0.5
     },
-    bottomPopupContainer:{
+    bottomPopupContainer: {
         height: 350,
         width: "100%",
         backgroundColor: "#fff",
         borderRadius: 20,
         paddingTop: 20
     },
-    bottomPopupBarContainer: { 
+    bottomPopupBarContainer: {
         alignItems: "center",
         justifyContent: "center",
-        marginTop: 4 
+        marginTop: 4
     },
     bottomPopupBar: {
         width: 42,
         height: 6,
         backgroundColor: "#d1d1de",
         borderRadius: 10,
-        marginBottom: 20,
+        marginBottom: 20
     },
     bottomPopupTitleContainer: {
         justifyContent: "center",
         alignItems: "center",
-        marginBottom: 50,
+        marginBottom: 50
     },
     bottomPopupTitle: {
         fontSize: 16,
@@ -89,12 +89,12 @@ const styles = StyleSheet.create({
         justifyContent: "flex-start",
         alignItems: "center",
         paddingHorizontal: 34,
-        flexDirection: "row",
+        flexDirection: "row"
     },
     diatyListItemThumbnailContainer: {
         marginRight: 12
     },
-    selectDiaryImage : {
+    selectDiaryImage: {
         borderWidth: 3,
         borderColor: "yellow",
         borderRadius: 100
@@ -105,7 +105,7 @@ const styles = StyleSheet.create({
     },
     diatyListItemCount: {
         color: "#6f6f7e",
-        fontSize: 12,
+        fontSize: 12
     },
     bottomPopupButtonContainer: {
         alignItems: "center",
@@ -119,7 +119,7 @@ const styles = StyleSheet.create({
         backgroundColor: "#f4f4f8",
         justifyContent: "center",
         alignItems: "center",
-        borderRadius: 10,
+        borderRadius: 10
     },
     bottomPopupEnableButton: {
         width: 307,
@@ -127,7 +127,7 @@ const styles = StyleSheet.create({
         backgroundColor: "#ffdd1f",
         justifyContent: "center",
         alignItems: "center",
-        borderRadius: 10,
+        borderRadius: 10
     },
 
     centeredView: {
@@ -161,7 +161,7 @@ const styles = StyleSheet.create({
         elevation: 2
     },
     buttonClose: {
-        backgroundColor: "#ffdd1f",
+        backgroundColor: "#ffdd1f"
     },
     textStyle: {
         color: "#17171c",
@@ -172,12 +172,12 @@ const styles = StyleSheet.create({
         marginBottom: 15,
         textAlign: "center"
     },
-    form : {
+    form: {
         width: 250,
         paddingHorizontal: 30,
-        paddingVertical: 20,
+        paddingVertical: 20
     },
-    formGroup : {
+    formGroup: {
         flexDirection: "row",
         alignItems: "center",
         justifyContent: "space-between"
@@ -196,7 +196,6 @@ const styles = StyleSheet.create({
         top: 1,
         left: 2
     }
-})
-
+});
 
 export default styles;

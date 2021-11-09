@@ -1,11 +1,11 @@
-import React from 'react'
-import { View, Text } from 'react-native'
+import React from "react";
+import { View, Text } from "react-native";
 
 type ColorType = {
-    color : string
-}
+    color: string;
+};
 
-export default function Color({color} : ColorType) {
+export default function Color({ color }: ColorType) {
     return (
         <View
             style={{
@@ -16,5 +16,5 @@ export default function Color({color} : ColorType) {
                 backgroundColor: color
             }}
         />
-    )
+    );
 }

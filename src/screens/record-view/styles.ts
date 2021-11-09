@@ -1,43 +1,43 @@
 import { StyleSheet } from "react-native";
 
 export const styles = StyleSheet.create({
-    viewTitle :{ 
-        justifyContent : "center",
-        paddingHorizontal: 20 ,
+    viewTitle: {
+        justifyContent: "center",
+        paddingHorizontal: 20,
         height: 80,
         borderBottomWidth: 1,
-        borderColor: "#e1e1eb" 
+        borderColor: "#e1e1eb"
     },
-    viewWriterContainer: { 
+    viewWriterContainer: {
         marginBottom: 8,
-        paddingTop: 24 ,
-        height: 60 ,
+        paddingTop: 24,
+        height: 60,
         justifyContent: "space-between",
-        flexDirection: "row" ,
-        paddingHorizontal: 28 
+        flexDirection: "row",
+        paddingHorizontal: 28
     },
     modalImages: {
         alignItems: "center",
-        justifyContent: "center",
+        justifyContent: "center"
     },
     modalDeleteIcon: {
         width: 100,
         height: 100,
-        marginBottom: 24,
+        marginBottom: 24
     },
     modalTitleStyle: {
         color: "#17171c",
         fontWeight: "bold",
         textAlign: "center",
-        fontSize: 14,
+        fontSize: 14
     },
-    diaryBottomIllust : {
+    diaryBottomIllust: {
         width: 156,
         height: 86,
         position: "absolute",
         bottom: 40,
         right: 20
     }
-})
+});
 
 export default styles;

@@ -1,2 +1,2 @@
-export * from './TermsAndConditions';
-export * from './TermsWebview';
+export * from "./TermsAndConditions";
+export * from "./TermsWebview";

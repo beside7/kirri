@@ -1,1 +1,1 @@
-export {KirriTextInput} from './Input';
+export { KirriTextInput } from "./Input";

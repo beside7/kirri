@@ -5,9 +5,12 @@ type TextProps = {
     children: ReactNode;
 } & NativeTextProps;
 
-
-export default function Text({ children, style, ...props }: TextProps): ReactElement {
-    let fontFamily = "space-mono"
+export default function Text({
+    children,
+    style,
+    ...props
+}: TextProps): ReactElement {
+    let fontFamily = "space-mono";
     return (
         <NativeText {...props} style={[{ fontFamily }, style]}>
             {children}

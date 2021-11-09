@@ -1,26 +1,25 @@
 import { StyleSheet } from "react-native";
-import { Dimensions, } from 'react-native'
+import { Dimensions } from "react-native";
 
 const SCREEN_HEIGHT = Dimensions.get("screen").height;
-const HEADER_HEIGHT = 174
-
+const HEADER_HEIGHT = 174;
 
 const styles = StyleSheet.create({
-    dropdown : {
+    dropdown: {
         width: 100,
-        paddingLeft:16,
-        overflow: 'visible',
+        paddingLeft: 16,
+        overflow: "visible",
         marginTop: 18,
         marginBottom: 8,
         zIndex: 10
     },
-    loading : {
+    loading: {
         flex: 1,
         justifyContent: "center",
         alignItems: "center",
         width: "100%",
         backgroundColor: "#fff",
-        height: SCREEN_HEIGHT - (HEADER_HEIGHT),
+        height: SCREEN_HEIGHT - HEADER_HEIGHT
     },
     bottomTab: {
         backgroundColor: "#F2F2F2",
@@ -33,7 +32,7 @@ const styles = StyleSheet.create({
     },
     editButton: {
         position: "absolute",
-        right: - 10,
+        right: -10,
         bottom: 20
     },
     listItemContainer: {
@@ -44,17 +43,26 @@ const styles = StyleSheet.create({
         // marginVertical: 4,
         marginBottom: 4
     },
-    listItemTop: { flexDirection: "row", justifyContent: "space-between", alignItems: "center" },
+    listItemTop: {
+        flexDirection: "row",
+        justifyContent: "space-between",
+        alignItems: "center"
+    },
     listItemCreatedDate: { fontSize: 12, color: "#6f6f7e" },
-    listItemMiddle: {   },
-    listItemThumbnail: { width: "90%", height: 200, borderRadius: 10 ,left: 44 },
+    listItemMiddle: {},
+    listItemThumbnail: {
+        width: "90%",
+        height: 200,
+        borderRadius: 10,
+        left: 44
+    },
     ListEmptyContainer: {
         width: "100%",
         backgroundColor: "#fff",
-        height: SCREEN_HEIGHT - (HEADER_HEIGHT),
+        height: SCREEN_HEIGHT - HEADER_HEIGHT,
         flex: 1,
         alignItems: "center",
-        paddingTop: 100,
+        paddingTop: 100
         // borderWidth: 1
     },
     ListEmptyThumbnail: {
@@ -63,14 +71,14 @@ const styles = StyleSheet.create({
     },
     ListEmptyContent: {
         marginTop: 24,
-        alignItems: "center",
+        alignItems: "center"
     },
     emptyMessage: {
         position: "absolute",
         bottom: 110,
-        right: 30,
+        right: 30
     },
-    emptyMessageContainer_1 : {
+    emptyMessageContainer_1: {
         backgroundColor: "#17171c",
         paddingVertical: 13,
         paddingLeft: 16,
@@ -79,7 +87,7 @@ const styles = StyleSheet.create({
         height: 55,
         borderRadius: 10
     },
-    emptyMessageContainer_2 : {
+    emptyMessageContainer_2: {
         // backgroundColor: "#17171c",
         top: 0,
         left: 120,
@@ -94,26 +102,36 @@ const styles = StyleSheet.create({
         borderTopColor: "#17171c",
         borderRightColor: "transparent",
         borderBottomColor: "transparent",
-        borderLeftColor: "transparent",
+        borderLeftColor: "transparent"
     },
-    listItemTitle : { color: "#17171c", fontSize: 16, fontFamily: "SpoqaHanSansNeo-Regular", marginTop: 8 },
-    listItemBody : { color: "#6f6f7e", fontSize: 12, fontFamily: "SpoqaHanSansNeo-Regular", marginTop: 6 },
+    listItemTitle: {
+        color: "#17171c",
+        fontSize: 16,
+        fontFamily: "SpoqaHanSansNeo-Regular",
+        marginTop: 8
+    },
+    listItemBody: {
+        color: "#6f6f7e",
+        fontSize: 12,
+        fontFamily: "SpoqaHanSansNeo-Regular",
+        marginTop: 6
+    },
 
     modalImages: {
         alignItems: "center",
-        justifyContent: "center",
+        justifyContent: "center"
     },
     modalDeleteIcon: {
         width: 100,
         height: 100,
-        marginBottom: 24,
+        marginBottom: 24
     },
     modalTitleStyle: {
         color: "#17171c",
         fontWeight: "bold",
         textAlign: "center",
-        fontSize: 14,
-    },
+        fontSize: 14
+    }
 });
 
 export default styles;

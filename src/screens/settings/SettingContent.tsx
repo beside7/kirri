@@ -1,13 +1,18 @@
-import React, {ReactElement} from 'react';
-import {SettingListWrap, SettingTitleWarp, SettingIcon, SettingTitle} from './setting.style';
+import React, { ReactElement } from "react";
+import {
+    SettingListWrap,
+    SettingTitleWarp,
+    SettingIcon,
+    SettingTitle
+} from "./setting.style";
 
-interface Props{
-    icon: any,
-    title: string,
-    children:ReactElement
+interface Props {
+    icon: any;
+    title: string;
+    children: ReactElement;
 }
 
-export const SettingContent = ({icon, title, children}:Props) => {
+export const SettingContent = ({ icon, title, children }: Props) => {
     return (
         <SettingListWrap>
             <SettingTitleWarp>
@@ -16,5 +21,5 @@ export const SettingContent = ({icon, title, children}:Props) => {
             </SettingTitleWarp>
             {children}
         </SettingListWrap>
-    )
-}
+    );
+};

@@ -1,34 +1,41 @@
-import React, { ReactElement, useEffect, useState } from 'react'
-import { View, FlatList , TouchableOpacity, Image, SafeAreaView, Dimensions, Alert, BackHandler } from 'react-native'
+import React, { ReactElement, useEffect, useState } from "react";
+import {
+    View,
+    FlatList,
+    TouchableOpacity,
+    Image,
+    SafeAreaView,
+    Dimensions,
+    Alert,
+    BackHandler
+} from "react-native";
 import { Background, Text_2, Header, Dropdown } from "@components";
-import styles from './style'
+import styles from "./style";
 import { StackNavigatorParams } from "@config/navigator";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { RouteProp } from "@react-navigation/native";
-import { recordApis, diaryApis } from "@apis"
-import { RecordResType } from "@type-definition/diary"
-import { Menu } from 'react-native-paper';
+import { recordApis, diaryApis } from "@apis";
+import { RecordResType } from "@type-definition/diary";
+import { Menu } from "react-native-paper";
 import { chain } from "lodash";
-import { observer } from 'mobx-react';
-import { UserStore } from '@store';
+import { observer } from "mobx-react";
+import { UserStore } from "@store";
 
-import { LeaveConfirm } from './leave-confirm'
+import { LeaveConfirm } from "./leave-confirm";
 
-import DeleteConfirm from './delete-confirm'
+import DeleteConfirm from "./delete-confirm";
 
-import RenderItem from './render-item'
-import { useIsFocused } from '@react-navigation/native';
+import RenderItem from "./render-item";
+import { useIsFocused } from "@react-navigation/native";
 
-import { Snackbar } from 'react-native-paper';
-
+import { Snackbar } from "react-native-paper";
 
 type RecordListProps = {
     navigation: StackNavigationProp<StackNavigatorParams, "RecordList">;
     route: RouteProp<StackNavigatorParams, "RecordList">;
-}
+};
 
-export const RecordList = observer(({navigation, route} : RecordListProps) => {
-
+export const RecordList = observer(({ navigation, route }: RecordListProps) => {
     /**
      * mobx 으로 유저 닉네임 추출
      */
@@ -44,49 +51,48 @@ export const RecordList = observer(({navigation, route} : RecordListProps) => {
     const closeMenu = () => setVisible(false);
     /**
      * 우측 상단메뉴 닫기
-     * @returns 
+     * @returns
      */
     const openMenu = () => setVisible(true);
     /**
      * 로딩
      */
-    const [loading, setLoading] = useState<boolean>(false)
+    const [loading, setLoading] = useState<boolean>(false);
     const [refreshing, setRefreshing] = useState(false);
     /**
      * 리스트 맨마직막 아이디
      */
-    const [lastId, setLastId] = useState<number | undefined>(undefined)
-    
-    
+    const [lastId, setLastId] = useState<number | undefined>(undefined);
+
     /**
      * info 에서 넘겨받은 다이러리 정보
      */
     const diary = route.params.diary;
 
-
-    
     /**
      * snack bar
      */
-    const snack : string | null = route.params.snack
+    const snack: string | null = route.params.snack;
     const [snackVisible, setSnackVisible] = useState(snack !== null);
     const onDismissSnackBar = () => setSnackVisible(false);
 
     /**
-     * 현재 로그인한 사용자가 해당 다이러리에서 관리자인지 판별하는 부분 
+     * 현재 로그인한 사용자가 해당 다이러리에서 관리자인지 판별하는 부분
      * -> true : 관리자 , false : 일반 유저
      */
-    const isAdministrator = diary?.members.find((item) => item.nickname === nickname )?.authority === "DIARY_OWNER"
+    const isAdministrator =
+        diary?.members.find(item => item.nickname === nickname)?.authority ===
+        "DIARY_OWNER";
 
     /**
      * 기록리스트 부분
      */
-    const [list, setList] = useState<RecordResType[]>([])
+    const [list, setList] = useState<RecordResType[]>([]);
 
     /**
      * 삭제동의창 여부
      */
-    const [deleteConfirm, setDeleteConfirm] = useState(false)
+    const [deleteConfirm, setDeleteConfirm] = useState(false);
 
     /**
      * 떠나기 동의창 여부
@@ -101,7 +107,7 @@ export const RecordList = observer(({navigation, route} : RecordListProps) => {
      */
     const deleteDiary = async () => {
         try {
-            if(diary){
+            if (diary) {
                 await diaryApis.deleteDiary(diary.uuid);
                 Alert.alert("삭제되었습니다.");
                 navigation.replace("Home");
@@ -110,108 +116,113 @@ export const RecordList = observer(({navigation, route} : RecordListProps) => {
             /**
              * 400 번대 에러일경우 메세지 출력
              */
-            if(error.response && error.response.status === 400 && error.response.data.code){
-                Alert.alert(error.response.data.message)
+            if (
+                error.response &&
+                error.response.status === 400 &&
+                error.response.data.code
+            ) {
+                Alert.alert(error.response.data.message);
             } else {
                 console.log(error.response);
             }
         }
-    }
+    };
 
     /**
      * 기록목록 가져오기
      * @param uuid 다이러리 아이디
      * @returns 기록목록
      */
-    const getRecordList = async (uuid : string | undefined , recordUuid: number | undefined) => {
+    const getRecordList = async (
+        uuid: string | undefined,
+        recordUuid: number | undefined
+    ) => {
         try {
             // console.log(uuid);
-            if(uuid){
-                setLoading(true)
+            if (uuid) {
+                setLoading(true);
                 if (lastId === undefined && !recordUuid) {
                     setRefreshing(true);
                 }
-                const getRecordRes = await recordApis.getRecords(uuid , recordUuid);
-                const { elements } = getRecordRes
+                const getRecordRes = await recordApis.getRecords(
+                    uuid,
+                    recordUuid
+                );
+                const { elements } = getRecordRes;
                 // console.log(getRecordRes);
                 // 기존리스트에 추가
 
-                
-
-                let newList = list.concat(elements)
+                let newList = list.concat(elements);
                 // if(recordUuid) {
                 //     newList = chain(elements).uniqBy(({ id }) => id).value();
                 // }
-                const idList = newList.map(({ id }) => id)
-                const last_id = Math.min ( ...idList );
+                const idList = newList.map(({ id }) => id);
+                const last_id = Math.min(...idList);
 
                 // console.log(last_id);
                 // // 마직막 아이디 지정
-                setLastId(last_id)
-                
-                setList(recordUuid ? newList : elements)
-                setLoading(false)
+                setLastId(last_id);
+
+                setList(recordUuid ? newList : elements);
+                setLoading(false);
                 setRefreshing(false);
                 return newList;
             } else {
-                return []
+                return [];
             }
         } catch (error) {
             console.log(error);
         }
-    }
+    };
 
     const handleLoadMore = () => {
-        if(diary){
-            const { uuid } = diary
-            getRecordList(uuid, lastId)
+        if (diary) {
+            const { uuid } = diary;
+            getRecordList(uuid, lastId);
         }
-    }
+    };
 
     useEffect(() => {
-        if(diary){
-            const { uuid } = diary
-            getRecordList(uuid, undefined)
+        if (diary) {
+            const { uuid } = diary;
+            getRecordList(uuid, undefined);
         }
-        return () => {
-            
-        }
-    }, [])
+        return () => {};
+    }, []);
 
     useEffect(() => {
-        if(diary){
-            const { uuid } = diary
-            getRecordList(uuid, undefined)
+        if (diary) {
+            const { uuid } = diary;
+            getRecordList(uuid, undefined);
         }
-    },[isFocused]);
+    }, [isFocused]);
 
     /**
      * 다이러리 떠나기
      */
     const leaveDiary = async () => {
-        if(diary){
-            const { uuid } = diary
+        if (diary) {
+            const { uuid } = diary;
             // console.log(diary)
             try {
                 await diaryApis.leaveDiary(uuid);
                 setLeaveConfirm(false);
-                navigation.replace("Home")
-            } catch ( error : any) {
-                console.log(error.response)
+                navigation.replace("Home");
+            } catch (error: any) {
+                console.log(error.response);
             }
         }
-
-    }
+    };
 
     useEffect(() => {
         const backAction = () => {
-        navigation.replace("Home")
-        return true;
+            navigation.replace("Home");
+            return true;
         };
 
         const backHandler = BackHandler.addEventListener(
-        "hardwareBackPress",
-        backAction
+            "hardwareBackPress",
+            backAction
         );
         return () => backHandler.remove();
     }, []);
@@ -219,20 +230,19 @@ export const RecordList = observer(({navigation, route} : RecordListProps) => {
     return (
         <Background>
             <Header
-                title={ diary ? diary.title : "처음 우리들의 끼리 다이러리" }
+                title={diary ? diary.title : "처음 우리들의 끼리 다이러리"}
                 leftIcon={
                     <TouchableOpacity
                         onPress={() => {
-                            navigation.goBack()
+                            navigation.goBack();
                         }}
                     >
-                        <Image 
+                        <Image
                             style={{ width: 24, height: 24 }}
                             source={require("@assets/icons/back.png")}
                         />
                     </TouchableOpacity>
                 }
-
                 // 우측 상단 메뉴
                 rightIcon={
                     <Menu
@@ -243,51 +253,66 @@ export const RecordList = observer(({navigation, route} : RecordListProps) => {
                         onDismiss={closeMenu}
                         anchor={
                             <TouchableOpacity onPress={openMenu}>
-                                <Image 
+                                <Image
                                     style={{ width: 24, height: 24 }}
                                     source={require("@assets/icons/menu.png")}
                                 />
                             </TouchableOpacity>
                         }
                     >
-                        <Menu.Item 
+                        <Menu.Item
                             onPress={() => {
-                                closeMenu()
-                                navigation.navigate("Cheerup", { diary : diary })
-                            }} 
-                            title="끼리 응원하기" 
+                                closeMenu();
+                                navigation.navigate("Cheerup", {
+                                    diary: diary
+                                });
+                            }}
+                            title="끼리 응원하기"
                         />
                         <Menu.Item
                             onPress={() => {
-                                closeMenu()
-                                navigation.navigate("FriendMain", { diary : diary })
-                            }} 
-                            title="끼리 멤버" 
+                                closeMenu();
+                                navigation.navigate("FriendMain", {
+                                    diary: diary
+                                });
+                            }}
+                            title="끼리 멤버"
                         />
-                        {
-                            isAdministrator &&
-                            (
-                                <>
-                                    <Menu.Item onPress={() => {
-                                        closeMenu()
-                                        navigation.navigate("DiaryConfig", { diary : diary })
-                                    }} title="다이러리 수정" />
-                                    <Menu.Item onPress={() => {
-                                        setDeleteConfirm(true)
-                                    }} title="다이러리 삭제" />
-                                </>
-                            )
-                        }
+                        {isAdministrator && (
+                            <>
+                                <Menu.Item
+                                    onPress={() => {
+                                        closeMenu();
+                                        navigation.navigate("DiaryConfig", {
+                                            diary: diary
+                                        });
+                                    }}
+                                    title="다이러리 수정"
+                                />
+                                <Menu.Item
+                                    onPress={() => {
+                                        setDeleteConfirm(true);
+                                    }}
+                                    title="다이러리 삭제"
+                                />
+                            </>
+                        )}
                         <Menu.Item
                             onPress={() => {
-                                closeMenu()
-                                if(isAdministrator){
-                                    Alert.alert("" , "다른 멤버에게 관리자 권한을 넘긴 후 다이어리를 떠나주세요." , [{
-                                        text : "확인"
-                                    }]);
+                                closeMenu();
+                                if (isAdministrator) {
+                                    Alert.alert(
+                                        "",
+                                        "다른 멤버에게 관리자 권한을 넘긴 후 다이어리를 떠나주세요.",
+                                        [
+                                            {
+                                                text: "확인"
+                                            }
+                                        ]
+                                    );
                                     return;
                                 }
-                                setLeaveConfirm(true)
+                                setLeaveConfirm(true);
                             }}
                             title="나가기"
                         />
@@ -297,77 +322,74 @@ export const RecordList = observer(({navigation, route} : RecordListProps) => {
             <LeaveConfirm
                 visible={leaveConfirm}
                 onClose={() => {
-                    setLeaveConfirm(false)
+                    setLeaveConfirm(false);
                 }}
-                onConfirm={async ()=>{
-                    await leaveDiary()
+                onConfirm={async () => {
+                    await leaveDiary();
                 }}
                 confirm="떠나기"
                 close="머무르기"
             />
             {/* 다이러리 삭제창 */}
-            <DeleteConfirm 
+            <DeleteConfirm
                 modal={deleteConfirm}
                 onClose={() => {
-                    setDeleteConfirm(false)
+                    setDeleteConfirm(false);
                 }}
                 onConfirm={deleteDiary}
             />
             {/* 리스트 */}
-            <SafeAreaView style={{flex: 1}}>
+            <SafeAreaView style={{ flex: 1 }}>
                 <View style={styles.dropdown}>
                     <Dropdown
                         items={[
-                            {label: '생성일자', value:'CREATE_DATE'},
-                            {label: '작성자', value:'WRITER'},
-                            {label: '제목', value:'TITLE'},
+                            { label: "생성일자", value: "CREATE_DATE" },
+                            { label: "작성자", value: "WRITER" },
+                            { label: "제목", value: "TITLE" }
                         ]}
-                        value='CREATE_DATE'
-                        onChangeValue={(val)=>{console.log(val)}}
+                        value="CREATE_DATE"
+                        onChangeValue={val => {
+                            console.log(val);
+                        }}
                     />
                 </View>
-                <FlatList 
+                <FlatList
                     contentContainerStyle={{ backgroundColor: "#f4f4f8" }}
-                    data={list} 
-                    renderItem={( {item} ) => (
-                        item && <RenderItem 
-                            item={item}
-                            diary={diary}
-                            navigation={navigation}
-                        />
-                    )}
-                    keyExtractor={(item, index) => `${index}`} 
+                    data={list}
+                    renderItem={({ item }) =>
+                        item && (
+                            <RenderItem
+                                item={item}
+                                diary={diary}
+                                navigation={navigation}
+                            />
+                        )
+                    }
+                    keyExtractor={(item, index) => `${index}`}
                     ListEmptyComponent={() => {
-                        if(loading){
-                            return (
-                                <View style={styles.loading}>
-
-                                </View>
-                            )
+                        if (loading) {
+                            return <View style={styles.loading}></View>;
                         } else {
                             return (
                                 <View style={styles.ListEmptyContainer}>
-                                    <Image 
+                                    <Image
                                         style={styles.ListEmptyThumbnail}
                                         source={require("@assets/images/diary/diary_history_empty.png")}
                                     />
-                                    <View
-                                        style={styles.ListEmptyContent}
-                                    >
+                                    <View style={styles.ListEmptyContent}>
                                         <Text_2>앗!</Text_2>
                                         <Text_2>기록이 없어요.</Text_2>
                                     </View>
                                 </View>
-                            )
+                            );
                         }
                     }}
                     onEndReachedThreshold={1}
                     onEndReached={handleLoadMore}
                     refreshing={refreshing}
                     onRefresh={() => {
-                        getRecordList(diary?.uuid, undefined)
+                        getRecordList(diary?.uuid, undefined);
                     }}
-
                     // ListFooterComponent={
                     //     () => {
                     //         return (
@@ -384,49 +406,61 @@ export const RecordList = observer(({navigation, route} : RecordListProps) => {
                     ListFooterComponentStyle={styles.bottomTab}
                 />
             </SafeAreaView>
-            {
-                !loading && 
-                (
-                    <View style={styles.editButton}>
-                        {
-                            (!list || list.length === 0)  &&
-                            <View style={styles.emptyMessage}>
-                                <View style={styles.emptyMessageContainer_1}>
-                                    <Text_2 style={{ fontSize: 11 , color: "#fff" , fontFamily: "SpoqaHanSansNeo-Regular" }}>기록 작성 버튼을 눌러</Text_2>
-                                    <Text_2 style={{ fontSize: 11 , color: "#fff" , fontFamily: "SpoqaHanSansNeo-Regular" }}>첫 기록을 남겨봐요 :)</Text_2>
-                                </View>
-                                <View style={styles.emptyMessageContainer_2}/>
+            {!loading && (
+                <View style={styles.editButton}>
+                    {(!list || list.length === 0) && (
+                        <View style={styles.emptyMessage}>
+                            <View style={styles.emptyMessageContainer_1}>
+                                <Text_2
+                                    style={{
+                                        fontSize: 11,
+                                        color: "#fff",
+                                        fontFamily: "SpoqaHanSansNeo-Regular"
+                                    }}
+                                >
+                                    기록 작성 버튼을 눌러
+                                </Text_2>
+                                <Text_2
+                                    style={{
+                                        fontSize: 11,
+                                        color: "#fff",
+                                        fontFamily: "SpoqaHanSansNeo-Regular"
+                                    }}
+                                >
+                                    첫 기록을 남겨봐요 :)
+                                </Text_2>
                             </View>
-                        }
-                        <TouchableOpacity 
-                            onPress={() => {
-                                navigation.navigate("RecordInput" , { diary : diary })
-                            }}
-                            >
-                            <Image 
-                                source={require("@assets/icons/edit.png")}
-                                style={{ width: 114, height: 114 }}
-                            />
-                        </TouchableOpacity>
-                    </View>
-                )
-            }
-            {
-                (snack !== null) && 
+                            <View style={styles.emptyMessageContainer_2} />
+                        </View>
+                    )}
+                    <TouchableOpacity
+                        onPress={() => {
+                            navigation.navigate("RecordInput", {
+                                diary: diary
+                            });
+                        }}
+                    >
+                        <Image
+                            source={require("@assets/icons/edit.png")}
+                            style={{ width: 114, height: 114 }}
+                        />
+                    </TouchableOpacity>
+                </View>
+            )}
+            {snack !== null && (
                 <Snackbar
                     visible={snackVisible}
                     onDismiss={onDismissSnackBar}
                     action={{
-                    label: '확인',
-                    onPress: () => {
-                    },
-                    }}>
+                        label: "확인",
+                        onPress: () => {}
+                    }}
+                >
                     {snack}
                 </Snackbar>
-            }
+            )}
         </Background>
-    )
-})
-
+    );
+});
 
 export default RecordList;

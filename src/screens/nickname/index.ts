@@ -1,2 +1,2 @@
-export * from './Nickname';
-export * from './JoinProcessing'
+export * from "./Nickname";
+export * from "./JoinProcessing";

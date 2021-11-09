@@ -1,22 +1,21 @@
-import styled, {css} from 'styled-components/native';
-
+import styled, { css } from "styled-components/native";
 
 export const TitleContainer = styled.View({
-    display: 'flex',
+    display: "flex",
     height: 32,
-    flexDirection:'row',
-    alignItems: 'center',
-    justifyContent: 'space-between'
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between"
 });
 
 export const IconWarp = styled.View({
     width: 32,
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center'
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center"
 });
 
 export const TitleText = styled.Text({
-    textAlign:'center',
-    fontSize: 16,
-})
+    textAlign: "center",
+    fontSize: 16
+});

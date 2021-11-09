@@ -1,139 +1,138 @@
-import styled from 'styled-components/native';
-import { Dimensions } from 'react-native';
+import styled from "styled-components/native";
+import { Dimensions } from "react-native";
 
 export const SafeAreaViewTop = styled.SafeAreaView({
-    display: 'flex',
-    flexDirection: 'column',
+    display: "flex",
+    flexDirection: "column",
     height: 0,
-    backgroundColor: '#fff',
-})
+    backgroundColor: "#fff"
+});
 
 export const SafeAreaViewBottom = styled.SafeAreaView({
-    display: 'flex',
-    flexDirection: 'column',
-    backgroundColor: '#f7f7f7',
-    height: '100%'
-})
+    display: "flex",
+    flexDirection: "column",
+    backgroundColor: "#f7f7f7",
+    height: "100%"
+});
 
 export const ContentContainer = styled.ScrollView({
-    backgroundColor:'#f7f7f7'
-})
+    backgroundColor: "#f7f7f7"
+});
 
 export const Content = styled.View({
     paddingHorizontal: 35,
-    backgroundColor: '#fff',
-})
+    backgroundColor: "#fff"
+});
 
 export const Profile = styled(Content)({
     paddingBottom: 80,
     marginBottom: 8,
     paddingTop: 54,
-    alignItems:'center',
-}) 
+    alignItems: "center"
+});
 
 export const ProfileImage = styled.Image({
     width: 100,
     height: 100,
-    resizeMode: 'contain'
-})
+    resizeMode: "contain"
+});
 
 export const NicknameWarp = styled.View({
-    display: 'flex',
-    flexDirection: 'row',
+    display: "flex",
+    flexDirection: "row",
     marginTop: 24
-})
+});
 
 export const NicknameText = styled.Text({
     fontSize: 24,
-    color: '#333333',
+    color: "#333333",
     marginRight: 5,
-    fontFamily: 'SpoqaHanSansNeo-Regular'
-})
+    fontFamily: "SpoqaHanSansNeo-Regular"
+});
 
-export const EditProfile = styled.TouchableOpacity((props: {theme: any})=>({
+export const EditProfile = styled.TouchableOpacity((props: { theme: any }) => ({
     width: 18,
     height: 18,
-    borderRadius:9,
-    backgroundColor: props.theme['101']
-}))
+    borderRadius: 9,
+    backgroundColor: props.theme["101"]
+}));
 
 export const NicknameInputWarp = styled.View({
-    marginTop:70,
-})
+    marginTop: 70
+});
 
 export const MakeNicknameTitle = styled.Text({
-    color: '#17171c',
+    color: "#17171c",
     fontSize: 12,
-    marginBottom:8,
-    fontFamily: 'SpoqaHanSansNeo-Regular'
+    marginBottom: 8,
+    fontFamily: "SpoqaHanSansNeo-Regular"
 });
 
 export const SettingListWrap = styled.View({
     height: 60,
-    width: '100%',
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent:'space-between',
-    alignItems: 'center',
-})
+    width: "100%",
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center"
+});
 
 export const SettingTitleWarp = styled.View({
-    display: 'flex',
-    flexDirection: 'row',
-    alignItems: 'center'
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "center"
 });
 
 export const SettingIcon = styled.Image({
-    width:24,
-    height:24,
-    resizeMode: 'contain',
+    width: 24,
+    height: 24,
+    resizeMode: "contain",
     marginRight: 12
-})
+});
 
 export const SettingTitle = styled.Text({
     fontSize: 14,
-    fontFamily: 'SpoqaHanSansNeo-Regular'
-})
+    fontFamily: "SpoqaHanSansNeo-Regular"
+});
 
-export const VersionText = styled.Text((props:{theme: any})=>({
+export const VersionText = styled.Text((props: { theme: any }) => ({
     fontSize: 14,
-    color: props.theme['110'],
-    fontFamily: 'SpoqaHanSansNeo-Regular'
-}))
+    color: props.theme["110"],
+    fontFamily: "SpoqaHanSansNeo-Regular"
+}));
 
 export const LeaveKKiriWarp = styled.TouchableOpacity({
     marginLeft: 70,
-    marginTop: 12,
-})
+    marginTop: 12
+});
 
-export const LeaveKKiriTitle = styled.Text((props:{theme: any})=>({
+export const LeaveKKiriTitle = styled.Text((props: { theme: any }) => ({
     fontSize: 14,
-    textDecoration: 'underline',
-    color: props.theme['106'],
-    textDecorationColor: props.theme['106'],
-    fontFamily: 'SpoqaHanSansNeo-Regular'
-}))
-
+    textDecoration: "underline",
+    color: props.theme["106"],
+    textDecorationColor: props.theme["106"],
+    fontFamily: "SpoqaHanSansNeo-Regular"
+}));
 
 export const LeaveKirriPopupContent = styled.View({
-    width: '100%',
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'center',
+    width: "100%",
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center",
     paddingHorizontal: 24
-})
+});
 
 export const SignoutImage = styled.Image({
     width: 100,
     height: 100,
-    resizeMode: 'contain',
-    marginBottom: 24,
-})
+    resizeMode: "contain",
+    marginBottom: 24
+});
 
-export const SignoutText = styled.Text((props: {theme: any})=>({
+export const SignoutText = styled.Text((props: { theme: any }) => ({
     fontSize: 14,
-    color: props.theme['110'],
-    fontFamily: 'SpoqaHanSansNeo-Regular',
+    color: props.theme["110"],
+    fontFamily: "SpoqaHanSansNeo-Regular",
     textAlign: "center"
-}))
+}));

@@ -2,32 +2,31 @@ import * as Notifications from "expo-notifications";
 import Constants from "expo-constants";
 import { Platform } from "react-native";
 
-
 Notifications.setNotificationHandler({
     handleNotification: async () => ({
-      shouldShowAlert: true,
-      shouldPlaySound: false,
-      shouldSetBadge: false,
-    }),
+        shouldShowAlert: true,
+        shouldPlaySound: false,
+        shouldSetBadge: false
+    })
 });
 
 /**
  * 기기에 Notification 권한을 획득해서 expo token 값을 획득하는 메서드
- * @returns 
+ * @returns
  */
 const initNotifications = async (): Promise<string | null> => {
     if (Constants.isDevice) {
         /**
          * 푸쉬 알람 권한 부여 확인
-        */
+         */
         const { status: existingStatus } =
-        await Notifications.getPermissionsAsync();
+            await Notifications.getPermissionsAsync();
         let finalStatus = existingStatus;
 
         /**
          * 만약 권한이 없다고 하면 기기로 권한 요청 전송
          */
-         if (existingStatus !== "granted") {
+        if (existingStatus !== "granted") {
             const { status } = await Notifications.requestPermissionsAsync();
             finalStatus = status;
         }
@@ -43,10 +42,10 @@ const initNotifications = async (): Promise<string | null> => {
          * Expo token 발급
          */
         const tokenRes = await Notifications.getExpoPushTokenAsync();
-        console.log("EXPO TOKEN : " , tokenRes);
+        console.log("EXPO TOKEN : ", tokenRes);
 
-        const { data } = tokenRes
-        
+        const { data } = tokenRes;
+
         /**
          * 여기에 토큰값 전송
          */
@@ -65,6 +64,6 @@ const initNotifications = async (): Promise<string | null> => {
     } else {
         return null;
     }
-}
+};
 
 export default initNotifications;

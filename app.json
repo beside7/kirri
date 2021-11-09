@@ -1,57 +1,55 @@
 {
-  "expo": {
-    "name": "Kirri",
-    "description": "함께라서 더욱 즐거운 우리, 우리 끼리의 소소한 일상을 기록하세요.",
-    "slug": "kirri",
-    "version": "1.0.0",
-    "owner": "100milliongold",
-    "orientation": "portrait",
-    "icon": "./assets/images/ic_launcher.png",
-    "scheme": "kirri",
-    "userInterfaceStyle": "automatic",
-    "splash": {
-      "image": "./assets/images/splash.png",
-      "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+    "expo": {
+        "name": "Kirri",
+        "description": "함께라서 더욱 즐거운 우리, 우리 끼리의 소소한 일상을 기록하세요.",
+        "slug": "kirri",
+        "version": "1.0.0",
+        "owner": "100milliongold",
+        "orientation": "portrait",
+        "icon": "./assets/images/ic_launcher.png",
+        "scheme": "kirri",
+        "userInterfaceStyle": "automatic",
+        "splash": {
+            "image": "./assets/images/splash.png",
+            "resizeMode": "contain",
+            "backgroundColor": "#ffffff"
+        },
+        "updates": {
+            "fallbackToCacheTimeout": 0
+        },
+        "assetBundlePatterns": ["**/*"],
+        "ios": {
+            "supportsTablet": true
+        },
+        "android": {
+            "adaptiveIcon": {
+                "foregroundImage": "./assets/images/adaptive-icon.png",
+                "backgroundColor": "#ffffff"
+            }
+        },
+        "web": {
+            "favicon": "./assets/images/favicon.png"
+        },
+        "packagerOpts": {
+            "config": "metro.config.js",
+            "sourceExts": [
+                "expo.ts",
+                "expo.tsx",
+                "expo.js",
+                "expo.jsx",
+                "ts",
+                "tsx",
+                "js",
+                "jsx",
+                "json",
+                "wasm",
+                "svg",
+                "svgx"
+            ]
+        }
     },
-    "updates": {
-      "fallbackToCacheTimeout": 0
-    },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
     "ios": {
-      "supportsTablet": true
-    },
-    "android": {
-      "adaptiveIcon": {
-        "foregroundImage": "./assets/images/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
-      }
-    },
-    "web": {
-      "favicon": "./assets/images/favicon.png"
-    },
-    "packagerOpts": {
-      "config": "metro.config.js",
-      "sourceExts": [
-        "expo.ts",
-        "expo.tsx",
-        "expo.js",
-        "expo.jsx",
-        "ts",
-        "tsx",
-        "js",
-        "jsx",
-        "json",
-        "wasm",
-        "svg",
-        "svgx"
-      ]
+        "bundleIdentifier": "com.duc7.kkiri",
+        "buildNumber": "1.0.0"
     }
-  },
-  "ios": {
-    "bundleIdentifier": "com.duc7.kkiri",
-    "buildNumber": "1.0.0"
-  }
 }

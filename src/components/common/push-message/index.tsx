@@ -1,14 +1,22 @@
-import React, { useState } from 'react'
-import { Alert, Modal, StyleSheet, Image, Pressable, View, Dimensions } from "react-native";
+import React, { useState } from "react";
+import {
+    Alert,
+    Modal,
+    StyleSheet,
+    Image,
+    Pressable,
+    View,
+    Dimensions
+} from "react-native";
 import { Text_2 } from "@components";
-const { width , height } = Dimensions.get("screen")
+const { width, height } = Dimensions.get("screen");
 
 type PushMessageProps = {
-    visible : boolean
-    closeModal : () => void
-}
+    visible: boolean;
+    closeModal: () => void;
+};
 
-const PushMessage = ({ visible, closeModal } : PushMessageProps) => {
+const PushMessage = ({ visible, closeModal }: PushMessageProps) => {
     return (
         <Modal
             animationType="slide"
@@ -20,15 +28,22 @@ const PushMessage = ({ visible, closeModal } : PushMessageProps) => {
                 <View style={styles.modalView}>
                     <View style={styles.modalContent}>
                         <View style={styles.images}>
-                            <Image 
+                            <Image
                                 source={require("@assets/icons/mail.png")}
                                 style={styles.mailIcon}
                             />
-                            <Text_2 style={styles.titleStyle}>메세지 도착</Text_2>
+                            <Text_2 style={styles.titleStyle}>
+                                메세지 도착
+                            </Text_2>
                         </View>
                         <View style={styles.modalText}>
-                            <Text_2 style={styles.titleStyle}>댕청미 에게, 언제까지 쓰는 지 안쓰는 지 내가 지켜본다. </Text_2>
-                            <Text_2 style={styles.textStyle}>from. 최애옹 [처음 우리들의 끼리 다이어리!!]</Text_2>
+                            <Text_2 style={styles.titleStyle}>
+                                댕청미 에게, 언제까지 쓰는 지 안쓰는 지 내가
+                                지켜본다.{" "}
+                            </Text_2>
+                            <Text_2 style={styles.textStyle}>
+                                from. 최애옹 [처음 우리들의 끼리 다이어리!!]
+                            </Text_2>
                         </View>
                     </View>
                     <Pressable
@@ -38,13 +53,12 @@ const PushMessage = ({ visible, closeModal } : PushMessageProps) => {
                         <Text_2 style={styles.titleStyle}>Hide Modal</Text_2>
                     </Pressable>
                 </View>
-                
             </View>
-      </Modal>
+        </Modal>
     );
-  };
-  
-  const styles = StyleSheet.create({
+};
+
+const styles = StyleSheet.create({
     centeredView: {
         position: "relative",
         top: 0,
@@ -55,7 +69,7 @@ const PushMessage = ({ visible, closeModal } : PushMessageProps) => {
         alignItems: "center",
         width: width,
         height: height,
-        backgroundColor: "#17171c60",
+        backgroundColor: "#17171c60"
     },
     modalView: {
         width: 300,
@@ -79,12 +93,12 @@ const PushMessage = ({ visible, closeModal } : PushMessageProps) => {
     },
     images: {
         alignItems: "center",
-        justifyContent: "center",
+        justifyContent: "center"
     },
     mailIcon: {
         width: 24,
         height: 24,
-        marginBottom: 4,
+        marginBottom: 4
     },
     buttonClose: {
         width: "100%",
@@ -95,7 +109,7 @@ const PushMessage = ({ visible, closeModal } : PushMessageProps) => {
         borderBottomLeftRadius: 20,
         borderBottomRightRadius: 20,
         justifyContent: "center",
-        alignItems: "center",
+        alignItems: "center"
     },
     modalText: {
         marginTop: 24,
@@ -112,12 +126,11 @@ const PushMessage = ({ visible, closeModal } : PushMessageProps) => {
         textAlign: "center",
         marginTop: 12
     }
- 
-  });
+});
 
 PushMessage.defaultProps = {
-    visible : false,
+    visible: false,
     closeModal: () => console.warn("closeModal 미정의")
-}
-  
+};
+
 export default PushMessage;

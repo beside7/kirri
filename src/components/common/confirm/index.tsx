@@ -1,18 +1,32 @@
-import React, { ReactElement } from 'react'
-import { Modal, StyleSheet, Image, Pressable, View, Dimensions } from "react-native";
+import React, { ReactElement } from "react";
+import {
+    Modal,
+    StyleSheet,
+    Image,
+    Pressable,
+    View,
+    Dimensions
+} from "react-native";
 import { Text_2 } from "@components";
-const { width , height } = Dimensions.get("screen")
+const { width, height } = Dimensions.get("screen");
 
 type PushMessageProps = {
-    visible : boolean
-    onClose : () => void
-    onConfirm: () => void
-    content: ReactElement | string | undefined
-    confirm?: string
-    close?: string
-}
+    visible: boolean;
+    onClose: () => void;
+    onConfirm: () => void;
+    content: ReactElement | string | undefined;
+    confirm?: string;
+    close?: string;
+};
 
-const Confirm = ({ visible, onClose, onConfirm, content, confirm,close } : PushMessageProps) => {
+const Confirm = ({
+    visible,
+    onClose,
+    onConfirm,
+    content,
+    confirm,
+    close
+}: PushMessageProps) => {
     return (
         <Modal
             animationType="slide"
@@ -22,9 +36,7 @@ const Confirm = ({ visible, onClose, onConfirm, content, confirm,close } : PushM
         >
             <View style={styles.centeredView}>
                 <View style={styles.modalView}>
-                    <View style={styles.modalContent}>
-                        { content }
-                    </View>
+                    <View style={styles.modalContent}>{content}</View>
                     <View style={styles.modalFooter}>
                         <Pressable
                             style={[styles.buttonClose]}
@@ -39,15 +51,13 @@ const Confirm = ({ visible, onClose, onConfirm, content, confirm,close } : PushM
                             <Text_2 style={styles.titleStyle}>{confirm}</Text_2>
                         </Pressable>
                     </View>
-                    
                 </View>
-                
             </View>
-      </Modal>
+        </Modal>
     );
-  };
-  
-  const styles = StyleSheet.create({
+};
+
+const styles = StyleSheet.create({
     centeredView: {
         position: "relative",
         top: 0,
@@ -58,7 +68,7 @@ const Confirm = ({ visible, onClose, onConfirm, content, confirm,close } : PushM
         alignItems: "center",
         width: width,
         height: height,
-        backgroundColor: "#17171c60",
+        backgroundColor: "#17171c60"
     },
     modalView: {
         width: 300,
@@ -83,9 +93,9 @@ const Confirm = ({ visible, onClose, onConfirm, content, confirm,close } : PushM
 
     modalFooter: {
         flexDirection: "row",
-        height: 50,
+        height: 50
     },
-    
+
     buttonConfirm: {
         width: "50%",
         height: 50,
@@ -95,7 +105,7 @@ const Confirm = ({ visible, onClose, onConfirm, content, confirm,close } : PushM
         borderRightWidth: 1,
         borderBottomRightRadius: 20,
         justifyContent: "center",
-        alignItems: "center",
+        alignItems: "center"
     },
     buttonClose: {
         width: "50%",
@@ -103,22 +113,21 @@ const Confirm = ({ visible, onClose, onConfirm, content, confirm,close } : PushM
         backgroundColor: "#ffdd1f",
         borderBottomLeftRadius: 20,
         justifyContent: "center",
-        alignItems: "center",
+        alignItems: "center"
     },
     titleStyle: {
         color: "#17171c",
         fontWeight: "bold",
         textAlign: "center"
-    },
- 
-  });
+    }
+});
 
 Confirm.defaultProps = {
-    visible : false,
+    visible: false,
     onClose: () => console.warn("onClose 미정의"),
     onConfirm: () => console.warn("onConfirm 미정의"),
     confirm: "confirm",
-    close: "close",
-}
-  
+    close: "close"
+};
+
 export default Confirm;

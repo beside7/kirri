@@ -1,17 +1,17 @@
-export interface Paging <T> {
-    totalCounts: number,
-    page: number,
-    size: number,
-    totalPages: number,
-    elements: T[]
+export interface Paging<T> {
+    totalCounts: number;
+    page: number;
+    size: number;
+    totalPages: number;
+    elements: T[];
 }
 
 export interface ResType<T> {
-    data: T,
-    [key: string]: any
+    data: T;
+    [key: string]: any;
 }
 
 export interface PageReqType {
-    size: number,
-    lastId: number
+    size: number;
+    lastId: number;
 }

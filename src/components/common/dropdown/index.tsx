@@ -1,18 +1,26 @@
-import React, {forwardRef, useImperativeHandle, useState, useEffect} from 'react';
-import DropDownPicker, {ItemType} from 'react-native-dropdown-picker';
-import {Container, SelectedItemText, SelectedItemIcon} from './dropdown.style';
+import React, {
+    forwardRef,
+    useImperativeHandle,
+    useState,
+    useEffect
+} from "react";
+import DropDownPicker, { ItemType } from "react-native-dropdown-picker";
+import {
+    Container,
+    SelectedItemText,
+    SelectedItemIcon
+} from "./dropdown.style";
 
 interface Props {
-    items: ItemType[],
-    onChangeValue: (value: any) => void,
-    value: any
+    items: ItemType[];
+    onChangeValue: (value: any) => void;
+    value: any;
 }
 
-export const Dropdown = ({items, onChangeValue, value}:Props)  => {
+export const Dropdown = ({ items, onChangeValue, value }: Props) => {
     const [selectedItem, setSelectedItem] = useState(value);
     const [open, setOpen] = useState(false);
     const [itemList, setItemList] = useState(items);
-
 
     return (
         <DropDownPicker
@@ -21,21 +29,23 @@ export const Dropdown = ({items, onChangeValue, value}:Props)  => {
             open={open}
             setOpen={setOpen}
             value={selectedItem}
-            setValue={(val) =>{ setSelectedItem(val)}}
-            onChangeValue={(value) => {
-               onChangeValue(value); 
+            setValue={val => {
+                setSelectedItem(val);
+            }}
+            onChangeValue={value => {
+                onChangeValue(value);
             }}
             textStyle={{
-                fontFamily: 'SpoqaHanSansNeo-Regular',
+                fontFamily: "SpoqaHanSansNeo-Regular",
                 fontSize: 14,
-                borderWidth:0,
+                borderWidth: 0,
                 height: 18
-                }}
+            }}
             labelStyle={{
                 fontSize: 14,
-                borderWidth:0,
+                borderWidth: 0,
                 height: 18
-                }}
+            }}
             containerStyle={{
                 height: 18,
                 borderWidth: 0,
@@ -54,20 +64,19 @@ export const Dropdown = ({items, onChangeValue, value}:Props)  => {
                 shadowColor: "#000",
                 shadowOffset: {
                     width: 0,
-                    height: 6,
+                    height: 6
                 },
                 shadowOpacity: 0.39,
-                shadowRadius: 8.30,
+                shadowRadius: 8.3,
                 elevation: 13,
                 borderTopLeftRadius: 0,
                 borderTopRightRadius: 0,
                 borderBottomLeftRadius: 0,
-                borderBottomRightRadius: 0,
+                borderBottomRightRadius: 0
             }}
             listItemContainerStyle={{
                 height: 25
-                }}
-        /> 
-
-    )
-}
+            }}
+        />
+    );
+};

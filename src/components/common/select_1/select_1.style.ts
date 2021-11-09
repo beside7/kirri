@@ -3,16 +3,16 @@ import { StyleSheet } from "react-native";
 const styles = StyleSheet.create({
     selectWrap: {
         borderRadius: 80,
-        overflow: 'hidden'
+        overflow: "hidden"
     },
-    select : {
+    select: {
         backgroundColor: "#FFF3C7",
-        alignItems: "center",
+        alignItems: "center"
     },
     selectItem: {
-        justifyContent: 'center',
-        alignItems: "center",
+        justifyContent: "center",
+        alignItems: "center"
     }
-})
+});
 
-export default styles
+export default styles;
