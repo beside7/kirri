@@ -491,3 +491,18 @@ export const NewAlarm = styled.View((props: { theme: any }) => ({
     position: "absolute",
     right: 0
 }));
+
+export const AlertContent = styled.View({
+    width: "100%",
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center",
+    paddingHorizontal: 24
+});
+
+export const AlertText = styled.Text({
+    fontSize: 14,
+    fontFamily: "SpoqaHanSansNeo-Regular",
+    textAlign: "center"
+});

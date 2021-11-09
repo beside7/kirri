@@ -233,7 +233,7 @@ export const Settings = observer(() => {
                 open={leavKKiriPopupOpen}
                 cancel="맞아요"
                 confirm="싫어요"
-                onConfirm={() => {
+                onConfirm={async () => {
                     setLeavKKiriPopupOpen(false);
                 }}
                 onCancel={handleSignout}
@@ -254,7 +254,7 @@ export const Settings = observer(() => {
             <Popup
                 open={leavePopupOpen}
                 confirm="꼭 돌아올게요"
-                onConfirm={() => {
+                onConfirm={async () => {
                     leave();
                 }}
                 width={300}
@@ -272,10 +272,10 @@ export const Settings = observer(() => {
                 open={logoutPopupOpen}
                 cancel="로그아웃"
                 confirm="취소"
-                onCancel={() => {
+                onCancel={async () => {
                     logout();
                 }}
-                onConfirm={() => {
+                onConfirm={async () => {
                     setLogoutPopupOpen(false);
                 }}
                 width={300}

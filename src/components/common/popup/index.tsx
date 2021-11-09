@@ -14,8 +14,8 @@ import {
     ContentText,
     CancelButtonText
 } from "./popup.style";
-import Text from "../text_1/text_1";
 import { Props } from "./types";
+import { Shadow } from "react-native-shadow-2";
 
 export const Popup = ({
     open,
@@ -24,7 +24,6 @@ export const Popup = ({
     headerIcon,
     title,
     content,
-    discription,
     confirm,
     cancel,
     onCancel,
@@ -34,55 +33,58 @@ export const Popup = ({
     return (
         <Background visible={open} transparent={true}>
             <BackgroundArea>
-                <Container width={width} height={height}>
-                    <HeaderWarp>
-                        {headerIcon ? (
-                            <>
-                                <StyledHeaderIcon
-                                    source={headerIcon}
-                                ></StyledHeaderIcon>
-                                <IconWithTitle>{title}</IconWithTitle>
-                            </>
-                        ) : title ? (
-                            <Title>{title}</Title>
-                        ) : (
-                            <></>
-                        )}
-                    </HeaderWarp>
-                    <Content>
-                        {typeof content === "string" ? (
-                            <ContentText>{content}</ContentText>
-                        ) : (
-                            <>{content}</>
-                        )}
-                    </Content>
-                    <ButtonContainer>
-                        {cancel ? (
+                <Shadow radius={10}>
+                    <Container width={width} height={height}>
+                        <HeaderWarp>
+                            {headerIcon ? (
+                                <>
+                                    <StyledHeaderIcon
+                                        source={headerIcon}
+                                    ></StyledHeaderIcon>
+                                    <IconWithTitle>{title}</IconWithTitle>
+                                </>
+                            ) : title ? (
+                                <Title>{title}</Title>
+                            ) : (
+                                <></>
+                            )}
+                        </HeaderWarp>
+                        <Content>
+                            {typeof content === "string" ? (
+                                <ContentText>{content}</ContentText>
+                            ) : (
+                                <>{content}</>
+                            )}
+                        </Content>
+                        <ButtonContainer>
+                            {cancel ? (
+                                <PopupButton
+                                    attr="cancel"
+                                    border={true}
+                                    onPress={async () => {
+                                        await onCancel();
+                                        handelOpen(false);
+                                    }}
+                                >
+                                    <CancelButtonText>{cancel}</CancelButtonText>
+                                </PopupButton>
+                            ) : (
+                                <></>
+                            )}
                             <PopupButton
-                                attr="cancel"
-                                border={true}
+                                attr="confirm"
+                                border={!!cancel}
                                 onPress={async () => {
-                                    await onCancel();
+                                    await onConfirm();
                                     handelOpen(false);
                                 }}
                             >
-                                <CancelButtonText>{cancel}</CancelButtonText>
+                                <ButtonText>{confirm}</ButtonText>
                             </PopupButton>
-                        ) : (
-                            <></>
-                        )}
-                        <PopupButton
-                            attr="confirm"
-                            border={!!cancel}
-                            onPress={async () => {
-                                await onConfirm();
-                                handelOpen(false);
-                            }}
-                        >
-                            <ButtonText>{confirm}</ButtonText>
-                        </PopupButton>
-                    </ButtonContainer>
-                </Container>
+                        </ButtonContainer>
+                    </Container>
+                </Shadow>
+                
             </BackgroundArea>
         </Background>
     );

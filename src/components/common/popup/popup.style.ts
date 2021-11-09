@@ -21,8 +21,8 @@ export const Container = styled.View(
     }) => ({
         borderRadius: 10,
         overflow: "hidden",
-        maxWidth: "90%",
-        maxHeight: "90%",
+        // maxWidth: "90%",
+        maxHeight: "100%",
         paddingTop: 40,
         backgroundColor: props.theme["100"],
         // boxShadow:'1.5px 2.5px 5px #0000002b',
@@ -32,16 +32,6 @@ export const Container = styled.View(
 
         // borderWidth: 1,
         // borderColor: 'red',
-
-        shadowColor: "#4d4d4d",
-        shadowOffset: {
-            width: 0,
-            height: 8
-        },
-        shadowOpacity: 0.46,
-        shadowRadius: 11.14,
-
-        elevation: 20
     })
 );
 

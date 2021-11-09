@@ -38,7 +38,6 @@ import styles, {
     DiaryEmptyImageWarp,
     DiaryEmptyImage,
     LogoType,
-    DiaryContainer,
     DiaryListBottom,
     DiaryListBottomImage,
     DiaryListBottomMention,
@@ -47,12 +46,13 @@ import styles, {
     SpeechBubbleWrapBgTail,
     EmptyDiaryText,
     RecommandCreateDiaryWrap,
-    CreateDiaryWrap,
-    NewAlarm
+    NewAlarm,
+    AlertContent,
+    AlertText
 } from "./home.style";
 import { RecentContent } from "./RecentContent";
 
-import { IconButton } from "@components";
+import { IconButton , Popup } from "@components";
 
 import { observer } from "mobx-react";
 import { UserStore } from "@store";
@@ -82,9 +82,13 @@ const wait = (timeout: number) => {
 
 type ProfileProps = {
     count: number;
+    setAlertOpen: () => void;
 };
 
-const Profile = observer(({ count }: ProfileProps) => {
+/**
+ * 상단 헤더
+ */
+const Profile = observer(({ count , setAlertOpen}: ProfileProps) => {
     const { nickname, profileImage, profileImagePath, newMessage } = UserStore;
 
     const getAlarm = async () => {
@@ -121,11 +125,7 @@ const Profile = observer(({ count }: ProfileProps) => {
                 <IconButton
                     onPress={() => {
                         if (count === 0) {
-                            Alert.alert("", "다이어리를 먼저 생성해주세요.", [
-                                {
-                                    text: "확인"
-                                }
-                            ]);
+                            setAlertOpen(true);
                         } else {
                             navigate("RecordInput", { diary: null });
                         }
@@ -178,6 +178,11 @@ const Home = () => {
     const [createDiaryOpen, setCreateDiaryOpen] = useState(false);
     const [refreshing, setRefreshing] = useState(false);
     const route = useRoute();
+
+    /**
+     * 경고창 출력여부
+     */
+    const [alertOpen, setAlertOpen] = useState(false);
 
     /**
      * 뒤로가기를 눌렸을때 출력되는 메세지
@@ -288,7 +293,10 @@ const Home = () => {
         <Fragment>
             <HomeContainer>
                 <ContentWarp>
-                    <Profile count={diaryList.length} />
+                    <Profile 
+                        count={diaryList.length}
+                        setAlertOpen={setAlertOpen}
+                    />
                     {diaryList.length ? (
                         <DiaryListWarp>
                             <DiaryListContainer>
@@ -464,6 +472,22 @@ const Home = () => {
             <Snackbar visible={snackVisible} onDismiss={onDismissSnackBar}>
                 {`한번더 뒤로가기를 누르면 종료됩니다.`}
             </Snackbar>
+            <Popup
+                open={alertOpen}
+                confirm="확인"
+                onConfirm={async () => {
+                    setAlertOpen(false);
+                }}
+                width={300}
+                handelOpen={(key: boolean) => {}}
+                content={
+                    <AlertContent>
+                        <AlertText>
+                            다이어리를 먼저 생성해주세요.
+                        </AlertText>
+                    </AlertContent>
+                }
+            />
         </Fragment>
     );
 };
