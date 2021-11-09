@@ -21,7 +21,7 @@
     },
     "husky": {
         "hooks": {
-            "pre-commit": "npm run typecheck && npm run lintStage"
+            "pre-commit": "yarn run typecheck && yarn run lintStage"
         }
     },
     "jest": {

@@ -27,21 +27,19 @@ export const dateToString = (time: Date): string => {
     if (timeDifference < ONE_HOUR) {
         return `${Math.round(timeDifference / ONE_MINUTE)} 분 전`;
     } else if (ONE_HOUR <= timeDifference && timeDifference <= ONE_DAY) {
-    /**
-     * 1시간~24시간:  HH시간 전
-     */
+        /**
+         * 1시간~24시간:  HH시간 전
+         */
         return `${Math.round(timeDifference / ONE_HOUR)} 시간 전`;
     } else if (ONE_DAY < timeDifference && timeDifference <= ONE_DAY * 7) {
-
-    /**
-     * 25시간~7일: DD일 전
-     */
+        /**
+         * 25시간~7일: DD일 전
+         */
         return `${Math.round(timeDifference / ONE_DAY)} 일 전`;
     } else if (ONE_DAY * 7 < timeDifference && timeDifference <= ONE_YEAR) {
-
-    /**
-     * 8일~올해: MM월 DD일
-     */
+        /**
+         * 8일~올해: MM월 DD일
+         */
         return dateFormat(new Date(time), "m월 d일");
     }
 
