@@ -1,4 +1,9 @@
 import styled from "styled-components/native";
+import { Dimensions } from "react-native";
+
+const DeviceWidth = Dimensions.get("window").width;
+
+const gridWidth = Math.floor(DeviceWidth / 2) - 50;
 
 export const Container = styled.View``;
 
@@ -123,7 +128,7 @@ export const ChreerupContainer = styled.View({
 });
 
 export const Chreerup = styled.TouchableOpacity({
-    width: "45.5%",
+    width: gridWidth,
     height: 160,
     marginTop: 7,
     marginBottom: 7,
