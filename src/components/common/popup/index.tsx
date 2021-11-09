@@ -66,7 +66,9 @@ export const Popup = ({
                                         handelOpen(false);
                                     }}
                                 >
-                                    <CancelButtonText>{cancel}</CancelButtonText>
+                                    <CancelButtonText>
+                                        {cancel}
+                                    </CancelButtonText>
                                 </PopupButton>
                             ) : (
                                 <></>
@@ -84,7 +86,6 @@ export const Popup = ({
                         </ButtonContainer>
                     </Container>
                 </Shadow>
-                
             </BackgroundArea>
         </Background>
     );

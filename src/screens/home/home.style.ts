@@ -8,6 +8,11 @@ import { Platform } from "react-native";
 //     'pattern_1': require()
 // }
 
+const DeviceHeight = Dimensions.get("window").height;
+const DeviceWidth = Dimensions.get("window").width;
+
+const gridWidth = Math.floor(DeviceWidth / 2) - 32;
+
 const ScreenHeight = Dimensions.get("window").height;
 
 const styles = StyleSheet.create({
@@ -169,11 +174,11 @@ export const DiaryList = styled.ScrollView({
 
 export const DiaryContainer = styled.View({
     display: "flex",
-    height: 158,
+    height: gridWidth,
     marginBottom: 18,
     marginLeft: 2,
     marginRight: 2,
-    width: 159,
+    width: gridWidth,
     // boxShadow:'1.5px 2.5px 5px #0000002b',
     shadowColor: "rgb(0, 0, 0)",
     shadowOffset: {
@@ -266,8 +271,8 @@ export const CreateDiaryText = styled.Text({
 });
 
 export const CreateDiaryContainer = styled.TouchableOpacity({
-    width: 159,
-    height: 158,
+    width: gridWidth,
+    height: gridWidth - 1,
     borderRadius: 10,
     borderColor: "#e2e2e2",
     borderWidth: 1.5,
@@ -492,6 +497,12 @@ export const NewAlarm = styled.View((props: { theme: any }) => ({
     right: 0
 }));
 
+export const CoverImage = styled.Image({
+    width: gridWidth,
+    borderTopLeftRadius: 10,
+    borderTopRightRadius: 10
+});
+
 export const AlertContent = styled.View({
     width: "100%",
     display: "flex",
@@ -500,9 +511,9 @@ export const AlertContent = styled.View({
     alignItems: "center",
     paddingHorizontal: 24
 });
-
-export const AlertText = styled.Text({
+export const AlertText = styled.Text((props: { theme: any }) => ({
     fontSize: 14,
+    color: props.theme["110"],
     fontFamily: "SpoqaHanSansNeo-Regular",
     textAlign: "center"
-});
+}));

@@ -4,7 +4,9 @@ import React, {
     useState,
     useEffect,
     useRef,
-    Fragment
+    Fragment,
+    Dispatch,
+    SetStateAction
 } from "react";
 
 import {
@@ -52,7 +54,7 @@ import styles, {
 } from "./home.style";
 import { RecentContent } from "./RecentContent";
 
-import { IconButton , Popup } from "@components";
+import { IconButton, Popup } from "@components";
 
 import { observer } from "mobx-react";
 import { UserStore } from "@store";
@@ -82,13 +84,13 @@ const wait = (timeout: number) => {
 
 type ProfileProps = {
     count: number;
-    setAlertOpen: () => void;
+    setAlertOpen: Dispatch<SetStateAction<boolean>>;
 };
 
 /**
  * 상단 헤더
  */
-const Profile = observer(({ count , setAlertOpen}: ProfileProps) => {
+const Profile = observer(({ count, setAlertOpen }: ProfileProps) => {
     const { nickname, profileImage, profileImagePath, newMessage } = UserStore;
 
     const getAlarm = async () => {
@@ -293,7 +295,7 @@ const Home = () => {
         <Fragment>
             <HomeContainer>
                 <ContentWarp>
-                    <Profile 
+                    <Profile
                         count={diaryList.length}
                         setAlertOpen={setAlertOpen}
                     />
@@ -375,7 +377,8 @@ const Home = () => {
                                             display: "flex",
                                             flexDirection: "row",
                                             justifyContent: "space-between",
-                                            flexWrap: "wrap"
+                                            flexWrap: "wrap",
+                                            flex: 1
                                         }}
                                     >
                                         {diaryList ? (
@@ -482,9 +485,7 @@ const Home = () => {
                 handelOpen={(key: boolean) => {}}
                 content={
                     <AlertContent>
-                        <AlertText>
-                            다이어리를 먼저 생성해주세요.
-                        </AlertText>
+                        <AlertText>다이어리를 먼저 생성해주세요.</AlertText>
                     </AlertContent>
                 }
             />

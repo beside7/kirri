@@ -6,7 +6,8 @@ import {
     DiaryDetailTitle,
     DiaryBottom,
     MembersText,
-    DiaryBadge
+    DiaryBadge,
+    CoverImage
 } from "./home.style";
 import {
     CoverColorTypes,
@@ -36,7 +37,9 @@ export const Diary = ({ diaryTitle, members, coverType, coverId }: Props) => {
                 }
             >
                 {coverType === "image" ? (
-                    <Image source={CoverImages[coverId as CoverImageTypes]} />
+                    <CoverImage
+                        source={CoverImages[coverId as CoverImageTypes]}
+                    />
                 ) : (
                     <></>
                 )}

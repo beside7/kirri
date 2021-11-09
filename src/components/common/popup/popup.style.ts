@@ -28,7 +28,7 @@ export const Container = styled.View(
         // boxShadow:'1.5px 2.5px 5px #0000002b',
         display: "flex",
         width: props.width ? props.width : 300,
-        height: props.height ? props.height : "auto",
+        height: props.height ? props.height : "auto"
 
         // borderWidth: 1,
         // borderColor: 'red',
