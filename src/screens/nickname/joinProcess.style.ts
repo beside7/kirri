@@ -1,11 +1,12 @@
 import styled from "styled-components/native";
 
 export const ContentWarp = styled.View({
-    marginTop: 209
+    marginTop: 209,
+    alignItems: "center"
 });
 
 export const LogoWarp = styled.Text({
-    color: "#6173ff",
-    fontSize: 28,
+    color: "#17171c",
+    fontSize: 26,
     fontFamily: "SpoqaHanSansNeo-Regular"
 });

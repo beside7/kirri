@@ -236,6 +236,7 @@ export default function navigator(): ReactElement {
     }, [isNavigatorReady]);
 
     if (loading || !initalizePage) {
+    // if (true) {
         return <JoinProcessing open={true} />;
     }
     return (
