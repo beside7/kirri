@@ -9,7 +9,7 @@ import {
     Alert,
     BackHandler
 } from "react-native";
-import { Background, Text_2, Header, Dropdown } from "@components";
+import { Background, Text_2, Header, } from "@components";
 import styles from "./style";
 import { StackNavigatorParams } from "@config/navigator";
 import { StackNavigationProp } from "@react-navigation/stack";
@@ -17,7 +17,6 @@ import { RouteProp } from "@react-navigation/native";
 import { recordApis, diaryApis } from "@apis";
 import { RecordResType } from "@type-definition/diary";
 import { Menu } from "react-native-paper";
-import { chain } from "lodash";
 import { observer } from "mobx-react";
 import { UserStore } from "@store";
 
@@ -341,19 +340,6 @@ export const RecordList = observer(({ navigation, route }: RecordListProps) => {
             />
             {/* 리스트 */}
             <SafeAreaView style={{ flex: 1 }}>
-                <View style={styles.dropdown}>
-                    <Dropdown
-                        items={[
-                            { label: "생성일자", value: "CREATE_DATE" },
-                            { label: "작성자", value: "WRITER" },
-                            { label: "제목", value: "TITLE" }
-                        ]}
-                        value="CREATE_DATE"
-                        onChangeValue={val => {
-                            console.log(val);
-                        }}
-                    />
-                </View>
                 <FlatList
                     contentContainerStyle={{ backgroundColor: "#f4f4f8" }}
                     data={list}

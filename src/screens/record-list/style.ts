@@ -5,14 +5,7 @@ const SCREEN_HEIGHT = Dimensions.get("screen").height;
 const HEADER_HEIGHT = 174;
 
 const styles = StyleSheet.create({
-    dropdown: {
-        width: 100,
-        paddingLeft: 16,
-        overflow: "visible",
-        marginTop: 18,
-        marginBottom: 8,
-        zIndex: 10
-    },
+    
     loading: {
         flex: 1,
         justifyContent: "center",
@@ -62,7 +55,7 @@ const styles = StyleSheet.create({
         height: SCREEN_HEIGHT - HEADER_HEIGHT,
         flex: 1,
         alignItems: "center",
-        paddingTop: 100
+        paddingTop: 200,
         // borderWidth: 1
     },
     ListEmptyThumbnail: {
