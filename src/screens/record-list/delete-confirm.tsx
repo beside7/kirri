@@ -1,7 +1,7 @@
 import React from "react";
 import { View, Image } from "react-native";
 
-import { Confirm, Text_2 } from "@components";
+import { Confirm, Text_2, Popup } from "@components";
 
 import styles from "./style";
 
@@ -11,8 +11,8 @@ import styles from "./style";
  */
 type DeleteConfirmProps = {
     modal: boolean;
-    onClose: () => void;
-    onConfirm: () => void;
+    onClose: () => Promise<void>;
+    onConfirm: () => Promise<void>;
 };
 
 export default function DeleteConfirm({
@@ -21,12 +21,14 @@ export default function DeleteConfirm({
     onConfirm
 }: DeleteConfirmProps) {
     return (
-        <Confirm
-            visible={modal}
-            onClose={onClose}
-            onConfirm={onConfirm}
-            close="남겨둘래요"
-            confirm="삭제할래요"
+        <Popup
+            open={modal}
+            cancel="삭제할래요"
+            confirm="남겨둘래요"
+            onCancel={onConfirm}
+            onConfirm={onClose}
+            width={300}
+            handelOpen={(key: boolean) => {}}
             content={
                 <>
                     <View style={styles.modalImages}>

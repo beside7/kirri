@@ -291,6 +291,7 @@ export const RecordList = observer(({ navigation, route }: RecordListProps) => {
                                 />
                                 <Menu.Item
                                     onPress={() => {
+                                        closeMenu();
                                         setDeleteConfirm(true);
                                     }}
                                     title="다이러리 삭제"
@@ -321,7 +322,7 @@ export const RecordList = observer(({ navigation, route }: RecordListProps) => {
             />
             <LeaveConfirm
                 visible={leaveConfirm}
-                onClose={() => {
+                onClose={async () => {
                     setLeaveConfirm(false);
                 }}
                 onConfirm={async () => {
@@ -333,7 +334,7 @@ export const RecordList = observer(({ navigation, route }: RecordListProps) => {
             {/* 다이러리 삭제창 */}
             <DeleteConfirm
                 modal={deleteConfirm}
-                onClose={() => {
+                onClose={async () => {
                     setDeleteConfirm(false);
                 }}
                 onConfirm={deleteDiary}
@@ -406,59 +407,63 @@ export const RecordList = observer(({ navigation, route }: RecordListProps) => {
                     ListFooterComponentStyle={styles.bottomTab}
                 />
             </SafeAreaView>
-            {!loading && (
-                <View style={styles.editButton}>
-                    {(!list || list.length === 0) && (
-                        <View style={styles.emptyMessage}>
-                            <View style={styles.emptyMessageContainer_1}>
-                                <Text_2
-                                    style={{
-                                        fontSize: 11,
-                                        color: "#fff",
-                                        fontFamily: "SpoqaHanSansNeo-Regular"
-                                    }}
-                                >
-                                    기록 작성 버튼을 눌러
-                                </Text_2>
-                                <Text_2
-                                    style={{
-                                        fontSize: 11,
-                                        color: "#fff",
-                                        fontFamily: "SpoqaHanSansNeo-Regular"
-                                    }}
-                                >
-                                    첫 기록을 남겨봐요 :)
-                                </Text_2>
+            <>
+                {!loading && (
+                    <View style={styles.editButton}>
+                        {(!list || list.length === 0) && (
+                            <View style={styles.emptyMessage}>
+                                <View style={styles.emptyMessageContainer_1}>
+                                    <Text_2
+                                        style={{
+                                            fontSize: 11,
+                                            color: "#fff",
+                                            fontFamily:
+                                                "SpoqaHanSansNeo-Regular"
+                                        }}
+                                    >
+                                        기록 작성 버튼을 눌러
+                                    </Text_2>
+                                    <Text_2
+                                        style={{
+                                            fontSize: 11,
+                                            color: "#fff",
+                                            fontFamily:
+                                                "SpoqaHanSansNeo-Regular"
+                                        }}
+                                    >
+                                        첫 기록을 남겨봐요 :)
+                                    </Text_2>
+                                </View>
+                                <View style={styles.emptyMessageContainer_2} />
                             </View>
-                            <View style={styles.emptyMessageContainer_2} />
-                        </View>
-                    )}
-                    <TouchableOpacity
-                        onPress={() => {
-                            navigation.navigate("RecordInput", {
-                                diary: diary
-                            });
+                        )}
+                        <TouchableOpacity
+                            onPress={() => {
+                                navigation.navigate("RecordInput", {
+                                    diary: diary
+                                });
+                            }}
+                        >
+                            <Image
+                                source={require("@assets/icons/edit.png")}
+                                style={{ width: 114, height: 114 }}
+                            />
+                        </TouchableOpacity>
+                    </View>
+                )}
+                {snack !== null && (
+                    <Snackbar
+                        visible={snackVisible}
+                        onDismiss={onDismissSnackBar}
+                        action={{
+                            label: "확인",
+                            onPress: () => {}
                         }}
                     >
-                        <Image
-                            source={require("@assets/icons/edit.png")}
-                            style={{ width: 114, height: 114 }}
-                        />
-                    </TouchableOpacity>
-                </View>
-            )}
-            {snack !== null && (
-                <Snackbar
-                    visible={snackVisible}
-                    onDismiss={onDismissSnackBar}
-                    action={{
-                        label: "확인",
-                        onPress: () => {}
-                    }}
-                >
-                    {snack}
-                </Snackbar>
-            )}
+                        {snack}
+                    </Snackbar>
+                )}
+            </>
         </Background>
     );
 });

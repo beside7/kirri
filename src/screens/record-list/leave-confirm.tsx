@@ -1,12 +1,12 @@
 import React from "react";
 import { View, Image } from "react-native";
-import { Confirm, Text_2 } from "@components";
+import { Confirm, Text_2, Popup } from "@components";
 import styles from "./style";
 
 type LeaveConfirmProps = {
     visible: boolean;
-    onClose: () => void;
-    onConfirm: () => void;
+    onClose: () => Promise<void>;
+    onConfirm: () => Promise<void>;
     confirm?: string;
     close?: string;
     nickName?: string | null;
@@ -17,10 +17,21 @@ type LeaveConfirmProps = {
  * @param props
  * @constructor
  */
-export function LeaveConfirm(props: LeaveConfirmProps) {
+export function LeaveConfirm({
+    visible,
+    confirm,
+    close,
+    onConfirm,
+    onClose
+}: LeaveConfirmProps) {
     return (
-        <Confirm
-            {...props}
+        <Popup
+            open={visible}
+            cancel={confirm}
+            confirm={close}
+            onCancel={onConfirm}
+            onConfirm={onClose}
+            width={300}
             content={
                 <>
                     <View style={styles.modalImages}>

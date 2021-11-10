@@ -1,12 +1,12 @@
 import React from "react";
 import { View, Image } from "react-native";
-import { Confirm, Text_2 } from "@components";
+import { Confirm, Text_2, Popup } from "@components";
 import { styles } from "./style";
 
 type DeleteConfirmProps = {
     visible: boolean;
-    onClose: () => void;
-    onConfirm: () => void;
+    onClose: () => Promise<void>;
+    onConfirm: () => Promise<void>;
     confirm?: string;
     close?: string;
     nickName?: string | null;
@@ -15,10 +15,22 @@ type DeleteConfirmProps = {
  * 내보내기 팝업
  * @returns
  */
-export function DeleteConfirm(props: DeleteConfirmProps) {
+export function DeleteConfirm({
+    visible,
+    confirm,
+    close,
+    onConfirm,
+    onClose,
+    nickName
+}: DeleteConfirmProps) {
     return (
-        <Confirm
-            {...props}
+        <Popup
+            open={visible}
+            cancel={confirm}
+            confirm={close}
+            onCancel={onConfirm}
+            onConfirm={onClose}
+            width={300}
             content={
                 <>
                     <View style={styles.modalImages}>
@@ -27,7 +39,7 @@ export function DeleteConfirm(props: DeleteConfirmProps) {
                             style={styles.modalDeleteIcon}
                         />
                         <Text_2 style={styles.modalTitleStyle}>
-                            {props.nickName} 님의 기록이 모두 삭제돼요.
+                            {nickName} 님의 기록이 모두 삭제돼요.
                         </Text_2>
                         <Text_2 style={styles.modalTitleStyle}>
                             다이어리에서 내보낼까요?
@@ -41,8 +53,8 @@ export function DeleteConfirm(props: DeleteConfirmProps) {
 
 type AdministratorConfirmProps = {
     visible: boolean;
-    onClose: () => void;
-    onConfirm: () => void;
+    onClose: () => Promise<void>;
+    onConfirm: () => Promise<void>;
     confirm?: string;
     close?: string;
     nickName?: string | null;
@@ -52,10 +64,22 @@ type AdministratorConfirmProps = {
  * 관리자 지정 동의창
  * @returns
  */
-export function AdministratorConfirm(props: AdministratorConfirmProps) {
+export function AdministratorConfirm({
+    visible,
+    confirm,
+    close,
+    onConfirm,
+    onClose,
+    nickName
+}: AdministratorConfirmProps) {
     return (
-        <Confirm
-            {...props}
+        <Popup
+            open={visible}
+            cancel={confirm}
+            confirm={close}
+            onCancel={onConfirm}
+            onConfirm={onClose}
+            width={300}
             content={
                 <>
                     <View style={styles.modalImages}>
@@ -64,7 +88,7 @@ export function AdministratorConfirm(props: AdministratorConfirmProps) {
                             style={styles.modalDeleteIcon}
                         />
                         <Text_2 style={styles.modalTitleStyle}>
-                            {props.nickName} 님을 관리자로 지정할까요?
+                            {nickName} 님을 관리자로 지정할까요?
                         </Text_2>
                     </View>
                 </>

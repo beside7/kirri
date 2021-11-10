@@ -142,7 +142,7 @@ export const ExportFriends = observer(({ diary }: ExportFriendsProps) => {
         <Background>
             <DeleteConfirm
                 visible={deleteConfirm}
-                onClose={() => {
+                onClose={async () => {
                     setDeleteConfirm(false);
                 }}
                 onConfirm={async () => {
@@ -155,7 +155,7 @@ export const ExportFriends = observer(({ diary }: ExportFriendsProps) => {
 
             <AdministratorConfirm
                 visible={adminConfirm}
-                onClose={() => {
+                onClose={async () => {
                     setAdminConfirm(false);
                 }}
                 onConfirm={async () => {
