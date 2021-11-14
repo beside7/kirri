@@ -57,7 +57,7 @@ export const RecordView = observer(({ route, navigation }: RecordViewProps) => {
     /**
      * 리스트에서 가져오는 부분
      */
-    const { diaryUuid, recordUuid } = route.params;
+    const { diaryUuid, recordUuid, prev } = route.params;
 
     /**
      * 기록 삭제 동의창 생성부분
@@ -174,7 +174,11 @@ export const RecordView = observer(({ route, navigation }: RecordViewProps) => {
      */
     useEffect(() => {
         const backAction = () => {
-            navigation.replace("RecordList", { diary: diary, snack: null });
+            if(prev === "home") {
+                navigation.replace("Home");
+            } else {
+                navigation.replace("RecordList", { diary: diary, snack: null });
+            }
             return true;
         };
 
@@ -215,10 +219,11 @@ export const RecordView = observer(({ route, navigation }: RecordViewProps) => {
                         <TouchableOpacity
                             onPress={() => {
                                 // navigation.goBack()
-                                navigation.replace("RecordList", {
-                                    diary: diary,
-                                    snack: null
-                                });
+                                if(prev === "home") {
+                                    navigation.replace("Home");
+                                } else {
+                                    navigation.replace("RecordList", { diary: diary, snack: null });
+                                }
                             }}
                         >
                             <Image

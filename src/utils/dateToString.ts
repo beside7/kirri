@@ -18,8 +18,9 @@ const ONE_YEAR = ONE_DAY * 365;
  * @param time
  */
 export const dateToString = (time: Date): string => {
-    const today = new Date(); // 현재 시간
+    const today = new Date(); // 현재 시간    
     const timeDifference = today.getTime() - time.getTime(); // 시간 차
+    // console.log(today, time, timeDifference);
 
     /**
      * 1시간 이전

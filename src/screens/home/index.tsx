@@ -338,7 +338,8 @@ const Home = () => {
                                                                             recordUuid:
                                                                                 record.recordUuid,
                                                                             diary: null,
-                                                                            record: null
+                                                                            record: null,
+                                                                            prev: "home"
                                                                         }
                                                                     );
                                                                 }}

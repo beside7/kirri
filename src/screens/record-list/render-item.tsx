@@ -74,7 +74,8 @@ export default function RenderItem({
                             e.preventDefault();
                             navigation.replace("RecordView", {
                                 diaryUuid: diaryUuid,
-                                recordUuid: uuid
+                                recordUuid: uuid,
+                                prev: "list",
                             });
                         }}
                     >
@@ -92,7 +93,8 @@ export default function RenderItem({
                 onPress={() => {
                     navigation.replace("RecordView", {
                         diaryUuid: diaryUuid,
-                        recordUuid: uuid
+                        recordUuid: uuid,
+                        prev: "list",
                     });
                 }}
             >

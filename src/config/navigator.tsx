@@ -87,7 +87,7 @@ export type StackNavigatorParams = {
     RecordInfo: { diary: DiaryResType };
     RecordList: { diary: DiaryResType | null; snack: string | null };
     RecordInput: { diary: DiaryResType | null; record?: RecordResType };
-    RecordView: { diaryUuid: string | null; recordUuid: string | null };
+    RecordView: { diaryUuid: string | null; recordUuid: string | null, prev: "home" | "list" };
     DiaryConfig: { diary: DiaryResType | null };
     EditPersonalInfo: undefined;
     TermsWebview: { type?: string; title: string; url?: string };
