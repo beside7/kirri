@@ -68,7 +68,9 @@ export default function RecordInfo({ navigation, route }: RecordInfoProps) {
 
     const [coverType, coverId] = icon.split(":");
 
-    const { nickname } = members[0];
+    const owner = members.find(({ authority }) => authority === "DIARY_OWNER");
+
+    const { nickname } = owner !== undefined ? owner : { nickname: "" };
     const [pan, setPan] = useState(new Animated.ValueXY());
 
     /**

@@ -1,6 +1,23 @@
 import styled from "styled-components/native";
 import { StyleSheet } from "react-native";
 
+
+export const AlertContent = styled.View({
+    width: "100%",
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center",
+    paddingHorizontal: 24
+});
+
+export const AlertText = styled.Text({
+    fontSize: 14,
+    color: "#17171c",
+    fontFamily: "SpoqaHanSansNeo-Regular",
+    textAlign: "center"
+});
+
 export const styles = StyleSheet.create({
     modalImages: {
         alignItems: "center",

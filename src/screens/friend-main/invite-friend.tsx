@@ -7,10 +7,10 @@ import {
     Image,
     Alert
 } from "react-native";
-import { Background, Text_2 } from "@components";
+import { Background, Text_2, Popup } from "@components";
 import { DiaryResType, Memeber } from "@type-definition/diary";
 
-import { TextInput, Icon, Button } from "./style";
+import { TextInput, Icon, Button, AlertContent, AlertText } from "./style";
 import { userApis, diaryApis } from "@apis";
 
 /**
@@ -49,6 +49,16 @@ export default function InviteFriend({ diary }: InviteFriendProps) {
      */
     const [notfound, setNotfound] = useState(false);
 
+    /**
+     * 경고창 출력여부
+     */
+    const [alertOpen, setAlertOpen] = useState(false);
+
+    /**
+     * 경고창 메세지
+     */
+    const [alertMessage, setAlertMessage] = useState("")
+
     const findNickname = async () => {
         setLoading(true);
 
@@ -84,7 +94,7 @@ export default function InviteFriend({ diary }: InviteFriendProps) {
                             setNotfound(true);
                             setMembers([]);
                         }
-                    } catch (error) {
+                    } catch (error : any) {
                         if (error.response) {
                             const { data } = error.response;
                             /**
@@ -127,7 +137,10 @@ export default function InviteFriend({ diary }: InviteFriendProps) {
             const { uuid } = diary;
             try {
                 const res = await diaryApis.addMember(uuid, nickname);
-                Alert.alert("", `${nickname} 님을 초대헀어요.`);
+
+                setAlertMessage(`${nickname} 님을 초대헀어요.`);
+                setAlertOpen(true)
+                
                 await findNickname();
                 setLoading(false);
                 console.log(res);
@@ -317,6 +330,20 @@ export default function InviteFriend({ diary }: InviteFriendProps) {
                     />
                 </SafeAreaView>
             </View>
+            <Popup
+                open={alertOpen}
+                confirm="확인"
+                onConfirm={async () => {
+                    setAlertOpen(false);
+                }}
+                width={300}
+                handelOpen={(key: boolean) => {}}
+                content={
+                    <AlertContent>
+                        <AlertText>{alertMessage}</AlertText>
+                    </AlertContent>
+                }
+            />
         </Background>
     );
 }
