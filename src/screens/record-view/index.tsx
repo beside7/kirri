@@ -20,7 +20,7 @@ import { diaryApis, recordApis } from "@apis";
 import { DiaryResType, RecordResType } from "@type-definition/diary";
 import RenderHtml from "react-native-render-html";
 import { Menu } from "react-native-paper";
-import { Confirm } from "@components";
+import { Popup as Confirm } from "@components";
 import dateFormat from "dateformat";
 import { stringToDatetime } from "@utils";
 import { observer } from "mobx-react";
@@ -174,7 +174,7 @@ export const RecordView = observer(({ route, navigation }: RecordViewProps) => {
      */
     useEffect(() => {
         const backAction = () => {
-            if(prev === "home") {
+            if (prev === "home") {
                 navigation.replace("Home");
             } else {
                 navigation.replace("RecordList", { diary: diary, snack: null });
@@ -195,11 +195,11 @@ export const RecordView = observer(({ route, navigation }: RecordViewProps) => {
         return (
             <Background>
                 <Confirm
-                    visible={modal}
-                    onClose={() => setModal(false)}
-                    onConfirm={() => deleteData()}
-                    close="남겨둘래요"
-                    confirm="삭제할래요"
+                    open={modal}
+                    onCancel={async () => deleteData()}
+                    onConfirm={async () => setModal(false)}
+                    cancel="삭제할래요"
+                    confirm="남겨둘래요"
                     content={
                         <>
                             <View style={styles.modalImages}>
@@ -219,10 +219,13 @@ export const RecordView = observer(({ route, navigation }: RecordViewProps) => {
                         <TouchableOpacity
                             onPress={() => {
                                 // navigation.goBack()
-                                if(prev === "home") {
+                                if (prev === "home") {
                                     navigation.replace("Home");
                                 } else {
-                                    navigation.replace("RecordList", { diary: diary, snack: null });
+                                    navigation.replace("RecordList", {
+                                        diary: diary,
+                                        snack: null
+                                    });
                                 }
                             }}
                         >

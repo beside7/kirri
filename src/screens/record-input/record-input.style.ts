@@ -1,7 +1,25 @@
 import { StyleSheet, Dimensions } from "react-native";
+import styled from "styled-components/native";
+
 const SCREEN_HEIGHT = Dimensions.get("screen").height;
 
-const styles = StyleSheet.create({
+export const AlertContent = styled.View({
+    width: "100%",
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center",
+    paddingHorizontal: 24
+});
+
+export const AlertText = styled.Text({
+    fontSize: 14,
+    color: "#17171c",
+    fontFamily: "SpoqaHanSansNeo-Regular",
+    textAlign: "center"
+});
+
+export const styles = StyleSheet.create({
     container: {
         backgroundColor: "#fff",
         paddingHorizontal: 20,
@@ -197,5 +215,3 @@ const styles = StyleSheet.create({
         left: 2
     }
 });
-
-export default styles;

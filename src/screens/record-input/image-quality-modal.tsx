@@ -1,7 +1,7 @@
 import React from "react";
 import { View, Modal, Pressable } from "react-native";
 
-import styles from "./record-input.style";
+import { styles } from "./record-input.style";
 import { RadioButton } from "react-native-paper";
 import { Text_2 } from "@components";
 

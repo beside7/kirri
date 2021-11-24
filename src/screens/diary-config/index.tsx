@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Alert, TouchableOpacity, Image } from "react-native";
 
-import { Header, Background, Text_2 } from "@components";
+import { Header, Background, Text_2, Popup } from "@components";
 import { StackNavigatorParams } from "@config/navigator";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { RouteProp } from "@react-navigation/native";
@@ -10,8 +10,6 @@ import { DiaryResType } from "@type-definition/diary";
 import { diaryApis } from "@apis";
 
 import { CoverImages, CoverColor, CoverCircleImageTypes } from "@utils";
-
-const SelecedCheckImage = require("@assets/images/diary/writing_select_diary_check_box_checked.png");
 
 import {
     Container,
@@ -29,8 +27,14 @@ import {
     CircleCoverImage,
     CircleCoverColor,
     SelectImage,
-    SelectColor
+    SelectColor,
+    AlertContent, AlertText ,
+    CircleCoverContainer
 } from "./style";
+
+const SelecedCheckImage = require("@assets/images/diary/writing_select_diary_check_box_checked.png");
+
+
 
 type DiaryConfigProps = {
     navigation: StackNavigationProp<StackNavigatorParams, "DiaryConfig">;
@@ -47,6 +51,20 @@ export default function DiaryConfig({ navigation, route }: DiaryConfigProps) {
      */
     const [diary, setDiary] = useState<DiaryResType | null>(route.params.diary);
 
+
+     /**
+     * 경고창 출력여부
+     */
+      const [alertOpen, setAlertOpen] = useState(false);
+
+      /**
+       * 경고창 메세지
+       */
+      const [alertMessage, setAlertMessage] = useState("")
+
+      const [isFalse, setIsFalse] = useState(false)
+
+    
     /**
      * 아이콘 정보
      */
@@ -93,14 +111,18 @@ export default function DiaryConfig({ navigation, route }: DiaryConfigProps) {
                     icon: `${icon?.type}:${icon?.index}`,
                     title: title
                 });
-                Alert.alert("수정되었습니다.");
-                navigation.replace("Home");
+                setAlertMessage(`수정되었습니다.`);
+                // navigation.replace("Home")
+                setAlertOpen(true);
             } catch (error: any) {
                 if (error.response) {
                     const { data } = error.response;
                     console.log(data);
                 }
-                Alert.alert("서버 전송간 에러가 발생했습니다.");
+                setAlertMessage(`서버 전송간 에러가 발생했습니다. \n ${error}`);
+                // navigation.replace("Home")
+                setAlertOpen(true);
+                setIsFalse(true)
                 console.log(error);
             }
         }
@@ -165,6 +187,10 @@ export default function DiaryConfig({ navigation, route }: DiaryConfigProps) {
                         </BigCoverImageLine>
                     </BigCoverImageConteiner>
                     <CircleCoverImageConteiner>
+                        
+
+                        <CircleCoverContainer>
+
                         <TouchableOpacity
                             onPress={() => {
                                 setIcon({ type: "image", index: "01" });
@@ -291,117 +317,139 @@ export default function DiaryConfig({ navigation, route }: DiaryConfigProps) {
                                 <SelectImage source={SelecedCheckImage} />
                             )}
                         </TouchableOpacity>
-                        <CircleCoverColor
-                            style={{
-                                borderWidth:
-                                    icon?.type === "color" &&
-                                    icon.index === "01"
-                                        ? 2
-                                        : 0,
-                                borderColor: "#ffdd1f"
-                            }}
-                            onPress={() => {
-                                setIcon({ type: "color", index: "01" });
-                            }}
-                            color="#6173ff"
-                        >
-                            {icon?.type === "color" && icon.index === "01" && (
-                                <SelectColor source={SelecedCheckImage} />
-                            )}
-                        </CircleCoverColor>
-                        <CircleCoverColor
-                            style={{
-                                borderWidth:
-                                    icon?.type === "color" &&
-                                    icon.index === "02"
-                                        ? 2
-                                        : 0,
-                                borderColor: "#ffdd1f"
-                            }}
-                            onPress={() => {
-                                setIcon({ type: "color", index: "02" });
-                            }}
-                            color="#e49ffd"
-                        >
-                            {icon?.type === "color" && icon.index === "02" && (
-                                <SelectColor source={SelecedCheckImage} />
-                            )}
-                        </CircleCoverColor>
-                        <CircleCoverColor
-                            style={{
-                                borderWidth:
-                                    icon?.type === "color" &&
-                                    icon.index === "03"
-                                        ? 2
-                                        : 0,
-                                borderColor: "#ffdd1f"
-                            }}
-                            onPress={() => {
-                                setIcon({ type: "color", index: "03" });
-                            }}
-                            color="#4fbcd0"
-                        >
-                            {icon?.type === "color" && icon.index === "03" && (
-                                <SelectColor source={SelecedCheckImage} />
-                            )}
-                        </CircleCoverColor>
-                        <CircleCoverColor
-                            style={{
-                                borderWidth:
-                                    icon?.type === "color" &&
-                                    icon.index === "04"
-                                        ? 2
-                                        : 0,
-                                borderColor: "#ffdd1f"
-                            }}
-                            onPress={() => {
-                                setIcon({ type: "color", index: "04" });
-                            }}
-                            color="#b59aff"
-                        >
-                            {icon?.type === "color" && icon.index === "04" && (
-                                <SelectColor source={SelecedCheckImage} />
-                            )}
-                        </CircleCoverColor>
-                        <CircleCoverColor
-                            style={{
-                                borderWidth:
-                                    icon?.type === "color" &&
-                                    icon.index === "05"
-                                        ? 2
-                                        : 0,
-                                borderColor: "#ffdd1f"
-                            }}
-                            onPress={() => {
-                                setIcon({ type: "color", index: "05" });
-                            }}
-                            color="#fdae43"
-                        >
-                            {icon?.type === "color" && icon.index === "05" && (
-                                <SelectColor source={SelecedCheckImage} />
-                            )}
-                        </CircleCoverColor>
-                        <CircleCoverColor
-                            style={{
-                                borderWidth:
-                                    icon?.type === "color" &&
-                                    icon.index === "06"
-                                        ? 2
-                                        : 0,
-                                borderColor: "#ffdd1f"
-                            }}
-                            onPress={() => {
-                                setIcon({ type: "color", index: "06" });
-                            }}
-                            color="#1ad0ff"
-                        >
-                            {icon?.type === "color" && icon.index === "06" && (
-                                <SelectColor source={SelecedCheckImage} />
-                            )}
-                        </CircleCoverColor>
+                        </CircleCoverContainer>
+
+                        <CircleCoverContainer>
+                            <CircleCoverColor
+                                style={{
+                                    borderWidth:
+                                        icon?.type === "color" &&
+                                        icon.index === "01"
+                                            ? 2
+                                            : 0,
+                                    borderColor: "#ffdd1f"
+                                }}
+                                onPress={() => {
+                                    setIcon({ type: "color", index: "01" });
+                                }}
+                                color="#6173ff"
+                            >
+                                {icon?.type === "color" && icon.index === "01" && (
+                                    <SelectColor source={SelecedCheckImage} />
+                                )}
+                            </CircleCoverColor>
+                            <CircleCoverColor
+                                style={{
+                                    borderWidth:
+                                        icon?.type === "color" &&
+                                        icon.index === "02"
+                                            ? 2
+                                            : 0,
+                                    borderColor: "#ffdd1f"
+                                }}
+                                onPress={() => {
+                                    setIcon({ type: "color", index: "02" });
+                                }}
+                                color="#e49ffd"
+                            >
+                                {icon?.type === "color" && icon.index === "02" && (
+                                    <SelectColor source={SelecedCheckImage} />
+                                )}
+                            </CircleCoverColor>
+                            <CircleCoverColor
+                                style={{
+                                    borderWidth:
+                                        icon?.type === "color" &&
+                                        icon.index === "03"
+                                            ? 2
+                                            : 0,
+                                    borderColor: "#ffdd1f"
+                                }}
+                                onPress={() => {
+                                    setIcon({ type: "color", index: "03" });
+                                }}
+                                color="#4fbcd0"
+                            >
+                                {icon?.type === "color" && icon.index === "03" && (
+                                    <SelectColor source={SelecedCheckImage} />
+                                )}
+                            </CircleCoverColor>
+                            <CircleCoverColor
+                                style={{
+                                    borderWidth:
+                                        icon?.type === "color" &&
+                                        icon.index === "04"
+                                            ? 2
+                                            : 0,
+                                    borderColor: "#ffdd1f"
+                                }}
+                                onPress={() => {
+                                    setIcon({ type: "color", index: "04" });
+                                }}
+                                color="#b59aff"
+                            >
+                                {icon?.type === "color" && icon.index === "04" && (
+                                    <SelectColor source={SelecedCheckImage} />
+                                )}
+                            </CircleCoverColor>
+                            <CircleCoverColor
+                                style={{
+                                    borderWidth:
+                                        icon?.type === "color" &&
+                                        icon.index === "05"
+                                            ? 2
+                                            : 0,
+                                    borderColor: "#ffdd1f"
+                                }}
+                                onPress={() => {
+                                    setIcon({ type: "color", index: "05" });
+                                }}
+                                color="#fdae43"
+                            >
+                                {icon?.type === "color" && icon.index === "05" && (
+                                    <SelectColor source={SelecedCheckImage} />
+                                )}
+                            </CircleCoverColor>
+                            <CircleCoverColor
+                                style={{
+                                    borderWidth:
+                                        icon?.type === "color" &&
+                                        icon.index === "06"
+                                            ? 2
+                                            : 0,
+                                    borderColor: "#ffdd1f"
+                                }}
+                                onPress={() => {
+                                    setIcon({ type: "color", index: "06" });
+                                }}
+                                color="#1ad0ff"
+                            >
+                                {icon?.type === "color" && icon.index === "06" && (
+                                    <SelectColor source={SelecedCheckImage} />
+                                )}
+                            </CircleCoverColor>
+                        </CircleCoverContainer>
+                        
                     </CircleCoverImageConteiner>
                 </CoverConteiner>
             </Container>
+            <Popup
+                open={alertOpen}
+                confirm="확인"
+                onConfirm={async () => {
+                    setAlertOpen(false);
+                    if(!isFalse){
+                        navigation.replace("Home")
+                    }
+                }}
+                width={300}
+                handelOpen={(key: boolean) => {}}
+                content={
+                    <AlertContent>
+                        <AlertText>{alertMessage}</AlertText>
+                    </AlertContent>
+                }
+            />
         </Background>
     );
 }

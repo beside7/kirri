@@ -1,5 +1,22 @@
 import styled from "styled-components/native";
 
+
+export const AlertContent = styled.View({
+    width: "100%",
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center",
+    paddingHorizontal: 24
+});
+
+export const AlertText = styled.Text({
+    fontSize: 14,
+    color: "#17171c",
+    fontFamily: "SpoqaHanSansNeo-Regular",
+    textAlign: "center"
+});
+
 export const Container = styled.View({
     flex: 1,
     paddingTop: 24,
@@ -40,7 +57,7 @@ export const Input = styled.TextInput({
 });
 
 export const CoverConteiner = styled.View({
-    marginTop: 40
+    marginTop: 40,
 });
 export const BigCoverImageConteiner = styled.View({
     marginTop: 12,
@@ -67,14 +84,16 @@ export const BigCoverImageLine = styled.View({
 });
 
 export const CircleCoverImageConteiner = styled.View({
-    flexDirection: "row",
-    flexWrap: "wrap",
-    justifyContent: "center"
+    padding: 0,
 });
 
+export const CircleCoverContainer = styled.View({
+    flexDirection: "row",
+    flexWrap: "wrap",
+    justifyContent: "space-between",
+})
+
 export const CircleCoverImage = styled.Image({
-    marginRight: 7,
-    marginLeft: 7
 });
 
 export const CircleCoverColor = styled.TouchableOpacity(
@@ -83,8 +102,6 @@ export const CircleCoverColor = styled.TouchableOpacity(
         width: 40,
         height: 40,
         borderRadius: 100,
-        marginLeft: 7,
-        marginRight: 7,
         marginTop: 18
     })
 );
@@ -94,7 +111,7 @@ export const SelectImage = styled.Image({
     height: 30,
     position: "absolute",
     top: 4,
-    left: 10
+    left: 4
 });
 
 export const SelectColor = styled.Image({

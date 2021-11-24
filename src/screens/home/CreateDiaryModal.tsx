@@ -15,11 +15,13 @@ import {
     CreateDiaryCoverSelected,
     CreateDiaryCoverColor,
     CreateDiaryCoverList,
-    SelectedCheck
+    SelectedCheck,
+    AlertText,
+    AlertContent
 } from "./home.style";
 
 import { View, Image, Modal, Text, Alert } from "react-native";
-import { KirriTextInput, Button, SlideDownModal } from "@components";
+import { KirriTextInput, Button, SlideDownModal, Popup } from "@components";
 import {
     CoverImages,
     CoverCircleImages,
@@ -50,6 +52,17 @@ export const CreateDiaryModal = ({ open, reloadDiary, close }: Props) => {
         useState<CoverColorTypes>();
     const [newDiaryName, setNewDiaryName] = useState<string>();
     const [createButtonDisable, setCreateButtonDisable] = useState(false);
+
+    /**
+     * 경고창 출력여부
+     */
+    const [alertOpen, setAlertOpen] = useState(false);
+
+    /**
+     * 경고창 메세지
+     */
+    const [alertMessage, setAlertMessage] = useState("");
+
     const createDiaryModal = useRef<any>();
     const selectCover = (
         type: string,
@@ -68,7 +81,9 @@ export const CreateDiaryModal = ({ open, reloadDiary, close }: Props) => {
     };
     const createNewDiary = async () => {
         if (!newDiaryName || newDiaryName?.trim() === "") {
-            Alert.alert("", "다이러리 명을 입력해주세요");
+            // Alert.alert("", "다이러리 명을 입력해주세요");
+            setAlertMessage("다이러리 명을 입력해주세요");
+            setAlertOpen(true);
             return false;
         }
         setCreateButtonDisable(true);
@@ -213,6 +228,20 @@ export const CreateDiaryModal = ({ open, reloadDiary, close }: Props) => {
                     </Button>
                 </View>
             </CreateDiary>
+            <Popup
+                open={alertOpen}
+                confirm="확인"
+                onConfirm={async () => {
+                    setAlertOpen(false);
+                }}
+                width={300}
+                handelOpen={(key: boolean) => {}}
+                content={
+                    <AlertContent>
+                        <AlertText>{alertMessage}</AlertText>
+                    </AlertContent>
+                }
+            />
         </ActionSheet>
     );
 };

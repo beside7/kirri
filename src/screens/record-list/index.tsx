@@ -9,7 +9,7 @@ import {
     Alert,
     BackHandler
 } from "react-native";
-import { Background, Text_2, Header, } from "@components";
+import { Background, Text_2, Header } from "@components";
 import styles from "./style";
 import { StackNavigatorParams } from "@config/navigator";
 import { StackNavigationProp } from "@react-navigation/stack";
@@ -233,7 +233,7 @@ export const RecordList = observer(({ navigation, route }: RecordListProps) => {
                 leftIcon={
                     <TouchableOpacity
                         onPress={() => {
-                            navigation.goBack();
+                            navigation.replace("Home");
                         }}
                     >
                         <Image

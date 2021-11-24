@@ -13,14 +13,19 @@ import {
     BackHandler
 } from "react-native";
 import { useHeaderHeight } from "@react-navigation/stack";
-
-import { Background, Text_2, Header } from "@components";
+import {
+    Background,
+    Text_2,
+    Header,
+    Popup,
+    Popup as Confirm
+} from "@components";
 import {
     // actions,
     RichEditor
     // RichToolbar,
 } from "react-native-pell-rich-editor";
-import styles from "./record-input.style";
+import { styles, AlertContent, AlertText } from "./record-input.style";
 import { AntDesign } from "@expo/vector-icons";
 import * as ImagePicker from "expo-image-picker";
 import { recordApis } from "@apis";
@@ -145,6 +150,21 @@ export default function RecordInput({ navigation, route }: RecordInputProps) {
     const editorScrollViewRef = useRef<KeyboardAwareScrollView>(null);
 
     /**
+     * 경고창 출력여부
+     */
+    const [alertOpen, setAlertOpen] = useState(false);
+
+    /**
+     * 경고창 메세지
+     */
+    const [alertMessage, setAlertMessage] = useState("");
+
+    /**
+     * 동의창 출력여부
+     */
+    const [confirmOpen, setConfirmOpen] = useState(false);
+
+    /**
      * 에디터 내부 css 설정
      */
     const fontFace = `@font-face {
@@ -190,14 +210,15 @@ export default function RecordInput({ navigation, route }: RecordInputProps) {
      */
     useEffect(() => {
         const backAction = () => {
-            Alert.alert("", "작성 중인 기록은 저장되지 않아요. 나가시겠어요?", [
-                {
-                    text: "머무르기",
-                    onPress: () => null,
-                    style: "cancel"
-                },
-                { text: "나가기", onPress: () => navigation.goBack() }
-            ]);
+            // Alert.alert("", "작성 중인 기록은 저장되지 않아요. 나가시겠어요?", [
+            //     {
+            //         text: "머무르기",
+            //         onPress: () => null,
+            //         style: "cancel"
+            //     },
+            //     { text: "나가기", onPress: () => navigation.goBack() }
+            // ]);
+            setConfirmOpen(true);
             return true;
         };
 
@@ -243,20 +264,26 @@ export default function RecordInput({ navigation, route }: RecordInputProps) {
                     fileInfo.size !== undefined &&
                     fileInfo.size > 1024 * 1024 * 5
                 ) {
-                    Alert.alert(
-                        "",
-                        `이미지 용량이 너무 커요. 5MB이하의 이미지를 등록해주세요.`,
-                        [{ text: "확인", style: "default" }]
+                    // Alert.alert(
+                    //     "",
+                    //     `이미지 용량이 너무 커요. 5MB이하의 이미지를 등록해주세요.`,
+                    //     [{ text: "확인", style: "default" }]
+                    // );
+                    setAlertMessage(
+                        `이미지 용량이 너무 커요. 5MB이하의 이미지를 등록해주세요.`
                     );
+                    setAlertOpen(true);
                     return;
                 }
 
                 setImages(newImages);
             } catch (error) {
                 console.log(error);
-                Alert.alert("", `해당 이미지가 존재하지 않습니다.`, [
-                    { text: "확인", style: "default" }
-                ]);
+                // Alert.alert("", `해당 이미지가 존재하지 않습니다.`, [
+                //     { text: "확인", style: "default" }
+                // ]);
+                setAlertMessage(`해당 이미지가 존재하지 않습니다.`);
+                setAlertOpen(true);
             }
         }
         setLoading(false);
@@ -289,16 +316,14 @@ export default function RecordInput({ navigation, route }: RecordInputProps) {
         setLoading(true);
 
         if (!title) {
-            Alert.alert("", `제목을 작성해 주세요.`, [
-                { text: "확인", style: "default" }
-            ]);
+            setAlertMessage(`제목을 작성해 주세요.`);
+            setAlertOpen(true);
             return;
         }
 
         if (!body) {
-            Alert.alert("", `내용을 작성해 주세요.`, [
-                { text: "확인", style: "default" }
-            ]);
+            setAlertMessage(`내용을 작성해 주세요.`);
+            setAlertOpen(true);
             return;
         }
 
@@ -324,27 +349,20 @@ export default function RecordInput({ navigation, route }: RecordInputProps) {
             };
 
             try {
-                const res =
-                    type === "new"
-                        ? await recordApis.createRecord(uuid, payload)
-                        : await recordApis.modifyRecord(
-                              uuid,
-                              record!.uuid,
-                              payload
-                          );
-                // Alert.alert(`글이 ${ type === "modify" ? "수정" : "생성"}되었습니다.`);
-                // console.log(res);
-
                 switch (type) {
                     case "new":
-                        // Alert.alert("", `새 기록이 다이어리에 등록되었어요.`, [{ "text" : "확인" , "style" : "default" , "onPress" : () => navigation.replace("RecordList", { diary: diary, snack : null }) }])
+                        await recordApis.createRecord(uuid, payload);
                         navigation.replace("RecordList", {
                             diary: diary,
                             snack: `새 기록이 다이어리에 등록되었어요.`
                         });
                         break;
                     case "modify":
-                        // Alert.alert("", `기록이 수정되었어요.`, [{ "text" : "확인" , "style" : "default" , "onPress" : () => navigation.replace("RecordList", { diary: diary, snack : null }) }])
+                        await recordApis.modifyRecord(
+                            uuid,
+                            record!.uuid,
+                            payload
+                        );
                         navigation.replace("RecordList", {
                             diary: diary,
                             snack: `기록이 수정되었어요.`
@@ -358,20 +376,20 @@ export default function RecordInput({ navigation, route }: RecordInputProps) {
                 console.log(error);
                 console.log(error.response);
 
-                Alert.alert(
-                    `글이 ${
-                        type === "modify" ? "수정" : "생성"
-                    } 간 에러가 발생했습니다.`,
+                setAlertMessage(`글이 ${
+                    type === "modify" ? "수정" : "생성"
+                } 간 에러가 발생했습니다.
+                
+                ${
                     error && error.response && error.response.data
                         ? error.response.data
-                        : undefined,
-                    [{ text: "확인", style: "default" }]
-                );
+                        : undefined
+                }`);
+                setAlertOpen(true);
             }
         } else {
-            Alert.alert("", `기록을 등록할 다이어리를 선택해주세요.`, [
-                { text: "확인", style: "default" }
-            ]);
+            setAlertMessage(`기록을 등록할 다이어리를 선택해주세요.`);
+            setAlertOpen(true);
         }
 
         setLoading(false);
@@ -396,21 +414,7 @@ export default function RecordInput({ navigation, route }: RecordInputProps) {
                 leftIcon={
                     <TouchableOpacity
                         onPress={() => {
-                            Alert.alert(
-                                "",
-                                "작성 중인 기록은 저장되지 않아요. 나가시겠어요?",
-                                [
-                                    {
-                                        text: "머무르기",
-                                        onPress: () => null,
-                                        style: "cancel"
-                                    },
-                                    {
-                                        text: "나가기",
-                                        onPress: () => navigation.goBack()
-                                    }
-                                ]
-                            );
+                            setConfirmOpen(true);
                         }}
                     >
                         <Image
@@ -512,15 +516,12 @@ export default function RecordInput({ navigation, route }: RecordInputProps) {
                             </View>
                         )}
                         <ScrollView
-                            // ref={editorScrollViewRef}
-                            // nestedScrollEnabled={true}
                             style={[
                                 styles.editorWrap,
                                 { marginTop: 5, marginBottom: 50 }
                             ]}
                             onContentSizeChange={() => {
                                 editorScrollViewRef.current?.scrollToEnd(false);
-                                // console.log("test")
                             }}
                         >
                             <RichEditor
@@ -541,13 +542,9 @@ export default function RecordInput({ navigation, route }: RecordInputProps) {
                                 }
                                 placeholder={`너의 아주 작은 이야기까지 다 들어줄게!`}
                                 pasteAsPlainText={true}
-                                // onFocus={() => {
-                                //   richText.current?.focusContentEditor()
-                                // }}
                                 onTouchStart={() => {
                                     richText.current?.focusContentEditor();
                                 }}
-                                // initialFocus={true}
                             />
                         </ScrollView>
                     </View>
@@ -559,10 +556,7 @@ export default function RecordInput({ navigation, route }: RecordInputProps) {
                     />
                 </KeyboardAvoidingView>
                 <View style={styles.bottomTab}>
-                    <TouchableOpacity
-                        onPress={pickImage}
-                        // style={{ position: "absolute", left: 20 }}
-                    >
+                    <TouchableOpacity onPress={pickImage}>
                         <Image
                             source={require("@assets/icons/image.png")}
                             style={{ width: 24, height: 24 }}
@@ -723,6 +717,41 @@ export default function RecordInput({ navigation, route }: RecordInputProps) {
                     </View>
                 </ActionSheet>
             </KeyboardAvoidingView>
+            <Popup
+                open={alertOpen}
+                confirm="확인"
+                onConfirm={async () => {
+                    setAlertOpen(false);
+                }}
+                width={300}
+                handelOpen={(key: boolean) => {}}
+                content={
+                    <AlertContent>
+                        <AlertText>{alertMessage}</AlertText>
+                    </AlertContent>
+                }
+            />
+            <Confirm
+                open={confirmOpen}
+                confirm="확인"
+                cancel="머무르기"
+                onCancel={async () => {
+                    setConfirmOpen(false);
+                }}
+                onConfirm={async () => {
+                    setConfirmOpen(false);
+                    navigation.goBack();
+                }}
+                width={300}
+                handelOpen={(key: boolean) => {}}
+                content={
+                    <AlertContent>
+                        <AlertText>
+                            작성 중인 기록은 저장되지 않아요. 나가시겠어요?
+                        </AlertText>
+                    </AlertContent>
+                }
+            />
         </Background>
     );
 }
