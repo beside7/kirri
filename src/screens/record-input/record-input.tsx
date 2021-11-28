@@ -42,6 +42,7 @@ import ImageQualityModal from "./image-quality-modal";
 import ActionSheet from "react-native-actions-sheet";
 import { Snackbar } from "react-native-paper";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import { flatMap } from "lodash";
 
 type RecordInputProps = {
     navigation: StackNavigationProp<StackNavigatorParams, "RecordInput">;
@@ -74,6 +75,8 @@ export default function RecordInput({ navigation, route }: RecordInputProps) {
      * 하단 다이러리 리스트
      */
     const [diatyList, setDiatyList] = useState<DiaryResType[]>([]);
+
+    const [disabled, setDisabled] = useState(false);
 
     /**
      * 기록정보
@@ -408,6 +411,14 @@ export default function RecordInput({ navigation, route }: RecordInputProps) {
         setDiatyList(elements);
     };
 
+    useEffect(() => {
+        if (title.trim() === "" || body.trim() === "") {
+            setDisabled(true);
+        } else {
+            setDisabled(false);
+        }
+    }, [title, body]);
+
     return (
         <Background>
             <Header
@@ -426,14 +437,12 @@ export default function RecordInput({ navigation, route }: RecordInputProps) {
                 rightIcon={
                     <TouchableOpacity
                         onPress={sendServer}
-                        disabled={loading || title.trim() === ""}
+                        disabled={loading || disabled}
                     >
                         <Text_2
                             style={{
                                 color:
-                                    loading || title.trim() === ""
-                                        ? "#a0a0a0"
-                                        : "#000000",
+                                    loading || disabled ? "#a0a0a0" : "#000000",
                                 fontSize: 18
                             }}
                         >
