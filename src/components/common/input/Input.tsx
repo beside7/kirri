@@ -39,7 +39,8 @@ const DivisionLine = styled.View({
 });
 
 const RightTextWarp = styled.Text({
-    color: "#6f6f7e"
+    color: "#6f6f7e",
+    fontFamily: "SpoqaHanSansNeo-Bold"
 });
 
 const ErrorMsg = styled.Text({

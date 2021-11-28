@@ -7,7 +7,9 @@ import {
     BackIcon,
     MakeNicknameTitle,
     SafeAreaView,
-    Container
+    Container,
+    TextCounter,
+    TitleContainer
 } from "./nickname.style";
 import { observer } from "mobx-react";
 import { UserStore } from "@store";
@@ -28,6 +30,7 @@ export const EditPersonalInfo = observer(() => {
     const [changeNickname, setChangeNickname] = useState<string>("");
     const changeNicknameRef = useRef<string>("");
     const [errorMessage, setErrorMessage] = useState("");
+    const [textCount, setTextCount] = useState(0);
 
     const changePersonalInfo = async () => {
         if (!changeNickname || duplicate) {
@@ -137,12 +140,17 @@ export const EditPersonalInfo = observer(() => {
                     }}
                 ></SelectProfileImage>
                 <MakeNicknameContianer>
-                    <MakeNicknameTitle>
-                        한글, 영문, 숫자를 사용해 멋진 닉네임을 만들어주세요
-                    </MakeNicknameTitle>
+                    <TitleContainer>
+                        <MakeNicknameTitle>
+                            한글, 영문, 숫자를 사용해 멋진 닉네임을
+                            만들어주세요!
+                        </MakeNicknameTitle>
+                        <TextCounter>{textCount} / 12</TextCounter>
+                    </TitleContainer>
                     <KirriTextInput
                         onChange={text => {
                             setChangeNickname(text);
+                            setTextCount(text.length);
                             changeNicknameRef.current = text;
                             if (!text) {
                                 setDuplicate(undefined);

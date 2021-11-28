@@ -1,6 +1,18 @@
 import styled from "styled-components/native";
 import { Dimensions } from "react-native";
 
+export const TitleContainer = styled.View({
+    flexDirection: "row",
+    justifyContent: "space-between"
+});
+
+export const TextCounter = styled.Text({
+    fontSize: 12,
+    color: "#d1d1de",
+    marginLeft: 12,
+    fontFamily: "SpoqaHanSansNeo-Regular"
+});
+
 export const SafeAreaView = styled.SafeAreaView({
     display: "flex",
     backgroundColor: "#fff",
@@ -14,7 +26,7 @@ export const Container = styled.View({
     paddingHorizontal: 34,
     paddingBottom: 38,
     backgroundColor: "#fff",
-    height: Dimensions.get("window").height - 75
+    height: Dimensions.get("window").height - 125
 });
 
 export const ProfileImageContainer = styled.View({
@@ -79,7 +91,7 @@ export const MakeNicknameTitle = styled.Text({
     color: "#17171c",
     fontSize: 12,
     marginBottom: 8,
-    fontFamily: "SpoqaHanSansNeo-Regular"
+    fontFamily: "SpoqaHanSansNeo-Bold"
 });
 
 export const MakeNicknameInput = styled.TextInput({
