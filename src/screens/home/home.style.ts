@@ -330,6 +330,19 @@ export const CreateDiaryTitle = styled.Text({
 
 export const CreateDiaryInputWarp = styled.View({});
 
+export const CreateDiaryTitleWarp = styled.View({
+    flexDirection: "row",
+    justifyContent: "space-between"
+});
+
+export const CreateInputCount = styled.Text({
+    color: "#d1d1de",
+    fontSize: 10,
+    fontFamily: "SpoqaHanSansNeo-Bold",
+    fontWeight: "bold",
+    marginLeft: 8
+});
+
 export const CreateInputTitle = styled.Text({
     fontSize: 12,
     color: "#17171c",

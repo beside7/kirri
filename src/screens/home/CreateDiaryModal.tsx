@@ -7,6 +7,7 @@ import {
     CreateDiaryTitle,
     CreateDiatyTitleWarp,
     CreateDiaryInputWarp,
+    CreateDiaryTitleWarp,
     CreateInputTitle,
     CreateDiaryCoverContainer,
     CreateDiaryCoverTitle,
@@ -17,7 +18,8 @@ import {
     CreateDiaryCoverList,
     SelectedCheck,
     AlertText,
-    AlertContent
+    AlertContent,
+    CreateInputCount
 } from "./home.style";
 
 import { View, Image, Modal, Text, Alert } from "react-native";
@@ -36,6 +38,7 @@ import { navigate } from "@config/navigator";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { create } from "lodash";
 import ActionSheet from "react-native-actions-sheet";
+// import { toArray } from "lodash";
 
 const SelecedCheckImage = require("@assets/images/diary/writing_select_diary_check_box_checked.png");
 
@@ -122,16 +125,24 @@ export const CreateDiaryModal = ({ open, reloadDiary, close }: Props) => {
                     <CreateDiaryTitle>새 다이어리 만들기</CreateDiaryTitle>
                 </CreateDiatyTitleWarp>
                 <CreateDiaryInputWarp>
-                    <CreateInputTitle>
-                        멋진 다이어리 이름을 써주세요.
-                    </CreateInputTitle>
+                    <CreateDiaryTitleWarp>
+                        <CreateInputTitle>
+                            멋진 다이어리 이름을 써주세요.
+                        </CreateInputTitle>
+                        <CreateInputCount>
+                            {newDiaryName !== undefined
+                                ? newDiaryName.length
+                                : 0}{" "}
+                            / 12
+                        </CreateInputCount>
+                    </CreateDiaryTitleWarp>
                     <KirriTextInput
                         onChange={text => {
                             setNewDiaryName(text);
                             setCreateButtonDisable(!text);
                         }}
                         text=""
-                        maxLength={12}
+                        // maxLength={12}
                         placeholder="한글, 영문, 숫자 관계 없이 최대 12자"
                     ></KirriTextInput>
                 </CreateDiaryInputWarp>

@@ -25,6 +25,7 @@ import { TouchableOpacity } from "react-native-gesture-handler";
 import { ProfileImageTypes } from "@utils";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { updateExpoToken } from "@utils";
+// import { toArray } from "lodash";
 
 interface Props {
     username: string;
@@ -40,7 +41,6 @@ export const Nickname = ({ accessToken, authorities }: Props) => {
     const [nickname, setNickname] = useState<string>();
     const currentNickname = useRef<string>("");
     const [errorMessage, setErrorMessage] = useState("");
-    const [nickNameCount, setNickNameCount] = useState(0);
 
     const joinKirri = async () => {
         if (!nickname || duplicate) {
@@ -156,14 +156,16 @@ export const Nickname = ({ accessToken, authorities }: Props) => {
                                 한글, 영문, 숫자를 사용해 멋진 닉네임을
                                 만들어주세요!
                             </MakeNicknameTitle>
-                            <NickNameCount>{nickNameCount}/12</NickNameCount>
+                            <NickNameCount>
+                                {nickname !== undefined ? nickname.length : 0}
+                                /12
+                            </NickNameCount>
                         </View>
                         <KirriTextInput
                             onChange={text => {
                                 currentNickname.current = text;
                                 setNickname(text);
                                 checkDuple();
-                                setNickNameCount(text.length);
                             }}
                             placeholder="멋진자몽"
                             text=""

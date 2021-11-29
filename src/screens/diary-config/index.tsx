@@ -5,7 +5,7 @@ import { Header, Background, Text_2, Popup } from "@components";
 import { StackNavigatorParams } from "@config/navigator";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { RouteProp } from "@react-navigation/native";
-
+// import { toArray } from "lodash";
 import { DiaryResType } from "@type-definition/diary";
 import { diaryApis } from "@apis";
 
@@ -28,13 +28,12 @@ import {
     CircleCoverColor,
     SelectImage,
     SelectColor,
-    AlertContent, AlertText ,
+    AlertContent,
+    AlertText,
     CircleCoverContainer
 } from "./style";
 
 const SelecedCheckImage = require("@assets/images/diary/writing_select_diary_check_box_checked.png");
-
-
 
 type DiaryConfigProps = {
     navigation: StackNavigationProp<StackNavigatorParams, "DiaryConfig">;
@@ -51,20 +50,18 @@ export default function DiaryConfig({ navigation, route }: DiaryConfigProps) {
      */
     const [diary, setDiary] = useState<DiaryResType | null>(route.params.diary);
 
-
-     /**
+    /**
      * 경고창 출력여부
      */
-      const [alertOpen, setAlertOpen] = useState(false);
+    const [alertOpen, setAlertOpen] = useState(false);
 
-      /**
-       * 경고창 메세지
-       */
-      const [alertMessage, setAlertMessage] = useState("")
+    /**
+     * 경고창 메세지
+     */
+    const [alertMessage, setAlertMessage] = useState("");
 
-      const [isFalse, setIsFalse] = useState(false)
+    const [isFalse, setIsFalse] = useState(false);
 
-    
     /**
      * 아이콘 정보
      */
@@ -122,7 +119,7 @@ export default function DiaryConfig({ navigation, route }: DiaryConfigProps) {
                 setAlertMessage(`서버 전송간 에러가 발생했습니다. \n ${error}`);
                 // navigation.replace("Home")
                 setAlertOpen(true);
-                setIsFalse(true)
+                setIsFalse(true);
                 console.log(error);
             }
         }
@@ -168,6 +165,7 @@ export default function DiaryConfig({ navigation, route }: DiaryConfigProps) {
                         onChangeText={value => {
                             setTitle(value);
                         }}
+                        maxLength={12}
                     />
                 </TitleConteiner>
                 <CoverConteiner>
@@ -187,136 +185,151 @@ export default function DiaryConfig({ navigation, route }: DiaryConfigProps) {
                         </BigCoverImageLine>
                     </BigCoverImageConteiner>
                     <CircleCoverImageConteiner>
-                        
-
                         <CircleCoverContainer>
-
-                        <TouchableOpacity
-                            onPress={() => {
-                                setIcon({ type: "image", index: "01" });
-                            }}
-                        >
-                            <CircleCoverImage
-                                style={{
-                                    borderWidth:
-                                        icon?.type === "image" &&
-                                        icon.index === "01"
-                                            ? 2
-                                            : 0,
-                                    borderColor: "#ffdd1f",
-                                    borderRadius: 100
+                            <TouchableOpacity
+                                onPress={() => {
+                                    setIcon({ type: "image", index: "01" });
                                 }}
-                                source={require("@assets/images/diary/diary_circleimg_01.png")}
-                            ></CircleCoverImage>
-                            {icon?.type === "image" && icon.index === "01" && (
-                                <SelectImage source={SelecedCheckImage} />
-                            )}
-                        </TouchableOpacity>
-                        <TouchableOpacity
-                            onPress={() => {
-                                setIcon({ type: "image", index: "02" });
-                            }}
-                        >
-                            <CircleCoverImage
-                                style={{
-                                    borderWidth:
-                                        icon?.type === "image" &&
-                                        icon.index === "02"
-                                            ? 2
-                                            : 0,
-                                    borderColor: "#ffdd1f",
-                                    borderRadius: 100
+                            >
+                                <CircleCoverImage
+                                    style={{
+                                        borderWidth:
+                                            icon?.type === "image" &&
+                                            icon.index === "01"
+                                                ? 2
+                                                : 0,
+                                        borderColor: "#ffdd1f",
+                                        borderRadius: 100
+                                    }}
+                                    source={require("@assets/images/diary/diary_circleimg_01.png")}
+                                ></CircleCoverImage>
+                                {icon?.type === "image" &&
+                                    icon.index === "01" && (
+                                        <SelectImage
+                                            source={SelecedCheckImage}
+                                        />
+                                    )}
+                            </TouchableOpacity>
+                            <TouchableOpacity
+                                onPress={() => {
+                                    setIcon({ type: "image", index: "02" });
                                 }}
-                                source={require("@assets/images/diary/diary_circleimg_02.png")}
-                            ></CircleCoverImage>
-                            {icon?.type === "image" && icon.index === "02" && (
-                                <SelectImage source={SelecedCheckImage} />
-                            )}
-                        </TouchableOpacity>
-                        <TouchableOpacity
-                            onPress={() => {
-                                setIcon({ type: "image", index: "03" });
-                            }}
-                        >
-                            <CircleCoverImage
-                                style={{
-                                    borderWidth:
-                                        icon?.type === "image" &&
-                                        icon.index === "03"
-                                            ? 2
-                                            : 0,
-                                    borderColor: "#ffdd1f",
-                                    borderRadius: 100
+                            >
+                                <CircleCoverImage
+                                    style={{
+                                        borderWidth:
+                                            icon?.type === "image" &&
+                                            icon.index === "02"
+                                                ? 2
+                                                : 0,
+                                        borderColor: "#ffdd1f",
+                                        borderRadius: 100
+                                    }}
+                                    source={require("@assets/images/diary/diary_circleimg_02.png")}
+                                ></CircleCoverImage>
+                                {icon?.type === "image" &&
+                                    icon.index === "02" && (
+                                        <SelectImage
+                                            source={SelecedCheckImage}
+                                        />
+                                    )}
+                            </TouchableOpacity>
+                            <TouchableOpacity
+                                onPress={() => {
+                                    setIcon({ type: "image", index: "03" });
                                 }}
-                                source={require("@assets/images/diary/diary_circleimg_03.png")}
-                            ></CircleCoverImage>
-                            {icon?.type === "image" && icon.index === "03" && (
-                                <SelectImage source={SelecedCheckImage} />
-                            )}
-                        </TouchableOpacity>
-                        <TouchableOpacity
-                            onPress={() => {
-                                setIcon({ type: "image", index: "04" });
-                            }}
-                        >
-                            <CircleCoverImage
-                                style={{
-                                    borderWidth:
-                                        icon?.type === "image" &&
-                                        icon.index === "04"
-                                            ? 2
-                                            : 0,
-                                    borderColor: "#ffdd1f",
-                                    borderRadius: 100
+                            >
+                                <CircleCoverImage
+                                    style={{
+                                        borderWidth:
+                                            icon?.type === "image" &&
+                                            icon.index === "03"
+                                                ? 2
+                                                : 0,
+                                        borderColor: "#ffdd1f",
+                                        borderRadius: 100
+                                    }}
+                                    source={require("@assets/images/diary/diary_circleimg_03.png")}
+                                ></CircleCoverImage>
+                                {icon?.type === "image" &&
+                                    icon.index === "03" && (
+                                        <SelectImage
+                                            source={SelecedCheckImage}
+                                        />
+                                    )}
+                            </TouchableOpacity>
+                            <TouchableOpacity
+                                onPress={() => {
+                                    setIcon({ type: "image", index: "04" });
                                 }}
-                                source={require("@assets/images/diary/diary_circleimg_04.png")}
-                            ></CircleCoverImage>
-                            {icon?.type === "image" && icon.index === "04" && (
-                                <SelectImage source={SelecedCheckImage} />
-                            )}
-                        </TouchableOpacity>
-                        <TouchableOpacity
-                            onPress={() => {
-                                setIcon({ type: "image", index: "05" });
-                            }}
-                        >
-                            <CircleCoverImage
-                                style={{
-                                    borderWidth:
-                                        icon?.type === "image" &&
-                                        icon.index === "05"
-                                            ? 2
-                                            : 0,
-                                    borderColor: "#ffdd1f",
-                                    borderRadius: 100
+                            >
+                                <CircleCoverImage
+                                    style={{
+                                        borderWidth:
+                                            icon?.type === "image" &&
+                                            icon.index === "04"
+                                                ? 2
+                                                : 0,
+                                        borderColor: "#ffdd1f",
+                                        borderRadius: 100
+                                    }}
+                                    source={require("@assets/images/diary/diary_circleimg_04.png")}
+                                ></CircleCoverImage>
+                                {icon?.type === "image" &&
+                                    icon.index === "04" && (
+                                        <SelectImage
+                                            source={SelecedCheckImage}
+                                        />
+                                    )}
+                            </TouchableOpacity>
+                            <TouchableOpacity
+                                onPress={() => {
+                                    setIcon({ type: "image", index: "05" });
                                 }}
-                                source={require("@assets/images/diary/diary_circleimg_05.png")}
-                            ></CircleCoverImage>
-                            {icon?.type === "image" && icon.index === "05" && (
-                                <SelectImage source={SelecedCheckImage} />
-                            )}
-                        </TouchableOpacity>
-                        <TouchableOpacity
-                            onPress={() => {
-                                setIcon({ type: "image", index: "06" });
-                            }}
-                        >
-                            <CircleCoverImage
-                                style={{
-                                    borderWidth:
-                                        icon?.type === "image" &&
-                                        icon.index === "06"
-                                            ? 2
-                                            : 0,
-                                    borderColor: "#ffdd1f",
-                                    borderRadius: 100
+                            >
+                                <CircleCoverImage
+                                    style={{
+                                        borderWidth:
+                                            icon?.type === "image" &&
+                                            icon.index === "05"
+                                                ? 2
+                                                : 0,
+                                        borderColor: "#ffdd1f",
+                                        borderRadius: 100
+                                    }}
+                                    source={require("@assets/images/diary/diary_circleimg_05.png")}
+                                ></CircleCoverImage>
+                                {icon?.type === "image" &&
+                                    icon.index === "05" && (
+                                        <SelectImage
+                                            source={SelecedCheckImage}
+                                        />
+                                    )}
+                            </TouchableOpacity>
+                            <TouchableOpacity
+                                onPress={() => {
+                                    setIcon({ type: "image", index: "06" });
                                 }}
-                                source={require("@assets/images/diary/diary_circleimg_06.png")}
-                            ></CircleCoverImage>
-                            {icon?.type === "image" && icon.index === "06" && (
-                                <SelectImage source={SelecedCheckImage} />
-                            )}
-                        </TouchableOpacity>
+                            >
+                                <CircleCoverImage
+                                    style={{
+                                        borderWidth:
+                                            icon?.type === "image" &&
+                                            icon.index === "06"
+                                                ? 2
+                                                : 0,
+                                        borderColor: "#ffdd1f",
+                                        borderRadius: 100
+                                    }}
+                                    source={require("@assets/images/diary/diary_circleimg_06.png")}
+                                ></CircleCoverImage>
+                                {icon?.type === "image" &&
+                                    icon.index === "06" && (
+                                        <SelectImage
+                                            source={SelecedCheckImage}
+                                        />
+                                    )}
+                            </TouchableOpacity>
                         </CircleCoverContainer>
 
                         <CircleCoverContainer>
@@ -334,9 +347,12 @@ export default function DiaryConfig({ navigation, route }: DiaryConfigProps) {
                                 }}
                                 color="#6173ff"
                             >
-                                {icon?.type === "color" && icon.index === "01" && (
-                                    <SelectColor source={SelecedCheckImage} />
-                                )}
+                                {icon?.type === "color" &&
+                                    icon.index === "01" && (
+                                        <SelectColor
+                                            source={SelecedCheckImage}
+                                        />
+                                    )}
                             </CircleCoverColor>
                             <CircleCoverColor
                                 style={{
@@ -352,9 +368,12 @@ export default function DiaryConfig({ navigation, route }: DiaryConfigProps) {
                                 }}
                                 color="#e49ffd"
                             >
-                                {icon?.type === "color" && icon.index === "02" && (
-                                    <SelectColor source={SelecedCheckImage} />
-                                )}
+                                {icon?.type === "color" &&
+                                    icon.index === "02" && (
+                                        <SelectColor
+                                            source={SelecedCheckImage}
+                                        />
+                                    )}
                             </CircleCoverColor>
                             <CircleCoverColor
                                 style={{
@@ -370,9 +389,12 @@ export default function DiaryConfig({ navigation, route }: DiaryConfigProps) {
                                 }}
                                 color="#4fbcd0"
                             >
-                                {icon?.type === "color" && icon.index === "03" && (
-                                    <SelectColor source={SelecedCheckImage} />
-                                )}
+                                {icon?.type === "color" &&
+                                    icon.index === "03" && (
+                                        <SelectColor
+                                            source={SelecedCheckImage}
+                                        />
+                                    )}
                             </CircleCoverColor>
                             <CircleCoverColor
                                 style={{
@@ -388,9 +410,12 @@ export default function DiaryConfig({ navigation, route }: DiaryConfigProps) {
                                 }}
                                 color="#b59aff"
                             >
-                                {icon?.type === "color" && icon.index === "04" && (
-                                    <SelectColor source={SelecedCheckImage} />
-                                )}
+                                {icon?.type === "color" &&
+                                    icon.index === "04" && (
+                                        <SelectColor
+                                            source={SelecedCheckImage}
+                                        />
+                                    )}
                             </CircleCoverColor>
                             <CircleCoverColor
                                 style={{
@@ -406,9 +431,12 @@ export default function DiaryConfig({ navigation, route }: DiaryConfigProps) {
                                 }}
                                 color="#fdae43"
                             >
-                                {icon?.type === "color" && icon.index === "05" && (
-                                    <SelectColor source={SelecedCheckImage} />
-                                )}
+                                {icon?.type === "color" &&
+                                    icon.index === "05" && (
+                                        <SelectColor
+                                            source={SelecedCheckImage}
+                                        />
+                                    )}
                             </CircleCoverColor>
                             <CircleCoverColor
                                 style={{
@@ -424,12 +452,14 @@ export default function DiaryConfig({ navigation, route }: DiaryConfigProps) {
                                 }}
                                 color="#1ad0ff"
                             >
-                                {icon?.type === "color" && icon.index === "06" && (
-                                    <SelectColor source={SelecedCheckImage} />
-                                )}
+                                {icon?.type === "color" &&
+                                    icon.index === "06" && (
+                                        <SelectColor
+                                            source={SelecedCheckImage}
+                                        />
+                                    )}
                             </CircleCoverColor>
                         </CircleCoverContainer>
-                        
                     </CircleCoverImageConteiner>
                 </CoverConteiner>
             </Container>
@@ -438,8 +468,8 @@ export default function DiaryConfig({ navigation, route }: DiaryConfigProps) {
                 confirm="확인"
                 onConfirm={async () => {
                     setAlertOpen(false);
-                    if(!isFalse){
-                        navigation.replace("Home")
+                    if (!isFalse) {
+                        navigation.replace("Home");
                     }
                 }}
                 width={300}
