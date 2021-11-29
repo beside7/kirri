@@ -317,7 +317,7 @@ const Home = () => {
                                             </DiaryTitle>
                                             <RecentContentList
                                                 horizontal={true}
-                                                alwaysBounceVertical={true}
+                                                // alwaysBounceVertical={true}
                                                 showsHorizontalScrollIndicator={
                                                     false
                                                 }
