@@ -28,7 +28,8 @@ export const Title = styled.Text({
 
 export const Author = styled.Text({
     color: "#6f6f7e",
-    fontFamily: "SpoqaHanSansNeo-Regular",
+    fontFamily: "SpoqaHanSansNeo-Bold",
+    fontWeight: "bold",
     fontSize: 12
 });
 

@@ -213,15 +213,16 @@ export default function RecordInfo({ navigation, route }: RecordInfoProps) {
                     <Footer>
                         <View
                             style={{
-                                flexDirection: "row"
+                                flexDirection: "row",
+                                marginBottom: 5
                             }}
                         >
                             <Author>{nickname}</Author>
                             <FontAwesome5
                                 name="crown"
-                                size={11}
+                                size={10}
                                 color="#6173ff"
-                                style={{ marginLeft: 10, lineHeight: 15 }}
+                                style={{ marginLeft: 9, lineHeight: 13 }}
                             />
                         </View>
 
