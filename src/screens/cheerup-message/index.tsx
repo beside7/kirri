@@ -98,7 +98,7 @@ export default function CheerupMessage({
                 </From>
                 <Button
                     onPress={() => {
-                        navigation.navigate("RecordInput", { diary });
+                        navigation.navigate("RecordInput", { diary, prev: "list" });
                     }}
                 >
                     <ButtonText>기록 작성하러 가기</ButtonText>

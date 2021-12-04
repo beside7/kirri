@@ -1,5 +1,5 @@
-import React from "react";
-import { TouchableOpacity, Image } from "react-native";
+import React, {useEffect} from "react";
+import {TouchableOpacity, Image, BackHandler} from "react-native";
 import AppNavigator from "./tab-navigator";
 import { Background, Header } from "@components";
 
@@ -14,6 +14,22 @@ type FriendMainProps = {
 
 export default function FriendMain({ navigation, route }: FriendMainProps) {
     const { diary } = route.params;
+
+    useEffect(() => {
+        const backAction = () => {
+            navigation.replace("RecordList", {
+                diary: diary,
+                snack: null
+            });
+            return true;
+        };
+
+        const backHandler = BackHandler.addEventListener(
+            "hardwareBackPress",
+            backAction
+        );
+        return () => backHandler.remove();
+    }, []);
 
     return (
         <Background>

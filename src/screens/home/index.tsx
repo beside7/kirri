@@ -129,7 +129,7 @@ const Profile = observer(({ count, setAlertOpen }: ProfileProps) => {
                         if (count === 0) {
                             setAlertOpen(true);
                         } else {
-                            navigate("RecordInput", { diary: null });
+                            navigate("RecordInput", { diary: null, prev: "home" });
                         }
                     }}
                     style={styles.iconSpace}

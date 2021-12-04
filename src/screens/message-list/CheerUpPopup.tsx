@@ -111,7 +111,7 @@ export const CheerUpPopup = ({
                         onPress={() => {
                             // const data = await diaryApis.viewDiary(diaryId);
                             onClose();
-                            navigate("RecordInput", { diary: diary.current });
+                            navigate("RecordInput", { diary: diary.current, prev: "home" });
                         }}
                     >
                         기록 작성하러 가기

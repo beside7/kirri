@@ -232,7 +232,7 @@ export default function RecordInfo({ navigation, route }: RecordInfoProps) {
 
             <Button
                 onPress={() => {
-                    navigation.navigate("RecordInput", { diary: diary });
+                    navigation.navigate("RecordInput", { diary: diary, prev: "home" });
                 }}
             >
                 <Icon

@@ -66,6 +66,9 @@ export default function RecordInput({ navigation, route }: RecordInputProps) {
      */
     const [diary, setDiary] = useState<DiaryResType | null>(route.params.diary);
 
+
+    const { prev } = route.params;
+
     /**
      * 선택한 다이러리 정보 - uuid
      */
@@ -381,13 +384,13 @@ export default function RecordInput({ navigation, route }: RecordInputProps) {
 
                 setAlertMessage(`글이 ${
                     type === "modify" ? "수정" : "생성"
-                } 간 에러가 발생했습니다.
-                
-                ${
-                    error && error.response && error.response.data
-                        ? error.response.data
-                        : undefined
-                }`);
+                } 간 에러가 발생했습니다.` + "\n"
+                    +`${
+                        error && error.response && error.response.data
+                            ? error.response.data.error
+                            : undefined
+                    }`
+                );
                 setAlertOpen(true);
             }
         } else {
@@ -749,7 +752,12 @@ export default function RecordInput({ navigation, route }: RecordInputProps) {
                 }}
                 onConfirm={async () => {
                     setConfirmOpen(false);
-                    navigation.goBack();
+                    // navigation.goBack();
+                    if(prev === "home"){
+                        navigation.replace("Home")
+                    } else {
+                        navigation.replace("RecordList" , { diary : diary, snack : null })
+                    }
                 }}
                 width={300}
                 handelOpen={(key: boolean) => {}}

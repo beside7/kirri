@@ -5,7 +5,7 @@ import {
     Alert,
     ScrollView,
     View,
-    Platform
+    Platform, BackHandler
 } from "react-native";
 import { Background, Header } from "@components";
 import { messageApis } from "@apis";
@@ -133,6 +133,22 @@ const CheerUp = observer(({ navigation, route }: CheerUpProps) => {
         return () => {
             clearInterval(index);
         };
+    }, []);
+
+    useEffect(() => {
+        const backAction = () => {
+            navigation.replace("RecordList", {
+                diary: diary,
+                snack: null
+            });
+            return true;
+        };
+
+        const backHandler = BackHandler.addEventListener(
+            "hardwareBackPress",
+            backAction
+        );
+        return () => backHandler.remove();
     }, []);
 
     /**

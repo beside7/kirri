@@ -259,7 +259,8 @@ export const RecordView = observer(({ route, navigation }: RecordViewProps) => {
                                         closeMenu();
                                         navigation.navigate("RecordInput", {
                                             diary: diary,
-                                            record: record
+                                            record: record,
+                                            prev: "home"
                                         });
                                     }}
                                     title="기록 수정"

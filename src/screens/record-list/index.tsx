@@ -426,7 +426,8 @@ export const RecordList = observer(({ navigation, route }: RecordListProps) => {
                         <TouchableOpacity
                             onPress={() => {
                                 navigation.navigate("RecordInput", {
-                                    diary: diary
+                                    diary: diary,
+                                    prev: "list"
                                 });
                             }}
                         >
