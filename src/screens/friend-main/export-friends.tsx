@@ -5,7 +5,8 @@ import {
     FlatList,
     TouchableOpacity,
     Image,
-    Alert
+    Alert,
+    ImageURISource
 } from "react-native";
 import { Background } from "@components";
 import { DiaryResType } from "@type-definition/diary";
@@ -34,6 +35,29 @@ import {
 
 type ExportFriendsProps = {
     diary: DiaryResType | null;
+};
+
+const thumbnail = {
+    "01": require("@assets/images/profile/home_profile_01.png") as ImageURISource,
+    "02": require("@assets/images/profile/home_profile_02.png") as ImageURISource,
+    "03": require("@assets/images/profile/home_profile_03.png") as ImageURISource,
+    "04": require("@assets/images/profile/home_profile_04.png") as ImageURISource
+};
+
+/**
+ * 멤버 썸네일 이미지로 변경
+ * @param item
+ * @returns
+ */
+const getThumbnail = (item: Memeber): ImageURISource => {
+    try {
+        const number = item.profileImagePath.split(
+            ":"
+        )[1] as keyof typeof thumbnail;
+        return thumbnail[number];
+    } catch (error) {
+        return thumbnail["01"];
+    }
 };
 
 export const ExportFriends = observer(({ diary }: ExportFriendsProps) => {
@@ -189,7 +213,7 @@ export const ExportFriends = observer(({ diary }: ExportFriendsProps) => {
                                     <ExportFriendListItemContainer>
                                         <View style={{ width: 40 }}>
                                             <ExportFriendThumbnailImage
-                                                source={require("@assets/images/profile/home_profile_01.png")}
+                                                source={getThumbnail(item)}
                                             />
                                         </View>
                                         <ExportFriendListItemCenter>
