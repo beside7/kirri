@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { Header } from "@components";
+import { Header, Background } from "@components";
 import { navigateGoBack } from "@config/navigator";
 import { WebviewContainer } from "./termsWebview.style";
 import { WebView } from "react-native-webview";
@@ -45,7 +45,7 @@ export const TermsWebview = ({ route }: Props) => {
     }, [type, url]);
 
     return (
-        <SafeAreaView style={{ backgroundColor: "#fff", height: "100%" }}>
+        <Background>
             <Header
                 title={title}
                 leftIcon={require("@assets/images/common/various_back_normal.png")}
@@ -82,6 +82,6 @@ export const TermsWebview = ({ route }: Props) => {
                     <></>
                 )}
             </WebviewContainer>
-        </SafeAreaView>
+        </Background>
     );
 };
