@@ -129,12 +129,13 @@ export const Settings = observer(() => {
                             >
                                 <Image
                                     style={{
-                                        width: 18,
-                                        height: 18,
-                                        resizeMode: "contain"
+                                        width: 19,
+                                        height: 19,
+                                        top: 7,
+                                        left: 3
                                     }}
                                     source={require("@assets/images/settings/setting_edit_name_normal.png")}
-                                ></Image>
+                                />
                             </EditProfile>
                         </NicknameWarp>
                     </Profile>
