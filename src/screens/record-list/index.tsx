@@ -5,11 +5,11 @@ import {
     TouchableOpacity,
     Image,
     SafeAreaView,
-    Dimensions,
     Alert,
-    BackHandler
+    BackHandler,
+    Text
 } from "react-native";
-import { Background, Text_2, Header } from "@components";
+import { Background, Text_2, Header, Popup } from "@components";
 import styles from "./style";
 import { StackNavigatorParams } from "@config/navigator";
 import { StackNavigationProp } from "@react-navigation/stack";
@@ -41,6 +41,11 @@ export const RecordList = observer(({ navigation, route }: RecordListProps) => {
     const { nickname } = UserStore;
 
     /**
+     * 경고창 출력여부
+     */
+    const [alertOpen, setAlertOpen] = useState(false);
+
+    /**
      * 우측 상단메뉴 노출여부
      */
     const [visible, setVisible] = React.useState(false);
@@ -67,6 +72,8 @@ export const RecordList = observer(({ navigation, route }: RecordListProps) => {
      * info 에서 넘겨받은 다이러리 정보
      */
     const diary = route.params.diary;
+
+    const members = diary && diary?.members ? diary?.members : [];
 
     /**
      * snack bar
@@ -228,6 +235,24 @@ export const RecordList = observer(({ navigation, route }: RecordListProps) => {
 
     return (
         <Background>
+            {/* Alert */}
+            <Popup
+                open={alertOpen}
+                confirm="확인"
+                onConfirm={async () => {
+                    setAlertOpen(false);
+                }}
+                width={300}
+                handelOpen={(key: boolean) => {}}
+                content={
+                    <View style={styles.alertContent}>
+                        <Text style={styles.alertText}>
+                            다른 멤버에게 관리자 권한을 넘긴 후 다이어리를
+                            떠나주세요.
+                        </Text>
+                    </View>
+                }
+            />
             <Header
                 title={diary ? diary.title : "처음 우리들의 끼리 다이러리"}
                 leftIcon={
@@ -300,16 +325,9 @@ export const RecordList = observer(({ navigation, route }: RecordListProps) => {
                         <Menu.Item
                             onPress={() => {
                                 closeMenu();
-                                if (isAdministrator) {
-                                    Alert.alert(
-                                        "",
-                                        "다른 멤버에게 관리자 권한을 넘긴 후 다이어리를 떠나주세요.",
-                                        [
-                                            {
-                                                text: "확인"
-                                            }
-                                        ]
-                                    );
+                                // 만약 관리자 권한을 가지고 있다면
+                                if (isAdministrator && members.length > 1) {
+                                    setAlertOpen(true);
                                     return;
                                 }
                                 setLeaveConfirm(true);
@@ -377,19 +395,6 @@ export const RecordList = observer(({ navigation, route }: RecordListProps) => {
                     onRefresh={() => {
                         getRecordList(diary?.uuid, undefined);
                     }}
-                    // ListFooterComponent={
-                    //     () => {
-                    //         return (
-                    //             <View>
-                    //                 <View>
-                    //                     <Text_2 bold="Regular" style={{ color : "#bebece" , fontSize: 12 }}>
-                    //                         오늘의 너를 기억할께
-                    //                     </Text_2>
-                    //                 </View>
-                    //             </View>
-                    //         )
-                    //     }
-                    // }
                     ListFooterComponentStyle={styles.bottomTab}
                 />
             </SafeAreaView>

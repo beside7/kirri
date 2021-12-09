@@ -193,11 +193,11 @@ const MessageList = observer(({ navigation }: MessageListProps) => {
                 open={acceptInvitationOpen}
                 content="다이어리 초대를 수락했어요"
                 confirm="다이어리 보러가기"
-                onConfirm={() => {
+                onConfirm={async () => {
                     sendToDiary();
                 }}
                 cancel="닫기"
-                onCancel={() => {
+                onCancel={async () => {
                     setAcceptInvitationOpen(false);
                 }}
             />
@@ -206,11 +206,11 @@ const MessageList = observer(({ navigation }: MessageListProps) => {
                 open={!!cheeringDetail}
                 content={cheeringDetail?.body}
                 confirm="다이어리 보러가기"
-                onConfirm={() => {
+                onConfirm={async () => {
                     sendToDiary();
                 }}
                 cancel="닫기"
-                onCancel={() => {
+                onCancel={async () => {
                     setCheeringDetail(undefined);
                 }}
             />

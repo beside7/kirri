@@ -5,7 +5,20 @@ const SCREEN_HEIGHT = Dimensions.get("screen").height;
 const HEADER_HEIGHT = 174;
 
 const styles = StyleSheet.create({
-    
+    alertContent: {
+        width: "100%",
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center",
+        alignItems: "center",
+        paddingHorizontal: 24
+    },
+    alertText: {
+        fontSize: 14,
+        color: "#17171c",
+        fontFamily: "SpoqaHanSansNeo-Regular",
+        textAlign: "center"
+    },
     loading: {
         flex: 1,
         justifyContent: "center",
@@ -55,7 +68,7 @@ const styles = StyleSheet.create({
         height: SCREEN_HEIGHT - HEADER_HEIGHT,
         flex: 1,
         alignItems: "center",
-        paddingTop: 200,
+        paddingTop: 200
         // borderWidth: 1
     },
     ListEmptyThumbnail: {
