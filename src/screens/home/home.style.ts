@@ -1,19 +1,13 @@
-import { globalStyles } from "@utils";
-import { StyleSheet, Dimensions } from "react-native";
+import { StyleSheet } from "react-native";
 import styled from "styled-components/native";
 import Constants from "expo-constants";
 import { Platform } from "react-native";
 
+import { gridWidth } from "./types";
+
 // const backgroundPatterns = {
 //     'pattern_1': require()
 // }
-
-const DeviceHeight = Dimensions.get("window").height;
-const DeviceWidth = Dimensions.get("window").width;
-
-const gridWidth = Math.floor(DeviceWidth / 2) - 32;
-
-const ScreenHeight = Dimensions.get("window").height;
 
 const styles = StyleSheet.create({
     iconSpace: {
@@ -87,33 +81,36 @@ export const DiaryListWarp = styled(warpStyle)({
 });
 
 export const RecentContentWarp = styled.View({
-    height: 130,
+    height: 150,
     width: "100%"
 });
 
 export const RecentContentList = styled.ScrollView({
     overflow: "visible",
-    marginTop: 8
+    marginTop: 8,
+    paddingLeft: 2,
+    marginBottom: 8
 });
 
 export const RecentContentContainer = styled.View({
-    width: 150,
+    width: 120,
     height: 80,
-    borderRadius: 10,
-    // boxShadow:'1.5px 2.5px 5px #0000002b',
-    shadowColor: "rgb(0, 0, 0)",
-    shadowOffset: {
-        width: 1,
-        height: 3
-    },
-    shadowOpacity: 0.5,
-    shadowRadius: 10,
-    elevation: 5,
+    // borderWidth: 1,
+    // borderRadius: 10,
+    // // boxShadow:'1.5px 2.5px 5px #0000002b',
+    // shadowColor: "rgb(0, 0, 0)",
+    // shadowOffset: {
+    //     width: 1,
+    //     height: 3
+    // },
+    // shadowOpacity: 0.5,
+    // shadowRadius: 10,
+    // elevation: 5,
     backgroundColor: "#fff",
-    padding: 10,
+    padding: 5,
     marginRight: 12,
     marginTop: 2,
-    marginLeft: 2
+    marginLeft: 5
 });
 
 export const RecentContentWriter = styled.Text({
@@ -142,7 +139,7 @@ export const RecentDiaryColor = styled.View(
         height: 10,
         marginRight: 4,
         backgroundColor: props.background,
-        borderRadius: 2
+        borderRadius: 5
     })
 );
 
@@ -178,17 +175,17 @@ export const DiaryContainer = styled.View({
     marginBottom: 18,
     marginLeft: 2,
     marginRight: 2,
-    width: gridWidth,
+    width: gridWidth
     // boxShadow:'1.5px 2.5px 5px #0000002b',
-    shadowColor: "rgb(0, 0, 0)",
-    shadowOffset: {
-        width: 1,
-        height: 3
-    },
-    shadowOpacity: 0.5,
-    shadowRadius: 10,
-    borderRadius: 10,
-    elevation: 5
+    // shadowColor: "rgb(0, 0, 0)",
+    // shadowOffset: {
+    //     width: 1,
+    //     height: 3
+    // },
+    // shadowOpacity: 0.5,
+    // shadowRadius: 10,
+    // borderRadius: 10,
+    // elevation: 5
 });
 
 export const CreateDiaryWrap = styled.View({
@@ -223,9 +220,17 @@ export const DiaryCover = styled.View(
         backgroundColor: props.backgroundColor,
         height: 49,
         borderTopLeftRadius: 12,
-        borderTopRightRadius: 12
+        borderTopRightRadius: 12,
+        left: -3,
+        width: gridWidth + 6
     })
 );
+
+export const CoverImage = styled.Image({
+    width: gridWidth + 4,
+    borderTopLeftRadius: 10,
+    borderTopRightRadius: 10
+});
 
 export const DiaryDetailTitle = styled.Text({
     fontSize: 16,
@@ -509,12 +514,6 @@ export const NewAlarm = styled.View((props: { theme: any }) => ({
     position: "absolute",
     right: 0
 }));
-
-export const CoverImage = styled.Image({
-    width: gridWidth,
-    borderTopLeftRadius: 10,
-    borderTopRightRadius: 10
-});
 
 export const AlertContent = styled.View({
     width: "100%",

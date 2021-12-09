@@ -1,6 +1,4 @@
 import React, {
-    ReactElement,
-    useCallback,
     useState,
     useEffect,
     useRef,
@@ -66,13 +64,13 @@ import { RecentRecordType } from "@type-definition/user";
 import { CreateDiary } from "./CreateDiary";
 import { CreateDiaryModal } from "./CreateDiaryModal";
 import { navigate } from "@config/navigator";
-import { autorun } from "mobx";
 import { messageApis } from "@apis";
 import moment from "moment";
 import { MessageResType } from "@type-definition/message";
 import { useFocusEffect } from "@react-navigation/native";
 import { Snackbar } from "react-native-paper";
 import { useRoute } from "@react-navigation/native";
+import { diaryNameToColor } from "./types";
 
 type HomeProps = {
     navigation: StackNavigationProp<StackNavigatorParams, "Home">;
@@ -129,7 +127,10 @@ const Profile = observer(({ count, setAlertOpen }: ProfileProps) => {
                         if (count === 0) {
                             setAlertOpen(true);
                         } else {
-                            navigate("RecordInput", { diary: null, prev: "home" });
+                            navigate("RecordInput", {
+                                diary: null,
+                                prev: "home"
+                            });
                         }
                     }}
                     style={styles.iconSpace}
@@ -254,7 +255,7 @@ const Home = () => {
             };
             setDiaryList(data.elements || []);
             setDiaryLoading(false);
-            console.log(data.elements);
+            // console.log(data.elements);
         } catch (error) {
             console.log(error);
         }
@@ -358,7 +359,10 @@ const Home = () => {
                                                                     diaryName={
                                                                         record.diaryTitle
                                                                     }
-                                                                    backgroundColor="purple"
+                                                                    backgroundColor={diaryNameToColor(
+                                                                        diaryList,
+                                                                        record.diaryTitle
+                                                                    )}
                                                                 />
                                                             </TouchableOpacity>
                                                         )

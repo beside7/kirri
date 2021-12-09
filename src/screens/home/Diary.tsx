@@ -15,7 +15,8 @@ import {
     CoverColor,
     CoverImages
 } from "@utils";
-import { Image } from "react-native";
+import { Shadow } from "react-native-shadow-2";
+import { gridWidth } from "./types";
 
 const badge = require("@assets/images/home/home_diary_badge.png");
 
@@ -28,29 +29,42 @@ interface Props {
 
 export const Diary = ({ diaryTitle, members, coverType, coverId }: Props) => {
     return (
-        <DiaryContainer>
-            <DiaryCover
-                backgroundColor={
-                    coverType === "color"
-                        ? CoverColor[coverId as CoverColorTypes]
-                        : "#fff"
-                }
-            >
-                {coverType === "image" ? (
-                    <CoverImage
-                        source={CoverImages[coverId as CoverImageTypes]}
-                    />
-                ) : (
-                    <></>
-                )}
-            </DiaryCover>
-            <DiaryContent>
-                <DiaryDetailTitle>{diaryTitle}</DiaryDetailTitle>
-                <DiaryBottom>
-                    <DiaryBadge source={badge} />
-                    <MembersText>+{members}</MembersText>
-                </DiaryBottom>
-            </DiaryContent>
-        </DiaryContainer>
+        <Shadow
+            radius={10}
+            containerViewStyle={{
+                marginBottom: 18,
+                marginLeft: 2,
+                marginRight: 2
+            }}
+            viewStyle={{
+                padding: 0
+            }}
+            size={[gridWidth, gridWidth]}
+        >
+            <DiaryContainer>
+                <DiaryCover
+                    backgroundColor={
+                        coverType === "color"
+                            ? CoverColor[coverId as CoverColorTypes]
+                            : "#fff"
+                    }
+                >
+                    {coverType === "image" ? (
+                        <CoverImage
+                            source={CoverImages[coverId as CoverImageTypes]}
+                        />
+                    ) : (
+                        <></>
+                    )}
+                </DiaryCover>
+                <DiaryContent>
+                    <DiaryDetailTitle>{diaryTitle}</DiaryDetailTitle>
+                    <DiaryBottom>
+                        <DiaryBadge source={badge} />
+                        <MembersText>+{members}</MembersText>
+                    </DiaryBottom>
+                </DiaryContent>
+            </DiaryContainer>
+        </Shadow>
     );
 };

@@ -7,12 +7,14 @@ import {
     RecentDiaryTitleWarp,
     RecentDiaryColor
 } from "./home.style";
+import { Shadow } from "react-native-shadow-2";
+import { Colors } from "./types";
 
 interface Props {
     nickname: string;
     title: string;
     diaryName: string;
-    backgroundColor: string;
+    backgroundColor: Colors;
 }
 
 export const RecentContent = ({
@@ -22,13 +24,28 @@ export const RecentContent = ({
     backgroundColor
 }: Props) => {
     return (
-        <RecentContentContainer>
-            <RecentContentWriter>{nickname}</RecentContentWriter>
-            <RecentContentTitle>{title}</RecentContentTitle>
-            <RecentDiaryTitleWarp>
-                <RecentDiaryColor background={backgroundColor} />
-                <RecentDiaryTitle>{diaryName}</RecentDiaryTitle>
-            </RecentDiaryTitleWarp>
-        </RecentContentContainer>
+        <Shadow
+            // size={[140, 80]}
+            radius={10}
+            containerViewStyle={{
+                marginTop: 2,
+                marginBottom: 2,
+                marginLeft: 5
+            }}
+            viewStyle={{
+                marginRight: 12,
+                paddingHorizontal: 5,
+                paddingVertical: 3
+            }}
+        >
+            <RecentContentContainer>
+                <RecentContentWriter>{nickname}</RecentContentWriter>
+                <RecentContentTitle>{title}</RecentContentTitle>
+                <RecentDiaryTitleWarp>
+                    <RecentDiaryColor background={backgroundColor} />
+                    <RecentDiaryTitle>{diaryName}</RecentDiaryTitle>
+                </RecentDiaryTitleWarp>
+            </RecentContentContainer>
+        </Shadow>
     );
 };

@@ -1,7 +1,6 @@
-import React, { ReactElement, ReactNode, useEffect, useState } from "react";
+import React, { ReactElement, useEffect } from "react";
 import Navigator from "@config/navigator";
 import { AppBootstrap, PushMessageProvider } from "@components";
-import * as Font from "expo-font";
 import { Provider as PaperProvider } from "react-native-paper";
 import { ThemeProvider } from "styled-components/native";
 import { theme } from "./utils/styleTheme";
