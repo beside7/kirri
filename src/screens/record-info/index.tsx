@@ -20,7 +20,8 @@ import {
     Button,
     Icon,
     ButtonText,
-    ScrollDownButton
+    ScrollDownButton,
+    NicknameText
 } from "./style";
 
 import { StackNavigatorParams } from "@config/navigator";
@@ -34,6 +35,7 @@ import Constants from "expo-constants";
 
 import { diaryApis } from "@apis";
 import { DiaryResType } from "@type-definition/diary";
+import { Nickname } from "@screens";
 
 type RecordInfoProps = {
     navigation: StackNavigationProp<StackNavigatorParams, "RecordInfo">;
@@ -214,10 +216,10 @@ export default function RecordInfo({ navigation, route }: RecordInfoProps) {
                         <View
                             style={{
                                 flexDirection: "row",
-                                marginBottom: 5
+                                marginBottom: 4
                             }}
                         >
-                            <Author>{nickname}</Author>
+                            <NicknameText>{nickname}</NicknameText>
                             <FontAwesome5
                                 name="crown"
                                 size={10}
@@ -233,7 +235,10 @@ export default function RecordInfo({ navigation, route }: RecordInfoProps) {
 
             <Button
                 onPress={() => {
-                    navigation.navigate("RecordInput", { diary: diary, prev: "home" });
+                    navigation.navigate("RecordInput", {
+                        diary: diary,
+                        prev: "home"
+                    });
                 }}
             >
                 <Icon

@@ -21,15 +21,21 @@ export const Footer = styled.View({
 });
 
 export const Title = styled.Text({
+    color: "#17171c",
     textAlign: "center",
     fontSize: 20,
     fontFamily: "SpoqaHanSansNeo-Medium"
 });
 
+export const NicknameText = styled.Text({
+    color: "#17171c",
+    fontFamily: "SpoqaHanSansNeo-Bold",
+    fontSize: 12
+});
+
 export const Author = styled.Text({
     color: "#6f6f7e",
-    fontFamily: "SpoqaHanSansNeo-Bold",
-    fontWeight: "bold",
+    fontFamily: "SpoqaHanSansNeo-Regular",
     fontSize: 12
 });
 
@@ -52,7 +58,7 @@ export const Icon = styled.Image({
 
 export const ButtonText = styled.Text({
     fontSize: 14,
-    fontFamily: "SpoqaHanSansNeo-Medium",
+    fontFamily: "SpoqaHanSansNeo-Regular",
     color: "#17171c"
 });
 
