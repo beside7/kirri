@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect, useCallback } from "react";
 import { Background, Header, Tabs, Dropdown, Popup } from "@components";
 import AppNavigator from "./tab-navigator";
-import { TouchableOpacity, Image, Text, FlatList, Alert } from "react-native";
+import {TouchableOpacity, Image, Text, FlatList, Alert, BackHandler} from "react-native";
 import { StackNavigatorParams, navigate } from "@config/navigator";
 import { StackNavigationProp } from "@react-navigation/stack";
 import {
@@ -65,7 +65,7 @@ const MessageList = observer(({ navigation }: MessageListProps) => {
                         size: pageInfo.current.size,
                         lastId: pageInfo.current.lastId
                     })) as MessageResType;
-                    console.log(data);
+                    // console.log(data);
                     break;
                 default:
                     data = (await messageApis.getMessagesByType({
@@ -121,13 +121,28 @@ const MessageList = observer(({ navigation }: MessageListProps) => {
         UserStore.setNewMessage(false);
     }, []);
 
+    /**
+     * 뒤로가기 버튼 클릭시 이벤트
+     */
+    useEffect(() => {
+        const backAction = () => {
+            navigation.replace("Home");
+            return true;
+        };
+        const backHandler = BackHandler.addEventListener(
+            "hardwareBackPress",
+            backAction
+        );
+        return () => backHandler.remove();
+    }, []);
+
     return (
         <Background>
             <Header
                 title="알림"
                 leftIcon={require("@assets/icons/back.png")}
                 onLeftClick={() => {
-                    navigation.goBack();
+                    navigation.replace("Home")
                 }}
             />
             <Container>

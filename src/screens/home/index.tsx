@@ -81,15 +81,15 @@ const wait = (timeout: number) => {
 };
 
 type ProfileProps = {
-    count: number;
+    diaryCount: number;
     setAlertOpen: Dispatch<SetStateAction<boolean>>;
 };
 
 /**
  * 상단 헤더
  */
-const Profile = observer(({ count, setAlertOpen }: ProfileProps) => {
-    const { nickname, profileImage, profileImagePath, newMessage } = UserStore;
+const Profile = observer(({ diaryCount, setAlertOpen }: ProfileProps) => {
+    const { nickname, profileImage, newMessage } = UserStore;
 
     const getAlarm = async () => {
         const data: MessageResType = (await messageApis.getAllMessages({
@@ -124,7 +124,7 @@ const Profile = observer(({ count, setAlertOpen }: ProfileProps) => {
             <IconWarp>
                 <IconButton
                     onPress={() => {
-                        if (count === 0) {
+                        if (diaryCount === 0) {
                             setAlertOpen(true);
                         } else {
                             navigate("RecordInput", {
@@ -170,7 +170,10 @@ const Profile = observer(({ count, setAlertOpen }: ProfileProps) => {
     );
 });
 
-const Home = () => {
+const Home = observer(() => {
+
+    const { setNewMessage } = UserStore;
+
     const [userLoading, setUserLoading] = useState(true);
     const [diaryLoading, setDiaryLoading] = useState(true);
     const { nickname, profileImage, profileImagePath } = UserStore;
@@ -282,6 +285,16 @@ const Home = () => {
         getRecentRecord();
     }, []);
 
+    /**
+     * component 시작시 메세지 갯수를 가져옴
+     */
+    useEffect(() => {
+        (async () => {
+            const data = (await messageApis.getAllMessages({ size: undefined , lastId: undefined })) as MessageResType;
+            setNewMessage(data.elements.length > 0)
+        })()
+    } , [])
+
     useEffect(() => {
         getUser();
         getDiaries();
@@ -297,7 +310,7 @@ const Home = () => {
             <HomeContainer>
                 <ContentWarp>
                     <Profile
-                        count={diaryList.length}
+                        diaryCount={diaryList.length}
                         setAlertOpen={setAlertOpen}
                     />
                     {diaryList.length ? (
@@ -335,9 +348,9 @@ const Home = () => {
                                                                         "RecordView",
                                                                         {
                                                                             diaryUuid:
-                                                                                record.diaryUuid,
+                                                                            record.diaryUuid,
                                                                             recordUuid:
-                                                                                record.recordUuid,
+                                                                            record.recordUuid,
                                                                             diary: null,
                                                                             record: null,
                                                                             prev: "home"
@@ -430,7 +443,7 @@ const Home = () => {
                                         />
                                     </View>
                                     {/* <CreateDiaryWrap>
-                                            
+
                                         </CreateDiaryWrap> */}
                                     <DiaryListBottom>
                                         <DiaryListBottomMention>
@@ -496,5 +509,6 @@ const Home = () => {
             />
         </Fragment>
     );
-};
+});
+
 export default Home;

@@ -12,6 +12,6 @@ export interface ResType<T> {
 }
 
 export interface PageReqType {
-    size: number;
-    lastId: number;
+    size?: number;
+    lastId?: number;
 }
