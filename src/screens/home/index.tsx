@@ -396,7 +396,8 @@ const Home = observer(() => {
                                             flexDirection: "row",
                                             justifyContent: "space-between",
                                             flexWrap: "wrap",
-                                            flex: 1
+                                            flex: 1,
+                                            paddingHorizontal:2
                                         }}
                                     >
                                         {diaryList ? (
