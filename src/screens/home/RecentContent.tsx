@@ -37,6 +37,7 @@ export const RecentContent = ({
                 paddingHorizontal: 5,
                 paddingVertical: 3
             }}
+            distance={5}
         >
             <RecentContentContainer>
                 <RecentContentWriter>{nickname}</RecentContentWriter>

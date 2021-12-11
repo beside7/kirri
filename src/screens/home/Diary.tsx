@@ -40,6 +40,7 @@ export const Diary = ({ diaryTitle, members, coverType, coverId }: Props) => {
                 padding: 0
             }}
             size={[gridWidth, gridWidth]}
+            distance={5}
         >
             <DiaryContainer>
                 <DiaryCover

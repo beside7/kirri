@@ -9,7 +9,6 @@ import {
     BackHandler
 } from "react-native";
 import Color from "./color";
-
 import {
     Container,
     HeaderImage,
@@ -23,18 +22,16 @@ import {
     ScrollDownButton,
     NicknameText
 } from "./style";
-
 import { StackNavigatorParams } from "@config/navigator";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { RouteProp } from "@react-navigation/native";
-
 import { CoverBigImages, CoverColorTypes, CoverColor } from "@utils";
 import { FontAwesome5 } from "@expo/vector-icons";
-
 import Constants from "expo-constants";
-
 import { diaryApis } from "@apis";
 import { DiaryResType } from "@type-definition/diary";
+import { Shadow } from "react-native-shadow-2";
+
 import { Nickname } from "@screens";
 
 type RecordInfoProps = {
@@ -201,37 +198,43 @@ export default function RecordInfo({ navigation, route }: RecordInfoProps) {
 
     return (
         <Background>
-            <Container>
-                {coverType === "image" && (
-                    <HeaderImage
-                        source={CoverBigImages[coverId as CoverColorTypes]}
-                    />
-                )}
-                {coverType === "color" && (
-                    <Color color={CoverColor[coverId as CoverColorTypes]} />
-                )}
-                <Content>
-                    <Title>{title}</Title>
-                    <Footer>
-                        <View
-                            style={{
-                                flexDirection: "row",
-                                marginBottom: 4
-                            }}
-                        >
-                            <NicknameText>{nickname}</NicknameText>
-                            <FontAwesome5
-                                name="crown"
-                                size={10}
-                                color="#6173ff"
-                                style={{ marginLeft: 9, lineHeight: 13 }}
-                            />
-                        </View>
+            <Shadow
+                radius={10}
+                distance={5}
+            >
+                <Container>
+                    {coverType === "image" && (
+                        <HeaderImage
+                            source={CoverBigImages[coverId as CoverColorTypes]}
+                        />
+                    )}
+                    {coverType === "color" && (
+                        <Color color={CoverColor[coverId as CoverColorTypes]} />
+                    )}
+                    <Content>
+                        <Title>{title}</Title>
+                        <Footer>
+                            <View
+                                style={{
+                                    flexDirection: "row",
+                                    marginBottom: 4
+                                }}
+                            >
+                                <NicknameText>{nickname}</NicknameText>
+                                <FontAwesome5
+                                    name="crown"
+                                    size={10}
+                                    color="#6173ff"
+                                    style={{ marginLeft: 9, lineHeight: 13 }}
+                                />
+                            </View>
 
-                        <Author>{`${members.length} 끼리`}</Author>
-                    </Footer>
-                </Content>
-            </Container>
+                            <Author>{`${members.length} 끼리`}</Author>
+                        </Footer>
+                    </Content>
+                </Container>
+            </Shadow>
+
 
             <Button
                 onPress={() => {
