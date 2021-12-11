@@ -201,6 +201,7 @@ export default function RecordInfo({ navigation, route }: RecordInfoProps) {
             <Shadow
                 radius={10}
                 distance={5}
+                size={[219, 249]}
             >
                 <Container>
                     {coverType === "image" && (

@@ -25,7 +25,7 @@ export const RecentContent = ({
 }: Props) => {
     return (
         <Shadow
-            // size={[140, 80]}
+            size={[140, 85]}
             radius={10}
             containerViewStyle={{
                 marginTop: 2,
