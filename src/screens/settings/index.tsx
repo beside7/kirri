@@ -5,8 +5,6 @@ import {
     SafeAreaViewTop,
     SafeAreaViewBottom,
     ContentContainer,
-    MakeNicknameTitle,
-    NicknameInputWarp,
     Content,
     Profile,
     SettingIcon,
@@ -35,8 +33,7 @@ import {
     navigateWithoutRefresh,
     navigateWithReset
 } from "@config/navigator";
-import { UpdateUserMeResType } from "@type-definition/user";
-import { getProfileImage, ProfileImageTypes } from "@utils";
+
 
 export const Settings = observer(() => {
     const { nickname, profileImage, pushStatus } = UserStore;
@@ -131,8 +128,6 @@ export const Settings = observer(() => {
                                     style={{
                                         width: 19,
                                         height: 19,
-                                        top: 7,
-                                        left: 3
                                     }}
                                     source={require("@assets/images/settings/setting_edit_name_normal.png")}
                                 />

@@ -53,6 +53,8 @@ export const NicknameText = styled.Text({
 export const EditProfile = styled.TouchableOpacity((props: { theme: any }) => ({
     width: 18,
     height: 18,
+    marginTop: 7,
+    marginLeft: 5,
     borderRadius: 9,
     backgroundColor: props.theme["101"]
 }));
