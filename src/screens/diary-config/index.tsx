@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Alert, TouchableOpacity, Image } from "react-native";
+import { Alert, TouchableOpacity, Image, BackHandler } from "react-native";
 
 import { Header, Background, Text_2, Popup } from "@components";
 import { StackNavigatorParams } from "@config/navigator";
@@ -126,6 +126,22 @@ export default function DiaryConfig({ navigation, route }: DiaryConfigProps) {
     };
 
     /**
+     * system backkey 눌렸을때 이벤트 처리
+     */
+    useEffect(() => {
+        const backAction = () => {
+            navigation.replace("RecordList", { diary, snack: null });
+            return true;
+        };
+
+        const backHandler = BackHandler.addEventListener(
+            "hardwareBackPress",
+            backAction
+        );
+        return () => backHandler.remove();
+    }, []);
+
+    /**
      * 최초 로딩시 동작
      */
     useEffect(() => {
@@ -138,7 +154,10 @@ export default function DiaryConfig({ navigation, route }: DiaryConfigProps) {
                 leftIcon={
                     <TouchableOpacity
                         onPress={() => {
-                            navigation.goBack();
+                            navigation.replace("RecordList", {
+                                diary,
+                                snack: null
+                            });
                         }}
                     >
                         <Image
