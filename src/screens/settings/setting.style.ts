@@ -25,9 +25,9 @@ export const Content = styled.View({
 });
 
 export const Profile = styled(Content)({
-    paddingBottom: 80,
+    paddingBottom: 66,
     marginBottom: 8,
-    paddingTop: 54,
+    paddingTop: 44,
     alignItems: "center"
 });
 
@@ -108,6 +108,11 @@ export const LeaveKKiriWarp = styled.TouchableOpacity({
     marginTop: 12
 });
 
+export const LeaveKKiriContainer = styled.View({
+    height: 100,
+    backgroundColor: "#f7f7f7"
+});
+
 export const LeaveKKiriTitle = styled.Text((props: { theme: any }) => ({
     fontSize: 14,
     textDecoration: "underline",
@@ -132,9 +137,9 @@ export const SignoutImage = styled.Image({
     marginBottom: 24
 });
 
-export const SignoutText = styled.Text((props: { theme: any }) => ({
-    fontSize: 14,
-    color: props.theme["110"],
-    fontFamily: "SpoqaHanSansNeo-Regular",
-    textAlign: "center"
-}));
+export const SignoutText = styled.Text`
+    font-size: 14;
+    color: ${(props: { theme: { "110": any } }) => props.theme["110"]};
+    font-family: "SpoqaHanSansNeo-Regular";
+    text-align: "center";
+`;

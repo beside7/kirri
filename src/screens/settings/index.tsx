@@ -17,7 +17,8 @@ import {
     ProfileImage,
     NicknameWarp,
     EditProfile,
-    NicknameText
+    NicknameText,
+    LeaveKKiriContainer
 } from "./setting.style";
 import { SelectProfileImage } from "../nickname/SelectProfileImg";
 import { observer } from "mobx-react";
@@ -33,7 +34,6 @@ import {
     navigateWithoutRefresh,
     navigateWithReset
 } from "@config/navigator";
-
 
 export const Settings = observer(() => {
     const { nickname, profileImage, pushStatus } = UserStore;
@@ -127,7 +127,7 @@ export const Settings = observer(() => {
                                 <Image
                                     style={{
                                         width: 19,
-                                        height: 19,
+                                        height: 19
                                     }}
                                     source={require("@assets/images/settings/setting_edit_name_normal.png")}
                                 />
@@ -153,7 +153,7 @@ export const Settings = observer(() => {
                             }}
                         >
                             <SettingContent
-                                icon={require("@assets/images/settings/setting_personal_info.png")}
+                                icon={require("@assets/images/settings/setting_notice.png")}
                                 title="공지사항"
                             >
                                 <SettingIcon
@@ -170,7 +170,7 @@ export const Settings = observer(() => {
                             }}
                         >
                             <SettingContent
-                                icon={require("@assets/images/settings/setting_personal_info.png")}
+                                icon={require("@assets/images/settings/setting_terms_condition.png")}
                                 title="이용약관"
                             >
                                 <SettingIcon
@@ -216,13 +216,17 @@ export const Settings = observer(() => {
                             </SettingContent>
                         </TouchableOpacity>
                     </Content>
-                    <LeaveKKiriWarp
-                        onPress={() => {
-                            setLeavKKiriPopupOpen(true);
-                        }}
-                    >
-                        <LeaveKKiriTitle>아쉽지만 탈퇴 할래요.</LeaveKKiriTitle>
-                    </LeaveKKiriWarp>
+                    <LeaveKKiriContainer>
+                        <LeaveKKiriWarp
+                            onPress={() => {
+                                setLeavKKiriPopupOpen(true);
+                            }}
+                        >
+                            <LeaveKKiriTitle>
+                                아쉽지만 탈퇴 할래요.
+                            </LeaveKKiriTitle>
+                        </LeaveKKiriWarp>
+                    </LeaveKKiriContainer>
                 </ContentContainer>
             </SafeAreaViewBottom>
             <Popup
