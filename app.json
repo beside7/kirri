@@ -7,6 +7,9 @@
         "owner": "100milliongold",
         "orientation": "portrait",
         "icon": "./assets/images/ic_launcher.png",
+        "notification": {
+            "icon": "./assets/images/ic_launcher.png"
+        },
         "scheme": "kirri",
         "userInterfaceStyle": "automatic",
         "splash": {
