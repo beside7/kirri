@@ -25,9 +25,9 @@ export const Content = styled.View({
 });
 
 export const Profile = styled(Content)({
-    paddingBottom: 66,
+    paddingBottom: 36,
     marginBottom: 8,
-    paddingTop: 44,
+    paddingTop: 34,
     alignItems: "center"
 });
 
@@ -141,5 +141,5 @@ export const SignoutText = styled.Text`
     font-size: 14;
     color: ${(props: { theme: { "110": any } }) => props.theme["110"]};
     font-family: "SpoqaHanSansNeo-Regular";
-    text-align: "center";
+    text-align: center;
 `;
