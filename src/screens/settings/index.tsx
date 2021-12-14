@@ -147,7 +147,7 @@ export const Settings = observer(() => {
                         <TouchableOpacity
                             onPress={() => {
                                 navigateWithoutRefresh("TermsWebview", {
-                                    title: "공지 사항",
+                                    title: "공지사항",
                                     url: "https://sponge-anger-3ef.notion.site/857070a7a9a7405aa7beb9e7b923622a"
                                 });
                             }}
@@ -165,7 +165,7 @@ export const Settings = observer(() => {
                             onPress={() => {
                                 navigateWithoutRefresh("TermsWebview", {
                                     type: "SERVICE",
-                                    title: "이용 약관"
+                                    title: "이용약관"
                                 });
                             }}
                         >
