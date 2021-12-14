@@ -198,11 +198,7 @@ export default function RecordInfo({ navigation, route }: RecordInfoProps) {
 
     return (
         <Background>
-            <Shadow
-                radius={10}
-                distance={5}
-                size={[219, 249]}
-            >
+            <Shadow radius={10} distance={5} size={[219, 249]}>
                 <Container>
                     {coverType === "image" && (
                         <HeaderImage
@@ -213,7 +209,7 @@ export default function RecordInfo({ navigation, route }: RecordInfoProps) {
                         <Color color={CoverColor[coverId as CoverColorTypes]} />
                     )}
                     <Content>
-                        <Title>{title}</Title>
+                        <Title numberOfLines={1}>{title}</Title>
                         <Footer>
                             <View
                                 style={{
@@ -235,7 +231,6 @@ export default function RecordInfo({ navigation, route }: RecordInfoProps) {
                     </Content>
                 </Container>
             </Shadow>
-
 
             <Button
                 onPress={() => {

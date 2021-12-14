@@ -422,7 +422,8 @@ export const SelectedCheck = styled.View((props: { theme: any }): any => ({
     borderRadius: 26,
     borderColor: props.theme["201"],
     borderWidth: 1.5,
-    backgroundColor: "#8017171c"
+    // backgroundColor: "#8017171c"
+    backgroundColor: "rgba(23, 23, 28, 0.502)"
 }));
 
 export const DiaryEmptyImageWarp = styled.View({
