@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect, useCallback } from "react";
 import { Background, Header, Tabs, Dropdown, Popup } from "@components";
-import AppNavigator from "./tab-navigator";
-import {TouchableOpacity, Image, Text, FlatList, Alert, BackHandler} from "react-native";
+import { FlatList, Alert, BackHandler, Platform } from "react-native";
+import { Picker } from "@react-native-picker/picker";
 import { StackNavigatorParams, navigate } from "@config/navigator";
 import { StackNavigationProp } from "@react-navigation/stack";
 import {
@@ -27,10 +27,19 @@ import { Snackbar } from "react-native-paper";
 import moment from "moment";
 import { getAllScheduledNotificationsAsync } from "expo-notifications";
 import { dateToString, stringToDatetime } from "@utils";
+import DropDownPicker from "react-native-dropdown-picker";
 
 type MessageListProps = {
     navigation: StackNavigationProp<StackNavigatorParams, "MessageList">;
 };
+
+const items = [
+    { label: "전체", value: "all" },
+    { label: "응원", value: "CHEERING" },
+    { label: "초대", value: "INVITATION" }
+    // {label: '알림', value:'NOTIFICATION'},
+    // {label: '새기록', value:'NEW_RECORD'}
+];
 
 const MessageList = observer(({ navigation }: MessageListProps) => {
     const selectedMessageType = useRef<"all" | MessageType>("all");
@@ -136,30 +145,51 @@ const MessageList = observer(({ navigation }: MessageListProps) => {
         return () => backHandler.remove();
     }, []);
 
+    const [selectedLanguage, setSelectedLanguage] = useState("js");
+
     return (
         <Background>
             <Header
                 title="알림"
                 leftIcon={require("@assets/icons/back.png")}
                 onLeftClick={() => {
-                    navigation.replace("Home")
+                    navigation.replace("Home");
                 }}
             />
             <Container>
                 <PickerWrap>
-                    <Dropdown
-                        items={[
-                            { label: "전체", value: "all" },
-                            { label: "응원", value: "CHEERING" },
-                            { label: "초대", value: "INVITATION" }
-                            // {label: '알림', value:'NOTIFICATION'},
-                            // {label: '새기록', value:'NEW_RECORD'}
-                        ]}
-                        value="all"
-                        onChangeValue={val => {
-                            handleChangeSelectedMsgType(val);
-                        }}
-                    ></Dropdown>
+                    {Platform.OS === "android" && (
+                        <Picker
+                            selectedValue={selectedLanguage}
+                            onValueChange={(itemValue, itemIndex) => {
+                                setSelectedLanguage(itemValue);
+                                handleChangeSelectedMsgType(
+                                    itemValue as "all" | MessageType
+                                );
+                            }}
+                            style={{
+                                height: 20,
+                                borderWidth: 1
+                            }}
+                        >
+                            {items.map(({ label, value }, key) => (
+                                <Picker.Item
+                                    key={key}
+                                    label={label}
+                                    value={value}
+                                />
+                            ))}
+                        </Picker>
+                    )}
+                    {Platform.OS === "ios" && (
+                        <Dropdown
+                            items={items}
+                            value="all"
+                            onChangeValue={val => {
+                                handleChangeSelectedMsgType(val);
+                            }}
+                        />
+                    )}
                 </PickerWrap>
                 <AlarmListWarp>
                     <FlatList
