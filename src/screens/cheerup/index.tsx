@@ -5,7 +5,8 @@ import {
     Alert,
     ScrollView,
     View,
-    Platform, BackHandler
+    Platform,
+    BackHandler
 } from "react-native";
 import { Background, Header } from "@components";
 import { messageApis } from "@apis";
@@ -325,6 +326,11 @@ const CheerUp = observer(({ navigation, route }: CheerUpProps) => {
                                 >
                                     <ChreerupImage
                                         source={require("@assets/images/diary/diary_cheerup_bgimg_01.png")}
+                                        resizeMode="stretch"
+                                        style={{
+                                            width: 70,
+                                            height: 70
+                                        }}
                                     />
                                     <ChreerupMessage>꾸준함은</ChreerupMessage>
                                     <ChreerupMessage>
@@ -338,6 +344,11 @@ const CheerUp = observer(({ navigation, route }: CheerUpProps) => {
                                 >
                                     <ChreerupImage
                                         source={require("@assets/images/diary/diary_cheerup_bgimg_02.png")}
+                                        resizeMode="stretch"
+                                        style={{
+                                            width: 70,
+                                            height: 70
+                                        }}
                                     />
                                     <ChreerupMessage>오늘</ChreerupMessage>
                                     <ChreerupMessage>
@@ -351,6 +362,11 @@ const CheerUp = observer(({ navigation, route }: CheerUpProps) => {
                                 >
                                     <ChreerupImage
                                         source={require("@assets/images/diary/diary_cheerup_bgimg_03.png")}
+                                        resizeMode="stretch"
+                                        style={{
+                                            height: 70,
+                                            width: 98
+                                        }}
                                     />
                                     <ChreerupMessage>난 언제나</ChreerupMessage>
                                     <ChreerupMessage>너의 편</ChreerupMessage>
@@ -362,6 +378,11 @@ const CheerUp = observer(({ navigation, route }: CheerUpProps) => {
                                 >
                                     <ChreerupImage
                                         source={require("@assets/images/diary/diary_cheerup_bgimg_04.png")}
+                                        resizeMode="stretch"
+                                        style={{
+                                            width: 70,
+                                            height: 70
+                                        }}
                                     />
                                     <ChreerupMessage>
                                         아프지 말고,
@@ -377,6 +398,11 @@ const CheerUp = observer(({ navigation, route }: CheerUpProps) => {
                                 >
                                     <ChreerupImage
                                         source={require("@assets/images/diary/diary_cheerup_bgimg_05.png")}
+                                        resizeMode="stretch"
+                                        style={{
+                                            height: 70,
+                                            width: 98
+                                        }}
                                     />
                                     <ChreerupMessage>
                                         대충 살아도
@@ -392,6 +418,11 @@ const CheerUp = observer(({ navigation, route }: CheerUpProps) => {
                                 >
                                     <ChreerupImage
                                         source={require("@assets/images/diary/diary_cheerup_bgimg_06.png")}
+                                        resizeMode="stretch"
+                                        style={{
+                                            width: 70,
+                                            height: 70
+                                        }}
                                     />
                                     <ChreerupMessage>넌 지금도</ChreerupMessage>
                                     <ChreerupMessage>

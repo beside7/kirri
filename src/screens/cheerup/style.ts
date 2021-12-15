@@ -142,8 +142,8 @@ export const Chreerup = styled.TouchableOpacity({
 });
 
 export const ChreerupImage = styled.Image({
-    width: 70,
-    height: 70,
+    // width: 70,
+    // height: 70,
     marginBottom: 15
 });
 
