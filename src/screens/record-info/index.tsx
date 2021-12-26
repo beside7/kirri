@@ -198,7 +198,15 @@ export default function RecordInfo({ navigation, route }: RecordInfoProps) {
 
     return (
         <Background>
-            <Shadow radius={10} distance={5} size={[219, 249]}>
+            <Shadow
+                radius={10}
+                distance={5}
+                size={[219, 249]}
+                startColor={"#00000020"}
+                finalColor={"#2b000000"}
+                getViewStyleRadius={true}
+                offset={[1.5, 2.5]}
+            >
                 <Container>
                     {coverType === "image" && (
                         <HeaderImage

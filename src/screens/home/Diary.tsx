@@ -37,10 +37,15 @@ export const Diary = ({ diaryTitle, members, coverType, coverId }: Props) => {
                 marginRight: 2
             }}
             viewStyle={{
-                padding: 0
+                padding: 0,
+                backgroundColor: "#ffffffff"
             }}
             size={[gridWidth, gridWidth]}
             distance={5}
+            startColor={"#0000002b"}
+            finalColor={"#ffffffff"}
+            getViewStyleRadius={true}
+            offset={[1.5, 2.5]}
         >
             <DiaryContainer>
                 <DiaryCover

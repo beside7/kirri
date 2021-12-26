@@ -65,9 +65,9 @@ export const NicknameContainer = styled.View({
     paddingBottom: 36
 });
 
-export const NicknameWarp = styled.Text({
+export const Nickname = styled.Text({
     fontSize: 24,
-    fontFamily: "SpoqaHanSansNeo-Regular"
+    fontFamily: "SpoqaHanSansNeo-Medium"
 });
 
 export const DiaryListWarp = styled(warpStyle)({
@@ -88,7 +88,7 @@ export const RecentContentWarp = styled.View({
 export const RecentContentList = styled.ScrollView({
     overflow: "visible",
     marginTop: 8,
-    paddingLeft: 2,
+    // paddingLeft: 2,
     marginBottom: 8
 });
 
@@ -123,7 +123,7 @@ export const RecentContentTitle = styled.Text({
     marginTop: 2,
     color: "#17171c",
     fontSize: 12,
-    fontFamily: "SpoqaHanSansNeo-Regular"
+    fontFamily: "SpoqaHanSansNeo-Medium"
 });
 
 export const RecentDiaryTitleWarp = styled.View({
@@ -150,7 +150,7 @@ export const RecentDiaryTitle = styled.Text({
 });
 
 export const DiaryTitle = styled.Text({
-    marginBottom: 8,
+    // marginBottom: 8,
     fontSize: 14,
     color: "#6f6f7e",
     fontFamily: "SpoqaHanSansNeo-Regular"
@@ -235,7 +235,7 @@ export const CoverImage = styled.Image({
 export const DiaryDetailTitle = styled.Text({
     fontSize: 16,
     color: "#17171c",
-    fontFamily: "SpoqaHanSansNeo-Regular"
+    fontFamily: "SpoqaHanSansNeo-Medium"
 });
 
 export const DiaryBottom = styled.View({
@@ -438,7 +438,7 @@ export const DiaryEmptyImage = styled.Image({
 
 export const LogoType = styled.Image({
     width: 40,
-    height: 18,
+    height: 30,
     resizeMode: "contain"
 });
 

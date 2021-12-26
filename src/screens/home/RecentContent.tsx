@@ -29,15 +29,17 @@ export const RecentContent = ({
             radius={10}
             containerViewStyle={{
                 marginTop: 2,
-                marginBottom: 2,
-                marginLeft: 5
+                marginLeft: 2,
+                marginRight: 12
             }}
+            startColor={"#00000020"}
+            finalColor={"#2b000000"}
+            getViewStyleRadius={true}
             viewStyle={{
-                marginRight: 12,
-                paddingHorizontal: 5,
-                paddingVertical: 3
+                backgroundColor: "#ffffffff"
             }}
             distance={5}
+            offset={[1.5, 2.5]}
         >
             <RecentContentContainer>
                 <RecentContentWriter>{nickname}</RecentContentWriter>

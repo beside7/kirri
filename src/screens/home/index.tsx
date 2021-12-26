@@ -26,7 +26,7 @@ import styles, {
     IconWarp,
     ProfileWarp,
     ProfileImageWarp,
-    NicknameWarp,
+    Nickname,
     NicknameContainer,
     DiaryTitle,
     DiaryList,
@@ -155,11 +155,11 @@ const Profile = observer(({ diaryCount, setAlertOpen }: ProfileProps) => {
             </IconWarp>
             <View>
                 <ProfileImageWarp>
-                    <ProfileImage source={profileImage}></ProfileImage>
+                    <ProfileImage source={profileImage} />
                 </ProfileImageWarp>
             </View>
             <NicknameContainer>
-                <NicknameWarp>{nickname}</NicknameWarp>
+                <Nickname>{nickname}</Nickname>
                 <View>
                     <LogoType
                         source={require("@assets/images/home/home_logotype.png")}
@@ -171,7 +171,6 @@ const Profile = observer(({ diaryCount, setAlertOpen }: ProfileProps) => {
 });
 
 const Home = observer(() => {
-
     const { setNewMessage } = UserStore;
 
     const [userLoading, setUserLoading] = useState(true);
@@ -290,10 +289,13 @@ const Home = observer(() => {
      */
     useEffect(() => {
         (async () => {
-            const data = (await messageApis.getAllMessages({ size: undefined , lastId: undefined })) as MessageResType;
-            setNewMessage(data.elements.length > 0)
-        })()
-    } , [])
+            const data = (await messageApis.getAllMessages({
+                size: undefined,
+                lastId: undefined
+            })) as MessageResType;
+            setNewMessage(data.elements.length > 0);
+        })();
+    }, []);
 
     useEffect(() => {
         getUser();
@@ -348,9 +350,9 @@ const Home = observer(() => {
                                                                         "RecordView",
                                                                         {
                                                                             diaryUuid:
-                                                                            record.diaryUuid,
+                                                                                record.diaryUuid,
                                                                             recordUuid:
-                                                                            record.recordUuid,
+                                                                                record.recordUuid,
                                                                             diary: null,
                                                                             record: null,
                                                                             prev: "home"
@@ -397,7 +399,7 @@ const Home = observer(() => {
                                             justifyContent: "space-between",
                                             flexWrap: "wrap",
                                             flex: 1,
-                                            paddingHorizontal:2
+                                            paddingHorizontal: 2
                                         }}
                                     >
                                         {diaryList ? (
