@@ -12,7 +12,11 @@ import {
     SafeAreaView,
     BackHandler
 } from "react-native";
-import { useHeaderHeight } from "@react-navigation/stack";
+import { getDefaultHeaderHeight } from "@react-navigation/elements";
+import {
+    useSafeAreaFrame,
+    useSafeAreaInsets
+} from "react-native-safe-area-context";
 import {
     Background,
     Text_2,
@@ -34,7 +38,6 @@ import { StackNavigationProp } from "@react-navigation/stack";
 import { RouteProp } from "@react-navigation/native";
 import { CreateRecordReqType, DiaryResType } from "@type-definition/diary";
 import { diaryApis } from "@apis";
-import { FlatList } from "react-native-gesture-handler";
 import * as FileSystem from "expo-file-system";
 import { CoverCircleImages, CoverColor, CoverImageTypes } from "@utils";
 import { FontAwesome } from "@expo/vector-icons";
@@ -65,7 +68,6 @@ export default function RecordInput({ navigation, route }: RecordInputProps) {
      * 다이러리 정보
      */
     const [diary, setDiary] = useState<DiaryResType | null>(route.params.diary);
-
 
     const { prev } = route.params;
 
@@ -101,7 +103,10 @@ export default function RecordInput({ navigation, route }: RecordInputProps) {
     /**
      * 헤더 높이
      */
-    const headerHeight = useHeaderHeight();
+    const frame = useSafeAreaFrame();
+    const insets = useSafeAreaInsets();
+
+    const headerHeight = getDefaultHeaderHeight(frame, false, insets.top);
 
     /**
      * 스크린 높이
@@ -382,14 +387,16 @@ export default function RecordInput({ navigation, route }: RecordInputProps) {
                 console.log(error);
                 console.log(error.response);
 
-                setAlertMessage(`글이 ${
-                    type === "modify" ? "수정" : "생성"
-                } 간 에러가 발생했습니다.` + "\n"
-                    +`${
-                        error && error.response && error.response.data
-                            ? error.response.data.error
-                            : undefined
-                    }`
+                setAlertMessage(
+                    `글이 ${
+                        type === "modify" ? "수정" : "생성"
+                    } 간 에러가 발생했습니다.` +
+                        "\n" +
+                        `${
+                            error && error.response && error.response.data
+                                ? error.response.data.error
+                                : undefined
+                        }`
                 );
                 setAlertOpen(true);
             }
@@ -753,10 +760,13 @@ export default function RecordInput({ navigation, route }: RecordInputProps) {
                 onConfirm={async () => {
                     setConfirmOpen(false);
                     // navigation.goBack();
-                    if(prev === "home"){
-                        navigation.replace("Home")
+                    if (prev === "home") {
+                        navigation.replace("Home");
                     } else {
-                        navigation.replace("RecordList" , { diary : diary, snack : null })
+                        navigation.replace("RecordList", {
+                            diary: diary,
+                            snack: null
+                        });
                     }
                 }}
                 width={300}
