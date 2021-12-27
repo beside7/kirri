@@ -1,10 +1,9 @@
-import React, { useState, useEffect, useCallback, useRef } from "react";
-import { Title, Button, Header } from "@components";
+import React, { useState, useCallback, useRef, useEffect } from "react";
+import { Button, Header } from "@components";
 import { SelectProfileImage } from "./SelectProfileImg";
 import {
     MakeNicknameContianer,
     ButtonContainer,
-    BackIcon,
     MakeNicknameTitle,
     SafeAreaView,
     Container,
@@ -19,7 +18,7 @@ import { userApis } from "@apis";
 import { navigateGoBack } from "@config/navigator";
 import { ProfileImageTypes } from "@utils";
 import { UpdateUserMeResType } from "@type-definition/user";
-import { KeyboardAvoidingView, Platform } from "react-native";
+import { Platform, BackHandler } from "react-native";
 
 export const EditPersonalInfo = observer(() => {
     const { nickname, profileImagePath } = UserStore;
@@ -50,27 +49,6 @@ export const EditPersonalInfo = observer(() => {
             setChangeProcessLoading(false);
         }
     };
-
-    // const checkDuple = debounce(() => {
-    //     try {
-    //         userApis.checkNicknameDupl(changeNicknameRef.current).then((result: any)=>{
-    //             if (result.exists) {
-    //                 if (nickname === changeNicknameRef.current) {
-    //                     setDuplicate(false);
-    //                     return;
-    //                 }
-    //                 setDuplicate(true);
-
-    //             }else {
-    //                 setDuplicate(false);
-    //             }
-
-    //         })
-
-    //     } catch (error) {
-
-    //     }
-    // }, 500);
 
     const checkDuple = debounce(() => {
         try {
@@ -123,6 +101,19 @@ export const EditPersonalInfo = observer(() => {
     const handleGoBack = () => {
         navigateGoBack();
     };
+
+    useEffect(() => {
+        const backAction = () => {
+            navigateGoBack();
+            return true;
+        };
+
+        const backHandler = BackHandler.addEventListener(
+            "hardwareBackPress",
+            backAction
+        );
+        return () => backHandler.remove();
+    }, []);
 
     return (
         <SafeAreaView>
