@@ -69,15 +69,12 @@ import moment from "moment";
 import { MessageResType } from "@type-definition/message";
 import { useFocusEffect } from "@react-navigation/native";
 import { Snackbar } from "react-native-paper";
-import { useRoute } from "@react-navigation/native";
+import { RouteProp } from "@react-navigation/native";
 import { diaryNameToColor } from "./types";
 
 type HomeProps = {
     navigation: StackNavigationProp<StackNavigatorParams, "Home">;
-};
-
-const wait = (timeout: number) => {
-    return new Promise(resolve => setTimeout(resolve, timeout));
+    route: RouteProp<StackNavigatorParams, "Home">;
 };
 
 type ProfileProps = {
@@ -170,7 +167,7 @@ const Profile = observer(({ diaryCount, setAlertOpen }: ProfileProps) => {
     );
 });
 
-const Home = observer(() => {
+const Home = observer(({ navigation, route }: HomeProps) => {
     const { setNewMessage } = UserStore;
 
     const [userLoading, setUserLoading] = useState(true);
@@ -182,7 +179,14 @@ const Home = observer(() => {
     const [recentRecord, setRecentRecord] = useState<RecentRecordType[]>();
     const [createDiaryOpen, setCreateDiaryOpen] = useState(false);
     const [refreshing, setRefreshing] = useState(false);
-    const route = useRoute();
+
+    /**
+     * snack bar
+     */
+    const snack: string | null =
+        route && route.params ? route.params.snack : null;
+    const [alertSnackVisible, setAlertSnackVisible] = useState(snack !== null);
+    const onDismissAlertSnackBar = () => setAlertSnackVisible(false);
 
     /**
      * 경고창 출력여부
@@ -496,6 +500,18 @@ const Home = observer(() => {
             <Snackbar visible={snackVisible} onDismiss={onDismissSnackBar}>
                 {`한번더 뒤로가기를 누르면 종료됩니다.`}
             </Snackbar>
+            {snack !== null && (
+                <Snackbar
+                    visible={alertSnackVisible}
+                    onDismiss={onDismissAlertSnackBar}
+                    action={{
+                        label: "확인",
+                        onPress: () => {}
+                    }}
+                >
+                    {snack}
+                </Snackbar>
+            )}
             <Popup
                 open={alertOpen}
                 confirm="확인"

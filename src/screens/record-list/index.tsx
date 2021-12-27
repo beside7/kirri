@@ -115,8 +115,8 @@ export const RecordList = observer(({ navigation, route }: RecordListProps) => {
         try {
             if (diary) {
                 await diaryApis.deleteDiary(diary.uuid);
-                Alert.alert("삭제되었습니다.");
-                navigation.replace("Home");
+                // Alert.alert("삭제되었습니다.");
+                navigation.replace("Home", { snack: "삭제되었습니다." });
             }
         } catch (error: any) {
             /**
