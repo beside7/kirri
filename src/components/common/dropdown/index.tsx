@@ -57,7 +57,8 @@ export const Dropdown = ({ items, onChangeValue, value }: Props) => {
                 width: 100
             }}
             dropDownContainerStyle={{
-                borderWidth: 0,
+                borderWidth: 1,
+                borderColor: "#0000002b",
                 paddingTop: 5,
                 paddingBottom: 5,
                 marginTop: 10,
@@ -68,11 +69,7 @@ export const Dropdown = ({ items, onChangeValue, value }: Props) => {
                 },
                 shadowOpacity: 0.39,
                 shadowRadius: 8.3,
-                elevation: 13,
-                borderTopLeftRadius: 0,
-                borderTopRightRadius: 0,
-                borderBottomLeftRadius: 0,
-                borderBottomRightRadius: 0
+                elevation: 13
             }}
             listItemContainerStyle={{
                 height: 25
