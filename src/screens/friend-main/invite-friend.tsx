@@ -12,6 +12,7 @@ import { DiaryResType, Memeber } from "@type-definition/diary";
 
 import { TextInput, Icon, Button, AlertContent, AlertText } from "./style";
 import { userApis, diaryApis } from "@apis";
+import { Snackbar } from "react-native-paper";
 
 /**
  * 닉네임 중복체크 결과 타입
@@ -29,6 +30,21 @@ type InviteFriendProps = {
 };
 
 export default function InviteFriend({ diary }: InviteFriendProps) {
+    /**
+     * 스낵메세지 노출여부
+     */
+    const [snackVisible, setSnackVisible] = React.useState(false);
+
+    /**
+     * 메세지내용
+     */
+    const [message, setMessage] = useState("");
+
+    /**
+     * 스낵메세지 가리기
+     */
+    const onDismissSnackBar = () => setSnackVisible(false);
+
     /**
      * 사용자가 입력한 닉네임
      */
@@ -57,7 +73,7 @@ export default function InviteFriend({ diary }: InviteFriendProps) {
     /**
      * 경고창 메세지
      */
-    const [alertMessage, setAlertMessage] = useState("")
+    const [alertMessage, setAlertMessage] = useState("");
 
     const findNickname = async () => {
         setLoading(true);
@@ -94,7 +110,7 @@ export default function InviteFriend({ diary }: InviteFriendProps) {
                             setNotfound(true);
                             setMembers([]);
                         }
-                    } catch (error : any) {
+                    } catch (error: any) {
                         if (error.response) {
                             const { data } = error.response;
                             /**
@@ -138,14 +154,19 @@ export default function InviteFriend({ diary }: InviteFriendProps) {
             try {
                 const res = await diaryApis.addMember(uuid, nickname);
 
-                setAlertMessage(`${nickname} 님을 초대헀어요.`);
-                setAlertOpen(true)
-                
+                // setAlertMessage(`${nickname} 님을 초대헀어요.`);
+                // setAlertOpen(true)
+
+                setMessage(`${nickname} 님을 초대헀어요.`);
+                setSnackVisible(true);
+
                 await findNickname();
                 setLoading(false);
-                console.log(res);
+                // console.log(res);
                 return res;
             } catch (error) {
+                setAlertMessage(`초대중 에러발생`);
+                setAlertOpen(true);
                 console.log(error);
             }
         }
@@ -344,6 +365,20 @@ export default function InviteFriend({ diary }: InviteFriendProps) {
                     </AlertContent>
                 }
             />
+            {/* 메세지 */}
+            <Snackbar
+                visible={snackVisible}
+                onDismiss={onDismissSnackBar}
+                style={{ marginHorizontal: 20, marginBottom: 38 }}
+                action={{
+                    label: "확인",
+                    onPress: () => {
+                        onDismissSnackBar();
+                    }
+                }}
+            >
+                {message}
+            </Snackbar>
         </Background>
     );
 }

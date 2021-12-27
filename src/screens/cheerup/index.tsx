@@ -176,7 +176,7 @@ const CheerUp = observer(({ navigation, route }: CheerUpProps) => {
                 );
 
                 // Alert.alert("응원 메세지를 보냈습니다.");
-                setMessage("응원 메세지를 보냈습니다.");
+                setMessage("응원 메시지를 보냈어요!");
                 setVisible(true);
             }
         } catch (error: any) {

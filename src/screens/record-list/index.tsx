@@ -213,7 +213,7 @@ export const RecordList = observer(({ navigation, route }: RecordListProps) => {
             try {
                 await diaryApis.leaveDiary(uuid);
                 setLeaveConfirm(false);
-                navigation.replace("Home");
+                navigation.replace("Home", { snack: "다이어리를 떠났습니다." });
             } catch (error: any) {
                 console.log(error.response);
             }

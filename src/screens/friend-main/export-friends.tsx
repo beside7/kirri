@@ -32,6 +32,7 @@ import {
     DisableButton,
     DisableMessage
 } from "./style";
+import { Snackbar } from "react-native-paper";
 
 type ExportFriendsProps = {
     diary: DiaryResType | null;
@@ -62,6 +63,21 @@ const getThumbnail = (item: Memeber): ImageURISource => {
 
 export const ExportFriends = observer(({ diary }: ExportFriendsProps) => {
     const [resDiary, setResDiary] = useState<DiaryResType | null>(diary);
+
+    /**
+     * 스낵메세지 노출여부
+     */
+    const [snackVisible, setSnackVisible] = React.useState(false);
+
+    /**
+     * 메세지내용
+     */
+    const [message, setMessage] = useState("");
+
+    /**
+     * 스낵메세지 가리기
+     */
+    const onDismissSnackBar = () => setSnackVisible(false);
 
     /**
      * mobx 으로 유저 닉네임 추출
@@ -134,8 +150,10 @@ export const ExportFriends = observer(({ diary }: ExportFriendsProps) => {
         try {
             if (resDiary && member) {
                 await diaryApis.deleteMember(resDiary.uuid, member);
-                Alert.alert("", "멤버를 다이어리에서 내보냈어요.");
+                // Alert.alert("", "멤버를 다이어리에서 내보냈어요.");
                 setDeleteConfirm(false);
+                setMessage("멤버를 다이어리에서 내보냈어요.");
+                setSnackVisible(true);
                 await getDiary();
             }
         } catch (error: any) {
@@ -149,7 +167,9 @@ export const ExportFriends = observer(({ diary }: ExportFriendsProps) => {
                 await diaryApis.setAdministrator(resDiary.uuid, member, {
                     authority: "DIARY_OWNER"
                 });
-                Alert.alert("", "다른 멤버를 관리자로 지정했어요.");
+                // Alert.alert("", "다른 멤버를 관리자로 지정했어요.");
+                setMessage("다른 멤버를 관리자로 지정했어요.");
+                setSnackVisible(true);
                 setAdminConfirm(false);
                 await getDiary();
             }
@@ -317,6 +337,20 @@ export const ExportFriends = observer(({ diary }: ExportFriendsProps) => {
                     </SafeAreaView>
                 }
             </ExportFriendContainer>
+            {/* 메세지 */}
+            <Snackbar
+                visible={snackVisible}
+                onDismiss={onDismissSnackBar}
+                style={{ marginHorizontal: 20, marginBottom: 38 }}
+                action={{
+                    label: "확인",
+                    onPress: () => {
+                        onDismissSnackBar();
+                    }
+                }}
+            >
+                {message}
+            </Snackbar>
         </Background>
     );
 });
