@@ -43,7 +43,6 @@ import { CoverCircleImages, CoverColor, CoverImageTypes } from "@utils";
 import { FontAwesome } from "@expo/vector-icons";
 import ImageQualityModal from "./image-quality-modal";
 import ActionSheet from "react-native-actions-sheet";
-import { Snackbar } from "react-native-paper";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { flatMap } from "lodash";
 

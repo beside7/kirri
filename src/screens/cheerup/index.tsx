@@ -438,6 +438,7 @@ const CheerUp = observer(({ navigation, route }: CheerUpProps) => {
             <Snackbar
                 visible={visible}
                 onDismiss={onDismissSnackBar}
+                style={{ marginHorizontal: 20, marginBottom: 38 }}
                 action={{
                     label: "확인",
                     onPress: () => {

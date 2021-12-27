@@ -11,8 +11,7 @@ import {
     View,
     TouchableOpacity,
     RefreshControl,
-    BackHandler,
-    Alert
+    BackHandler
 } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useIsFocused } from "@react-navigation/native";
@@ -71,6 +70,7 @@ import { useFocusEffect } from "@react-navigation/native";
 import { Snackbar } from "react-native-paper";
 import { RouteProp } from "@react-navigation/native";
 import { diaryNameToColor } from "./types";
+import { Shadow } from "react-native-shadow-2";
 
 type HomeProps = {
     navigation: StackNavigationProp<StackNavigatorParams, "Home">;
@@ -497,12 +497,17 @@ const Home = observer(({ navigation, route }: HomeProps) => {
                     setCreateDiaryOpen(false);
                 }}
             ></CreateDiaryModal>
-            <Snackbar visible={snackVisible} onDismiss={onDismissSnackBar}>
+            <Snackbar
+                visible={snackVisible}
+                style={{ marginHorizontal: 20, marginBottom: 38 }}
+                onDismiss={onDismissSnackBar}
+            >
                 {`한번더 뒤로가기를 누르면 종료됩니다.`}
             </Snackbar>
             {snack !== null && (
                 <Snackbar
                     visible={alertSnackVisible}
+                    style={{ marginHorizontal: 20, marginBottom: 38 }}
                     onDismiss={onDismissAlertSnackBar}
                     action={{
                         label: "확인",

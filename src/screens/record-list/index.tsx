@@ -447,6 +447,7 @@ export const RecordList = observer(({ navigation, route }: RecordListProps) => {
                     <Snackbar
                         visible={snackVisible}
                         onDismiss={onDismissSnackBar}
+                        style={{ marginHorizontal: 20, marginBottom: 38 }}
                         action={{
                             label: "확인",
                             onPress: () => {}
