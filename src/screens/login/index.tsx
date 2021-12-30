@@ -203,7 +203,11 @@ export default function Login({ imgIndex }: LoginProps): ReactElement {
                     <></>
                 )}
             </View>
-            <Snackbar visible={snackVisible} onDismiss={onDismissSnackBar}>
+            <Snackbar
+                visible={snackVisible}
+                onDismiss={onDismissSnackBar}
+                style={{ marginHorizontal: 20, marginBottom: 38 }}
+            >
                 {`한번더 뒤로가기를 누르면 종료됩니다.`}
             </Snackbar>
         </Background>

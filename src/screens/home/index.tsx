@@ -11,8 +11,7 @@ import {
     View,
     TouchableOpacity,
     RefreshControl,
-    BackHandler,
-    Alert
+    BackHandler
 } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useIsFocused } from "@react-navigation/native";
@@ -69,15 +68,13 @@ import moment from "moment";
 import { MessageResType } from "@type-definition/message";
 import { useFocusEffect } from "@react-navigation/native";
 import { Snackbar } from "react-native-paper";
-import { useRoute } from "@react-navigation/native";
+import { RouteProp } from "@react-navigation/native";
 import { diaryNameToColor } from "./types";
+import { Shadow } from "react-native-shadow-2";
 
 type HomeProps = {
     navigation: StackNavigationProp<StackNavigatorParams, "Home">;
-};
-
-const wait = (timeout: number) => {
-    return new Promise(resolve => setTimeout(resolve, timeout));
+    route: RouteProp<StackNavigatorParams, "Home">;
 };
 
 type ProfileProps = {
@@ -170,7 +167,7 @@ const Profile = observer(({ diaryCount, setAlertOpen }: ProfileProps) => {
     );
 });
 
-const Home = observer(() => {
+const Home = observer(({ navigation, route }: HomeProps) => {
     const { setNewMessage } = UserStore;
 
     const [userLoading, setUserLoading] = useState(true);
@@ -182,7 +179,14 @@ const Home = observer(() => {
     const [recentRecord, setRecentRecord] = useState<RecentRecordType[]>();
     const [createDiaryOpen, setCreateDiaryOpen] = useState(false);
     const [refreshing, setRefreshing] = useState(false);
-    const route = useRoute();
+
+    /**
+     * snack bar
+     */
+    const snack: string | null =
+        route && route.params ? route.params.snack : null;
+    const [alertSnackVisible, setAlertSnackVisible] = useState(snack !== null);
+    const onDismissAlertSnackBar = () => setAlertSnackVisible(false);
 
     /**
      * 경고창 출력여부
@@ -493,9 +497,26 @@ const Home = observer(() => {
                     setCreateDiaryOpen(false);
                 }}
             ></CreateDiaryModal>
-            <Snackbar visible={snackVisible} onDismiss={onDismissSnackBar}>
+            <Snackbar
+                visible={snackVisible}
+                style={{ marginHorizontal: 20, marginBottom: 38 }}
+                onDismiss={onDismissSnackBar}
+            >
                 {`한번더 뒤로가기를 누르면 종료됩니다.`}
             </Snackbar>
+            {snack !== null && (
+                <Snackbar
+                    visible={alertSnackVisible}
+                    style={{ marginHorizontal: 20, marginBottom: 38 }}
+                    onDismiss={onDismissAlertSnackBar}
+                    action={{
+                        label: "확인",
+                        onPress: () => {}
+                    }}
+                >
+                    {snack}
+                </Snackbar>
+            )}
             <Popup
                 open={alertOpen}
                 confirm="확인"

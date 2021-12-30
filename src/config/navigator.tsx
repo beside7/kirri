@@ -82,15 +82,23 @@ export type StackNavigatorParams = {
     TestPage: undefined;
     FriendMain: { diary: DiaryResType | null };
     MessageList: undefined;
-    Home: any;
+    Home: undefined | { snack: string };
     TermsAndConditions: undefined;
     Cheerup: { diary: DiaryResType | null };
     CheerupMessage: { title: string; body: string; data: PushNotification };
     Settings: any;
     RecordInfo: { diary: DiaryResType };
     RecordList: { diary: DiaryResType | null; snack: string | null };
-    RecordInput: { diary: DiaryResType | null; record?: RecordResType, prev: "home" | "list" };
-    RecordView: { diaryUuid: string | null; recordUuid: string | null, prev: "home" | "list" };
+    RecordInput: {
+        diary: DiaryResType | null;
+        record?: RecordResType;
+        prev: "home" | "list";
+    };
+    RecordView: {
+        diaryUuid: string | null;
+        recordUuid: string | null;
+        prev: "home" | "list";
+    };
     DiaryConfig: { diary: DiaryResType | null };
     EditPersonalInfo: undefined;
     TermsWebview: { type?: string; title: string; url?: string };
@@ -239,7 +247,7 @@ export default function navigator(): ReactElement {
     }, [isNavigatorReady]);
 
     if (loading || !initalizePage) {
-    // if (true) {
+        // if (true) {
         return <JoinProcessing open={true} />;
     }
     return (

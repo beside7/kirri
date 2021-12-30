@@ -74,13 +74,14 @@ export const DiaryListWarp = styled(warpStyle)({
     flexGrow: 1,
     flexBasis: 1,
     marginTop: 8,
-    paddingTop: 24,
+    // paddingTop: 24,
     paddingBottom: 20,
     display: "flex",
     flexDirection: "column"
 });
 
 export const RecentContentWarp = styled.View({
+    marginTop: 24,
     height: 150,
     width: "100%"
 });

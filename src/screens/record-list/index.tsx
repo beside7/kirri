@@ -115,8 +115,8 @@ export const RecordList = observer(({ navigation, route }: RecordListProps) => {
         try {
             if (diary) {
                 await diaryApis.deleteDiary(diary.uuid);
-                Alert.alert("삭제되었습니다.");
-                navigation.replace("Home");
+                // Alert.alert("삭제되었습니다.");
+                navigation.replace("Home", { snack: "삭제되었습니다." });
             }
         } catch (error: any) {
             /**
@@ -213,7 +213,7 @@ export const RecordList = observer(({ navigation, route }: RecordListProps) => {
             try {
                 await diaryApis.leaveDiary(uuid);
                 setLeaveConfirm(false);
-                navigation.replace("Home");
+                navigation.replace("Home", { snack: "다이어리를 떠났습니다." });
             } catch (error: any) {
                 console.log(error.response);
             }
@@ -447,6 +447,7 @@ export const RecordList = observer(({ navigation, route }: RecordListProps) => {
                     <Snackbar
                         visible={snackVisible}
                         onDismiss={onDismissSnackBar}
+                        style={{ marginHorizontal: 20, marginBottom: 38 }}
                         action={{
                             label: "확인",
                             onPress: () => {}

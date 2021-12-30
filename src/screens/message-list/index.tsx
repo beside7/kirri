@@ -261,6 +261,7 @@ const MessageList = observer(({ navigation }: MessageListProps) => {
             />
             <Snackbar
                 visible={refuseInviteSnackVisible}
+                style={{ marginHorizontal: 20, marginBottom: 38 }}
                 onDismiss={() => {
                     setrefuseInviteSnackVisible(false);
                 }}
