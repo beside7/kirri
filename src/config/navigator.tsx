@@ -41,8 +41,11 @@ import { PushNotification } from "@type-definition/message";
 import * as Notifications from "expo-notifications";
 import { initNotifications } from "@utils";
 import { UserStore } from "@store";
-import { PushMessageProvider } from "@components";
 import { JoinProcessing } from "@screens";
+import {
+    TransitionSpecs,
+    HeaderStyleInterpolators
+} from "@react-navigation/stack";
 
 export function navigateWithReset(name: string, params: any) {
     const resetAction = CommonActions.reset({
@@ -283,7 +286,46 @@ export default function navigator(): ReactElement {
                     name="RecordList"
                     component={RecordList}
                     options={{
-                        headerShown: false
+                        headerShown: false,
+                        gestureDirection: "horizontal",
+                        transitionSpec: {
+                            open: TransitionSpecs.TransitionIOSSpec,
+                            close: TransitionSpecs.TransitionIOSSpec
+                        },
+                        headerStyleInterpolator:
+                            HeaderStyleInterpolators.forFade,
+                        cardStyleInterpolator: ({ current, next, layouts }) => {
+                            return {
+                                cardStyle: {
+                                    transform: [
+                                        {
+                                            translateY:
+                                                current.progress.interpolate({
+                                                    inputRange: [0, 1],
+                                                    outputRange: [
+                                                        layouts.screen.height,
+                                                        0
+                                                    ]
+                                                })
+                                        },
+                                        {
+                                            scale: next
+                                                ? next.progress.interpolate({
+                                                      inputRange: [0, 1],
+                                                      outputRange: [1, 0.9]
+                                                  })
+                                                : 1
+                                        }
+                                    ]
+                                },
+                                overlayStyle: {
+                                    opacity: current.progress.interpolate({
+                                        inputRange: [0, 1],
+                                        outputRange: [0, 0.5]
+                                    })
+                                }
+                            };
+                        }
                     }}
                 />
                 <Stack.Screen
