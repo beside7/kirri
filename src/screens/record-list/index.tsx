@@ -222,7 +222,9 @@ export const RecordList = observer(({ navigation, route }: RecordListProps) => {
 
     useEffect(() => {
         const backAction = () => {
-            navigation.replace("Home");
+            diary
+                ? navigation.replace("RecordInfoScreenDown", { diary })
+                : navigation.replace("Home");
             return true;
         };
 
@@ -258,7 +260,12 @@ export const RecordList = observer(({ navigation, route }: RecordListProps) => {
                 leftIcon={
                     <TouchableOpacity
                         onPress={() => {
-                            navigation.replace("Home");
+                            // navigation.replace("Home");
+                            diary
+                                ? navigation.replace("RecordInfoScreenDown", {
+                                      diary
+                                  })
+                                : navigation.replace("Home");
                         }}
                     >
                         <Image

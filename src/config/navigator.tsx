@@ -88,7 +88,11 @@ export type StackNavigatorParams = {
     CheerupMessage: { title: string; body: string; data: PushNotification };
     Settings: any;
     RecordInfo: { diary: DiaryResType };
+    // RecordInfo 페이지 다운 에니메이션 적용
+    RecordInfoScreenDown: { diary: DiaryResType };
     RecordList: { diary: DiaryResType | null; snack: string | null };
+    // RecordList 페이지 업 에니메이션 적용
+    RecordListScreenUp: { diary: DiaryResType | null; snack: string | null };
     RecordInput: {
         diary: DiaryResType | null;
         record?: RecordResType;
@@ -291,11 +295,11 @@ export default function navigator(): ReactElement {
                     }}
                 />
                 <Stack.Screen
-                    name="RecordList"
+                    name="RecordListScreenUp"
                     component={RecordList}
                     options={{
                         headerShown: false,
-                        gestureDirection: "horizontal",
+                        gestureDirection: "vertical",
                         transitionSpec: {
                             open: TransitionSpecs.TransitionIOSSpec,
                             close: TransitionSpecs.TransitionIOSSpec
@@ -334,6 +338,67 @@ export default function navigator(): ReactElement {
                                 }
                             };
                         }
+                    }}
+                />
+
+                <Stack.Screen
+                    name="RecordInfoScreenDown"
+                    component={RecordInfo}
+                    options={{
+                        headerShown: false,
+                        gestureDirection: "vertical",
+                        transitionSpec: {
+                            open: TransitionSpecs.TransitionIOSSpec,
+                            close: TransitionSpecs.TransitionIOSSpec
+                        },
+                        headerStyleInterpolator:
+                            HeaderStyleInterpolators.forFade,
+                        cardStyleInterpolator: ({ current, next, layouts }) => {
+                            return {
+                                cardStyle: {
+                                    transform: [
+                                        {
+                                            translateY:
+                                                current.progress.interpolate({
+                                                    inputRange: [0, 1],
+                                                    outputRange: [
+                                                        -layouts.screen.height,
+                                                        0
+                                                    ]
+                                                })
+                                        },
+                                        {
+                                            scale: next
+                                                ? next.progress.interpolate({
+                                                      inputRange: [0, 1],
+                                                      outputRange: [1, 0.9]
+                                                  })
+                                                : 1
+                                        }
+                                    ]
+                                },
+                                overlayStyle: {
+                                    opacity: current.progress.interpolate({
+                                        inputRange: [0, 1],
+                                        outputRange: [0, 0.5]
+                                    })
+                                }
+                            };
+                        }
+                    }}
+                />
+                <Stack.Screen
+                    name="RecordInfo"
+                    component={RecordInfo}
+                    options={{
+                        headerShown: false
+                    }}
+                />
+                <Stack.Screen
+                    name="RecordList"
+                    component={RecordList}
+                    options={{
+                        headerShown: false
                     }}
                 />
                 <Stack.Screen
@@ -387,13 +452,6 @@ export default function navigator(): ReactElement {
                     }}
                 />
 
-                <Stack.Screen
-                    name="RecordInfo"
-                    component={RecordInfo}
-                    options={{
-                        headerShown: false
-                    }}
-                />
                 <Stack.Screen
                     name="Settings"
                     component={Settings}

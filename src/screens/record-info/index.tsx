@@ -125,7 +125,7 @@ export default function RecordInfo({ navigation, route }: RecordInfoProps) {
              * 만약 하단으로 화면 드래그시 리스트 화면으로 넘어감
              */
             if (gesture.dy < 0) {
-                navigation.navigate("RecordList", {
+                navigation.navigate("RecordListScreenUp", {
                     diary: diary,
                     snack: null
                 });
@@ -140,10 +140,11 @@ export default function RecordInfo({ navigation, route }: RecordInfoProps) {
      */
     const Background = ({ children }: BackgroundProps): ReactElement => {
         return (
-            <Animated.View
-                {...panResponder.panHandlers}
+            // <Animated.View
+            <View
+                // {...panResponder.panHandlers}
                 style={[
-                    pan.getLayout(),
+                    // pan.getLayout(),
                     {
                         flex: 1,
                         alignItems: "center",
@@ -192,7 +193,8 @@ export default function RecordInfo({ navigation, route }: RecordInfoProps) {
                     />
                 </TouchableOpacity>
                 {children}
-            </Animated.View>
+                {/* </Animated.View> */}
+            </View>
         );
     };
 
@@ -240,7 +242,7 @@ export default function RecordInfo({ navigation, route }: RecordInfoProps) {
                 </Container>
             </Shadow>
 
-            <Button
+            {/* <Button
                 onPress={() => {
                     navigation.navigate("RecordInput", {
                         diary: diary,
@@ -252,9 +254,9 @@ export default function RecordInfo({ navigation, route }: RecordInfoProps) {
                     source={require("@assets/images/home_writing_normal.png")}
                 />
                 <ButtonText>오늘의 너를 들려줘 :)</ButtonText>
-            </Button>
+            </Button> */}
 
-            <View
+            {/* <View
                 style={{
                     position: "absolute",
                     bottom: 38
@@ -263,6 +265,25 @@ export default function RecordInfo({ navigation, route }: RecordInfoProps) {
                 <ScrollDownButton
                     source={require("@assets/images/various_collapse_on_normal.png")}
                 />
+            </View> */}
+            <View
+                style={{
+                    position: "absolute",
+                    bottom: 38
+                }}
+            >
+                <TouchableOpacity
+                    onPress={() => {
+                        navigation.navigate("RecordListScreenUp", {
+                            diary: diary,
+                            snack: null
+                        });
+                    }}
+                >
+                    <ScrollDownButton
+                        source={require("@assets/images/various_collapse_on_normal.png")}
+                    />
+                </TouchableOpacity>
             </View>
         </Background>
     );
