@@ -88,8 +88,8 @@ export type StackNavigatorParams = {
     CheerupMessage: { title: string; body: string; data: PushNotification };
     Settings: any;
     RecordInfo: { diary: DiaryResType };
-    // RecordInfo 페이지 다운 에니메이션 적용
-    RecordInfoScreenDown: { diary: DiaryResType };
+    // Home 페이지 다운 에니메이션 적용
+    HomeScreenDown: undefined | { snack: string };
     RecordList: { diary: DiaryResType | null; snack: string | null };
     // RecordList 페이지 업 에니메이션 적용
     RecordListScreenUp: { diary: DiaryResType | null; snack: string | null };
@@ -342,8 +342,8 @@ export default function navigator(): ReactElement {
                 />
 
                 <Stack.Screen
-                    name="RecordInfoScreenDown"
-                    component={RecordInfo}
+                    name="HomeScreenDown"
+                    component={Home}
                     options={{
                         headerShown: false,
                         gestureDirection: "vertical",

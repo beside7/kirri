@@ -222,9 +222,7 @@ export const RecordList = observer(({ navigation, route }: RecordListProps) => {
 
     useEffect(() => {
         const backAction = () => {
-            diary
-                ? navigation.replace("RecordInfoScreenDown", { diary })
-                : navigation.replace("Home");
+            navigation.replace("HomeScreenDown");
             return true;
         };
 
@@ -260,12 +258,7 @@ export const RecordList = observer(({ navigation, route }: RecordListProps) => {
                 leftIcon={
                     <TouchableOpacity
                         onPress={() => {
-                            // navigation.replace("Home");
-                            diary
-                                ? navigation.replace("RecordInfoScreenDown", {
-                                      diary
-                                  })
-                                : navigation.replace("Home");
+                            navigation.replace("HomeScreenDown");
                         }}
                     >
                         <Image
@@ -318,14 +311,14 @@ export const RecordList = observer(({ navigation, route }: RecordListProps) => {
                                             diary: diary
                                         });
                                     }}
-                                    title="다이러리 수정"
+                                    title="다이어리 수정"
                                 />
                                 <Menu.Item
                                     onPress={() => {
                                         closeMenu();
                                         setDeleteConfirm(true);
                                     }}
-                                    title="다이러리 삭제"
+                                    title="다이어리 삭제"
                                 />
                             </>
                         )}

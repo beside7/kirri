@@ -5,7 +5,8 @@ import {
     RecentContentWriter,
     RecentDiaryTitle,
     RecentDiaryTitleWarp,
-    RecentDiaryColor
+    RecentDiaryColor,
+    RecentContentTitleWarp
 } from "./home.style";
 import { Shadow } from "react-native-shadow-2";
 import { Colors } from "./types";
@@ -43,7 +44,9 @@ export const RecentContent = ({
         >
             <RecentContentContainer>
                 <RecentContentWriter>{nickname}</RecentContentWriter>
-                <RecentContentTitle>{title}</RecentContentTitle>
+                <RecentContentTitleWarp>
+                    <RecentContentTitle>{title}</RecentContentTitle>
+                </RecentContentTitleWarp>
                 <RecentDiaryTitleWarp>
                     <RecentDiaryColor background={backgroundColor} />
                     <RecentDiaryTitle>{diaryName}</RecentDiaryTitle>

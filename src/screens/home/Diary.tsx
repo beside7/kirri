@@ -43,7 +43,7 @@ export const Diary = ({ diaryTitle, members, coverType, coverId }: Props) => {
             size={[gridWidth, gridWidth]}
             distance={5}
             startColor={"#0000002b"}
-            finalColor={"#ffffffff"}
+            // finalColor={"#ffffffff"}
             getViewStyleRadius={true}
             offset={[1.5, 2.5]}
         >
@@ -52,7 +52,7 @@ export const Diary = ({ diaryTitle, members, coverType, coverId }: Props) => {
                     backgroundColor={
                         coverType === "color"
                             ? CoverColor[coverId as CoverColorTypes]
-                            : "#fff"
+                            : undefined
                     }
                 >
                     {coverType === "image" ? (

@@ -12,17 +12,20 @@ export const Content = styled.View({
     paddingTop: 24,
     paddingLeft: 28,
     paddingRight: 28,
-    paddingBottom: 20
+    paddingBottom: 20,
+    justifyContent: "space-between",
+    flexDirection: "column",
+    height: 159
 });
 
 export const Footer = styled.View({
-    marginTop: 55,
+    // marginTop: 55,
     justifyContent: "flex-end"
 });
 
 export const Title = styled.Text({
     color: "#17171c",
-    textAlign: "center",
+    // textAlign: "center",
     fontSize: 20,
     fontFamily: "SpoqaHanSansNeo-Medium"
 });

@@ -75,9 +75,11 @@ export const DiaryListWarp = styled(warpStyle)({
     flexBasis: 1,
     marginTop: 8,
     // paddingTop: 24,
-    paddingBottom: 20,
+    // paddingBottom: 20,
     display: "flex",
     flexDirection: "column"
+    // borderWidth: 1,
+    // borderColor: "red"
 });
 
 export const RecentContentWarp = styled.View({
@@ -96,17 +98,8 @@ export const RecentContentList = styled.ScrollView({
 export const RecentContentContainer = styled.View({
     width: 120,
     height: 80,
-    // borderWidth: 1,
-    // borderRadius: 10,
-    // // boxShadow:'1.5px 2.5px 5px #0000002b',
-    // shadowColor: "rgb(0, 0, 0)",
-    // shadowOffset: {
-    //     width: 1,
-    //     height: 3
-    // },
-    // shadowOpacity: 0.5,
-    // shadowRadius: 10,
-    // elevation: 5,
+    flexDirection: "column",
+    justifyContent: "space-between",
     backgroundColor: "#fff",
     padding: 5,
     marginRight: 12,
@@ -127,11 +120,16 @@ export const RecentContentTitle = styled.Text({
     fontFamily: "SpoqaHanSansNeo-Medium"
 });
 
+export const RecentContentTitleWarp = styled.View({
+    minHeight: 34,
+    width: "100%"
+});
+
 export const RecentDiaryTitleWarp = styled.View({
     display: "flex",
     flexDirection: "row",
-    alignItems: "center",
-    marginTop: 15
+    alignItems: "center"
+    // marginTop: 15
 });
 
 export const RecentDiaryColor = styled.View(
@@ -176,7 +174,8 @@ export const DiaryContainer = styled.View({
     marginBottom: 18,
     marginLeft: 2,
     marginRight: 2,
-    width: gridWidth
+    width: gridWidth,
+    borderWidth: 0
     // boxShadow:'1.5px 2.5px 5px #0000002b',
     // shadowColor: "rgb(0, 0, 0)",
     // shadowOffset: {
@@ -217,18 +216,19 @@ export const DiaryContent = styled.View({
 });
 
 export const DiaryCover = styled.View(
-    (props: { backgroundColor: string; pattern?: string }) => ({
+    (props: { backgroundColor?: string; pattern?: string }) => ({
         backgroundColor: props.backgroundColor,
         height: 49,
         borderTopLeftRadius: 12,
         borderTopRightRadius: 12,
         left: -3,
-        width: gridWidth + 6
+        width: gridWidth + 3
     })
 );
 
 export const CoverImage = styled.Image({
-    width: gridWidth + 4,
+    width: gridWidth + 3,
+    left: 0,
     borderTopLeftRadius: 10,
     borderTopRightRadius: 10
 });

@@ -200,72 +200,63 @@ export default function RecordInfo({ navigation, route }: RecordInfoProps) {
 
     return (
         <Background>
-            <Shadow
-                radius={10}
-                distance={5}
-                size={[219, 249]}
-                startColor={"#00000020"}
-                finalColor={"#2b000000"}
-                getViewStyleRadius={true}
-                offset={[1.5, 2.5]}
-            >
-                <Container>
-                    {coverType === "image" && (
-                        <HeaderImage
-                            source={CoverBigImages[coverId as CoverColorTypes]}
-                        />
-                    )}
-                    {coverType === "color" && (
-                        <Color color={CoverColor[coverId as CoverColorTypes]} />
-                    )}
-                    <Content>
-                        <Title numberOfLines={1}>{title}</Title>
-                        <Footer>
-                            <View
-                                style={{
-                                    flexDirection: "row",
-                                    marginBottom: 4
-                                }}
-                            >
-                                <NicknameText>{nickname}</NicknameText>
-                                <FontAwesome5
-                                    name="crown"
-                                    size={10}
-                                    color="#6173ff"
-                                    style={{ marginLeft: 9, lineHeight: 13 }}
-                                />
-                            </View>
-
-                            <Author>{`${members.length} 끼리`}</Author>
-                        </Footer>
-                    </Content>
-                </Container>
-            </Shadow>
-
-            {/* <Button
+            <TouchableOpacity
                 onPress={() => {
-                    navigation.navigate("RecordInput", {
+                    navigation.navigate("RecordListScreenUp", {
                         diary: diary,
-                        prev: "home"
+                        snack: null
                     });
                 }}
             >
-                <Icon
-                    source={require("@assets/images/home_writing_normal.png")}
-                />
-                <ButtonText>오늘의 너를 들려줘 :)</ButtonText>
-            </Button> */}
+                <Shadow
+                    radius={10}
+                    distance={5}
+                    size={[219, 249]}
+                    startColor={"#00000020"}
+                    finalColor={"#2b000000"}
+                    getViewStyleRadius={true}
+                    offset={[1.5, 2.5]}
+                >
+                    <Container>
+                        {coverType === "image" && (
+                            <HeaderImage
+                                source={
+                                    CoverBigImages[coverId as CoverColorTypes]
+                                }
+                            />
+                        )}
+                        {coverType === "color" && (
+                            <Color
+                                color={CoverColor[coverId as CoverColorTypes]}
+                            />
+                        )}
+                        <Content>
+                            <Title numberOfLines={2}>{title}</Title>
+                            <Footer>
+                                <View
+                                    style={{
+                                        flexDirection: "row",
+                                        marginBottom: 4
+                                    }}
+                                >
+                                    <NicknameText>{nickname}</NicknameText>
+                                    <FontAwesome5
+                                        name="crown"
+                                        size={10}
+                                        color="#6173ff"
+                                        style={{
+                                            marginLeft: 9,
+                                            lineHeight: 13
+                                        }}
+                                    />
+                                </View>
 
-            {/* <View
-                style={{
-                    position: "absolute",
-                    bottom: 38
-                }}
-            >
-                <ScrollDownButton
-                    source={require("@assets/images/various_collapse_on_normal.png")}
-                />
-            </View> */}
+                                <Author>{`${members.length} 끼리`}</Author>
+                            </Footer>
+                        </Content>
+                    </Container>
+                </Shadow>
+            </TouchableOpacity>
             <View
                 style={{
                     position: "absolute",
