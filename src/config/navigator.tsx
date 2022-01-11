@@ -16,7 +16,6 @@ import {
     Login,
     Nickname,
     Home,
-    TestPage,
     FriendMain,
     MessageList,
     Cheerup,
@@ -79,7 +78,6 @@ interface TermsAndConditionsProps {
 export type StackNavigatorParams = {
     Login: undefined;
     Nickname: any;
-    TestPage: undefined;
     FriendMain: { diary: DiaryResType | null };
     MessageList: undefined;
     Home: undefined | { snack: string };
@@ -265,12 +263,6 @@ export default function navigator(): ReactElement {
                 screenOptions={navigatorOptions}
                 initialRouteName={initalizePage}
             >
-                <Stack.Screen
-                    name="TestPage"
-                    component={TestPage}
-                    options={{ headerShown: false }}
-                />
-
                 <Stack.Screen
                     name="Home"
                     component={Home}

@@ -491,7 +491,7 @@ export default function RecordInput({ navigation, route }: RecordInputProps) {
             />
             <KeyboardAvoidingView
                 behavior={Platform.OS == "ios" ? "padding" : "height"}
-                keyboardVerticalOffset={headerHeight}
+                // keyboardVerticalOffset={headerHeight}
                 style={{ flex: 1 }}
             >
                 <KeyboardAwareScrollView ref={editorScrollViewRef}>

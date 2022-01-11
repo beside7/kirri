@@ -3,7 +3,6 @@ export { default as Login } from "./login";
 export * from "./termsAndConditions";
 export * from "./nickname";
 
-export { default as TestPage } from "./test-page";
 export { default as FriendMain } from "./friend-main";
 export { default as MessageList } from "./message-list";
 export { default as Cheerup } from "./cheerup";
