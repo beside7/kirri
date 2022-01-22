@@ -18,6 +18,7 @@ export const SpeechBubble = styled.Text({
     width: 152,
     height: 53,
     position: "absolute",
+    overflow: "hidden",
     top: 40,
     left: 100,
     color: "#fff",

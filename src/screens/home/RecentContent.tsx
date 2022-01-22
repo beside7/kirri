@@ -45,11 +45,15 @@ export const RecentContent = ({
             <RecentContentContainer>
                 <RecentContentWriter>{nickname}</RecentContentWriter>
                 <RecentContentTitleWarp>
-                    <RecentContentTitle>{title}</RecentContentTitle>
+                    <RecentContentTitle numberOfLines={2}>
+                        {title}
+                    </RecentContentTitle>
                 </RecentContentTitleWarp>
                 <RecentDiaryTitleWarp>
                     <RecentDiaryColor background={backgroundColor} />
-                    <RecentDiaryTitle>{diaryName}</RecentDiaryTitle>
+                    <RecentDiaryTitle numberOfLines={1}>
+                        {diaryName}
+                    </RecentDiaryTitle>
                 </RecentDiaryTitleWarp>
             </RecentContentContainer>
         </Shadow>
