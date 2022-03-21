@@ -272,7 +272,8 @@ export default function RecordInput({ navigation, route }: RecordInputProps) {
                  */
                 if (
                     fileInfo.size !== undefined &&
-                    fileInfo.size > 1024 * 1024 * 5
+                    fileInfo.size > 1024 * 500
+                    // fileInfo.size > 1024 * 1024 * 5
                 ) {
                     // Alert.alert(
                     //     "",
@@ -280,7 +281,7 @@ export default function RecordInput({ navigation, route }: RecordInputProps) {
                     //     [{ text: "확인", style: "default" }]
                     // );
                     setAlertMessage(
-                        `이미지 용량이 너무 커요. 5MB이하의 이미지를 등록해주세요.`
+                        `이미지 용량이 너무 커요. 500KB 이하의 이미지를 등록해주세요.`
                     );
                     setAlertOpen(true);
                     return;

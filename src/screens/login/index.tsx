@@ -78,19 +78,29 @@ export default function Login({ imgIndex }: LoginProps): ReactElement {
 
     const onComplete = (event: any) => {
         result.current = JSON.parse(event.nativeEvent.data);
-        console.log(result.current);
+        console.debug("debug1 : apple & kakao login success", result.current);
         let success = result.current.accessToken;
         setKakaoLoginOpen(false);
         setAppleLoginOpen(false);
         AsyncStorage.setItem("userKey", "Bearer " + success, async () => {
+            console.debug(
+                "debug2 : react-native-async-storage/async-storage save success",
+                result.current
+            );
             if (success && result.current.status === "REQUIRED_SIGN_UP") {
-                navigate("Nickname", result.current);
+                navigate("Nickname", success);
             } else if (result.current.status === "ACTIVE") {
                 try {
                     UserStore.login();
+                    console.debug(
+                        "debug3 : server api login success",
+                        result.current
+                    );
                     const notificationToken = await initNotifications();
                     navigateWithReset("Home", null);
-                } catch (error) {}
+                } catch (error) {
+                    console.error(error);
+                }
             }
         });
     };
