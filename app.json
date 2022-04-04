@@ -1,65 +1,64 @@
 {
-  "expo": {
-    "name": "Kirri",
-    "description": "함께라서 더욱 즐거운 우리, 우리 끼리의 소소한 일상을 기록하세요.",
-    "slug": "kirri",
-    "version": "1.0.0",
-    "owner": "100milliongold",
-    "orientation": "portrait",
-    "icon": "./assets/images/ic_launcher.png",
-    "notification": {
-      "icon": "./assets/images/ic_launcher.png"
+    "expo": {
+        "name": "Kirri",
+        "description": "함께라서 더욱 즐거운 우리, 우리 끼리의 소소한 일상을 기록하세요.",
+        "slug": "kirri",
+        "version": "1.0.0",
+        "owner": "100milliongold",
+        "orientation": "portrait",
+        "icon": "./assets/images/ic_launcher.png",
+        "notification": {
+            "icon": "./assets/images/ic_launcher.png"
+        },
+        "scheme": "kirri",
+        "userInterfaceStyle": "automatic",
+        "splash": {
+            "image": "./assets/images/splash.png",
+            "resizeMode": "contain",
+            "backgroundColor": "#ffffff"
+        },
+        "updates": {
+            "fallbackToCacheTimeout": 0
+        },
+        "assetBundlePatterns": ["**/*"],
+        "ios": {
+            "supportsTablet": true
+        },
+        "android": {
+            "adaptiveIcon": {
+                "foregroundImage": "./assets/images/adaptive-icon.png",
+                "backgroundColor": "#ffffff"
+            },
+            "package": "com.duck7.kirri",
+            "googleServicesFile": "./google-services.json"
+        },
+        "web": {
+            "favicon": "./assets/images/favicon.png"
+        },
+        "packagerOpts": {
+            "config": "metro.config.js",
+            "sourceExts": [
+                "expo.ts",
+                "expo.tsx",
+                "expo.js",
+                "expo.jsx",
+                "ts",
+                "tsx",
+                "js",
+                "jsx",
+                "json",
+                "wasm",
+                "svg",
+                "svgx"
+            ]
+        }
     },
-    "scheme": "kirri",
-    "userInterfaceStyle": "automatic",
-    "splash": {
-      "image": "./assets/images/splash.png",
-      "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
-    },
-    "updates": {
-      "fallbackToCacheTimeout": 0
-    },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
     "ios": {
-      "supportsTablet": true
+        "bundleIdentifier": "com.duck7.kirri",
+        "buildNumber": "1.0.0"
     },
     "android": {
-      "adaptiveIcon": {
-        "foregroundImage": "./assets/images/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
-      },
-      "package": "com.duck7.kirri"
-    },
-    "web": {
-      "favicon": "./assets/images/favicon.png"
-    },
-    "packagerOpts": {
-      "config": "metro.config.js",
-      "sourceExts": [
-        "expo.ts",
-        "expo.tsx",
-        "expo.js",
-        "expo.jsx",
-        "ts",
-        "tsx",
-        "js",
-        "jsx",
-        "json",
-        "wasm",
-        "svg",
-        "svgx"
-      ]
+        "package": "com.duck7.kirri",
+        "versionCode": 1
     }
-  },
-  "ios": {
-    "bundleIdentifier": "com.duck7.kirri",
-    "buildNumber": "1.0.0"
-  },
-  "android": {
-    "package": "com.duck7.kirri",
-    "versionCode": 1
-  }
 }
