@@ -4,10 +4,12 @@ import {
     RecordsResType,
     RecordResType,
     CreateRecordReqType,
-    DiaryResType
+    DiaryResType,
+    UploadImageReqType
 } from "./../../types/diary/index";
 import { apiClient } from "../clients";
 import FormData from "form-data";
+import { uuid } from "uuidv4";
 
 export const diaryApis = {
     async getDiaries(): Promise<DiariesResType> {
@@ -133,6 +135,7 @@ export const recordApis = {
                 count
             }
         });
+        // console.debug("getRecords", { data, uuid });
         return data;
     },
 
@@ -153,33 +156,42 @@ export const recordApis = {
     },
 
     /**
-     * 기록을 저장한다
-     * @param uuid 다이러리 기본키
-     * @param payload 입력 값
-     * @returns
+     * 이미지 업로드
+     * @param payload
      */
-    async createRecord(uuid: string, payload: CreateRecordReqType) {
+    async uploadImage(payload: UploadImageReqType) {
+        const { files, diaryUuid, recordUuid } = payload;
         const bodyFormData = new FormData();
-        bodyFormData.append("title", payload.title);
-        bodyFormData.append("body", payload.body);
-
-        if (payload.files && payload.files.length > 0) {
-            payload.files.forEach(file => {
+        if (files && files.length > 0) {
+            files.forEach(file => {
                 bodyFormData.append("file", {
                     uri: file,
-                    name: "test.jpg",
+                    name: `${uuid()}.jpg`,
                     type: "image/jpeg"
                 });
             });
         }
-        // console.log(bodyFormData);
 
         const { data } = await apiClient.post(
-            `/diaries/${uuid}/records`,
+            `/diaries/${diaryUuid}/records/${recordUuid}/images`,
             bodyFormData,
             {
                 headers: { "content-type": "multipart/form-data" }
             }
+        );
+        return data;
+    },
+
+    /**
+     * 기록을 저장한다
+     * @param diaryUuid 다이러리 기본키
+     * @param payload 입력 값
+     * @returns
+     */
+    async createRecord(diaryUuid: string, payload: CreateRecordReqType) {
+        const { data } = await apiClient.post(
+            `/diaries/${diaryUuid}/records`,
+            payload
         );
         return data;
     },
@@ -196,27 +208,9 @@ export const recordApis = {
         recordUuid: string,
         payload: CreateRecordReqType
     ) {
-        const bodyFormData = new FormData();
-        bodyFormData.append("title", payload.title);
-        bodyFormData.append("body", payload.body);
-
-        if (payload.files && payload.files.length > 0) {
-            payload.files.forEach(file => {
-                bodyFormData.append("file", {
-                    uri: file,
-                    name: "test.jpg",
-                    type: "image/jpeg"
-                });
-            });
-        }
-        // console.log(bodyFormData);
-
         const { data } = await apiClient.put(
             `/diaries/${diaryUuid}/records/${recordUuid}`,
-            bodyFormData,
-            {
-                headers: { "content-type": "multipart/form-data" }
-            }
+            payload
         );
         return data;
     },

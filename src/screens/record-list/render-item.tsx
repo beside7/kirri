@@ -39,11 +39,17 @@ export default function RenderItem({
     navigation,
     diary
 }: RenderProps) {
-    const type = diary
-        ? (diary.members
-              .find(({ nickname }) => nickname === createdByNickname)
-              ?.profileImagePath.split(":")[1] as ProfileImageTypes)
-        : "01";
+    let type: ProfileImageTypes = "01";
+    try {
+        type = diary
+            ? (diary.members
+                  .find(({ nickname }) => nickname === createdByNickname)
+                  ?.profileImagePath.split(":")[1] as ProfileImageTypes)
+            : "01";
+    } catch (error) {
+        console.error("split error", error);
+    }
+
     const diaryUuid = diary ? diary.uuid : null;
     const profileImage = ProfileImages[type];
 
@@ -68,7 +74,7 @@ export default function RenderItem({
                 </Text_2>
             </View>
             <View style={styles.listItemMiddle}>
-                {images.length > 0 && (
+                {images && images.length > 0 && (
                     <TouchableOpacity
                         onPress={e => {
                             e.preventDefault();
@@ -106,7 +112,7 @@ export default function RenderItem({
                 <View style={{ paddingLeft: 45 }}>
                     <Text_2 style={styles.listItemBody} numberOfLines={3}>
                         {/* html 태크 제거 */}
-                        {body.replace(/(<([^>]+)>)/gi, "")}
+                        {body && body.replace(/(<([^>]+)>)/gi, "")}
                     </Text_2>
                 </View>
             </TouchableOpacity>

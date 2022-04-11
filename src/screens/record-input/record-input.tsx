@@ -36,7 +36,11 @@ import { recordApis } from "@apis";
 import { StackNavigatorParams } from "@config/navigator";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { RouteProp } from "@react-navigation/native";
-import { CreateRecordReqType, DiaryResType } from "@type-definition/diary";
+import {
+    CreateRecordReqType,
+    DiaryResType,
+    UploadImageReqType
+} from "@type-definition/diary";
 import { diaryApis } from "@apis";
 import * as FileSystem from "expo-file-system";
 import { CoverCircleImages, CoverColor, CoverImageTypes } from "@utils";
@@ -355,14 +359,18 @@ export default function RecordInput({ navigation, route }: RecordInputProps) {
 
             const payload: CreateRecordReqType = {
                 title,
-                body,
-                files
+                body
             };
 
             try {
                 switch (type) {
                     case "new":
-                        await recordApis.createRecord(uuid, payload);
+                        const res = await recordApis.createRecord(
+                            uuid,
+                            payload
+                        );
+                        console.debug("기록 테스트 : 새기록 작성", res);
+
                         navigation.replace("RecordList", {
                             diary: diary,
                             snack: `새 기록이 다이어리에 등록되었어요.`

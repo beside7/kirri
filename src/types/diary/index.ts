@@ -66,9 +66,21 @@ export interface RecordImageInfo {
     path: string;
 }
 
+/**
+ * 보내는 기록 정보
+ */
 export interface CreateRecordReqType {
     title: string;
     body: string;
     // file: Blob | null
+    // files: string[] | null;
+}
+
+/**
+ * 이미지 업록드 정보
+ */
+export interface UploadImageReqType {
+    diaryUuid: string;
+    recordUuid: string;
     files: string[] | null;
 }
