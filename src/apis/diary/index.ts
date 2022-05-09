@@ -179,21 +179,9 @@ export const recordApis = {
                 const imageFileName = getFileName(file);
                 const imageBody = await this.getBlob(file);
                 bodyFormData.append("file", imageBody);
-
-                // bodyFormData.append("file", {
-                //     uri: file,
-                //     name: `${imageFileName}`,
-                //     type: "image/*"
-                // });
             }
 
             try {
-                // const { data } = await axios.put(`${uploadUrl}`, bodyFormData, {
-                //     headers: {
-                //         "content-type": "multipart/form-data"
-                //     }
-                // });
-
                 const imageBody = await this.getBlob(files[0]);
 
                 const data = await fetch(uploadUrl, {
@@ -212,7 +200,27 @@ export const recordApis = {
     },
 
     /**
+     * 기록 이미지를 삭제한다.
+     * @param diaryUuid 다이러리 uuid
+     * @param recordUuid 기록 uuid
+     * @param recordImageId 기록이미지 id
+     */
+    async deleteRecordImage(diaryUuid: string , recordUuid: string , recordImageId: number){
+        try {
+            const { data } = await apiClient.delete(
+                `/diaries/${diaryUuid}/records/${recordUuid}/images/${recordImageId}`
+            );
+            return data;
+        } catch (error){
+            console.error("deleteRecordImage ERROR", error);
+            throw error;
+        }
+    },
+
+
+    /**
      * 업로드 이미지 주소를 조회한다.
+     * @param payload
      */
     async getUploadURL(
         payload: GetUploadURLReqType
@@ -256,6 +264,7 @@ export const recordApis = {
         recordUuid: string,
         payload: CreateRecordReqType
     ) {
+        console.debug("modifyRecord" , payload)
         const { data } = await apiClient.put(
             `/diaries/${diaryUuid}/records/${recordUuid}`,
             payload

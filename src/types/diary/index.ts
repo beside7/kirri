@@ -48,10 +48,25 @@ export interface RecordsResType {
  * 기록 내용
  */
 export interface RecordResType {
+    /**
+     * 기록 기본키
+     */
     uuid: string;
+    /**
+     * 제목
+     */
     title: string;
+    /**
+     * 본문
+     */
     body: string;
+    /**
+     * 이미지 정보
+     */
     images: RecordImageInfo[];
+    /**
+     * 생성한 사람 닉네임
+     */
     createdByNickname: string;
     createdBy: number;
     createdDate: string;
@@ -63,6 +78,13 @@ export interface RecordResType {
  * 섬네일 정보
  */
 export interface RecordImageInfo {
+    /**
+     * api 서버에서 가져오는 기본 키
+     */
+    id? : number;
+    /**
+     * 실제 저장위치
+     */
     path: string;
 }
 

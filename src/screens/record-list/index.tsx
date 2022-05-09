@@ -156,7 +156,7 @@ export const RecordList = observer(({ navigation, route }: RecordListProps) => {
                 );
                 const { elements } = getRecordRes;
                 console.debug("getRecordList : ", getRecordRes);
-                console.debug("diary : ", uuid);
+                // console.debug("diary : ", uuid);
                 // 기존리스트에 추가
 
                 let newList = list.concat(elements);

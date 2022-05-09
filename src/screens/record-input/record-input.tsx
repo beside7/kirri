@@ -8,8 +8,6 @@ import {
     Image,
     TextInput,
     ScrollView,
-    Alert,
-    SafeAreaView,
     BackHandler
 } from "react-native";
 import { getDefaultHeaderHeight } from "@react-navigation/elements";
@@ -39,7 +37,7 @@ import { RouteProp } from "@react-navigation/native";
 import {
     CreateRecordReqType,
     DiaryResType,
-    UploadImageReqType
+    RecordImageInfo
 } from "@type-definition/diary";
 import * as FileSystem from "expo-file-system";
 import {
@@ -52,14 +50,14 @@ import { FontAwesome } from "@expo/vector-icons";
 import ImageQualityModal from "./image-quality-modal";
 import ActionSheet from "react-native-actions-sheet";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-import { flatMap } from "lodash";
+
 
 type RecordInputProps = {
     navigation: StackNavigationProp<StackNavigatorParams, "RecordInput">;
     route: RouteProp<StackNavigatorParams, "RecordInput">;
 };
 const SelecedCheckImage = require("@assets/images/diary/writing_select_diary_check_box_checked.png");
-const SCREEN_HEIGHT = Dimensions.get("screen").height;
+// const SCREEN_HEIGHT = Dimensions.get("screen").height;
 
 /**
  * HTML 태그 제거
@@ -123,8 +121,8 @@ export default function RecordInput({ navigation, route }: RecordInputProps) {
     /**
      * 사용자가 입력한 이미지 목록
      */
-    const [images, setImages] = useState<string[]>(
-        type === "modify" && record ? record.images.map(item => item.path) : []
+    const [images, setImages] = useState<RecordImageInfo[]>(
+        type === "modify" && record ? record.images : []
     );
 
     /**
@@ -199,6 +197,9 @@ export default function RecordInput({ navigation, route }: RecordInputProps) {
      */
     useEffect(() => {
         console.debug("record-input.tsx diary info", diary);
+        if(type === "modify"){
+            console.debug("record-input.tsx record info", record);
+        }
         // console.log(diary);
 
         setTimeout(() => {
@@ -255,7 +256,7 @@ export default function RecordInput({ navigation, route }: RecordInputProps) {
         setLoading(true);
         let result = await ImagePicker.launchImageLibraryAsync({
             mediaTypes: ImagePicker.MediaTypeOptions.Images,
-            allowsEditing: false,
+            allowsEditing: true,
             // aspect: [4, 3],
             /**
              * 1 : 원본 이미지 화질 ~ 0 : 최대 압축
@@ -266,28 +267,24 @@ export default function RecordInput({ navigation, route }: RecordInputProps) {
         // console.log(result);
 
         if (!result.cancelled) {
-            const newImages = [result.uri];
+            const newImages : RecordImageInfo[] = [{
+                path: result.uri
+            }];
 
             try {
                 /**
                  * 파일 정보 가져오기
                  */
                 const fileInfo = await FileSystem.getInfoAsync(result.uri);
-                console.log(fileInfo);
+                console.debug("pickImage file info" , fileInfo);
 
                 /**
-                 * 만약 추가한 이미지가 2MB 보다 크면 경고창 출력후 중단
+                 * 만약 추가한 이미지가 500KB 보다 크면 경고창 출력후 중단
                  */
                 if (
                     fileInfo.size !== undefined &&
                     fileInfo.size > 1024 * 500
-                    // fileInfo.size > 1024 * 1024 * 5
                 ) {
-                    // Alert.alert(
-                    //     "",
-                    //     `이미지 용량이 너무 커요. 5MB이하의 이미지를 등록해주세요.`,
-                    //     [{ text: "확인", style: "default" }]
-                    // );
                     setAlertMessage(
                         `이미지 용량이 너무 커요. 500KB 이하의 이미지를 등록해주세요.`
                     );
@@ -297,7 +294,7 @@ export default function RecordInput({ navigation, route }: RecordInputProps) {
 
                 setImages(newImages);
             } catch (error) {
-                console.log(error);
+                console.log("pickImage ERROR" , error);
                 // Alert.alert("", `해당 이미지가 존재하지 않습니다.`, [
                 //     { text: "확인", style: "default" }
                 // ]);
@@ -356,7 +353,7 @@ export default function RecordInput({ navigation, route }: RecordInputProps) {
             let files: string[] | null = null;
 
             if (images.length > 0) {
-                files = images;
+                files = images.map(({path}) => path);
                 files = files.map(file =>
                     Platform.OS === "android"
                         ? file
@@ -379,7 +376,7 @@ export default function RecordInput({ navigation, route }: RecordInputProps) {
                              */
                             const imageUploadInfo =
                                 await recordApis.getUploadURL({
-                                    file: getFileName(images[0]),
+                                    file: getFileName(images[0].path),
                                     diaryUuid: uuid
                                 });
 
@@ -408,11 +405,51 @@ export default function RecordInput({ navigation, route }: RecordInputProps) {
                         });
                         break;
                     case "modify":
-                        await recordApis.modifyRecord(
+                        /**
+                         * 만약에 추가한 이미지 중에서 id 값이 undefined 인 것이 있으면 새롭게 이미지를 추가한것으로 간주한다.
+                         */
+                        if (images.length > 0 && images.find(({ id }) => id === undefined) !== undefined ) {
+                            /**
+                             * 이미지 업로드 URL 조회
+                             */
+                            const imageUploadInfo =
+                                await recordApis.getUploadURL({
+                                    file: getFileName(images[0].path),
+                                    diaryUuid: uuid
+                                });
+                            const { uploadUrl, tempFileId } = imageUploadInfo;
+
+                            /**
+                             * 이미지 업로드
+                             */
+                            await recordApis.uploadImage({
+                                uploadUrl,
+                                files
+                            });
+
+                            /**
+                             * 기존 이미지 삭제
+                             */
+                            try {
+                                await recordApis.deleteRecordImage(
+                                    uuid,
+                                    record!.uuid,
+                                    record!.images[0].id!
+                                )
+                            } catch (error){
+
+                            }
+
+                            recordPayload.tempFileIds = [tempFileId];
+                        }
+
+
+                        const modifyRes = await recordApis.modifyRecord(
                             uuid,
                             record!.uuid,
-                            payload
+                            recordPayload
                         );
+
                         navigation.replace("RecordList", {
                             diary: diary,
                             snack: `기록이 수정되었어요.`
@@ -556,7 +593,7 @@ export default function RecordInput({ navigation, route }: RecordInputProps) {
                                 {images.map((image, index) => (
                                     <View style={styles.imageWrap} key={index}>
                                         <Image
-                                            source={{ uri: image }}
+                                            source={{ uri: image.path }}
                                             style={styles.insertImages}
                                         />
                                         <TouchableOpacity
