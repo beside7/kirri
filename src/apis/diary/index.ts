@@ -5,11 +5,15 @@ import {
     RecordResType,
     CreateRecordReqType,
     DiaryResType,
-    UploadImageReqType
+    UploadImageReqType,
+    GetUploadURLReqType,
+    GetUploadURLResType
 } from "./../../types/diary/index";
 import { apiClient } from "../clients";
+import axios from "axios";
 import FormData from "form-data";
-import { uuid } from "uuidv4";
+import { v4 as uuid } from "uuid";
+import { getFileName } from "@utils";
 
 export const diaryApis = {
     async getDiaries(): Promise<DiariesResType> {
@@ -155,31 +159,75 @@ export const recordApis = {
         return data;
     },
 
+    async getBlob(fileUri: string) {
+        const resp = await fetch(fileUri);
+        const imageBody = await resp.blob();
+        return imageBody;
+    },
+
     /**
      * 이미지 업로드
      * @param payload
      */
     async uploadImage(payload: UploadImageReqType) {
-        const { files, diaryUuid, recordUuid } = payload;
+        const { files, uploadUrl } = payload;
         const bodyFormData = new FormData();
+
         if (files && files.length > 0) {
-            files.forEach(file => {
-                bodyFormData.append("file", {
-                    uri: file,
-                    name: `${uuid()}.jpg`,
-                    type: "image/jpeg"
+            for (let index = 0; index < files.length; index++) {
+                const file = files[index];
+                const imageFileName = getFileName(file);
+                const imageBody = await this.getBlob(file);
+                bodyFormData.append("file", imageBody);
+
+                // bodyFormData.append("file", {
+                //     uri: file,
+                //     name: `${imageFileName}`,
+                //     type: "image/*"
+                // });
+            }
+
+            try {
+                // const { data } = await axios.put(`${uploadUrl}`, bodyFormData, {
+                //     headers: {
+                //         "content-type": "multipart/form-data"
+                //     }
+                // });
+
+                const imageBody = await this.getBlob(files[0]);
+
+                const data = await fetch(uploadUrl, {
+                    method: "PUT",
+                    body: imageBody
                 });
-            });
+                console.debug("uploadImage DEBUG :", data);
+                return data;
+            } catch (error) {
+                console.error("uploadImage ERROR :", error);
+                throw error;
+            }
         }
 
-        const { data } = await apiClient.post(
-            `/diaries/${diaryUuid}/records/${recordUuid}/images`,
-            bodyFormData,
-            {
-                headers: { "content-type": "multipart/form-data" }
-            }
-        );
-        return data;
+        return null;
+    },
+
+    /**
+     * 업로드 이미지 주소를 조회한다.
+     */
+    async getUploadURL(
+        payload: GetUploadURLReqType
+    ): Promise<GetUploadURLResType> {
+        const { diaryUuid, file } = payload;
+        try {
+            const { data } = await apiClient.get(
+                `/diaries/${diaryUuid}/record-images/${file}`
+            );
+            console.debug("getUploadURL DEBUG :", data);
+            return data as GetUploadURLResType;
+        } catch (error) {
+            console.error("getUploadURL ERROR", error);
+            throw error;
+        }
     },
 
     /**

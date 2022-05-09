@@ -6,3 +6,4 @@ export * from "./profileImages";
 export { default as updateExpoToken } from "./updateExpoToken";
 export { default as stringToDatetime } from "./stringToDatetime";
 export { default as dateToString } from "./dateToString";
+export { default as getFileName } from "./getFileName";

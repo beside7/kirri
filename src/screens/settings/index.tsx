@@ -1,5 +1,5 @@
 import React, { useState, Fragment, useEffect } from "react";
-import { View, StatusBar, Image } from "react-native";
+import { View, StatusBar, Image, BackHandler } from "react-native";
 import { Header, KirriTextInput, Switch, Popup } from "@components";
 import {
     SafeAreaViewTop,
@@ -34,8 +34,16 @@ import {
     navigateWithoutRefresh,
     navigateWithReset
 } from "@config/navigator";
+import { StackNavigatorParams } from "@config/navigator";
+import { StackNavigationProp } from "@react-navigation/stack";
+import { RouteProp } from "@react-navigation/native";
 
-export const Settings = observer(() => {
+type SettingsProps = {
+    navigation: StackNavigationProp<StackNavigatorParams, "Settings">;
+    route: RouteProp<StackNavigatorParams, "Settings">;
+};
+
+export const Settings = observer(({ navigation }: SettingsProps) => {
     const { nickname, profileImage, pushStatus } = UserStore;
     const [leavKKiriPopupOpen, setLeavKKiriPopupOpen] = useState(false);
     const [leavePopupOpen, setLeavePopupOpen] = useState(false);
@@ -102,6 +110,19 @@ export const Settings = observer(() => {
         });
     }, []);
 
+    useEffect(() => {
+        const backAction = () => {
+            navigation.replace("Home");
+            return true;
+        };
+
+        const backHandler = BackHandler.addEventListener(
+            "hardwareBackPress",
+            backAction
+        );
+        return () => backHandler.remove();
+    }, []);
+
     return (
         <Fragment>
             <SafeAreaViewTop></SafeAreaViewTop>
@@ -110,7 +131,7 @@ export const Settings = observer(() => {
                 <Header
                     leftIcon={require("@assets/icons/back.png")}
                     onLeftClick={() => {
-                        navigateGoBack();
+                        navigation.replace("Home");
                     }}
                     title="설정"
                 ></Header>
@@ -165,7 +186,8 @@ export const Settings = observer(() => {
                             onPress={() => {
                                 navigateWithoutRefresh("TermsWebview", {
                                     type: "SERVICE",
-                                    title: "이용약관"
+                                    title: "이용약관",
+                                    url: "https://sponge-anger-3ef.notion.site/0163e86a05714d908aa8f615c792541a"
                                 });
                             }}
                         >
@@ -182,7 +204,8 @@ export const Settings = observer(() => {
                             onPress={() => {
                                 navigateWithoutRefresh("TermsWebview", {
                                     type: "PRIVACY",
-                                    title: "개인정보 처리 방침"
+                                    title: "개인정보 처리 방침",
+                                    url: "https://sponge-anger-3ef.notion.site/KKIRI-26acc506fa0f49f7aef7d12305e50435"
                                 });
                             }}
                         >

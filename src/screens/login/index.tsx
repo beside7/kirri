@@ -197,7 +197,8 @@ export default function Login({ imgIndex }: LoginProps): ReactElement {
                                 source={require("@assets/images/login/kakao.png")}
                             />
                         </TouchableOpacity>
-                        <TouchableOpacity
+                        {/* 애플 로그인 임시로 비활성화 */}
+                        {/* <TouchableOpacity
                             style={styles.appleButton}
                             onPress={(e: any) => {
                                 setAppleLoginOpen(true);
@@ -207,7 +208,7 @@ export default function Login({ imgIndex }: LoginProps): ReactElement {
                                 style={styles.buttonImage}
                                 source={require("@assets/images/login/apple.png")}
                             />
-                        </TouchableOpacity>
+                        </TouchableOpacity> */}
                     </>
                 ) : (
                     <></>

@@ -72,15 +72,31 @@ export interface RecordImageInfo {
 export interface CreateRecordReqType {
     title: string;
     body: string;
+    tempFileIds: number[] | null;
     // file: Blob | null
     // files: string[] | null;
 }
 
 /**
- * 이미지 업록드 정보
+ * 이미지 업로드 정보
  */
 export interface UploadImageReqType {
-    diaryUuid: string;
-    recordUuid: string;
-    files: string[] | null;
+    files: string[] | null; // 이미지 저장 위치
+    uploadUrl: string; // 이미지 업로드 주소
+}
+
+/**
+ * 이미지 업로드 URL 요청 Request 타입
+ */
+export interface GetUploadURLReqType {
+    file: string; // 이미지 파일 명
+    diaryUuid: string; // 다이러리 uuid
+}
+
+/**
+ * 이미지 업로드 URL 요청 Response 타입
+ */
+export interface GetUploadURLResType {
+    tempFileId: number; // 게시글 작성시 전송할 이미지 임시 ID 값
+    uploadUrl: string; // 이미지 업로드 주소
 }

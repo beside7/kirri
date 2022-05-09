@@ -1,0 +1,39 @@
+{
+    "project_info": {
+        "project_number": "470376355240",
+        "project_id": "kirri-46ebc",
+        "storage_bucket": "kirri-46ebc.appspot.com"
+    },
+    "client": [
+        {
+            "client_info": {
+                "mobilesdk_app_id": "1:470376355240:android:9b18e8ec0e990a11c2b99d",
+                "android_client_info": {
+                    "package_name": "com.duck7.kirri"
+                }
+            },
+            "oauth_client": [
+                {
+                    "client_id": "470376355240-kknindqg11vd0c6lbng3bc29b23tcg6a.apps.googleusercontent.com",
+                    "client_type": 3
+                }
+            ],
+            "api_key": [
+                {
+                    "current_key": "AIzaSyBEDYqt6BnfMnqzL_o726mtdW3w3PrDll8"
+                }
+            ],
+            "services": {
+                "appinvite_service": {
+                    "other_platform_oauth_client": [
+                        {
+                            "client_id": "470376355240-kknindqg11vd0c6lbng3bc29b23tcg6a.apps.googleusercontent.com",
+                            "client_type": 3
+                        }
+                    ]
+                }
+            }
+        }
+    ],
+    "configuration_version": "1"
+}

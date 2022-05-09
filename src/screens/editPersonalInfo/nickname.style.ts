@@ -63,7 +63,7 @@ export const SelectedImage = styled.Image({
 
 export const ImageWapper = styled.TouchableOpacity({
     borderRadius: 30,
-    marginHorizontal: 11,
+    marginHorizontal: 9,
     position: "relative",
     overflow: "hidden"
 });

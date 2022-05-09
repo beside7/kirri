@@ -31,6 +31,7 @@ export const LoginWebview = ({
                 <WebView
                     source={{ uri: source }}
                     onMessage={event => {
+                        console.debug("LoginWebview DEBUG : ", event);
                         onComplete(event);
                     }}
                     scalesPageToFit={false}

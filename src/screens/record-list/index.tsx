@@ -129,7 +129,7 @@ export const RecordList = observer(({ navigation, route }: RecordListProps) => {
             ) {
                 Alert.alert(error.response.data.message);
             } else {
-                console.log(error.response);
+                console.error("deleteDiary ERROR", error.response);
             }
         }
     };
@@ -155,7 +155,8 @@ export const RecordList = observer(({ navigation, route }: RecordListProps) => {
                     recordUuid
                 );
                 const { elements } = getRecordRes;
-                // console.debug("getRecordList : ", getRecordRes);
+                console.debug("getRecordList : ", getRecordRes);
+                console.debug("diary : ", uuid);
                 // 기존리스트에 추가
 
                 let newList = list.concat(elements);

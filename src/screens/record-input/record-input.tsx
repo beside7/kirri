@@ -32,7 +32,7 @@ import {
 import { styles, AlertContent, AlertText } from "./record-input.style";
 import { AntDesign } from "@expo/vector-icons";
 import * as ImagePicker from "expo-image-picker";
-import { recordApis } from "@apis";
+import { recordApis, diaryApis } from "@apis";
 import { StackNavigatorParams } from "@config/navigator";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { RouteProp } from "@react-navigation/native";
@@ -41,9 +41,13 @@ import {
     DiaryResType,
     UploadImageReqType
 } from "@type-definition/diary";
-import { diaryApis } from "@apis";
 import * as FileSystem from "expo-file-system";
-import { CoverCircleImages, CoverColor, CoverImageTypes } from "@utils";
+import {
+    CoverCircleImages,
+    CoverColor,
+    CoverImageTypes,
+    getFileName
+} from "@utils";
 import { FontAwesome } from "@expo/vector-icons";
 import ImageQualityModal from "./image-quality-modal";
 import ActionSheet from "react-native-actions-sheet";
@@ -194,8 +198,8 @@ export default function RecordInput({ navigation, route }: RecordInputProps) {
      * 최초 로드시 이벤트
      */
     useEffect(() => {
-        console.log("diary");
-        console.log(diary);
+        console.debug("record-input.tsx diary info", diary);
+        // console.log(diary);
 
         setTimeout(() => {
             if (inputRef.current) {
@@ -346,6 +350,9 @@ export default function RecordInput({ navigation, route }: RecordInputProps) {
             const { uuid } = diary;
 
             // let file : Blob | null = null;
+            /**
+             * 파일에 대한 정보를 담는다.
+             */
             let files: string[] | null = null;
 
             if (images.length > 0) {
@@ -357,17 +364,41 @@ export default function RecordInput({ navigation, route }: RecordInputProps) {
                 );
             }
 
-            const payload: CreateRecordReqType = {
+            let recordPayload: CreateRecordReqType = {
                 title,
-                body
+                body,
+                tempFileIds: null
             };
 
             try {
                 switch (type) {
                     case "new":
+                        if (images.length > 0) {
+                            /**
+                             * 이미지 업로드 URL 조회
+                             */
+                            const imageUploadInfo =
+                                await recordApis.getUploadURL({
+                                    file: getFileName(images[0]),
+                                    diaryUuid: uuid
+                                });
+
+                            const { uploadUrl, tempFileId } = imageUploadInfo;
+
+                            /**
+                             * 이미지 업로드
+                             */
+                            await recordApis.uploadImage({
+                                uploadUrl,
+                                files
+                            });
+
+                            recordPayload.tempFileIds = [tempFileId];
+                        }
+
                         const res = await recordApis.createRecord(
                             uuid,
-                            payload
+                            recordPayload
                         );
                         console.debug("기록 테스트 : 새기록 작성", res);
 

@@ -41,10 +41,14 @@ const initNotifications = async (): Promise<string | null> => {
         /**
          * Expo token 발급
          */
-        const tokenRes = await Notifications.getExpoPushTokenAsync();
-        console.log("EXPO TOKEN : ", tokenRes);
-
-        const { data } = tokenRes;
+        let tokenRes;
+        try {
+            tokenRes = await Notifications.getExpoPushTokenAsync();
+            console.log("EXPO TOKEN : ", tokenRes);
+        } catch (error) {
+            console.log("GET EXPO TOKEN ERROR : ", error);
+        }
+        const data = tokenRes ? tokenRes.data : null;
 
         /**
          * 여기에 토큰값 전송
