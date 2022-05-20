@@ -125,6 +125,7 @@ export const Settings = observer(({ navigation }: SettingsProps) => {
 
     return (
         <Fragment>
+            <StatusBar hidden={true} />
             <SafeAreaViewTop></SafeAreaViewTop>
             {/* <StatusBar barStyle="light-content" /> */}
             <SafeAreaViewBottom>

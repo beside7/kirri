@@ -9,8 +9,8 @@ export const HeaderContainer = styled.View(
     ({ borderBottom }: HeaderContainerProps): any => {
         return {
             paddingTop:
-                Platform.OS === "android" ? 24 + Constants.statusBarHeight : 17,
-            paddingBottom: 24,
+                Platform.OS === "android" ? 17 + Constants.statusBarHeight : 17,
+            paddingBottom: 17,
             paddingHorizontal: 20,
             display: "flex",
             flexDirection: "row",

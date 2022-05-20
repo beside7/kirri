@@ -7,7 +7,8 @@ import {
     SafeAreaView,
     Alert,
     BackHandler,
-    Text
+    Text,
+    StatusBar
 } from "react-native";
 import { Background, Text_2, Header, Popup } from "@components";
 import styles from "./style";
@@ -236,6 +237,7 @@ export const RecordList = observer(({ navigation, route }: RecordListProps) => {
 
     return (
         <Background>
+            <StatusBar hidden={true} />
             {/* Alert */}
             <Popup
                 open={alertOpen}

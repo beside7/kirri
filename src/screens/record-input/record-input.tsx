@@ -8,7 +8,7 @@ import {
     Image,
     TextInput,
     ScrollView,
-    BackHandler
+    BackHandler, StatusBar
 } from "react-native";
 import { getDefaultHeaderHeight } from "@react-navigation/elements";
 import {
@@ -507,6 +507,7 @@ export default function RecordInput({ navigation, route }: RecordInputProps) {
 
     return (
         <Background>
+            <StatusBar hidden={true} />
             <Header
                 leftIcon={
                     <TouchableOpacity

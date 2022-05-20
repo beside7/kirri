@@ -11,7 +11,8 @@ import {
     View,
     TouchableOpacity,
     RefreshControl,
-    BackHandler
+    BackHandler,
+    StatusBar
 } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useIsFocused } from "@react-navigation/native";
@@ -313,6 +314,7 @@ const Home = observer(({ navigation, route }: HomeProps) => {
 
     return (
         <Fragment>
+            <StatusBar hidden={true}/>
             <HomeContainer>
                 <ContentWarp>
                     <Profile
