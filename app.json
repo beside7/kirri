@@ -27,7 +27,7 @@
         },
         "android": {
             "adaptiveIcon": {
-                "foregroundImage": "./assets/images/adaptive-icon.png",
+                "foregroundImage": "./assets/images/kkiri_launcher_icon.png",
                 "backgroundColor": "#ffffff"
             },
             "package": "com.duck7.kirri",

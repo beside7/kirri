@@ -651,22 +651,27 @@ export default function RecordInput({ navigation, route }: RecordInputProps) {
                         source={require("@assets/images/diary/diary_bottom_illust.png")}
                     />
                 </KeyboardAvoidingView>
-                <View style={styles.bottomTab}>
-                    <TouchableOpacity onPress={pickImage}>
-                        <Image
-                            source={require("@assets/icons/image.png")}
-                            style={{ width: 24, height: 24 }}
-                        />
-                    </TouchableOpacity>
-                    <View>
-                        <Text_2 bold="Regular" style={{ color: "#6f6f7e" }}>
-                            ({remoteHTML(body).length}/2000)
-                        </Text_2>
+                <KeyboardAvoidingView
+                    behavior={Platform.OS === "ios" ? "padding" : "height"}
+                >
+                    <View style={styles.bottomTab}>
+                        <TouchableOpacity onPress={pickImage}>
+                            <Image
+                                source={require("@assets/icons/image.png")}
+                                style={{ width: 24, height: 24 }}
+                            />
+                        </TouchableOpacity>
+                        <View>
+                            <Text_2 bold="Regular" style={{ color: "#6f6f7e" }}>
+                                ({remoteHTML(body).length}/2000)
+                            </Text_2>
+                        </View>
+                        <TouchableOpacity onPress={() => setVisible(true)}>
+                            <FontAwesome name="gear" size={24} color="black" />
+                        </TouchableOpacity>
                     </View>
-                    <TouchableOpacity onPress={() => setVisible(true)}>
-                        <FontAwesome name="gear" size={24} color="black" />
-                    </TouchableOpacity>
-                </View>
+                </KeyboardAvoidingView>
+
                 {/* 하단 팝업 부분 */}
 
                 <ActionSheet
