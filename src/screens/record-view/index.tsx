@@ -9,7 +9,6 @@ import {
     ActivityIndicator,
     RefreshControl,
     BackHandler,
-    StatusBar
 } from "react-native";
 import { Background, Text_2, Header } from "@components";
 
@@ -131,7 +130,8 @@ export const RecordView = observer(({ route, navigation }: RecordViewProps) => {
                     }
                 ]);
             } catch (error: any) {
-                console.log(error.response);
+                console.error("deleteData", error);
+                console.error("deleteData url", `/diaries/${diaryUuid}/records/${recordUuid}`);
                 Alert.alert("삭제중 에러발생");
             }
         }
@@ -195,7 +195,6 @@ export const RecordView = observer(({ route, navigation }: RecordViewProps) => {
         const { title, createdDate, body, images } = record;
         return (
             <Background>
-                <StatusBar hidden={true} />
                 <Confirm
                     open={modal}
                     onCancel={async () => deleteData()}

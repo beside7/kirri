@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect, useCallback } from "react";
 import { Background, Header, Tabs, Dropdown, Popup } from "@components";
-import { FlatList, Alert, BackHandler, Platform, StatusBar } from "react-native";
+import { FlatList, Alert, BackHandler, Platform } from "react-native";
 import { Picker } from "@react-native-picker/picker";
 import { StackNavigatorParams, navigate } from "@config/navigator";
 import { StackNavigationProp } from "@react-navigation/stack";
@@ -149,7 +149,6 @@ const MessageList = observer(({ navigation }: MessageListProps) => {
 
     return (
         <Background>
-            <StatusBar hidden={true} />
             <Header
                 title="알림"
                 leftIcon={require("@assets/icons/back.png")}

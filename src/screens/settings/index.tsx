@@ -1,5 +1,5 @@
 import React, { useState, Fragment, useEffect } from "react";
-import { View, StatusBar, Image, BackHandler } from "react-native";
+import { View, Image, BackHandler } from "react-native";
 import { Header, KirriTextInput, Switch, Popup } from "@components";
 import {
     SafeAreaViewTop,
@@ -125,7 +125,6 @@ export const Settings = observer(({ navigation }: SettingsProps) => {
 
     return (
         <Fragment>
-            <StatusBar hidden={true} />
             <SafeAreaViewTop></SafeAreaViewTop>
             {/* <StatusBar barStyle="light-content" /> */}
             <SafeAreaViewBottom>

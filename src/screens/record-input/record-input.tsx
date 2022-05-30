@@ -8,7 +8,7 @@ import {
     Image,
     TextInput,
     ScrollView,
-    BackHandler, StatusBar
+    BackHandler,
 } from "react-native";
 import { getDefaultHeaderHeight } from "@react-navigation/elements";
 import {
@@ -295,9 +295,6 @@ export default function RecordInput({ navigation, route }: RecordInputProps) {
                 setImages(newImages);
             } catch (error) {
                 console.log("pickImage ERROR" , error);
-                // Alert.alert("", `해당 이미지가 존재하지 않습니다.`, [
-                //     { text: "확인", style: "default" }
-                // ]);
                 setAlertMessage(`해당 이미지가 존재하지 않습니다.`);
                 setAlertOpen(true);
             }
@@ -418,7 +415,6 @@ export default function RecordInput({ navigation, route }: RecordInputProps) {
                                     diaryUuid: uuid
                                 });
                             const { uploadUrl, tempFileId } = imageUploadInfo;
-
                             /**
                              * 이미지 업로드
                              */
@@ -460,8 +456,8 @@ export default function RecordInput({ navigation, route }: RecordInputProps) {
                         break;
                 }
             } catch (error: any) {
-                console.log(error);
-                console.log(error.response);
+                console.error("sendServer event error",error);
+                console.error("sendServer event error" , error.response);
 
                 setAlertMessage(
                     `글이 ${
@@ -507,7 +503,6 @@ export default function RecordInput({ navigation, route }: RecordInputProps) {
 
     return (
         <Background>
-            <StatusBar hidden={true} />
             <Header
                 leftIcon={
                     <TouchableOpacity

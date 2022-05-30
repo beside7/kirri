@@ -508,6 +508,7 @@ export const SpeechBubbleWrapBgTail = styled.View((props: { theme: any }) => ({
     borderLeftColor: "transparent"
 }));
 
+// @ts-ignore
 export const NewAlarm = styled.View((props: { theme: any }) => ({
     width: 5,
     height: 5,
@@ -525,6 +526,8 @@ export const AlertContent = styled.View({
     alignItems: "center",
     paddingHorizontal: 24
 });
+
+// @ts-ignore
 export const AlertText = styled.Text((props: { theme: any }) => ({
     fontSize: 14,
     color: props.theme["110"],

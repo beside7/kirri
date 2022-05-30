@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback, useRef } from "react";
-import { View, StatusBar } from "react-native";
+import { View } from "react-native";
 import { Title, Button, Header } from "@components";
 import { SelectProfileImage } from "./SelectProfileImg";
 import {
@@ -124,7 +124,6 @@ export const Nickname = ({ accessToken, authorities }: Props) => {
 
     return (
         <>
-            <StatusBar hidden={true} />
             <JoinProcessing open={joinProcessLoading} />
             <SafeAreaView>
                 <Header

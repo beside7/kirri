@@ -7,7 +7,6 @@ import {
     Dimensions,
     TouchableOpacity,
     BackHandler,
-    StatusBar
 } from "react-native";
 import Color from "./color";
 import {
@@ -201,7 +200,6 @@ export default function RecordInfo({ navigation, route }: RecordInfoProps) {
 
     return (
         <Background>
-            <StatusBar hidden={true} />
             <TouchableOpacity
                 onPress={() => {
                     navigation.navigate("RecordListScreenUp", {

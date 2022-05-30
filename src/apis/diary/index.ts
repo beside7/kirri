@@ -1,19 +1,16 @@
 import {
     CreateDiaryReqType,
-    DiariesResType,
-    RecordsResType,
-    RecordResType,
     CreateRecordReqType,
+    DiariesResType,
     DiaryResType,
-    UploadImageReqType,
     GetUploadURLReqType,
-    GetUploadURLResType
+    GetUploadURLResType,
+    RecordResType,
+    RecordsResType,
+    UploadImageReqType
 } from "./../../types/diary/index";
-import { apiClient } from "../clients";
-import axios from "axios";
+import {apiClient} from "../clients";
 import FormData from "form-data";
-import { v4 as uuid } from "uuid";
-import { getFileName } from "@utils";
 
 export const diaryApis = {
     async getDiaries(): Promise<DiariesResType> {
@@ -161,8 +158,12 @@ export const recordApis = {
 
     async getBlob(fileUri: string) {
         const resp = await fetch(fileUri);
-        const imageBody = await resp.blob();
-        return imageBody;
+        try {
+            return await resp.blob();
+        } catch (error) {
+            console.error("getBlob error",error)
+            throw error
+        }
     },
 
     /**
@@ -173,14 +174,9 @@ export const recordApis = {
         const { files, uploadUrl } = payload;
         const bodyFormData = new FormData();
 
-        if (files && files.length > 0) {
-            for (let index = 0; index < files.length; index++) {
-                const file = files[index];
-                const imageFileName = getFileName(file);
-                const imageBody = await this.getBlob(file);
-                bodyFormData.append("file", imageBody);
-            }
+        console.log("uploadImage",{files, uploadUrl})
 
+        if (files && files.length > 0) {
             try {
                 const imageBody = await this.getBlob(files[0]);
 
@@ -188,6 +184,7 @@ export const recordApis = {
                     method: "PUT",
                     body: imageBody
                 });
+
                 console.debug("uploadImage DEBUG :", data);
                 return data;
             } catch (error) {
@@ -279,6 +276,5 @@ export const recordApis = {
      */
     async deleteRecord(diaryUuid: string, recordUuid: string): Promise<void> {
         await apiClient.delete(`/diaries/${diaryUuid}/records/${recordUuid}`);
-        return;
     }
 };

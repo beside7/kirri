@@ -5,7 +5,7 @@ import React, {
     useRef,
     useEffect
 } from "react";
-import { View, Image, TouchableOpacity, Text, BackHandler, StatusBar } from "react-native";
+import { View, Image, TouchableOpacity, Text, BackHandler } from "react-native";
 
 import styles from "./login.style";
 
@@ -117,7 +117,6 @@ export default function Login({ imgIndex }: LoginProps): ReactElement {
 
     return (
         <Background>
-            <StatusBar hidden={true}/>
             <LoginWebview
                 source={`${SERVER_URL}/kakao-sign-in`}
                 closeSocialModal={kakaoLoginOpen}
