@@ -157,7 +157,7 @@ export default function InviteFriend({ diary }: InviteFriendProps) {
                 // setAlertMessage(`${nickname} 님을 초대헀어요.`);
                 // setAlertOpen(true)
 
-                setMessage(`${nickname} 님을 초대헀어요.`);
+                setMessage(`${nickname} 님을 초대했어요.`);
                 setSnackVisible(true);
 
                 await findNickname();
