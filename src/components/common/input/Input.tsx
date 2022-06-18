@@ -1,7 +1,8 @@
-import React, { ReactElement, useState, useEffect } from "react";
-import { Image, Text } from "react-native";
+import React, { ReactElement, useState, useEffect , useCallback} from "react";
+import { Image, Text, TouchableOpacity } from "react-native";
 import styled from "styled-components/native";
-import { TouchableOpacity } from "react-native-gesture-handler";
+// 아오 $#%$#^%$&$^&
+// import { TouchableOpacity } from "react-native-gesture-handler";
 import { Divider } from "react-native-paper";
 
 interface StyleProps {
@@ -50,6 +51,13 @@ const ErrorMsg = styled.Text({
     fontFamily: "SpoqaHanSansNeo-Regular"
 });
 
+const StyledTextInputContainer = styled.View({
+    paddingTop: 0,
+    paddingBottom: 0,
+    paddingLeft: 0,
+    paddingRight: 0,
+})
+
 const StyledTextInput = styled.TextInput({
     borderWidth: 0,
     flexGrow: 1,
@@ -73,7 +81,7 @@ type Props = {
     rightText?: string;
     icon?: ReactElement;
     text: string;
-    onChange: (e?: any) => void;
+    onChange: (e: string) => void;
     errorMessage?: string;
     diabled?: boolean;
     placeholder?: string;
@@ -101,26 +109,47 @@ export const KirriTextInput = ({
     useEffect(() => {
         onChange(val);
     }, [val]);
+
+    const onChangeHandler = useCallback(
+        (text: string) => {
+            const length = [...text].length
+            if(maxLength !== undefined && length > maxLength) {
+                return;
+            }
+            setVal(text)
+        },
+        [],
+    );
+
+
+
     return (
         <>
-            <InputContainer onFocus={onFocus} onError={onError}>
+            <InputContainer
+                // onFocus={onFocus} onError={onError}
+            >
                 <InputWarp>
                     {icon ? icon : <Non></Non>}
-                    <StyledTextInput
-                        onChangeText={(text: string) => setVal(text)}
-                        onFocus={() => {
-                            setOnFocus(true);
-                        }}
-                        onBlur={() => {
-                            setOnFocus(false);
-                            onBlur();
-                        }}
-                        editable={diabled === true ? false : true}
-                        placeholder={placeholder}
-                        defaultValue={val}
-                        maxLength={maxLength ? maxLength : 3000}
-                        // keyboardType='decimal-pad'
-                    />
+                    <StyledTextInputContainer>
+                        <StyledTextInput
+                            onChangeText={onChangeHandler}
+                            onFocus={() => {
+                                setOnFocus(true);
+                            }}
+                            onBlur={() => {
+                                setOnFocus(false);
+                                onBlur();
+                            }}
+                            editable={diabled === true ? false : true}
+                            placeholder={placeholder}
+                            // defaultValue={val}
+                            value={val}
+
+                            // maxLength={maxLength ? maxLength : 3000}
+                            // keyboardType='decimal-pad'
+                        />
+                    </StyledTextInputContainer>
+
                     {val ? (
                         <TouchableOpacity
                             onPress={() => {
