@@ -214,10 +214,15 @@ export default function InviteFriend({ diary }: InviteFriendProps) {
                 >
                     <TouchableOpacity
                         onPress={() => {
-                            Alert.alert(
-                                "",
-                                "끼리 앱 다운로드 링크가 복사되었어요!"
-                            );
+                            // Alert.alert(
+                            //     "",
+                            //     "끼리 앱 다운로드 링크가 복사되었어요!"
+                            // );
+
+                            setAlertMessage(`끼리 앱 다운로드 링크가 복사되었어요.
+                            
+붙여넣기로 링크를 친구에게 전달해주세요!`);
+                            setAlertOpen(true);
                         }}
                     >
                         <Text_2
