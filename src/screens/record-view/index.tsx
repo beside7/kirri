@@ -273,6 +273,13 @@ export const RecordView = observer(({ route, navigation }: RecordViewProps) => {
                                     }}
                                     title="기록 삭제"
                                 />
+                                <Menu.Item
+                                    onPress={() => {
+                                        closeMenu();
+
+                                    }}
+                                    title="신고"
+                                />
                             </Menu>
                         )
                     }
