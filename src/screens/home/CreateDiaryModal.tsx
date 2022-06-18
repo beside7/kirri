@@ -56,6 +56,8 @@ export const CreateDiaryModal = ({ open, reloadDiary, close }: Props) => {
     const [newDiaryName, setNewDiaryName] = useState<string>();
     const [createButtonDisable, setCreateButtonDisable] = useState(false);
 
+    const [length, setLength] = useState(0);
+
     /**
      * 경고창 출력여부
      */
@@ -131,20 +133,21 @@ export const CreateDiaryModal = ({ open, reloadDiary, close }: Props) => {
                         </CreateInputTitle>
                         <CreateInputCount>
                             {newDiaryName !== undefined
-                                ? newDiaryName.length
+                                ? length
                                 : 0}{" "}
                             / 12
                         </CreateInputCount>
                     </CreateDiaryTitleWarp>
                     <KirriTextInput
                         onChange={text => {
+                            setLength([...text].length)
                             setNewDiaryName(text);
                             setCreateButtonDisable(!text);
                         }}
                         text=""
-                        // maxLength={12}
+                        maxLength={12}
                         placeholder="한글, 영문, 숫자 관계 없이 최대 12자"
-                    ></KirriTextInput>
+                    />
                 </CreateDiaryInputWarp>
                 <CreateDiaryCoverContainer>
                     <CreateDiaryCoverTitle>

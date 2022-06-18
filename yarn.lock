@@ -5246,10 +5246,10 @@ expo-modules-core@0.9.2:
     compare-versions "^3.4.0"
     invariant "^2.2.4"
 
-expo-notifications@~0.15.2:
-  version "0.15.2"
-  resolved "https://registry.yarnpkg.com/expo-notifications/-/expo-notifications-0.15.2.tgz#8c9d3b43624e7a08bfc12ccec714717bfeb30c10"
-  integrity sha512-ZlOzQ8Lp1MgkwmiBsgg95nQHHbTOg8LHwmB816qxNKWeFvlyr/wQSgTZJNklL1uuv/+jC/YyKWoANfodahcAbQ==
+expo-notifications@~0.15.3:
+  version "0.15.3"
+  resolved "https://registry.yarnpkg.com/expo-notifications/-/expo-notifications-0.15.3.tgz#d87dfc2601620ea89ed1a154a3e71ff7e99256d2"
+  integrity sha512-ln2aFWxKj3jEr5fRTgudxq5v0my+GyYUcfKiKJ7Z/7flRczjZ2Kp8WChZllRYAvncybpghMzpksKg8f5YtAZ2g==
   dependencies:
     "@expo/config-plugins" "^4.0.14"
     "@expo/image-utils" "^0.3.18"
@@ -5290,10 +5290,10 @@ expo-updates-interface@~0.6.0:
   resolved "https://registry.yarnpkg.com/expo-updates-interface/-/expo-updates-interface-0.6.0.tgz#cef5250106e59572afdfcf245c534754c8c844ba"
   integrity sha512-oQcGTsE8mSkSxENPlWjZPGoJpt3RFDNPuO5d8shBDxBb4ZNH/W2ojavSFQMaLbNMoS0bYQQhzbRNEIBd306QMg==
 
-expo-updates@~0.13.1:
-  version "0.13.1"
-  resolved "https://registry.yarnpkg.com/expo-updates/-/expo-updates-0.13.1.tgz#ffed4216eda6afbc15f06399115a5b9e649102a6"
-  integrity sha512-6GTqgAco3da/rk0/AvDRFmrWxEIxlmIs7vvoCWWxyvifLBlQAaU08+AdZH5RwdN3aUaIep70pnqlc67xe/y0og==
+expo-updates@~0.13.2:
+  version "0.13.2"
+  resolved "https://registry.yarnpkg.com/expo-updates/-/expo-updates-0.13.2.tgz#c96d664d8a97eb3af6841e46a137962b8bf06361"
+  integrity sha512-2ZthmyxYuN/c71y2oLNz9fdVXLf7ggxAw3Tfy+kwtGOTKNyOf/YoG+SwX7a0v+jZTJnuorEj5FuNf3wrniQ7+w==
   dependencies:
     "@expo/code-signing-certificates" "0.0.1"
     "@expo/config" "^6.0.14"
@@ -5308,10 +5308,10 @@ expo-updates@~0.13.1:
     resolve-from "^5.0.0"
     uuid "^3.4.0"
 
-expo-web-browser@~10.2.0:
-  version "10.2.0"
-  resolved "https://registry.yarnpkg.com/expo-web-browser/-/expo-web-browser-10.2.0.tgz#e37450e5a0dd2eb1cf5ea5511589ed207da8aafe"
-  integrity sha512-Y8LCiktTUdPQVgO5BR6uHFU8FGu/8ysT2ynpO0WFeD4odX8JBX5JwQ9HokEa3XvRJNpefgQmXETDjzkMznXMvQ==
+expo-web-browser@~10.2.1:
+  version "10.2.1"
+  resolved "https://registry.yarnpkg.com/expo-web-browser/-/expo-web-browser-10.2.1.tgz#4bd9214f7aefcd1af6ea26ae068a0e3e25a1e0bd"
+  integrity sha512-om34EL7OX5ouBM/hq2PrjHDLKmjVhAy+1H7YqRY6nS8dWsewnLFdLq4d8GPwWQBYb6kHKYVzwFRj+WLTfpAOBQ==
   dependencies:
     compare-urls "^2.0.0"
 

@@ -40,6 +40,8 @@ type DiaryConfigProps = {
     route: RouteProp<StackNavigatorParams, "DiaryConfig">;
 };
 
+const MAX_LENGTH = 12;
+
 /**
  * 다이러리 수정창
  * @returns
@@ -76,6 +78,8 @@ export default function DiaryConfig({ navigation, route }: DiaryConfigProps) {
      */
     const [title, setTitle] = useState("");
 
+    const [length, setLength] = useState(0);
+
     /**
      * 서버로 부터 다이러리 정보를 받아오는 부분
      */
@@ -91,6 +95,7 @@ export default function DiaryConfig({ navigation, route }: DiaryConfigProps) {
                 });
                 setDiary(data);
                 setTitle(title);
+                setLength([...title].length)
             } catch (error) {
                 console.log(error);
             }
@@ -142,6 +147,17 @@ export default function DiaryConfig({ navigation, route }: DiaryConfigProps) {
     }, []);
 
     /**
+     * 다이러리 제목 수정시 이벤트 처리
+     * @param value
+     */
+    const onChangeTextHandler = (value : string) => {
+        const length = [...value].length;
+        if(length > MAX_LENGTH) return;
+        setLength(length);
+        setTitle(value);
+    }
+
+    /**
      * 최초 로딩시 동작
      */
     useEffect(() => {
@@ -177,14 +193,11 @@ export default function DiaryConfig({ navigation, route }: DiaryConfigProps) {
                 <TitleConteiner>
                     <Label>
                         <Title>멋진 다이어리 이름을 써주세요.</Title>
-                        <Count>{title.length}/12</Count>
+                        <Count>{length}/12</Count>
                     </Label>
                     <Input
                         value={title}
-                        onChangeText={value => {
-                            setTitle(value);
-                        }}
-                        maxLength={12}
+                        onChangeText={onChangeTextHandler}
                     />
                 </TitleConteiner>
                 <CoverConteiner>
